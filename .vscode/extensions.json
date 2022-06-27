@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+      "matangover.mypy",
+      "ms-python.python",
+      "njpwerner.autodocstring",
+      "donjayamanne.python-environment-manager",
+      "donjayamanne.python-extension-pack",
+      "semgrep.semgrep",
+      "the-compiler.python-tox"
+    ]
+  }

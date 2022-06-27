@@ -1,0 +1,15 @@
+proto < ./proto/collector.proto
+
+@port=55555
+
+GRPC localhost:{{port}}/sdv.edge.databroker.collector.Collector/RegisterDatapoints
+{
+    "list": [
+        {
+            "name": "Vehicle.Speed",
+            "value_type": 8,
+            "description": "The speed of the vehicle",
+            "change_type": 2
+        }
+    ]
+}

@@ -1,0 +1,283 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "dapr-SeatAdjuster-run",
+			"appId": "seatadjuster",
+			"appPort": 50008,
+			"componentsPath": "./.dapr/components",
+			"config": "./.dapr/config.yaml",
+			"appProtocol": "grpc",
+			"grpcPort": 50001,
+			"httpPort": 3500,
+			"type": "dapr",
+			"presentation": {
+				"close": true,
+				"reveal": "never"
+			}
+		},
+		{
+			"label": "dapr-SeatAdjuster-stop",
+			"type": "shell",
+			"command": [
+				"dapr stop --app-id seatadjuster"
+			],
+			"presentation": {
+				"close": true,
+				"reveal": "never"
+			}
+		},
+		{
+			"label": "ensure-dapr",
+			"type": "shell",
+			"command": "./.vscode/scripts/ensure-dapr.sh --task",
+			"group": "none",
+			"presentation": {
+				"close": true
+			}
+		},
+		{
+			"label": "run-mosquitto",
+			"type": "shell",
+			"command": "./.vscode/scripts/run-mosquitto.sh --task",
+			"group": "none",
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated"
+			},
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": [
+					{
+						"regexp": ".",
+						"file": 1,
+						"location": 2,
+						"message": 4
+					}
+				],
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^\\d{10}: mosquitto version \\d{1}\\.\\d{1}\\.\\d{1} starting$",
+					"endsPattern": "^\\d{10}: Opening ipv6 listen socket on port \\d{3,5}\\.$"
+				}
+			}
+		},
+		{
+			"label": "run-vehicledatabroker",
+			"type": "shell",
+			"command": "./.vscode/scripts/run-vehicledatabroker.sh --task",
+			"group": "none",
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated"
+			},
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": [
+					{
+						"regexp": ".",
+						"file": 1,
+						"location": 2,
+						"message": 3
+					}
+				],
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^You're up and running! Dapr logs will appear here.",
+					"endsPattern": "."
+				}
+			}
+		},
+		{
+			"label": "run-vehicledatabroker-cli",
+			"type": "shell",
+			"command": "./.vscode/scripts/run-vehicledatabroker-cli.sh --task",
+			"group": "none",
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "run-seatservice",
+			"type": "shell",
+			"command": "./.vscode/scripts/run-seatservice.sh --task",
+			"group": "none",
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated"
+			},
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": [
+					{
+						"regexp": ".",
+						"file": 1,
+						"location": 2,
+						"message": 3
+					}
+				],
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^You're up and running! Dapr logs will appear here.",
+					"endsPattern": "."
+				}
+			}
+		},
+		{
+			"label": "run-hvacservice (Runtime)",
+			"type": "shell",
+			"command": "./.vscode/scripts/run-hvacservice.sh --task",
+			"group": "none",
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated"
+			},
+			"dependsOn": [
+				"ensure-dapr",
+				"run-mosquitto",
+				"run-vehicledatabroker",
+				"run-feedercan (DogMode)"
+			],
+			"dependsOrder": "sequence",
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": [
+					{
+						"regexp": ".",
+						"file": 1,
+						"location": 2,
+						"message": 3
+					}
+				],
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^You're up and running! Dapr logs will appear here.",
+					"endsPattern": "."
+				}
+			}
+		},
+		{
+			"label": "run-feedercan",
+			"type": "shell",
+			"command": "./.vscode/scripts/run-feedercan.sh --task",
+			"group": "none",
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated"
+			},
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": [
+					{
+						"regexp": ".",
+						"file": 1,
+						"location": 2,
+						"message": 3
+					}
+				],
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^You're up and running! Dapr logs will appear here.",
+					"endsPattern": "."
+				}
+			}
+		},
+		{
+			"label": "run-feedercan (DogMode)",
+			"type": "shell",
+			"command": "./.vscode/scripts/run-feedercan.sh DOGMODE --task",
+			"group": "none",
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated"
+			},
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": [
+					{
+						"regexp": ".",
+						"file": 1,
+						"location": 2,
+						"message": 3
+					}
+				],
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^You're up and running! Dapr logs will appear here.",
+					"endsPattern": "."
+				}
+			}
+		},
+		{
+			"label": "Start VehicleApp runtime",
+			"dependsOn": [
+				"ensure-dapr",
+				"run-mosquitto",
+				"run-vehicledatabroker",
+				"run-seatservice",
+				"run-feedercan"
+			],
+			"dependsOrder": "sequence",
+			"problemMatcher": []
+		},
+		{
+			"label": "SeatAdjuster (Dapr run)",
+			"type": "shell",
+			"command": [
+				"dapr run",
+				"--app-id seatadjuster",
+				"--app-protocol grpc",
+				"--app-port 50008",
+				"--config ./.dapr/config.yaml",
+				"--components-path ./.dapr/components",
+				"python3 ./examples/seat-adjuster/run.py"
+			],
+			"group": "none",
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": [
+					{
+						"regexp": ".",
+						"file": 1,
+						"location": 2,
+						"message": 3
+					}
+				],
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^You're up and running! Both Dapr and your app logs will appear here.",
+					"endsPattern": "."
+				}
+			}
+		},
+		{
+			"label": "DogMode (Dapr run)",
+			"type": "shell",
+			"command": [
+				"dapr run",
+				"--app-id dogmode",
+				"--app-protocol grpc",
+				"--app-port 50008",
+				"--config ./.dapr/config.yaml",
+				"--components-path ./.dapr/components",
+				"python3 ./examples/dog-mode/run.py"
+			],
+			"group": "none",
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": [
+					{
+						"regexp": ".",
+						"file": 1,
+						"location": 2,
+						"message": 3
+					}
+				],
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^You're up and running! Both Dapr and your app logs will appear here.",
+					"endsPattern": "."
+				}
+			}
+		}
+	]
+}

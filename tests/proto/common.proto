@@ -1,0 +1,100 @@
+
+// Copyright (c) 2022 Robert Bosch GmbH and Microsoft Corporation
+//
+// This program and the accompanying materials are made available under the
+// terms of the Apache License, Version 2.0 which is available at
+// https://www.apache.org/licenses/LICENSE-2.0.
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+// WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+// License for the specific language governing permissions and limitations
+// under the License.
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package sdv.edge.databroker;
+
+enum ValueType {
+    UNKNOWN  = 0;
+    BOOL     = 1;
+    INT32    = 2;
+    INT64    = 3;
+    UINT32   = 4;
+    UINT64   = 5;
+    SINT32   = 6;
+    SINT64   = 7;
+    FLOAT    = 8;
+    FIXED32  = 9;
+    SFIXED32 = 10;
+    DOUBLE   = 11;
+    FIXED64  = 12;
+    SFIXED64 = 13;
+    STRING   = 14;
+    BYTES    = 15;
+}
+
+enum ChangeType {
+    STATIC    = 0;   // Value never changes
+    ON_CHANGE = 1;   // Updates are provided every time the value changes (i.e.
+                     // window is open / closed)
+    CONTINUOUS = 2;  // Value is updated continuously. Broker needs to tell
+                     // provider the preferred (update) frequency.
+}
+
+message Datapoint {
+    // common data
+
+    // time set in the Vehicle Data Broker
+    google.protobuf.Timestamp timestamp = 1;
+
+    // values
+    oneof value {
+        Failure failure_value   = 5;
+        bool bool_value         = 6;
+        int32 int32_value       = 7;
+        int64 int64_value       = 8;
+        uint32 uint32_value     = 9;
+        uint64 uint64_value     = 10;
+        sint32 sint32_value     = 11;
+        sint64 sint64_value     = 12;
+        float float_value       = 13;
+        fixed32 fixed32_value   = 14;
+        sfixed32 sfixed32_value = 15;
+        double double_value     = 16;
+        fixed64 fixed64_value   = 17;
+        sfixed64 sfixed64_value = 18;
+        string string_value     = 19;
+        bytes bytes_value       = 20;
+    }
+
+    enum Failure {
+        // The data point is available but does not have a valid/known value
+        INVALID_VALUE = 0;
+        // Datapoint temporary not available
+        NOT_AVAILABLE = 1;
+        // Unknown datapoint
+        UNKNOWN_DATAPOINT = 2;
+        // Access denied
+        ACCESS_DENIED = 3;
+        // Something unexpected has happened in Data Broker
+        INTERNAL_ERROR = 4;
+    }
+}
+
+message Metadata {
+    // Id to be used in "get" and "subscribe" requests. Ids stay valid during
+    // one power cycle, only.
+    int32 id               = 1;
+    string name            = 4;
+    ValueType value_type   = 5;
+    ChangeType change_type = 6;  // CONTINUOUS or STATIC or ON_CHANGE
+    string description     = 7;
+
+    // int32             min_update_hz       = 10; // Only for CONTINUOUS
+    // int32             max_update_hz       = 11; // Only for CONTINUOUS
+};
