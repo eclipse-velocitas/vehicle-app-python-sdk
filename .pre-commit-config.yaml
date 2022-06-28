@@ -41,7 +41,8 @@ repos:
             (?x)^(
                 .*_pb2.py|
                 .*_pb2.pyi|
-                .*_pb2_grpc.py
+                .*_pb2_grpc.py|
+                .*.log
             )$
       - id: check-merge-conflict
 

@@ -29,18 +29,18 @@ sudo chown $(whoami) $HOME
 if [[ `uname -m` == 'aarch64' || `uname -m` == 'arm64' ]]; then
   echo "Detected ARM architecture"
   PROCESSOR="aarch64"
-  DATABROKER_BINARY_NAME="bin_release_databroker_aarch64.tar.gz"
+  DATABROKER_BINARY_NAME="databroker_aarch64.tar.gz"
   DATABROKER_EXEC_PATH="$ROOT_DIRECTORY/.vscode/scripts/assets/databroker/$DATABROKER_VERSION/$PROCESSOR/target/aarch64-unknown-linux-gnu/release"
 else
   echo "Detected x86_64 architecture"
   PROCESSOR="x86_64"
-  DATABROKER_BINARY_NAME='bin_release_databroker_x86_64.tar.gz'
+  DATABROKER_BINARY_NAME='databroker_x86_64.tar.gz'
   DATABROKER_EXEC_PATH="$ROOT_DIRECTORY/.vscode/scripts/assets/databroker/$DATABROKER_VERSION/$PROCESSOR/target/release"
 fi
 
 API_URL=https://api.github.com/repos/eclipse/kuksa.val
 
-if [[ ! -f "$DATABROKER_EXEC_PATH/vehicle-data-broker" ]]
+if [[ ! -f "$DATABROKER_EXEC_PATH/databroker" ]]
 then
   echo "Downloading databroker:$DATABROKER_VERSION"
   DATABROKER_ASSET_ID=$(curl $API_URL/releases/tags/$DATABROKER_VERSION | jq -r ".assets[] | select(.name == \"$DATABROKER_BINARY_NAME\") | .id")
@@ -58,4 +58,4 @@ dapr run \
   --dapr-grpc-port $DATABROKER_GRPC_PORT \
   --components-path $ROOT_DIRECTORY/.dapr/components \
   --config $ROOT_DIRECTORY/.dapr/config.yaml & \
-  $DATABROKER_EXEC_PATH/vehicle-data-broker --address 0.0.0.0 --dummy-metadata
+  $DATABROKER_EXEC_PATH/databroker --address 0.0.0.0 --dummy-metadata

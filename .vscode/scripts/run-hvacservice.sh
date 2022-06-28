@@ -31,7 +31,7 @@ sudo chown $(whoami) $HOME
 SERVICE_SOURCE="hvacservice_source"
 SERVICE_EXEC_PATH="$ROOT_DIRECTORY/.vscode/scripts/assets/hvacservice/$SERVICE_VERSION"
 
-API_URL=https://api.github.com/repos/eclipse/kuksa.val.services
+API_URL=https://github.com/eclipse/kuksa.val.services/tarball
 
 if [[ ! -f "$SERVICE_EXEC_PATH/hvac_service/hvacservice.py" ]]
 then
