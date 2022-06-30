@@ -19,46 +19,50 @@ echo "#######################################################"
 
 ROOT_DIRECTORY=$( realpath "$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/../.." )
 source $ROOT_DIRECTORY/.vscode/scripts/exec-check.sh "$@" $(basename $BASH_SOURCE .sh)
-FEEDER_CONFIG="$ROOT_DIRECTORY/.vscode/scripts/dogmode_config/dbc_feeder.ini"
 
 FEEDERCAN_VERSION=$(cat $ROOT_DIRECTORY/prerequisite_settings.json | jq .feedercan.version | tr -d '"')
 DATABROKER_GRPC_PORT='52001'
 sudo chown $(whoami) $HOME
 
 # Downloading feedercan
-FEEDERCAN_SOURCE="feedercan_source"
+FEEDERCAN_SOURCE="kuksa.val.feeders"
 FEEDERCAN_EXEC_PATH="$ROOT_DIRECTORY/.vscode/scripts/assets/feedercan/$FEEDERCAN_VERSION"
 
-API_URL=https://api.github.com/repos/eclipse/kuksa.val.feeders
+DOWNLOAD_URL=https://github.com/eclipse/kuksa.val.feeders/tarball
 
-if [[ ! -f "$FEEDERCAN_EXEC_PATH/feeder_can/dbcfeeder.py" ]]
+if [[ ! -f "$FEEDERCAN_EXEC_PATH/dbc2val/dbcfeeder.py" ]]
 then
   echo "Downloading FEEDERCAN:$FEEDERCAN_VERSION"
-  curl --create-dirs -o "$ROOT_DIRECTORY/.vscode/scripts/assets/feedercan/$FEEDERCAN_VERSION/$FEEDERCAN_SOURCE" --location --remote-header-name --remote-name "$API_URL/$FEEDERCAN_VERSION"
+  curl --create-dirs -o "$ROOT_DIRECTORY/.vscode/scripts/assets/feedercan/$FEEDERCAN_VERSION/$FEEDERCAN_SOURCE" --location --remote-header-name --remote-name "$DOWNLOAD_URL/$FEEDERCAN_VERSION"
   FEEDERCAN_BASE_DIRECTORY=$(tar -tzf $ROOT_DIRECTORY/.vscode/scripts/assets/feedercan/$FEEDERCAN_VERSION/$FEEDERCAN_SOURCE | head -1 | cut -f1 -d"/")
   tar -xf $ROOT_DIRECTORY/.vscode/scripts/assets/feedercan/$FEEDERCAN_VERSION/$FEEDERCAN_SOURCE -C $ROOT_DIRECTORY/.vscode/scripts/assets/feedercan/$FEEDERCAN_VERSION/
-  cp -r $ROOT_DIRECTORY/.vscode/scripts/assets/feedercan/$FEEDERCAN_VERSION/$FEEDERCAN_BASE_DIRECTORY/feeder_can $ROOT_DIRECTORY/.vscode/scripts/assets/feedercan/$FEEDERCAN_VERSION
+  cp -r $ROOT_DIRECTORY/.vscode/scripts/assets/feedercan/$FEEDERCAN_VERSION/$FEEDERCAN_BASE_DIRECTORY/dbc2val $ROOT_DIRECTORY/.vscode/scripts/assets/feedercan/$FEEDERCAN_VERSION
   rm -rf $ROOT_DIRECTORY/.vscode/scripts/assets/feedercan/$FEEDERCAN_VERSION/$FEEDERCAN_BASE_DIRECTORY
 fi
-cd $ROOT_DIRECTORY/.vscode/scripts/assets/feedercan/$FEEDERCAN_VERSION/feeder_can
+cd $ROOT_DIRECTORY/.vscode/scripts/assets/feedercan/$FEEDERCAN_VERSION/dbc2val
 pip3 install -r requirements.txt
 
 export DAPR_GRPC_PORT=$DATABROKER_GRPC_PORT
 export VEHICLEDATABROKER_DAPR_APP_ID=vehicledatabroker
 export LOG_LEVEL=info,databroker=info,dbcfeeder.broker_client=debug,dbcfeeder=debug
 
+CONFIG_DIR="$ROOT_DIRECTORY/.vscode/scripts/feeder_config"
+export USECASE="databroker"
 if [ $1 == "DOGMODE" ]; then
-  echo "Start DogMode Feeder ...!"
-  dapr run \
-    --app-id feedercan \
-    --app-protocol grpc \
-    --components-path $ROOT_DIRECTORY/.dapr/components \
-    --config $ROOT_DIRECTORY/.dapr/config.yaml -- python3 dbcfeeder.py --config $FEEDER_CONFIG
+  echo "Use DogMode feeder config ...!"
+  # DogMode CAN feeder config
+  export DBC_FILE="$CONFIG_DIR/dogmode/DogMode.dbc"
+  export MAPPING_FILE="$CONFIG_DIR/dogmode/mapping_DogMode.yml"
+  export CANDUMP_FILE="$CONFIG_DIR/dogmode/candump_DogMode.log"
 else
-  echo "Start Default Feeder ...!"
-  dapr run \
+  # Default CAN feeder config
+  export DBC_FILE="$CONFIG_DIR/default/Model3CAN.dbc"
+  export MAPPING_FILE="$CONFIG_DIR/default/mapping.yml"
+  export CANDUMP_FILE="$CONFIG_DIR/default/candump.log"
+fi
+
+dapr run \
     --app-id feedercan \
     --app-protocol grpc \
     --components-path $ROOT_DIRECTORY/.dapr/components \
     --config $ROOT_DIRECTORY/.dapr/config.yaml -- python3 dbcfeeder.py
-fi

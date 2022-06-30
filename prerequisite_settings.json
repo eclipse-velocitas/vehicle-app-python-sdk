@@ -3,16 +3,16 @@
         "version": "1.6.9"
     },
     "databroker": {
-        "version": "test"
+        "version": "databroker-v0.17.0"
     },
     "seatservice": {
         "version": "v0.1.0"
     },
     "hvacservice": {
-        "version": "v0.18.0"
+        "version": "v0.1.0"
     },
     "feedercan": {
-        "version": "v0.18.0"
+        "version": "v0.1.0"
     },
     "python": {
         "version": "3.9"
