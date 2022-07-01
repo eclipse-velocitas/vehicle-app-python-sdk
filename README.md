@@ -55,4 +55,3 @@ These examples demonstrate how to use the Python Vehicle App SDK:
 - [GitHub Issues](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/issues)
 - [Mailing List](https://accounts.eclipse.org/mailing-list/velocitas-dev)
 - [Contribution](./CONTRIBUTING.md/)
-
