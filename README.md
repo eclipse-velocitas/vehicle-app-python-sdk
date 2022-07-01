@@ -35,7 +35,7 @@ pip install git+https://github.com/eclipse-velocitas/vehicle-app-python-sdk.git@
 
 * [Runtime Services (local execution)](https://eclipse-velocitas.github.io/velocitas-docs/docs/tutorials/vehicle-app-runtime/run_runtime_services_locally/): Using runtime services (like _Vehicle Data Broker_ or _Vehicle Services_) in the development environment.
 * [Runtime Services (Kubernetes execution)](https://eclipse-velocitas.github.io/velocitas-docs/docs/tutorials/vehicle-app-runtime/run_runtime_services_kubernetes/): Using runtime services (like _Vehicle Data Broker_ or _Vehicle Services_) in Kubernetes (K3D) environment.
-* [Velocitas Development Model](https://eclipse-velocitas.github.io/velocitas-docs/docs/concepts/development-model/): Creating Vehicle App and Vehicle Models with the Python SDK
+* [Velocitas Development Model](https://eclipse-velocitas.github.io/velocitas-docs/docs/concepts/development_model/): Creating Vehicle App and Vehicle Models with the Python SDK
 * [Integration Tests](https://eclipse-velocitas.github.io/velocitas-docs/docs/tutorials/integration_tests/): Running and developing integration tests
 
 ## Python Vehicle App SDK Examples
