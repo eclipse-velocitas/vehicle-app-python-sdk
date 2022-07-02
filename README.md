@@ -33,10 +33,10 @@ pip install git+https://github.com/eclipse-velocitas/vehicle-app-python-sdk.git@
 
 ## Documentation
 
-* [Runtime Services (local execution)](https://symmetrical-waddle-dc3368d3.pages.github.io/docs/getting-started/vehicle-app-runtime/run_runtime_services_locally/): Using runtime services (like _Vehicle Data Broker_ or _Vehicle Services_) in the development environment.
-* [Runtime Services (Kubernetes execution)](https://symmetrical-waddle-dc3368d3.pages.github.io/docs/getting-started/vehicle-app-runtime/run_runtime_services_kubernetes/): Using runtime services (like _Vehicle Data Broker_ or _Vehicle Services_) in Kubernetes (K3D) environment.
-* [Velocitas Development Model](https://symmetrical-waddle-dc3368d3.pages.github.io/docs/concepts/development-model/): Creating Vehicle App and Vehicle Models with the Python SDK
-* [Integration Tests](https://symmetrical-waddle-dc3368d3.pages.github.io/docs/getting-started/tutorials/integration_tests/): Running and developing integration tests
+* [Runtime Services (local execution)](https://eclipse-velocitas.github.io/velocitas-docs/docs/tutorials/vehicle-app-runtime/run_runtime_services_locally/): Using runtime services (like _Vehicle Data Broker_ or _Vehicle Services_) in the development environment.
+* [Runtime Services (Kubernetes execution)](https://eclipse-velocitas.github.io/velocitas-docs/docs/tutorials/vehicle-app-runtime/run_runtime_services_kubernetes/): Using runtime services (like _Vehicle Data Broker_ or _Vehicle Services_) in Kubernetes (K3D) environment.
+* [Velocitas Development Model](https://eclipse-velocitas.github.io/velocitas-docs/docs/concepts/development_model/): Creating Vehicle App and Vehicle Models with the Python SDK
+* [Integration Tests](https://eclipse-velocitas.github.io/velocitas-docs/docs/tutorials/integration_tests/): Running and developing integration tests
 
 ## Python Vehicle App SDK Examples
 
@@ -51,10 +51,7 @@ These examples demonstrate how to use the Python Vehicle App SDK:
 | [VDB Queries](./examples/vdb-queries/) | Demonstrates various aspects of creating Vehicle Data Broker queries.
 | [Array Datatype](./examples/array-datatype/) | Shows a Vehicle Data Broker query that returns an array data point.
 
-## Contributing
-
-For guidance on setting up a development environment and how to make a contribution to the Velocitas Vehicle App SDK for Python, see the [contributing guidelines](./CONTRIBUTING.md).
-
-## License
-
-[Apache 2.0](/LICENSE)
+## Contribution
+- [GitHub Issues](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/issues)
+- [Mailing List](https://accounts.eclipse.org/mailing-list/velocitas-dev)
+- [Contribution](./CONTRIBUTING.md/)
