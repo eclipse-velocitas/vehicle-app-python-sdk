@@ -16,7 +16,6 @@
 
 import asyncio
 import contextvars
-import inspect
 import logging
 from typing import Generic, List, Type, TypeVar
 
