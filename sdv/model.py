@@ -128,7 +128,7 @@ class ModelCollection(Generic[TModel]):
         self.specs = model_refs
 
     def element_at(self, *args) -> TModel:
-        if args.__len__() != self.specs.__len__():
+        if len(args) != len(self.specs):
             raise Exception("Indexes length does not match specs length")
 
         segments = []

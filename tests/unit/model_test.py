@@ -894,7 +894,7 @@ def get_vehicle_instance():
                 [NamedRange("Row", 1, 2), Dictionary(DoorSides)],
                 Door(self),
             )
-    
+
     class Trunk(Model):
         """Trunk Class"""
 
