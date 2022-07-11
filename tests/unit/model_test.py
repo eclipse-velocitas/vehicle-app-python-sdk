@@ -720,8 +720,14 @@ def test_path_instances_range2():
 
 def test_path_instances_range_list():
     vehicle = get_vehicle_instance()
-    path = vehicle.Cabin.Door.element_at(1, DoorSides.LEFT).IsOpen.get_path()
+    path = vehicle.Cabin.Door.element_at(1, DoorSides[0]).IsOpen.get_path()
     assert path == "Vehicle.Cabin.Door.Row1.Left.IsOpen"
+
+
+def test_path_instances_dictionary():
+    vehicle = get_vehicle_instance()
+    path = vehicle.Body.Trunk.element_at("Rear").IsOpen.get_path()
+    assert path == "Vehicle.Body.Trunk.Rear.IsOpen"
 
 
 def test_path_unknown_list_entry():
@@ -742,11 +748,8 @@ def test_path_out_of_range():
         assert e.args[0] == "5 is not in range 1-2"
 
 
-class DoorSides:
-    """DoorSides Class"""
-
-    LEFT = "Left"
-    RIGHT = "Right"
+DoorSides = ["Left", "Right"]
+TrunkOptions = ["Front", "Rear"]
 
 
 class AsyncIter:
@@ -891,6 +894,21 @@ def get_vehicle_instance():
                 [NamedRange("Row", 1, 2), Dictionary(DoorSides)],
                 Door(self),
             )
+    
+    class Trunk(Model):
+        """Trunk Class"""
+
+        def __init__(self, parent):
+            super().__init__(parent)
+            self.IsOpen = DataPointBoolean("IsOpen", self)
+            self.IsLocked = DataPointBoolean("IsLocked", self)
+
+    class Body(Model):
+        """Body Class"""
+
+        def __init__(self, parent):
+            super().__init__(parent)
+            self.Trunk = ModelCollection[Trunk]([Dictionary(TrunkOptions)], Trunk(self))
 
     class Vehicle(Model):
         """Mock Class"""
@@ -899,6 +917,7 @@ def get_vehicle_instance():
             super().__init__()
             self.Speed = DataPointFloat("Speed", self)
             self.Cabin = Cabin(self)
+            self.Body = Body(self)
             self.String = DataPointString("String", self)
             self.Bool = DataPointBoolean("Bool", self)
             self.Int8 = DataPointInt8("Int8", self)

@@ -85,9 +85,8 @@ class Dictionary(ModelReferences):
 
     def __init__(self, list_type: Type):
         self.instances = []
-        for i in inspect.getmembers(list_type):
-            if not i[0].startswith("_"):
-                self.instances.append(i[1])
+        for i in list_type:
+            self.instances.append(i)
 
     def to_string(self, selector) -> str:
         if selector not in self.instances:
