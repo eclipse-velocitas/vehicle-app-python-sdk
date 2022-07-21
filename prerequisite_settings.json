@@ -16,5 +16,9 @@
     },
     "python": {
         "version": "3.9"
+    },
+    "dapr":{
+        "version": "1.8.0",
+        "runtime": "1.8.1"
     }
 }
