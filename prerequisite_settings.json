@@ -17,8 +17,12 @@
     "python": {
         "version": "3.9"
     },
-    "dapr":{
-        "version": "1.8.0",
-        "runtime": "1.8.1"
+    "dapr": {
+        "cli": {
+            "version": "1.8.0"
+        },
+        "runtime": {
+            "version": "1.8.1"
+        }
     }
 }
