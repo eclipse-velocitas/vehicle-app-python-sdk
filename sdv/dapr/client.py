@@ -23,6 +23,8 @@ from http import HTTPStatus
 import grpc
 from dapr.proto import api_service_v1, api_v1  # type: ignore
 
+from http import HTTPStatus
+
 from .. import conf
 
 logger = logging.getLogger(__name__)
