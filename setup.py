@@ -67,7 +67,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="sdv",
-    version="0.2.0",
+    version="0.3.0",
     description="A Python SDK for Vehicle app",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -79,8 +79,9 @@ setuptools.setup(
         "sdv.proto",
         "sdv.vdb",
         "sdv.test",
-        "examples",
+        "sdv_examples",
     ],
+    package_dir={"sdv_examples": "examples"},
     package_data={"sdv": ["py.typed"]},
     include_package_data=True,
     install_requires=requirements,
