@@ -79,7 +79,7 @@ setuptools.setup(
         "sdv.proto",
         "sdv.vdb",
         "sdv.test",
-        "examples.seat-adjuster",
+        "examples",
     ],
     package_data={"sdv": ["py.typed"]},
     include_package_data=True,
