@@ -31,7 +31,7 @@ Please use the script below to launch the dog mode sample app.
     --app-protocol grpc \
     --app-port 50008 \
     --config ../.dapr/config.yaml  \
-    --components-path ../.dapr/components python3 dog-mode/run.py
+    --components-path ../.dapr/components python3 dog-mode/src/main.py
 ```
 
 Alternative, run the Visual Studio Code task `"DogMode (Dapr run)"` or use the script [run-app.sh](./../run-app.sh) as below:

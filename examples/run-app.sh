@@ -58,4 +58,4 @@ dapr run \
     --app-protocol grpc \
     --app-port $APP_PORT \
     --config $ROOT_DIRECTORY/.dapr/config.yaml  \
-    --components-path $ROOT_DIRECTORY/.dapr/components python3 $APP_NAME/run.py
+    --components-path $ROOT_DIRECTORY/.dapr/components python3 $APP_NAME/src/main.py

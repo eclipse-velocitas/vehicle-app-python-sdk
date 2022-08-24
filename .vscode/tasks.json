@@ -229,7 +229,7 @@
 				"--app-port 50008",
 				"--config ./.dapr/config.yaml",
 				"--components-path ./.dapr/components",
-				"python3 ./examples/seat-adjuster/run.py"
+				"python3 ./examples/seat-adjuster/src/main.py"
 			],
 			"group": "none",
 			"isBackground": true,
@@ -259,7 +259,7 @@
 				"--app-port 50008",
 				"--config ./.dapr/config.yaml",
 				"--components-path ./.dapr/components",
-				"python3 ./examples/dog-mode/run.py"
+				"python3 ./examples/dog-mode/src/main.py"
 			],
 			"group": "none",
 			"isBackground": true,

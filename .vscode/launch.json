@@ -10,12 +10,15 @@
             "request": "launch",
             "name": "examples/seat-adjuster",
             "cwd": "${workspaceFolder}/examples/seat-adjuster",
-            "program": "${workspaceFolder}/examples/seat-adjuster/run.py",
-            "console": "internalConsole",
+            "program": "${workspaceFolder}/examples/seat-adjuster/src/main.py",
+            "console": "integratedTerminal",
             "preLaunchTask": "dapr-SeatAdjuster-run",
             "postDebugTask": "dapr-SeatAdjuster-stop",
             "env": {
-                "DAPR_GRPC_PORT": "50001"
+                "DAPR_GRPC_PORT": "50001",
+                "DAPR_HTTP_PORT": "3500",
+                "SEATSERVICE_DAPR_APP_ID": "seatservice",
+                "VEHICLEDATABROKER_DAPR_APP_ID": "vehicledatabroker"
             }
         },
         {
@@ -23,8 +26,8 @@
             "request": "launch",
             "name": "examples/vdb-queries",
             "cwd": "${workspaceFolder}/examples/vdb-queries",
-            "program": "${workspaceFolder}/examples/vdb-queries/run.py",
-            "console": "internalConsole",
+            "program": "${workspaceFolder}/examples/vdb-queries/src/main.py",
+            "console": "integratedTerminal",
             "env": {
                 "DAPR_GRPC_PORT": "55555"
             }
@@ -34,16 +37,16 @@
             "request": "launch",
             "name": "examples/static-rule",
             "cwd": "${workspaceFolder}/examples/static-rule",
-            "program": "${workspaceFolder}/examples/static-rule/run.py",
-            "console": "internalConsole",
+            "program": "${workspaceFolder}/examples/static-rule/src/main.py",
+            "console": "integratedTerminal",
         },
         {
             "type": "python",
             "request": "launch",
             "name": "examples/dynamic-rule",
             "cwd": "${workspaceFolder}/examples/dynamic-rule",
-            "program": "${workspaceFolder}/examples/dynamic-rule/run.py",
-            "console": "internalConsole",
+            "program": "${workspaceFolder}/examples/dynamic-rule/src/main.py",
+            "console": "integratedTerminal",
         }
     ]
 }
