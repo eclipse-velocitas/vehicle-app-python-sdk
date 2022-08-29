@@ -40,8 +40,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
 
       - name: Initialize python
         uses: actions/setup-python@v1
