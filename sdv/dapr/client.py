@@ -18,6 +18,7 @@ import asyncio
 import logging
 import os
 import urllib.request
+from http import HTTPStatus
 
 import grpc
 from dapr.proto import api_service_v1, api_v1  # type: ignore
@@ -59,7 +60,10 @@ async def wait_for_sidecar() -> None:
                     f"http://localhost:{target_port}/v1.0/healthz"
                 )
                 response.read()
-                success = True
+                success = response.status == HTTPStatus.NO_CONTENT
+                logger.debug(
+                    "dapr: Health endpoint returned status code: %s", response.status
+                )
             except BaseException as error:
                 logger.debug("%s", str(error))
                 await asyncio.sleep(0.1)
