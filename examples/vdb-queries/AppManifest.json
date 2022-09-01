@@ -4,7 +4,6 @@
         "Port": 50008,
         "DAPR_GRPC_PORT": 55555,
         "dependencies": {
-            "services": [],
             "runtime": [
                 {
                     "name": "mosquitto",
