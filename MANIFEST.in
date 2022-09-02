@@ -1,2 +1,2 @@
 global-include *.md LICENSE
-recursive-include examples *.*
+recursive-include examples *
