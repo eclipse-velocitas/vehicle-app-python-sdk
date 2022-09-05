@@ -12,7 +12,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-import setuptools
+from setuptools import setup
 
 requirements = [
     "grpcio>=1.44.0",
@@ -65,14 +65,25 @@ extra_requirements = {
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
-setuptools.setup(
+setup(
     name="sdv",
-    version="0.2.0",
+    version="0.3.0",
     description="A Python SDK for Vehicle app",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/eclipse-velocitas/vehicle-app-python-sdk",
-    packages=["sdv", "sdv.util", "sdv.dapr", "sdv.proto", "sdv.vdb", "sdv.test"],
+    packages=[
+        "sdv",
+        "sdv.util",
+        "sdv.dapr",
+        "sdv.proto",
+        "sdv.vdb",
+        "sdv.test",
+        "sdv_examples.seat-adjuster",
+    ],
+    package_dir={
+        "sdv_examples.seat-adjuster": "examples/seat-adjuster",
+    },
     package_data={"sdv": ["py.typed"]},
     include_package_data=True,
     install_requires=requirements,

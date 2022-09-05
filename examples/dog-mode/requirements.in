@@ -1,0 +1,5 @@
+grpcio
+protobuf
+dapr
+cloudevents
+apscheduler
