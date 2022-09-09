@@ -1,31 +1,37 @@
 {
-    "python.defaultInterpreterPath": "/usr/bin/python3",
-    "python.disableInstallationCheck": true,
-    "python.linting.banditEnabled": true,
-    "python.linting.flake8Enabled": true,
-    "python.linting.pylintEnabled": true,
-    "python.linting.mypyEnabled": false,
-    "python.linting.pydocstyleEnabled": true,
-    "python.linting.enabled": true,
-    "python.linting.flake8Args": ["--ignore=E121,E402,F481,E501,F841", "--max-line-length=89"],
-    "python.formatting.provider": "black",
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true,
-    "python.testing.pytestArgs": [
-      "./tests/"
-    ],
-    "vsmqtt.brokerProfiles": [
-      {
-          "name": "mosquitto (k3d)",
-          "host": "localhost",
-          "port": 31883,
-          "clientId": "vsmqtt_client"
-      },
-      {
-          "name": "mosquitto (local)",
-          "host": "localhost",
-          "port": 1883,
-          "clientId": "vsmqtt_client"
-      }
-    ],
+  "python.defaultInterpreterPath": "/usr/bin/python3",
+  "python.disableInstallationCheck": true,
+  "python.linting.banditEnabled": true,
+  "python.linting.flake8Enabled": true,
+  "python.linting.pylintEnabled": true,
+  "python.linting.mypyEnabled": false,
+  "python.linting.pydocstyleEnabled": true,
+  "python.linting.enabled": true,
+  "python.linting.flake8Args": [
+    "--ignore=E121,E402,F481,E501,F841",
+    "--max-line-length=89"
+  ],
+  "python.formatting.provider": "black",
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true,
+  "python.testing.pytestArgs": [
+    "./tests/"
+  ],
+  "vsmqtt.brokerProfiles": [
+    {
+      "name": "mosquitto (k3d)",
+      "host": "localhost",
+      "port": 31883,
+      "clientId": "vsmqtt_client"
+    },
+    {
+      "name": "mosquitto (local)",
+      "host": "localhost",
+      "port": 1883,
+      "clientId": "vsmqtt_client"
+    }
+  ],
+  "pre-commit-helper.runOnSave": "all hooks",
+  "mypy.runUsingActiveInterpreter": true,
+  "python.linting.mypyArgs": [],
 }
