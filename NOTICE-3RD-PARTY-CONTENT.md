@@ -92,8 +92,8 @@
 ## Workflows
 | Dependency | Version | License |
 |:-----------|:-------:|--------:|
-|actions/checkout|v3|MIT License|
 |actions/checkout|v2|MIT License|
+|actions/checkout|v3|MIT License|
 |actions/setup-python|v1|MIT License|
 |actions/upload-artifact|v2|MIT License|
 |github/codeql-action|v1|MIT License|
