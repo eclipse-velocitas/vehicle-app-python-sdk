@@ -17,13 +17,14 @@
 import asyncio
 import inspect
 import logging
+from warnings import warn
 
-from sdv import conf
+from sdv.pubsub.client import PubSubClient
 from sdv.vdb.client import VehicleDataBrokerClient
 from sdv.vdb.subscriptions import SubscriptionManager, VdbSubscription
 
-from .dapr.client import publish_mqtt_event, wait_for_sidecar
-from .dapr.server import register_topic, run_server
+from .dapr.client import wait_for_sidecar
+from .dapr.server import run_server
 
 logger = logging.getLogger(__name__)
 
@@ -69,6 +70,7 @@ class VehicleApp:
 
     def __init__(self):
         self._vdb_client = VehicleDataBrokerClient()
+        self.pubsub_client = PubSubClient()
         logger.debug("VehicleApp instantiation successfully done")
 
     async def on_start(self):
@@ -83,19 +85,18 @@ class VehicleApp:
 
     async def run(self):
         """Run the Vehicle App"""
+        # dapr server has to be started regardless of actual pubsub client
+        await run_server()
+
         methods = inspect.getmembers(self)
-        if not conf.DISABLE_DAPR:
-            await run_server()
-            # dapr requires to subscribe to pubsub topics during sidecar initialization
-            for method in methods:
-                if hasattr(method[1], "subscribeTopic"):
-                    try:
-                        register_topic(method[1].subscribeTopic, method[1])
-                    except Exception as ex:
-                        logger.exception(ex)
 
-            await wait_for_sidecar()
+        for method in methods:
+            if hasattr(method[1], "subscribeTopic"):
+                callback = method[1]
+                topic = method[1].subscribeTopic
 
+                self.pubsub_client.subscribe_topic(topic, callback)
+                
         # register vehicle data broker subscriptions using dapr grpc proxying after dapr
         # is initialized
         for method in methods:
@@ -107,14 +108,19 @@ class VehicleApp:
                     SubscriptionManager._add_subscription(sub)
                 except Exception as ex:
                     logger.exception(ex)
-
         try:
+            asyncio.create_task(self.pubsub_client.run())
+            # await wait_for_sidecar()
             await self.on_start()
             while True:
                 await asyncio.sleep(1)
-        except Exception:
+        except Exception as ex:
+            logger.error(ex)
             await self.stop()
 
     async def publish_mqtt_event(self, topic: str, data: str) -> None:
-        """Publish an event to the specified MQTT topic"""
-        publish_mqtt_event(topic, data)
+        warn("publish_mqtt_event is deprecated. Use publish_event instead.", DeprecationWarning, stacklevel=2)
+        self.publish_event(topic, data)
+
+    async def publish_event(self, topic: str, data: str) -> None:
+        self.pubsub_client.publish_event(topic, data)

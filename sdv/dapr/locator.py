@@ -13,19 +13,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import os
-from abc import ABC, abstractmethod
-
-
-class ServiceLocator(ABC):
-    """Service Locator abstract base class."""
-
-    @abstractmethod
-    def get_location(self, service_name: str) -> str:
-        raise NotImplementedError
-
-    @abstractmethod
-    def get_metadata(self, service_name: str):
-        raise NotImplementedError
+from sdv.locator import ServiceLocator
 
 
 class DaprServiceLocator(ServiceLocator):
