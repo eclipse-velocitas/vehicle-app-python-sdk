@@ -68,8 +68,7 @@ class VdbQueryExample(VehicleApp):
 
     async def on_start(self):
         """Run when the vehicle app starts"""
-
-        pos = await vehicle.Cabin.Seat.element_at(1, 1).Position.get()
+        pos = await vehicle.Cabin.Seat.Row(1).Pos(1).Position.get()
 
         logger.info("Get: Vehicle.Cabin.Seat.Row1.Pos1.Position: %i", pos)
 
@@ -85,13 +84,15 @@ class VdbQueryExample(VehicleApp):
         await asyncio.sleep(5)
         await vehicle.Speed.subscribe(on_speed_update)
         (
-            await vehicle.Cabin.Seat.element_at(1, 1)
+            await vehicle.Cabin.Seat.Row(1)
+            .Pos(1)
             .Position.join(vehicle.Speed)
             .where("Vehicle.Cabin.Seat.Row1.Pos1.Position < 100")
             .subscribe(on_seat_speed_update)
         )
         (
-            await vehicle.Cabin.Seat.element_at(1, 1)
+            await vehicle.Cabin.Seat.Row(1)
+            .Pos(1)
             .Position.join(vehicle.Speed)
             .subscribe(on_seat_pos_update)
         )
