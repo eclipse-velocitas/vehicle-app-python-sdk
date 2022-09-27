@@ -43,11 +43,14 @@ def subscribe_topic(topic: str):
 
 
 def subscribe_data_points(data_point_names: str, condition: str = None):
-    """Annotation to subscribe to one or more data points provided by the vehicle data broker.
+    """Annotation to subscribe to one or more data points provided by
+       the vehicle data broker.
 
     Args:
-        data_point_names (str): comma-separate list of data point names to subscribe to.
-        condition (str, optional): condition to apply to the data points. Defaults to None.
+        data_point_names (str): comma-separate list of data point names to
+                                subscribe to.
+        condition (str, optional): condition to apply to the data points.
+                                   Defaults to None.
     """
     query = "SELECT " + data_point_names
 

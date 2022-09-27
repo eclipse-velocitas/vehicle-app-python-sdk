@@ -97,7 +97,8 @@ async def run_query(i, k, vehicle, errors):
 
         if query != "SELECT Vehicle.Speed":
             errors.append(
-                f"Thread: {i}, Task: {k}, Actual: {query}, Expected: SELECT Vehicle.Speed"
+                f"Thread: {i}, Task: {k}, Actual: {query}, \
+                    Expected: SELECT Vehicle.Speed"
             )
     if k % 3 == 2:
         query = await vehicle.Speed.join(

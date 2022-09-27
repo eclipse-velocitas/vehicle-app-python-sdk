@@ -83,6 +83,6 @@ def set_opentelemetry_factory_span(span):
 
 class LogLevelValueError(Exception):
     """
-    Custom exception raise from sdv package, when logger did not find the suitable value\n
-    from among these [ERROR, DEBUG, INFO, WARNING, CRITICAL].
+    Custom exception raise from sdv package, when logger did not find\n
+    the suitable value from among these [ERROR, DEBUG, INFO, WARNING, CRITICAL].
     """

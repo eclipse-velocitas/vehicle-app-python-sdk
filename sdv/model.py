@@ -69,7 +69,8 @@ class Node:
 class Model(Node):
     """The Model class represents a branch of the model tree, including root.
     Leafs are typcially one of the typed DataPoint* classes.
-    But also a Model class can be a leaf, if it does not contain data Points, just methods."""
+    But also a Model class can be a leaf, if it does not contain data Points,
+    just methods."""
 
 
 class ModelReferences:
