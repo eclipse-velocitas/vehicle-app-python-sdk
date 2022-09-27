@@ -8,7 +8,7 @@
   "python.linting.pydocstyleEnabled": true,
   "python.linting.enabled": true,
   "python.linting.flake8Args": [
-    "--ignore=E121,E402,F481,E501,F841",
+    "--ignore=W503, B903, E402",
     "--max-line-length=89"
   ],
   "python.formatting.provider": "black",
