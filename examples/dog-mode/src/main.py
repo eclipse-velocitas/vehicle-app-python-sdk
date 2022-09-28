@@ -38,7 +38,8 @@ class DogModeApp(VehicleApp):
     """
     The Dog Mode Vehicle App.
 
-    - receives DogModeOn message (MQTT or CAN) with the given temperature and activate A/C
+    - receives DogModeOn message (MQTT or CAN) with the given temperature and
+      activate A/C
     - set cabin temperature
     - publish the current cabin temperature every 10 sec
 
@@ -71,7 +72,8 @@ class DogModeApp(VehicleApp):
 
     @subscribe_data_points(
         """Vehicle.Cabin.DogModeTemperature, Vehicle.Cabin.DogMode,
-        Vehicle.Powertrain.Battery.StateOfCharge.Current, Vehicle.Cabin.AmbientAirTemperature"""
+        Vehicle.Powertrain.Battery.StateOfCharge.Current,
+        Vehicle.Cabin.AmbientAirTemperature"""
     )
     async def on_change(self, data):
         dogModeTemperature = data.fields["Vehicle.Cabin.DogModeTemperature"].float_value
