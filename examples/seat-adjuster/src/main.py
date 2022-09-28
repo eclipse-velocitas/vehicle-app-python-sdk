@@ -83,7 +83,7 @@ class SeatAdjusterApp(VehicleApp):
 
         vehicle_speed = await self.Vehicle.Speed.get()
 
-        if vehicle == 0:
+        if vehicle_speed == 0:
             try:
                 location = SeatLocation(row=1, index=1)
                 await self.Vehicle.Cabin.SeatService.MoveComponent(
