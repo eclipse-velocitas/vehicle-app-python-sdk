@@ -10,6 +10,9 @@ class DaprClient:
         self.publish_event = publish_mqtt_event
         """Nothing to do"""
 
-    async def run(self):
+    async def init(self):
+        """Disabled, run_server is not only pubsub specfic for dapr."""
         await run_server()
+
+    async def run(self):
         await wait_for_sidecar()

@@ -61,7 +61,8 @@ class SeatAdjusterApp(VehicleApp):
 
     async def on_seat_position_changed(self, data: DataPointReply):
         response_topic = "seatadjuster/currentPosition"
-        await self.publish_mqtt_event(
+
+        await self.publish_event(
             response_topic,
             json.dumps(
                 {
@@ -71,6 +72,13 @@ class SeatAdjusterApp(VehicleApp):
                 }
             ),
         )
+
+    @subscribe_topic("seatadjuster/mqttNative/request")
+    async def mqttnative_request_received(self, data_str: str) -> None:
+        data = json.loads(data_str)
+        response_topic = "seatadjuster/mqttNative/response"
+        response_data = {"requestId": data["requestId"], "result": {}}
+        await self.publish_event(response_topic, json.dumps(response_data))
 
     @subscribe_topic("seatadjuster/setPosition/request")
     async def on_set_position_request_received(self, data_str: str) -> None:
@@ -104,7 +112,7 @@ class SeatAdjusterApp(VehicleApp):
                 is {vehicle_speed} and not 0"""
             response_data["result"] = {"status": 1, "message": error_msg}
 
-        await self.publish_mqtt_event(response_topic, json.dumps(response_data))
+        await self.publish_event(response_topic, json.dumps(response_data))
 
 
 async def main():
@@ -113,7 +121,6 @@ async def main():
     logger.info("Starting seat adjuster app...")
     seat_adjuster_app = SeatAdjusterApp(vehicle)
     await seat_adjuster_app.run()
-
 
 LOOP = asyncio.get_event_loop()
 LOOP.add_signal_handler(signal.SIGTERM, LOOP.stop)
