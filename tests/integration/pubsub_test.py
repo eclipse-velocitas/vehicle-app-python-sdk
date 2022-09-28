@@ -28,6 +28,7 @@ from sdv.base import Config
 # from sdv.test.inttesthelper import IntTestHelper
 from sdv.vdb.client import VehicleDataBrokerClient
 from sdv.vehicle_app import VehicleApp
+from sdv.test.databroker_testhelper import Vehicle
 
 
 @pytest.fixture(autouse=True)
@@ -38,12 +39,17 @@ def setup_vdb_client():
 @pytest.mark.asyncio
 async def test_for_publish_mqtt_event():
     client = get_vehicleapp_instance()
-    client.run()
     await client.publish_mqtt_event("test/test_for_publish_mqtt_event", "test")
     assert True
 
 
+class TestPubSubVehicleApp(VehicleApp):
+    def __init__(self, vehicle_client: Vehicle):
+        super().__init__()
+        self.Vehicle = vehicle_client
+
+
 def get_vehicleapp_instance():
     Config().disable_dapr()
-    client = VehicleApp()
+    client = TestPubSubVehicleApp()
     return client

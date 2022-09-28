@@ -13,8 +13,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 """ Tests for methods in PubSubClient """
-
-from ast import Assert
 import os
 import sys
 import pytest
