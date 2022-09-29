@@ -12,68 +12,50 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# pylint: skip-file
-# flake8: noqa
-
 from sdv.proto.types_pb2 import Datapoint as BrokerDatapoint
 
 
 class DataPointReply:
+    """Wrapper for dynamic datatype casting of VDB reply."""
+
     def __init__(self, reply):
         self._reply = reply
 
     def get(self, datapoint_object):
         datapoint_type = datapoint_object.__class__.__name__
         datapoint: BrokerDatapoint = self._reply.fields[datapoint_object.get_path()]
-        try:
-            if datapoint_type == "DataPointBoolean":
-                return datapoint.bool_value
-            elif datapoint_type == "DataPointBooleanArray":
-                return list(datapoint.bool_array.values)
-            elif datapoint_type == "DataPointString":
-                return datapoint.string_value
-            elif datapoint_type == "DataPointStringArray":
-                return list(datapoint.string_array.values)
-            elif datapoint_type == "DataPointDouble":
-                return datapoint.double_value
-            elif datapoint_type == "DataPointDoubleArray":
-                return list(datapoint.double_array.values)
-            elif datapoint_type == "DataPointFloat":
-                return datapoint.float_value
-            elif datapoint_type == "DataPointFloatArray":
-                return list(datapoint.float_array.values)
-            elif datapoint_type == "DataPointInt8":
-                return datapoint.int32_value
-            elif datapoint_type == "DataPointInt8Array":
-                return list(datapoint.int32_array.values)
-            elif datapoint_type == "DataPointInt16":
-                return datapoint.int32_value
-            elif datapoint_type == "DataPointInt16Array":
-                return list(datapoint.int32_array.values)
-            elif datapoint_type == "DataPointInt32":
-                return datapoint.int32_value
-            elif datapoint_type == "DataPointInt32Array":
-                return list(datapoint.int32_array.values)
-            elif datapoint_type == "DataPointInt64":
-                return datapoint.int64_value
-            elif datapoint_type == "DataPointInt64Array":
-                return list(datapoint.int64_array.values)
-            elif datapoint_type == "DataPointUint8":
-                return datapoint.uint32_value
-            elif datapoint_type == "DataPointUint8Array":
-                return list(datapoint.uint32_array.values)
-            elif datapoint_type == "DataPointUint16":
-                return datapoint.uint32_value
-            elif datapoint_type == "DataPointUint16Array":
-                return list(datapoint.uint32_array.values)
-            elif datapoint_type == "DataPointUint32":
-                return datapoint.uint32_value
-            elif datapoint_type == "DataPointUint32Array":
-                return list(datapoint.uint32_array.values)
-            elif datapoint_type == "DataPointUint64":
-                return datapoint.uint64_value
-            elif datapoint_type == "DataPointUint64Array":
-                return list(datapoint.uint64_array.values)
+        datapoint_values = {
+            "DataPointBoolean": datapoint.bool_value,
+            "DataPointBooleanArray": list(datapoint.bool_array.values),
+            "DataPointString": datapoint.string_value,
+            "DataPointStringArray": list(datapoint.string_array.values),
+            "DataPointDouble": datapoint.double_value,
+            "DataPointDoubleArray": list(datapoint.double_array.values),
+            "DataPointFloat": datapoint.float_value,
+            "DataPointFloatArray": list(datapoint.float_array.values),
+            "DataPointInt8": datapoint.int32_value,
+            "DataPointInt8Array": list(datapoint.int32_array.values),
+            "DataPointInt16": datapoint.int32_value,
+            "DataPointInt16Array": list(datapoint.int32_array.values),
+            "DataPointInt32": datapoint.int32_value,
+            "DataPointInt32Array": list(datapoint.int32_array.values),
+            "DataPointInt64": datapoint.int64_value,
+            "DataPointInt64Array": list(datapoint.int64_array.values),
+            "DataPointUint8": datapoint.uint32_value,
+            "DataPointUint8Array": list(datapoint.uint32_array.values),
+            "DataPointUint16": datapoint.uint32_value,
+            "DataPointUint16Array": list(datapoint.uint32_array.values),
+            "DataPointUint32": datapoint.uint32_value,
+            "DataPointUint32Array": list(datapoint.uint32_array.values),
+            "DataPointUint64": datapoint.uint64_value,
+            "DataPointUint64Array": list(datapoint.uint64_array.values),
+        }
+        datapoint_value = datapoint_values.get(
+            datapoint_type,
+            Exception(f"Datapoint of type {datapoint_type} has an unknown value"),
+        )
 
-        except Exception:
-            raise
+        if isinstance(datapoint_value, Exception):
+            raise datapoint_value
+
+        return datapoint_value

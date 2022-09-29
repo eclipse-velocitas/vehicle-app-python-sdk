@@ -21,7 +21,6 @@ from typing import Generic, List, Type, TypeVar
 
 import grpc
 
-from sdv.datapointbase import DataPointBase
 from sdv.proto.types_pb2 import Datapoint as BrokerDatapoint
 from sdv.vdb.client import VehicleDataBrokerClient
 from sdv.vdb.subscriptions import SubscriptionManager, VdbSubscription
@@ -155,7 +154,7 @@ class Service(Node):
         self.metadata = conf.service_locator.get_metadata(self.name)
 
 
-class DataPoint(Node, DataPointBase):
+class DataPoint(Node):
     """Base class for data points. Do not use for modelling directly."""
 
     def __init__(self, name: str, parent: Model):
