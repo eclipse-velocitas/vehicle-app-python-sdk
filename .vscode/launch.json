@@ -24,6 +24,24 @@
         {
             "type": "python",
             "request": "launch",
+            "name": "examples/seat-adjuster (native mqtt)",
+            "cwd": "${workspaceFolder}/examples/seat-adjuster",
+            "program": "${workspaceFolder}/examples/seat-adjuster/src/main.py",
+            "console": "integratedTerminal",
+            "preLaunchTask": "dapr-SeatAdjuster-run",
+            "postDebugTask": "dapr-SeatAdjuster-stop",
+            "env": {
+                "DAPR_GRPC_PORT": "50001",
+                "DAPR_HTTP_PORT": "3500",
+                "SEATSERVICE_DAPR_APP_ID": "seatservice",
+                "VEHICLEDATABROKER_DAPR_APP_ID": "vehicledatabroker",
+                "VELOCITAS_DISABLE_DAPR" : "True",
+                "VELOCITAS_VEHICLE_DATA_BROKER_ADDRESS": "localhost:55555",
+            }
+        },
+        {
+            "type": "python",
+            "request": "launch",
             "name": "examples/vdb-queries",
             "cwd": "${workspaceFolder}/examples/vdb-queries",
             "program": "${workspaceFolder}/examples/vdb-queries/src/main.py",
@@ -62,6 +80,18 @@
                 "DAPR_HTTP_PORT": "3500",
                 "SEATSERVICE_DAPR_APP_ID": "seatservice",
                 "VEHICLEDATABROKER_DAPR_APP_ID": "vehicledatabroker"
+            }
+        },
+        {
+            "type": "python",
+            "request": "launch",
+            "name": "examples/seat-adjuster (no dapr)",
+            "cwd": "${workspaceFolder}/examples/seat-adjuster",
+            "program": "${workspaceFolder}/examples/seat-adjuster/src/main.py",
+            "console": "integratedTerminal",
+            "env": { 
+                "VELOCITAS_DISABLE_DAPR" : "True",
+                "VELOCITAS_VEHICLE_DATA_BROKER_ADDRESS": "localhost:55555",
             }
         }
     ]
