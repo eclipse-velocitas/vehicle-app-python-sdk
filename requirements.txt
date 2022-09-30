@@ -219,6 +219,8 @@ tomli==2.0.1
     #   pytest
 tox==3.25.0
     # via sdv (setup.py)
+types-deprecated==1.2.9
+    # via sdv (setup.py)
 types-mock==4.0.15
     # via sdv (setup.py)
 types-protobuf==3.19.21

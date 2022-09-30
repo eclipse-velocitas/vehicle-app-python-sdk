@@ -39,6 +39,7 @@ extra_requirements = {
         "mypy-protobuf",
         "apscheduler",
         "Deprecated",
+        "types-Deprecated",
         ##########################################
         # Testing Packages
         ##########################################
