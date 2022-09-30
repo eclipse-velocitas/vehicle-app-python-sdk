@@ -73,8 +73,8 @@ class Model(Node):
     But also a Model class can be a leaf, if it does not contain data Points, just methods."""
 
 
-_COLLECTION_DEPRECATION_MSG = """The generated vehicle model must reflect the actual representation of the data points.
-Please use base Model class instead."""
+_COLLECTION_DEPRECATION_MSG = """The generated vehicle model must reflect the actual
+representation of the data points. Please use base Model class instead."""
 
 
 @deprecated(
