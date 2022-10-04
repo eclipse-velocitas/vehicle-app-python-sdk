@@ -20,6 +20,7 @@ import logging
 from typing import Generic, List, Type, TypeVar
 
 import grpc
+from deprecated import deprecated
 
 from sdv.proto.types_pb2 import Datapoint as BrokerDatapoint
 from sdv.vdb.client import VehicleDataBrokerClient
@@ -73,6 +74,14 @@ class Model(Node):
     just methods."""
 
 
+_COLLECTION_DEPRECATION_MSG = """The generated vehicle model must reflect the actual
+representation of the data points. Please use base Model class instead."""
+
+
+@deprecated(
+    version="0.4.0",
+    reason=_COLLECTION_DEPRECATION_MSG,
+)
 class ModelReferences:
     """ModelReferences class"""
 
@@ -80,6 +89,10 @@ class ModelReferences:
         raise NotImplementedError()
 
 
+@deprecated(
+    version="0.4.0",
+    reason=_COLLECTION_DEPRECATION_MSG,
+)
 class Dictionary(ModelReferences):
     """Dictionary class"""
 
@@ -95,6 +108,10 @@ class Dictionary(ModelReferences):
         return selector
 
 
+@deprecated(
+    version="0.4.0",
+    reason=_COLLECTION_DEPRECATION_MSG,
+)
 class NamedRange(ModelReferences):
     """NamedRange class"""
 
@@ -113,6 +130,10 @@ class NamedRange(ModelReferences):
 TModel = TypeVar("TModel", bound=Node)
 
 
+@deprecated(
+    version="0.4.0",
+    reason=_COLLECTION_DEPRECATION_MSG,
+)
 class ModelCollection(Generic[TModel]):
     """ModelCollection class"""
 

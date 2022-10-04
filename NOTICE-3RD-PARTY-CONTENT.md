@@ -80,6 +80,7 @@
 |toml|0.10.2|MIT|
 |tomli|2.0.1|MIT|
 |tox|3.25.0|MIT|
+|types-Deprecated|1.2.9|Apache 2.0|
 |types-mock|4.0.15|Apache 2.0|
 |types-protobuf|3.19.21|Apache 2.0|
 |typing-extensions|4.2.0|Python Software Foundation License|

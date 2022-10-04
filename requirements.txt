@@ -38,7 +38,9 @@ coverage[toml]==6.4.1
 dapr==1.6.1
     # via sdv (setup.py)
 deprecated==1.2.13
-    # via opentelemetry-api
+    # via
+    #   opentelemetry-api
+    #   sdv (setup.py)
 deprecation==2.1.0
     # via cloudevents
 dill==0.3.5.1
@@ -216,6 +218,8 @@ tomli==2.0.1
     #   pylint
     #   pytest
 tox==3.25.0
+    # via sdv (setup.py)
+types-deprecated==1.2.9
     # via sdv (setup.py)
 types-mock==4.0.15
     # via sdv (setup.py)
