@@ -57,7 +57,7 @@ class SeatAdjusterApp(VehicleApp):
 
     async def on_start(self):
         """Run when the vehicle app starts"""
-        await self.Vehicle.Cabin.Seat.element_at(1, 1).Position.subscribe(
+        await self.Vehicle.Cabin.Seat.Row(1).Pos(1).Position.subscribe(
             self.on_seat_position_changed
         )
 
@@ -68,7 +68,7 @@ class SeatAdjusterApp(VehicleApp):
             json.dumps(
                 {
                     "position": data.get(
-                        self.Vehicle.Cabin.Seat.element_at(1, 1).Position
+                        self.Vehicle.Cabin.Seat.Row(1).Pos(1).Position
                     )
                 }
             ),

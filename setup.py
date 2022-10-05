@@ -38,6 +38,8 @@ extra_requirements = {
         "grpc-stubs",
         "mypy-protobuf",
         "apscheduler",
+        "Deprecated",
+        "types-Deprecated",
         ##########################################
         # Testing Packages
         ##########################################
