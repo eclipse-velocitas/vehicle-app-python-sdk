@@ -107,11 +107,12 @@ class VehicleApp:
                     logger.exception(ex)
         try:
             asyncio.create_task(self.pubsub_client.run())
-            await wait_for_sidecar()
+            # await wait_for_sidecar()
             await self.on_start()
             while True:
                 await asyncio.sleep(1)
-        except Exception:
+        except Exception as ex:
+            logger.error(ex)
             await self.stop()
 
     async def publish_mqtt_event(self, topic: str, data: str) -> None:

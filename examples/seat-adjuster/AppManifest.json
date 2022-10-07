@@ -3,6 +3,9 @@
         "Name": "seatadjuster",
         "Port": 50008,
         "DAPR_GRPC_PORT": 50001,
+        "MiddleWare" : {
+            "type" : "native"
+        },
         "Dockerfile": "./app/Dockerfile",
         "dependencies": {
             "services": [

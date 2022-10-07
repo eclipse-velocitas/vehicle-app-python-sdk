@@ -37,6 +37,7 @@
                 "VEHICLEDATABROKER_DAPR_APP_ID": "vehicledatabroker",
                 "VELOCITAS_DISABLE_DAPR" : "True",
                 "VELOCITAS_VEHICLE_DATA_BROKER_ADDRESS": "localhost:55555",
+                "VELOCITAS_SEATSERVICE_ADDRESS": "localhost:50051"
             }
         },
         {
@@ -76,6 +77,7 @@
             "env": { 
                 "VELOCITAS_DISABLE_DAPR" : "True",
                 "VELOCITAS_VEHICLE_DATA_BROKER_ADDRESS": "localhost:55555",
+                "VELOCITAS_SEATSERVICE_ADDRESS": "localhost:50051"
             }
         }
     ]
