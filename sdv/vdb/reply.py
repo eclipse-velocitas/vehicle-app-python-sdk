@@ -19,36 +19,36 @@ class DataPointReply:
     """Wrapper for dynamic datatype casting of VDB reply."""
 
     def __init__(self, reply):
-        self._reply = reply
+        self.reply = reply
 
-    def get(self, datapoint_object):
-        datapoint_type = datapoint_object.__class__.__name__
-        datapoint: BrokerDatapoint = self._reply.fields[datapoint_object.get_path()]
+    def get(self, datapoint):
+        datapoint_type = datapoint.__class__.__name__
+        vdb_datapoint: BrokerDatapoint = self.reply.fields[datapoint.get_path()]
         datapoint_values = {
-            "DataPointBoolean": datapoint.bool_value,
-            "DataPointBooleanArray": list(datapoint.bool_array.values),
-            "DataPointString": datapoint.string_value,
-            "DataPointStringArray": list(datapoint.string_array.values),
-            "DataPointDouble": datapoint.double_value,
-            "DataPointDoubleArray": list(datapoint.double_array.values),
-            "DataPointFloat": datapoint.float_value,
-            "DataPointFloatArray": list(datapoint.float_array.values),
-            "DataPointInt8": datapoint.int32_value,
-            "DataPointInt8Array": list(datapoint.int32_array.values),
-            "DataPointInt16": datapoint.int32_value,
-            "DataPointInt16Array": list(datapoint.int32_array.values),
-            "DataPointInt32": datapoint.int32_value,
-            "DataPointInt32Array": list(datapoint.int32_array.values),
-            "DataPointInt64": datapoint.int64_value,
-            "DataPointInt64Array": list(datapoint.int64_array.values),
-            "DataPointUint8": datapoint.uint32_value,
-            "DataPointUint8Array": list(datapoint.uint32_array.values),
-            "DataPointUint16": datapoint.uint32_value,
-            "DataPointUint16Array": list(datapoint.uint32_array.values),
-            "DataPointUint32": datapoint.uint32_value,
-            "DataPointUint32Array": list(datapoint.uint32_array.values),
-            "DataPointUint64": datapoint.uint64_value,
-            "DataPointUint64Array": list(datapoint.uint64_array.values),
+            "DataPointBoolean": vdb_datapoint.bool_value,
+            "DataPointBooleanArray": list(vdb_datapoint.bool_array.values),
+            "DataPointString": vdb_datapoint.string_value,
+            "DataPointStringArray": list(vdb_datapoint.string_array.values),
+            "DataPointDouble": vdb_datapoint.double_value,
+            "DataPointDoubleArray": list(vdb_datapoint.double_array.values),
+            "DataPointFloat": vdb_datapoint.float_value,
+            "DataPointFloatArray": list(vdb_datapoint.float_array.values),
+            "DataPointInt8": vdb_datapoint.int32_value,
+            "DataPointInt8Array": list(vdb_datapoint.int32_array.values),
+            "DataPointInt16": vdb_datapoint.int32_value,
+            "DataPointInt16Array": list(vdb_datapoint.int32_array.values),
+            "DataPointInt32": vdb_datapoint.int32_value,
+            "DataPointInt32Array": list(vdb_datapoint.int32_array.values),
+            "DataPointInt64": vdb_datapoint.int64_value,
+            "DataPointInt64Array": list(vdb_datapoint.int64_array.values),
+            "DataPointUint8": vdb_datapoint.uint32_value,
+            "DataPointUint8Array": list(vdb_datapoint.uint32_array.values),
+            "DataPointUint16": vdb_datapoint.uint32_value,
+            "DataPointUint16Array": list(vdb_datapoint.uint32_array.values),
+            "DataPointUint32": vdb_datapoint.uint32_value,
+            "DataPointUint32Array": list(vdb_datapoint.uint32_array.values),
+            "DataPointUint64": vdb_datapoint.uint64_value,
+            "DataPointUint64Array": list(vdb_datapoint.uint64_array.values),
         }
         datapoint_value = datapoint_values.get(
             datapoint_type,
