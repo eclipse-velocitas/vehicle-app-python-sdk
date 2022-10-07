@@ -61,7 +61,6 @@ class SeatAdjusterApp(VehicleApp):
 
     async def on_seat_position_changed(self, data: DataPointReply):
         response_topic = "seatadjuster/currentPosition"
-
         await self.publish_event(
             response_topic,
             json.dumps(
