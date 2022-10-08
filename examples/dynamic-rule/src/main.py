@@ -23,6 +23,7 @@ import signal
 from sdv_model import Vehicle, vehicle
 
 from sdv.base import Config
+from sdv.vdb.subscriptions import DataPointReply
 from sdv.vehicle_app import VehicleApp, subscribe_topic
 
 logger = logging.getLogger(__name__)
@@ -47,18 +48,18 @@ class SpeedLimitWarner(VehicleApp):
 
         await self.rule.unsubscribe()
         self.rule = (
-            await self.vehicle.Speed.join(self.vehicle.ADAS.ABS.IsActive)
+            await self.vehicle.Speed.join(self.vehicle.ADAS.ABS.IsEnabled)
             .where(condition)
             .subscribe(self.on_vehicle_speed_above_limit)
         )
 
-    def on_vehicle_speed_above_limit(self, data):
+    def on_vehicle_speed_above_limit(self, data: DataPointReply):
         """Handle vehicle speed limit exceeded event"""
         logger.info(
             "Warning: Vehicle speed limit (%s) exceeded: %f. ABS is engaged: %s",
             self.speed_limit,
-            data.fields["Vehicle.Speed"].float_value,
-            data.fields["Vehicle.ADAS.ABS.IsActive"].bool_value,
+            data.get(self.vehicle.Speed),
+            data.get(self.vehicle.ADAS.ABS.IsEnabled),
         )
 
     async def on_start(self):

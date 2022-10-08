@@ -21,6 +21,7 @@ import signal
 from vehicle_model.sample import Vehicle, vehicle
 
 from sdv.base import Config
+from sdv.vdb.subscriptions import DataPointReply
 from sdv.vehicle_app import VehicleApp
 
 logger = logging.getLogger(__name__)
@@ -34,13 +35,10 @@ class ArrayDatatype(VehicleApp):
         super().__init__()
         self.vehicle = vehicle
 
-    def print_values(self, data):
+    def print_values(self, data: DataPointReply):
         """Handle string array limit exceeded event"""
 
-        logger.info(
-            "Example Array contains: %s",
-            data.fields["Vehicle.TestArray"].string_array.values,
-        )
+        logger.info("Example Array contains: %s", data.get(self.vehicle.TestArray))
 
     async def on_start(self):
         """Run when the vehicle app starts"""

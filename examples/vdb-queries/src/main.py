@@ -19,6 +19,7 @@ import signal
 from sdv_model import Vehicle, vehicle
 
 from sdv.base import Config
+from sdv.vdb.subscriptions import DataPointReply
 from sdv.vehicle_app import VehicleApp
 
 logger = logging.getLogger(__name__)
@@ -27,35 +28,35 @@ logging.getLogger().setLevel(logging.DEBUG)
 """Vehicle Data Broker Queries examples."""
 
 
-async def on_speed_update(data):
+async def on_speed_update(data: DataPointReply):
     logger.info(
         "Subscription: Vehicle.Speed: %f",
-        data.fields["Vehicle.Speed"].float_value,
+        data.get(vehicle.Speed),
     )
 
 
-async def on_seat_pos_update(data):
+async def on_seat_pos_update(data: DataPointReply):
     logger.info(
         "Subscription: Vehicle.Speed: %f  Vehicle.Cabin.Seat.Row1.Pos1.Position: %i",
-        data.fields["Vehicle.Speed"].float_value,
-        data.fields["Vehicle.Cabin.Seat.Row1.Pos1.Position"].uint32_value,
+        data.get(vehicle.Speed),
+        data.get(vehicle.Cabin.Seat.Row1.Pos1.Position),
     )
 
 
-async def on_pos_condition_update(data):
+async def on_pos_condition_update(data: DataPointReply):
     logger.info(
         """Subscription: Vehicle.Speed: %f
         Warning: Vehicle.Cabin.Seat.Row1.Pos1.Position Exceeded 100""",
-        data.fields["Vehicle.Speed"].float_value,
+        data.get(vehicle.Speed),
     )
 
 
-async def on_seat_speed_update(data):
+async def on_seat_speed_update(data: DataPointReply):
     logger.info(
         """Subscription: Vehicle.Speed: %f
         Warning: Vehicle.Cabin.Seat.Row1.Pos1.Position: %i is below 100""",
-        data.fields["Vehicle.Speed"].float_value,
-        data.fields["Vehicle.Cabin.Seat.Row1.Pos1.Position"].uint32_value,
+        data.get(vehicle.Speed),
+        data.get(vehicle.Cabin.Seat.Row1.Pos1.Position),
     )
 
 
