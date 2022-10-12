@@ -26,6 +26,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from vehicle_model.sample import Vehicle, vehicle
 
 from sdv.util.log import get_default_date_format, get_default_log_format
+from sdv.vdb.subscriptions import DataPointReply
 from sdv.vehicle_app import VehicleApp, subscribe_data_points
 
 logging.basicConfig(format=get_default_log_format(), datefmt=get_default_date_format())
@@ -47,9 +48,9 @@ class DogModeApp(VehicleApp):
        sent MQTT message to notify owner
     """
 
-    def __init__(self, vehicle_client: Vehicle):
+    def __init__(self, vehicle: Vehicle):
         super().__init__()
-        self.vehicle_client = vehicle_client
+        self.vehicle = vehicle
         self.not_notified = True
 
     async def on_start(self):
@@ -75,23 +76,19 @@ class DogModeApp(VehicleApp):
         Vehicle.Powertrain.Battery.StateOfCharge.Current,
         Vehicle.Cabin.AmbientAirTemperature"""
     )
-    async def on_change(self, data):
-        dogModeTemperature = data.fields["Vehicle.Cabin.DogModeTemperature"].float_value
-        dogMode = data.fields["Vehicle.Cabin.DogMode"].bool_value
-        self.soc = data.fields[
-            "Vehicle.Powertrain.Battery.StateOfCharge.Current"
-        ].float_value
-        self.temperature = data.fields[
-            "Vehicle.Cabin.AmbientAirTemperature"
-        ].float_value
+    async def on_change(self, data: DataPointReply):
+        dogModeTemperature = data.get(self.vehicle.Cabin.DogModeTemperature)
+        dogMode = data.get(self.vehicle.Cabin.DogMode)
+        self.soc = data.get(self.vehicle.Powertrain.Battery.StateOfCharge.Current)
+        self.temperature = data.get(self.vehicle.Cabin.AmbientAirTemperature)
 
         logger.info(
             "Current temperature of the desired Vehicle is: %s", self.temperature
         )
 
-        await self.vehicle_client.Cabin.HvacService.ToggleAcStatus(status=dogMode)
+        await self.vehicle.Cabin.HvacService.ToggleAcStatus(status=dogMode)
         if dogMode:
-            await self.vehicle_client.Cabin.HvacService.SetTemperature(
+            await self.vehicle.Cabin.HvacService.SetTemperature(
                 temperature=dogModeTemperature
             )
 

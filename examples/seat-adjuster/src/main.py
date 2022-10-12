@@ -29,6 +29,7 @@ from sdv.util.log import (  # type: ignore
     get_opentelemetry_log_factory,
     get_opentelemetry_log_format,
 )
+from sdv.vdb.subscriptions import DataPointReply
 from sdv.vehicle_app import VehicleApp, subscribe_topic
 
 logging.setLogRecordFactory(get_opentelemetry_log_factory())
@@ -60,12 +61,13 @@ class SeatAdjusterApp(VehicleApp):
             self.on_seat_position_changed
         )
 
-    async def on_seat_position_changed(self, data):
+    async def on_seat_position_changed(self, data: DataPointReply):
         response_topic = "seatadjuster/currentPosition"
-        seat_path = self.Vehicle.Cabin.Seat.Row(1).Pos(1).Position.get_path()
         await self.publish_mqtt_event(
             response_topic,
-            json.dumps({"position": data.fields[seat_path].uint32_value}),
+            json.dumps(
+                {"position": data.get(self.Vehicle.Cabin.Seat.Row(1).Pos(1).Position)}
+            ),
         )
 
     @subscribe_topic("seatadjuster/setPosition/request")

@@ -105,7 +105,7 @@ class Vehicle(Model):
     def __init__(self):
         super().__init__()
 
-        self.powertrain = Powertrain(self)
+        self.Powertrain = Powertrain(self)
         self.Speed = DataPointFloat("Speed", self)
         self.Cabin = Cabin(self)
 

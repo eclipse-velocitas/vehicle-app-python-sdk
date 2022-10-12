@@ -69,7 +69,7 @@ class VehicleApp:
 
     def __init__(self):
         self._vdb_client = VehicleDataBrokerClient()
-        logger.debug("Talent instantiation successfully done")
+        logger.debug("VehicleApp instantiation successfully done")
 
     async def on_start(self):
         """Override to add additional initialization code on startup, like

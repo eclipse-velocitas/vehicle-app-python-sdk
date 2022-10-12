@@ -17,6 +17,8 @@ import logging
 
 import grpc
 
+from sdv.vdb.reply import DataPointReply
+
 logger = logging.getLogger(__name__)
 
 
@@ -78,10 +80,11 @@ class SubscriptionManager:
     async def _subscribe_to_data_points(vdb_sub):
         try:
             async for reply in vdb_sub.vdb_client.Subscribe(vdb_sub.query):
+                reply_wrapper = DataPointReply(reply)
                 if asyncio.iscoroutinefunction(vdb_sub.call_back):
-                    await vdb_sub.call_back(reply)
+                    await vdb_sub.call_back(reply_wrapper)
                 else:
-                    vdb_sub.call_back(reply)
+                    vdb_sub.call_back(reply_wrapper)
         except (grpc.aio.AioRpcError, Exception):  # type: ignore
             logger.exception(
                 "Error occured in SubscriptionManager.subscribe_to_data_points."
