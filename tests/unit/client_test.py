@@ -21,7 +21,12 @@ from unittest import mock
 
 import pytest
 
-from sdv.proto.broker_pb2 import GetDatapointsReply, GetMetadataReply, SubscribeReply
+from sdv.proto.broker_pb2 import (
+    GetDatapointsReply,
+    GetMetadataReply,
+    SetDatapointsReply,
+    SubscribeReply,
+)
 from sdv.proto.types_pb2 import Datapoint, DataType, Metadata
 from sdv.vdb.client import VehicleDataBrokerClient
 
@@ -54,11 +59,45 @@ async def test_for_get_data_points():
         new_callable=mock.AsyncMock,
         return_value=GetDatapointsReply(datapoints=get_fields()),
     ):
-        response = await client.GetDatapoints("Vehicle.Speed")
+        response = await client.GetDatapoints(["Vehicle.Speed"])
         assert (
             response.datapoints["Vehicle.Speed"].int32_value
             == get_sample_datapoint().int32_value
         )
+        await client.close()
+
+
+@pytest.mark.asyncio
+async def test_for_set_datapoints():
+    client = get_vehicle_client_instance()
+
+    with mock.patch.object(
+        client._stub,
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors=datapoint_set_success()),
+    ):
+        datapoint = get_sample_datapoint()
+        response = await client.SetDatapoints(datapoints={"Vehicle.Speed": datapoint})
+        # The response has an empty error
+        assert response.errors == {}
+        await client.close()
+
+
+@pytest.mark.asyncio
+async def test_for_set_datapoints_error():
+    client = get_vehicle_client_instance()
+
+    with mock.patch.object(
+        client._stub,
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors=datapoint_set_error()),
+    ):
+        datapoint = get_sample_datapoint()
+        response = await client.SetDatapoints(datapoints={"Vehicle.Speed": datapoint})
+        # The response.errors is not empty. I.e. has an error = datapoint_set_error()
+        assert bool(response.errors)
         await client.close()
 
 
@@ -88,11 +127,21 @@ def get_fields() -> Mapping[Text, Datapoint]:
     return data
 
 
+def datapoint_set_success() -> Mapping[Text, int]:
+    return {}
+
+
 def get_sample_datapoint() -> Datapoint:
     datapoint = Datapoint()
     datapoint.int32_value = 0
 
     return datapoint
+
+
+def datapoint_set_error() -> Mapping[Text, Datapoint]:
+    error = {}
+    error["Vehicle.Speed"] = 0
+    return error
 
 
 def get_vehicle_client_instance():

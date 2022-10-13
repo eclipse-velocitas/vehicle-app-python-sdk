@@ -72,6 +72,62 @@ class GetDatapointsReply(google.protobuf.message.Message):
     def ClearField(self, field_name: typing_extensions.Literal["datapoints",b"datapoints"]) -> None: ...
 global___GetDatapointsReply = GetDatapointsReply
 
+class SetDatapointsRequest(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    class DatapointsEntry(google.protobuf.message.Message):
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+        KEY_FIELD_NUMBER: builtins.int
+        VALUE_FIELD_NUMBER: builtins.int
+        key: typing.Text
+        @property
+        def value(self) -> sdv.databroker.v1.types_pb2.Datapoint: ...
+        def __init__(self,
+            *,
+            key: typing.Text = ...,
+            value: typing.Optional[sdv.databroker.v1.types_pb2.Datapoint] = ...,
+            ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["value",b"value"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["key",b"key","value",b"value"]) -> None: ...
+
+    DATAPOINTS_FIELD_NUMBER: builtins.int
+    @property
+    def datapoints(self) -> google.protobuf.internal.containers.MessageMap[typing.Text, sdv.databroker.v1.types_pb2.Datapoint]:
+        """A map of data points to set"""
+        pass
+    def __init__(self,
+        *,
+        datapoints: typing.Optional[typing.Mapping[typing.Text, sdv.databroker.v1.types_pb2.Datapoint]] = ...,
+        ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["datapoints",b"datapoints"]) -> None: ...
+global___SetDatapointsRequest = SetDatapointsRequest
+
+class SetDatapointsReply(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    class ErrorsEntry(google.protobuf.message.Message):
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+        KEY_FIELD_NUMBER: builtins.int
+        VALUE_FIELD_NUMBER: builtins.int
+        key: typing.Text
+        value: sdv.databroker.v1.types_pb2.DatapointError.ValueType
+        def __init__(self,
+            *,
+            key: typing.Text = ...,
+            value: sdv.databroker.v1.types_pb2.DatapointError.ValueType = ...,
+            ) -> None: ...
+        def ClearField(self, field_name: typing_extensions.Literal["key",b"key","value",b"value"]) -> None: ...
+
+    ERRORS_FIELD_NUMBER: builtins.int
+    @property
+    def errors(self) -> google.protobuf.internal.containers.ScalarMap[typing.Text, sdv.databroker.v1.types_pb2.DatapointError.ValueType]:
+        """A map of errors (if any)"""
+        pass
+    def __init__(self,
+        *,
+        errors: typing.Optional[typing.Mapping[typing.Text, sdv.databroker.v1.types_pb2.DatapointError.ValueType]] = ...,
+        ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["errors",b"errors"]) -> None: ...
+global___SetDatapointsReply = SetDatapointsReply
+
 class SubscribeRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
     QUERY_FIELD_NUMBER: builtins.int
@@ -127,8 +183,7 @@ class GetMetadataRequest(google.protobuf.message.Message):
     @property
     def names(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[typing.Text]:
         """Request metadata for a list of data points referenced by their names.
-        The names are dot separated strings, e.g.
-        "Vehicle.Cabin.Seat.Row1.Pos1.Position" or "Vehicle.Speed".
+        e.g. "Vehicle.Cabin.Seat.Row1.Pos1.Position" or "Vehicle.Speed".
 
         If no names are provided, metadata for all known data points will be
         returned.

@@ -153,18 +153,12 @@ class RegistrationMetadata(google.protobuf.message.Message):
     DESCRIPTION_FIELD_NUMBER: builtins.int
     CHANGE_TYPE_FIELD_NUMBER: builtins.int
     name: typing.Text
-    """Name of the data point consisting of elements separated by a dot '.'
+    """Name of the data point
     (e.g. "Vehicle.Cabin.Seat.Row1.Pos1.Position" or "Vehicle.Speed")
-    allowing to define datapoints as a tree structure like define by
-    COVESA VSS (https://covesa.github.io/vehicle_signal_specification/).
     """
 
     data_type: sdv.databroker.v1.types_pb2.DataType.ValueType
     description: typing.Text
-    """"Free text" description allowing to give additional details targeted
-    to an app developer.
-    """
-
     change_type: sdv.databroker.v1.types_pb2.ChangeType.ValueType
     def __init__(self,
         *,
