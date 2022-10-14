@@ -127,4 +127,4 @@ class _CallbackServicer(appcallback_service_v1.AppCallbackServicer):
             # This calls the method on the worker_thread rather than the main thread
             method(request.data)  # type: ignore
 
-        return empty_pb2.Empty()
+        return empty_pb2.Empty()  # pylint: disable=E1101
