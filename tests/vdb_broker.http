@@ -1,0 +1,51 @@
+proto < ./../sdv/proto/sdv/databroker/v1/broker.proto
+@port=55555
+@host=localhost:{{port}}/sdv.databroker.v1.Broker
+
+###
+
+# Test invalid SetDatapoints Request -> return empty dictionary.
+GRPC /SetDatapoints
+{
+    "datapoints": {
+        "Vehicle.Cabin.Seat.Row1.Pos1.Position": {
+                "timestamp": {
+                    "seconds": 1666270157,
+                    "nanos": 226860106
+                },
+                "uint32Value": 500
+        }
+    }
+}
+
+# Test invalid SetDatapoints Request -> return error with code
+GRPC /SetDatapoints
+{
+    "datapoints": {
+        "Vehicle.Cabin.Seat.Row1.Pos1.IsBelted": {
+                "timestamp": {
+                    "seconds": 1666270157,
+                    "nanos": 226860106
+                },
+                "boolValue": false
+        }
+    }
+}
+
+# Test GetDatapoints Request.
+GRPC /GetDatapoints
+{
+    "datapoints": ["Vehicle.Speed", "Vehicle.Cabin.Seat.Row1.Pos1.Position"]
+}
+
+# Test GetMetadata Request of a single datapoint.
+GRPC /GetMetadata
+{
+    "names": ["Vehicle.Speed"]
+}
+
+# Test GetMetadata Request of all datapoints.
+GRPC /GetMetadata
+{
+    "names": []
+}

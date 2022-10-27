@@ -25,6 +25,7 @@ import grpc
 from sdv.proto.broker_pb2 import (
     GetDatapointsRequest,
     GetMetadataRequest,
+    SetDatapointsRequest,
     SubscribeRequest,
 )
 from sdv.proto.broker_pb2_grpc import BrokerStub
@@ -76,6 +77,18 @@ class VehicleDataBrokerClient:
         except grpc.aio.AioRpcError:  # type: ignore
             logger.exception(
                 "Error occured in VehicleDataBrokerClient.GetDatapoints",
+            )
+            raise
+
+    async def SetDatapoints(self, datapoints):
+        try:
+            response = await self._stub.SetDatapoints(
+                SetDatapointsRequest(datapoints=datapoints), metadata=self._metadata
+            )
+            return response
+        except grpc.aio.AioRpcError:  # type: ignore
+            logger.exception(
+                "Error occured in VehicleDataBrokerClient.SetDatapoints",
             )
             raise
 

@@ -12,11 +12,11 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# pylint: disable=C0103,R0902,R0912,E1101
-
 import asyncio
+
+# pylint: disable=C0103,R0902,R0912,E1101,C0302
 import threading
-from unittest import mock
+from unittest import TestCase, mock
 
 import grpc
 import pytest
@@ -52,7 +52,7 @@ from sdv.model import (
     ModelCollection,
     NamedRange,
 )
-from sdv.proto.broker_pb2 import GetDatapointsReply, SubscribeReply
+from sdv.proto.broker_pb2 import GetDatapointsReply, SetDatapointsReply, SubscribeReply
 from sdv.proto.types_pb2 import Datapoint
 from sdv.vdb.client import VehicleDataBrokerClient
 
@@ -139,7 +139,7 @@ async def test_get_exception():
 
 
 @pytest.mark.asyncio
-async def test_string_value():
+async def test_get_string():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -155,7 +155,25 @@ async def test_string_value():
 
 
 @pytest.mark.asyncio
-async def test_string_array_value():
+async def test_set_string():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.String.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.String.set("New Value")
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_string_array():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -174,7 +192,25 @@ async def test_string_array_value():
 
 
 @pytest.mark.asyncio
-async def test_bool_value():
+async def test_set_string_array():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.StringArray.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.StringArray.set(["Yes", "No", "YO"])
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_bool():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -188,7 +224,25 @@ async def test_bool_value():
 
 
 @pytest.mark.asyncio
-async def test_bool_array_value():
+async def test_set_bool():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.Bool.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.Bool.set(False)
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_bool_array():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -207,7 +261,25 @@ async def test_bool_array_value():
 
 
 @pytest.mark.asyncio
-async def test_int8_value():
+async def test_set_bool_array():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.BoolArray.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.BoolArray.set([False, True])
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_int8():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -221,7 +293,25 @@ async def test_int8_value():
 
 
 @pytest.mark.asyncio
-async def test_int8_array_value():
+async def test_set_int8():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.Int8.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.Int8.set(10)
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_int8_array():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -240,7 +330,25 @@ async def test_int8_array_value():
 
 
 @pytest.mark.asyncio
-async def test_int16_value():
+async def test_set_int8_array():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.Int8Array.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.Int8Array.set([15, 16, 17])
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_int16():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -254,7 +362,25 @@ async def test_int16_value():
 
 
 @pytest.mark.asyncio
-async def test_int16_array_value():
+async def test_set_int16():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.Int16.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.Int16.set(10)
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_int16_array():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -273,7 +399,25 @@ async def test_int16_array_value():
 
 
 @pytest.mark.asyncio
-async def test_int32_value():
+async def test_set_int16_array():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.Int16Array.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.Int16Array.set([10, 20, 30])
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_int32():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -287,7 +431,25 @@ async def test_int32_value():
 
 
 @pytest.mark.asyncio
-async def test_int32_array_value():
+async def test_set_int32():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.Int32.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.Int32.set(10)
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_int32_array():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -306,7 +468,25 @@ async def test_int32_array_value():
 
 
 @pytest.mark.asyncio
-async def test_int64_value():
+async def test_set_int32_array():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.Int32Array.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.Int32Array.set([60, 70, 80])
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_int64():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -320,7 +500,25 @@ async def test_int64_value():
 
 
 @pytest.mark.asyncio
-async def test_int64_array_value():
+async def test_set_int64():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.Int64.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.Int64.set(9999)
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_int64_array():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -339,7 +537,25 @@ async def test_int64_array_value():
 
 
 @pytest.mark.asyncio
-async def test_uint8_value():
+async def test_set_int64_array():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.Int64Array.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.Int64Array.set([1440, 90, 70])
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_uint8():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -353,7 +569,62 @@ async def test_uint8_value():
 
 
 @pytest.mark.asyncio
-async def test_uint16_value():
+async def test_set_uint8():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.UInt8.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.UInt8.set(99)
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_uint8_array():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.UInt8Array.get_client(),
+        "GetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=GetDatapointsReply(datapoints=get_fields("all")),
+    ):
+        response = await vehicle.UInt8Array.get()
+        assert (
+            response
+            == get_sample_datapoint(
+                "Vehicle.UInt8Array", [10, 20, 30]
+            ).uint32_array.values
+        )
+
+
+@pytest.mark.asyncio
+async def test_set_uint8_array():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.UInt8Array.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.UInt8Array.set([40, 20, 10])
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_uint16():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -367,7 +638,25 @@ async def test_uint16_value():
 
 
 @pytest.mark.asyncio
-async def test_uint16_array_value():
+async def test_set_uint16():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.UInt16.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.UInt16.set(188)
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_uint16_array():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -386,7 +675,25 @@ async def test_uint16_array_value():
 
 
 @pytest.mark.asyncio
-async def test_uint32_value():
+async def test_set_uint16_array():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.UInt16Array.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.UInt16Array.set([300, 400, 500])
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_uint32():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -400,7 +707,25 @@ async def test_uint32_value():
 
 
 @pytest.mark.asyncio
-async def test_uint32_array_value():
+async def test_set_uint32():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.UInt32.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.UInt32.set(2345)
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_uint32_array():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -419,7 +744,25 @@ async def test_uint32_array_value():
 
 
 @pytest.mark.asyncio
-async def test_uint64_value():
+async def test_set_uint32_array():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.UInt32Array.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.UInt32Array.set([101, 102, 103])
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_uint64():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -433,7 +776,25 @@ async def test_uint64_value():
 
 
 @pytest.mark.asyncio
-async def test_uint64_array_value():
+async def test_set_uint64():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.UInt64.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.UInt64.set(423)
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_uint64_array():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -452,7 +813,25 @@ async def test_uint64_array_value():
 
 
 @pytest.mark.asyncio
-async def test_float_value():
+async def test_set_uint64_array():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.UInt64Array.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.UInt64Array.set([100, 200, 300])
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_float():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -466,7 +845,25 @@ async def test_float_value():
 
 
 @pytest.mark.asyncio
-async def test_float_array_value():
+async def test_set_float():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.Float.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.Float.set(423.123)
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_float_array():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -485,7 +882,25 @@ async def test_float_array_value():
 
 
 @pytest.mark.asyncio
-async def test_double_value():
+async def test_set_float_array():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.FloatArray.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.FloatArray.set([423.123, 1.1, 2.2])
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_double():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -501,7 +916,25 @@ async def test_double_value():
 
 
 @pytest.mark.asyncio
-async def test_double_array_value():
+async def test_set_double():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.Double.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ):
+        try:
+            await vehicle.Double.set(98765.123)
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
+
+
+@pytest.mark.asyncio
+async def test_get_double_array():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -520,22 +953,21 @@ async def test_double_array_value():
 
 
 @pytest.mark.asyncio
-async def test_uint8_array_value():
+async def test_set_double_array():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
-        vehicle.UInt8Array.get_client(),
-        "GetDatapoints",
+        vehicle.DoubleArray.get_client(),
+        "SetDatapoints",
         new_callable=mock.AsyncMock,
-        return_value=GetDatapointsReply(datapoints=get_fields("all")),
+        return_value=SetDatapointsReply(errors={}),
     ):
-        response = await vehicle.UInt8Array.get()
-        assert (
-            response
-            == get_sample_datapoint(
-                "Vehicle.UInt8Array", [10, 20, 30]
-            ).uint32_array.values
-        )
+        try:
+            await vehicle.DoubleArray.set([321.456789, 190.1234567, 1100.01])
+        except TypeError as error:
+            TestCase.fail(
+                False, f"datapoint.set(new_value) raised an exception {error}"
+            )
 
 
 @pytest.mark.asyncio

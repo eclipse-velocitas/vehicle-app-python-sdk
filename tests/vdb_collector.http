@@ -1,8 +1,8 @@
-proto < ./proto/collector.proto
-
+proto < ./../sdv/proto/sdv/databroker/v1/collector.proto
 @port=55555
+@host=localhost:{{port}}/sdv.databroker.v1.Collector
 
-GRPC localhost:{{port}}/sdv.edge.databroker.collector.Collector/RegisterDatapoints
+GRPC /RegisterDatapoints
 {
     "list": [
         {
