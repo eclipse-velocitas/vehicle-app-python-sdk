@@ -151,3 +151,6 @@ dmypy.json
 
 # Don't commit databroker releas
 .vscode/scripts/assets
+
+# MacOS specific
+.DS_Store

@@ -1,0 +1,30 @@
+curations:
+  packages:
+  - id: "PyPI::pytest-cov:4.0.0"
+    curations:
+      comment: "Add correct license"
+      concluded_license: MIT
+
+resolutions:
+  vulnerabilities:
+  - id: "CVE-2021-0555"
+    reason: CANT_FIX_VULNERABILITY
+    comment: "Requires a change to be made by a third party that is not responsive."
+  - id: "CVE-2022-1941"
+    reason: CANT_FIX_VULNERABILITY
+    comment: "Requires a change to be made by a third party that is not responsive."
+  - id: "CVE-2003-0107"
+    reason: CANT_FIX_VULNERABILITY
+    comment: "Requires a change to be made by a third party that is not responsive."
+  - id: "sonatype-2022-4393"
+    reason: CANT_FIX_VULNERABILITY
+    comment: "Requires a change to be made by a third party that is not responsive."
+  - id: "CVE-2022-1292"
+    reason: CANT_FIX_VULNERABILITY
+    comment: "Requires a change to be made by a third party that is not responsive."
+  - id: "CVE-2022-29242"
+    reason: CANT_FIX_VULNERABILITY
+    comment: "Requires a change to be made by a third party that is not responsive."
+  - id: "CVE-2022-3171"
+    reason: CANT_FIX_VULNERABILITY
+    comment: "Requires a change to be made by a third party that is not responsive."
