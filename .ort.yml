@@ -34,3 +34,30 @@ curations:
     curations:
       comment: "Add correct license"
       concluded_license: MIT
+
+resolutions:
+  vulnerabilities:
+  - id: "CVE-2018-20225"
+    reason: CANT_FIX_VULNERABILITY
+    comment: "Requires a change to be made by a third party that is not responsive."
+  - id: "CVE-2022-1941"
+    reason: CANT_FIX_VULNERABILITY
+    comment: "Requires a change to be made by a third party that is not responsive."
+  - id: "CVE-2022-3171"
+    reason: CANT_FIX_VULNERABILITY
+    comment: "Requires a change to be made by a third party that is not responsive."
+  - id: "CVE-2022-42969"
+    reason: CANT_FIX_VULNERABILITY
+    comment: "Requires a change to be made by a third party that is not responsive."
+  - id: "CVE-2018-20225"
+    reason: CANT_FIX_VULNERABILITY
+    comment: "Requires a change to be made by a third party that is not responsive."
+  - id: "CVE-2019-20907"
+    reason: CANT_FIX_VULNERABILITY
+    comment: "Requires a change to be made by a third party that is not responsive."
+  - id: "CVE-2019-20916"
+    reason: CANT_FIX_VULNERABILITY
+    comment: "Requires a change to be made by a third party that is not responsive."
+  - id: "sonatype-2012-0071"
+    reason: CANT_FIX_VULNERABILITY
+    comment: "Requires a change to be made by a third party that is not responsive."
