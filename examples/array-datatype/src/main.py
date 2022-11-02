@@ -38,7 +38,9 @@ class ArrayDatatype(VehicleApp):
     def print_values(self, data: DataPointReply):
         """Handle string array limit exceeded event"""
 
-        logger.info("Example Array contains: %s", data.get(self.vehicle.TestArray))
+        logger.info(
+            "Example Array contains: %s", data.get(self.vehicle.TestArray).value
+        )
 
     async def on_start(self):
         """Run when the vehicle app starts"""

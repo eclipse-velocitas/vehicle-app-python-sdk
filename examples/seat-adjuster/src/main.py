@@ -66,7 +66,11 @@ class SeatAdjusterApp(VehicleApp):
         await self.publish_mqtt_event(
             response_topic,
             json.dumps(
-                {"position": data.get(self.Vehicle.Cabin.Seat.Row(1).Pos(1).Position)}
+                {
+                    "position": data.get(
+                        self.Vehicle.Cabin.Seat.Row(1).Pos(1).Position
+                    ).value
+                }
             ),
         )
 

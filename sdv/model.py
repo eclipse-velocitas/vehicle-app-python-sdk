@@ -34,6 +34,7 @@ from sdv.proto.types_pb2 import (
     Uint64Array,
 )
 from sdv.vdb.client import VehicleDataBrokerClient
+from sdv.vdb.reply import TypedDataPointResult
 from sdv.vdb.subscriptions import SubscriptionManager, VdbSubscription
 
 from . import conf
@@ -265,10 +266,12 @@ class DataPoint(Node):
 class DataPointBoolean(DataPoint):
     """A data point with a value of type bool."""
 
-    async def get(self) -> bool:
+    async def get(self) -> TypedDataPointResult[bool]:
         try:
             response: BrokerDatapoint = await super().get()
-            return response.bool_value
+            return TypedDataPointResult[bool](
+                self.get_path(), response.bool_value, response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointBoolean.get")
             logger.exception(ex)
@@ -287,10 +290,12 @@ class DataPointBoolean(DataPoint):
 class DataPointBooleanArray(DataPoint):
     """A data point array with a value of type boolean."""
 
-    async def get(self) -> List[bool]:
+    async def get(self) -> TypedDataPointResult[List[bool]]:
         try:
             response: BrokerDatapoint = await super().get()
-            return list(response.bool_array.values)
+            return TypedDataPointResult[List[bool]](
+                self.get_path(), list(response.bool_array.values), response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointBooleanArray.get")
             logger.exception(ex)
@@ -310,10 +315,12 @@ class DataPointBooleanArray(DataPoint):
 class DataPointInt8(DataPoint):
     """A data point with a value of type int32."""
 
-    async def get(self) -> int:
+    async def get(self) -> TypedDataPointResult[int]:
         try:
             response: BrokerDatapoint = await super().get()
-            return response.int32_value
+            return TypedDataPointResult[int](
+                self.get_path(), response.int32_value, response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointInt8.get")
             logger.exception(ex)
@@ -332,10 +339,12 @@ class DataPointInt8(DataPoint):
 class DataPointInt8Array(DataPoint):
     """A data point array with a value of type int32."""
 
-    async def get(self) -> List[int]:
+    async def get(self) -> TypedDataPointResult[List[int]]:
         try:
             response: BrokerDatapoint = await super().get()
-            return list(response.int32_array.values)
+            return TypedDataPointResult[list[int]](
+                self.get_path(), list(response.int32_array.values), response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointInt8Array.get")
             logger.exception(ex)
@@ -355,10 +364,12 @@ class DataPointInt8Array(DataPoint):
 class DataPointInt16(DataPoint):
     """A data point with a value of type int32."""
 
-    async def get(self) -> int:
+    async def get(self) -> TypedDataPointResult[int]:
         try:
             response: BrokerDatapoint = await super().get()
-            return response.int32_value
+            return TypedDataPointResult[int](
+                self.get_path(), response.int32_value, response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointInt16.get")
             logger.exception(ex)
@@ -377,10 +388,12 @@ class DataPointInt16(DataPoint):
 class DataPointInt16Array(DataPoint):
     """A data point array with a value of type int32."""
 
-    async def get(self) -> List[int]:
+    async def get(self) -> TypedDataPointResult[List[int]]:
         try:
             response: BrokerDatapoint = await super().get()
-            return list(response.int32_array.values)
+            return TypedDataPointResult[List[int]](
+                self.get_path(), list(response.int32_array.values), response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointInt16Array.get")
             logger.exception(ex)
@@ -400,10 +413,12 @@ class DataPointInt16Array(DataPoint):
 class DataPointInt32(DataPoint):
     """A data point with a value of type int32."""
 
-    async def get(self) -> int:
+    async def get(self) -> TypedDataPointResult[int]:
         try:
             response: BrokerDatapoint = await super().get()
-            return response.int32_value
+            return TypedDataPointResult[int](
+                self.get_path(), response.int32_value, response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointInt32.get")
             logger.exception(ex)
@@ -422,10 +437,12 @@ class DataPointInt32(DataPoint):
 class DataPointInt32Array(DataPoint):
     """A data point array with a value of type int32."""
 
-    async def get(self) -> List[int]:
+    async def get(self) -> TypedDataPointResult[List[int]]:
         try:
             response: BrokerDatapoint = await super().get()
-            return list(response.int32_array.values)
+            return TypedDataPointResult[List[int]](
+                self.get_path(), list(response.int32_array.values), response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointInt32Array.get")
             logger.exception(ex)
@@ -445,10 +462,12 @@ class DataPointInt32Array(DataPoint):
 class DataPointInt64(DataPoint):
     """A data point with a value of type int64."""
 
-    async def get(self) -> int:
+    async def get(self) -> TypedDataPointResult[int]:
         try:
             response: BrokerDatapoint = await super().get()
-            return response.int64_value
+            return TypedDataPointResult[int](
+                self.get_path(), response.int64_value, response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointInt64.get")
             logger.exception(ex)
@@ -467,10 +486,12 @@ class DataPointInt64(DataPoint):
 class DataPointInt64Array(DataPoint):
     """A data point array with a value of type int64."""
 
-    async def get(self) -> List[int]:
+    async def get(self) -> TypedDataPointResult[List[int]]:
         try:
             response: BrokerDatapoint = await super().get()
-            return list(response.int64_array.values)
+            return TypedDataPointResult[List[int]](
+                self.get_path(), list(response.int64_array.values), response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointInt64Array.get")
             logger.exception(ex)
@@ -490,10 +511,12 @@ class DataPointInt64Array(DataPoint):
 class DataPointUint8(DataPoint):
     """A data point with a value of type uint32."""
 
-    async def get(self) -> int:
+    async def get(self) -> TypedDataPointResult[int]:
         try:
             response: BrokerDatapoint = await super().get()
-            return response.uint32_value
+            return TypedDataPointResult[int](
+                self.get_path(), response.uint32_value, response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointUInt8.get")
             logger.exception(ex)
@@ -512,10 +535,12 @@ class DataPointUint8(DataPoint):
 class DataPointUint8Array(DataPoint):
     """A data point array with a value of type unsigned uint32."""
 
-    async def get(self) -> List[int]:
+    async def get(self) -> TypedDataPointResult[List[int]]:
         try:
             response: BrokerDatapoint = await super().get()
-            return list(response.uint32_array.values)
+            return TypedDataPointResult[List[int]](
+                self.get_path(), list(response.uint32_array.values), response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointUint8Array.get")
             logger.exception(ex)
@@ -535,10 +560,12 @@ class DataPointUint8Array(DataPoint):
 class DataPointUint16(DataPoint):
     """A data point with a value of type uint32."""
 
-    async def get(self) -> int:
+    async def get(self) -> TypedDataPointResult[int]:
         try:
             response: BrokerDatapoint = await super().get()
-            return response.uint32_value
+            return TypedDataPointResult[int](
+                self.get_path(), response.uint32_value, response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointUInt16.get")
             logger.exception(ex)
@@ -557,10 +584,12 @@ class DataPointUint16(DataPoint):
 class DataPointUint16Array(DataPoint):
     """A data point array with a value of type unsigned uint32."""
 
-    async def get(self) -> List[int]:
+    async def get(self) -> TypedDataPointResult[List[int]]:
         try:
             response: BrokerDatapoint = await super().get()
-            return list(response.uint32_array.values)
+            return TypedDataPointResult[List[int]](
+                self.get_path(), list(response.uint32_array.values), response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointUint16Array.get")
             logger.exception(ex)
@@ -580,10 +609,12 @@ class DataPointUint16Array(DataPoint):
 class DataPointUint32(DataPoint):
     """A data point with a value of type uint32."""
 
-    async def get(self) -> int:
+    async def get(self) -> TypedDataPointResult[int]:
         try:
             response: BrokerDatapoint = await super().get()
-            return response.uint32_value
+            return TypedDataPointResult[int](
+                self.get_path(), response.uint32_value, response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointUInt32.get")
             logger.exception(ex)
@@ -602,10 +633,12 @@ class DataPointUint32(DataPoint):
 class DataPointUint32Array(DataPoint):
     """A data point array with a value of type unsigned uint32."""
 
-    async def get(self) -> List[int]:
+    async def get(self) -> TypedDataPointResult[List[int]]:
         try:
             response: BrokerDatapoint = await super().get()
-            return list(response.uint32_array.values)
+            return TypedDataPointResult[List[int]](
+                self.get_path(), list(response.uint32_array.values), response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointUint32Array.get")
             logger.exception(ex)
@@ -625,10 +658,12 @@ class DataPointUint32Array(DataPoint):
 class DataPointUint64(DataPoint):
     """A data point with a value of type unit64."""
 
-    async def get(self) -> int:
+    async def get(self) -> TypedDataPointResult[int]:
         try:
             response: BrokerDatapoint = await super().get()
-            return response.uint64_value
+            return TypedDataPointResult[int](
+                self.get_path(), response.uint64_value, response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointUInt64.get")
             logger.exception(ex)
@@ -647,10 +682,12 @@ class DataPointUint64(DataPoint):
 class DataPointUint64Array(DataPoint):
     """A data point array with a value of type unsigned uint64."""
 
-    async def get(self) -> List[int]:
+    async def get(self) -> TypedDataPointResult[List[int]]:
         try:
             response: BrokerDatapoint = await super().get()
-            return list(response.uint64_array.values)
+            return TypedDataPointResult[List[int]](
+                self.get_path(), list(response.uint64_array.values), response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointUint64Array.get")
             logger.exception(ex)
@@ -670,10 +707,12 @@ class DataPointUint64Array(DataPoint):
 class DataPointFloat(DataPoint):
     """A data point with a value of type float."""
 
-    async def get(self) -> float:
+    async def get(self) -> TypedDataPointResult[float]:
         try:
             response: BrokerDatapoint = await super().get()
-            return response.float_value
+            return TypedDataPointResult[float](
+                self.get_path(), response.float_value, response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointFloat.get")
             logger.exception(ex)
@@ -692,10 +731,12 @@ class DataPointFloat(DataPoint):
 class DataPointFloatArray(DataPoint):
     """A data point array with a value of type float."""
 
-    async def get(self) -> List[float]:
+    async def get(self) -> TypedDataPointResult[List[float]]:
         try:
             response: BrokerDatapoint = await super().get()
-            return list(response.float_array.values)
+            return TypedDataPointResult[List[float]](
+                self.get_path(), list(response.float_array.values), response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointFloatArray.get")
             logger.exception(ex)
@@ -715,10 +756,12 @@ class DataPointFloatArray(DataPoint):
 class DataPointDouble(DataPoint):
     """A data point with a value of type double."""
 
-    async def get(self) -> float:
+    async def get(self) -> TypedDataPointResult[float]:
         try:
             response: BrokerDatapoint = await super().get()
-            return response.double_value
+            return TypedDataPointResult[float](
+                self.get_path(), response.double_value, response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointDouble.get")
             logger.exception(ex)
@@ -737,10 +780,12 @@ class DataPointDouble(DataPoint):
 class DataPointDoubleArray(DataPoint):
     """A data point array with a value of type double."""
 
-    async def get(self) -> List[float]:
+    async def get(self) -> TypedDataPointResult[List[float]]:
         try:
             response: BrokerDatapoint = await super().get()
-            return list(response.double_array.values)
+            return TypedDataPointResult[List[float]](
+                self.get_path(), list(response.double_array.values), response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointDoubleArray.get")
             logger.exception(ex)
@@ -760,10 +805,12 @@ class DataPointDoubleArray(DataPoint):
 class DataPointString(DataPoint):
     """A data point with a value of type string."""
 
-    async def get(self) -> str:
+    async def get(self) -> TypedDataPointResult[str]:
         try:
             response: BrokerDatapoint = await super().get()
-            return response.string_value
+            return TypedDataPointResult[str](
+                self.get_path(), response.string_value, response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointString.get")
             logger.exception(ex)
@@ -782,10 +829,12 @@ class DataPointString(DataPoint):
 class DataPointStringArray(DataPoint):
     """A data point array with a value of type String."""
 
-    async def get(self) -> List[str]:
+    async def get(self) -> TypedDataPointResult[List[str]]:
         try:
             response: BrokerDatapoint = await super().get()
-            return list(response.string_array.values)
+            return TypedDataPointResult[List[str]](
+                self.get_path(), list(response.string_array.values), response.timestamp
+            )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointStringArray.get")
             logger.exception(ex)
