@@ -342,7 +342,7 @@ class DataPointInt8Array(DataPoint):
     async def get(self) -> TypedDataPointResult[List[int]]:
         try:
             response: BrokerDatapoint = await super().get()
-            return TypedDataPointResult[list[int]](
+            return TypedDataPointResult[List[int]](
                 self.get_path(), list(response.int32_array.values), response.timestamp
             )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore

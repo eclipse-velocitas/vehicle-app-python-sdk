@@ -12,7 +12,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from typing import Generic, TypeVar, overload
+from typing import Generic, List, TypeVar, overload
 
 from google.protobuf.timestamp_pb2 import Timestamp
 
@@ -45,7 +45,7 @@ class DataPointReply:
     @overload
     def get(
         self, datapoint: "model.DataPointBooleanArray"
-    ) -> TypedDataPointResult[list[bool]]:
+    ) -> TypedDataPointResult[List[bool]]:
         ...
 
     @overload
@@ -55,7 +55,7 @@ class DataPointReply:
     @overload
     def get(
         self, datapoint: "model.DataPointDoubleArray"
-    ) -> TypedDataPointResult[list[float]]:
+    ) -> TypedDataPointResult[List[float]]:
         ...
 
     @overload
@@ -65,7 +65,7 @@ class DataPointReply:
     @overload
     def get(
         self, datapoint: "model.DataPointFloatArray"
-    ) -> TypedDataPointResult[list[float]]:
+    ) -> TypedDataPointResult[List[float]]:
         ...
 
     @overload
@@ -75,7 +75,7 @@ class DataPointReply:
     @overload
     def get(
         self, datapoint: "model.DataPointInt8Array"
-    ) -> TypedDataPointResult[list[int]]:
+    ) -> TypedDataPointResult[List[int]]:
         ...
 
     @overload
@@ -85,7 +85,7 @@ class DataPointReply:
     @overload
     def get(
         self, datapoint: "model.DataPointInt16Array"
-    ) -> TypedDataPointResult[list[int]]:
+    ) -> TypedDataPointResult[List[int]]:
         ...
 
     @overload
@@ -95,7 +95,7 @@ class DataPointReply:
     @overload
     def get(
         self, datapoint: "model.DataPointInt32Array"
-    ) -> TypedDataPointResult[list[int]]:
+    ) -> TypedDataPointResult[List[int]]:
         ...
 
     @overload
@@ -105,7 +105,7 @@ class DataPointReply:
     @overload
     def get(
         self, datapoint: "model.DataPointInt64Array"
-    ) -> TypedDataPointResult[list[int]]:
+    ) -> TypedDataPointResult[List[int]]:
         ...
 
     @overload
@@ -115,7 +115,7 @@ class DataPointReply:
     @overload
     def get(
         self, datapoint: "model.DataPointStringArray"
-    ) -> TypedDataPointResult[list[str]]:
+    ) -> TypedDataPointResult[List[str]]:
         ...
 
     @overload
@@ -125,7 +125,7 @@ class DataPointReply:
     @overload
     def get(
         self, datapoint: "model.DataPointUint8Array"
-    ) -> TypedDataPointResult[list[int]]:
+    ) -> TypedDataPointResult[List[int]]:
         ...
 
     @overload
@@ -135,7 +135,7 @@ class DataPointReply:
     @overload
     def get(
         self, datapoint: "model.DataPointUint16Array"
-    ) -> TypedDataPointResult[list[int]]:
+    ) -> TypedDataPointResult[List[int]]:
         ...
 
     @overload
@@ -145,7 +145,7 @@ class DataPointReply:
     @overload
     def get(
         self, datapoint: "model.DataPointUint32Array"
-    ) -> TypedDataPointResult[list[int]]:
+    ) -> TypedDataPointResult[List[int]]:
         ...
 
     @overload
@@ -155,7 +155,7 @@ class DataPointReply:
     @overload
     def get(
         self, datapoint: "model.DataPointUint64Array"
-    ) -> TypedDataPointResult[list[int]]:
+    ) -> TypedDataPointResult[List[int]]:
         ...
 
     def get(self, datapoint: "model.DataPoint"):
