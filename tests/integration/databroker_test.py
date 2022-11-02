@@ -132,7 +132,7 @@ async def test_for_fluent_get():
     vehicle = get_vehicle_instance()
     await change_datapoint(vehicle.Speed.get_path(), 0.0)
     response = await vehicle.Speed.get()
-    assert response == 50.0
+    assert response.value == 50.0
 
 
 @pytest.mark.asyncio
