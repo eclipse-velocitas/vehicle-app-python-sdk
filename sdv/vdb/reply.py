@@ -12,24 +12,16 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from typing import Generic, List, TypeVar, overload
+from __future__ import annotations
 
-from google.protobuf.timestamp_pb2 import Timestamp
+from typing import TYPE_CHECKING, List, overload
 
-from sdv import model
 from sdv.proto.broker_pb2 import SubscribeReply
 from sdv.proto.types_pb2 import Datapoint as BrokerDatapoint
+from sdv.vdb.types import TypedDataPointResult
 
-T = TypeVar("T")
-
-
-class TypedDataPointResult(Generic[T]):
-    """A typed data point result"""
-
-    def __init__(self, path: str, value: T, timestamp: Timestamp):
-        self.path = path
-        self.value = value
-        self.timestamp = timestamp
+if TYPE_CHECKING:
+    from sdv import model
 
 
 class DataPointReply:

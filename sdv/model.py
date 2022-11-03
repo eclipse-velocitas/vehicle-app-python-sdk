@@ -34,8 +34,8 @@ from sdv.proto.types_pb2 import (
     Uint64Array,
 )
 from sdv.vdb.client import VehicleDataBrokerClient
-from sdv.vdb.reply import TypedDataPointResult
 from sdv.vdb.subscriptions import SubscriptionManager, VdbSubscription
+from sdv.vdb.types import TypedDataPointResult
 
 from . import conf
 
