@@ -77,10 +77,10 @@ class DogModeApp(VehicleApp):
         Vehicle.Cabin.AmbientAirTemperature"""
     )
     async def on_change(self, data: DataPointReply):
-        dogModeTemperature = data.get(self.vehicle.Cabin.DogModeTemperature)
-        dogMode = data.get(self.vehicle.Cabin.DogMode)
-        self.soc = data.get(self.vehicle.Powertrain.Battery.StateOfCharge.Current)
-        self.temperature = data.get(self.vehicle.Cabin.AmbientAirTemperature)
+        dogModeTemperature = data.get(self.vehicle.Cabin.DogModeTemperature).value
+        dogMode = data.get(self.vehicle.Cabin.DogMode).value
+        self.soc = data.get(self.vehicle.Powertrain.Battery.StateOfCharge.Current).value
+        self.temperature = data.get(self.vehicle.Cabin.AmbientAirTemperature).value
 
         logger.info(
             "Current temperature of the desired Vehicle is: %s", self.temperature

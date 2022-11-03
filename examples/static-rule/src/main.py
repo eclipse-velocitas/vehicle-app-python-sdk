@@ -40,7 +40,7 @@ class SpeedLimitWarner(VehicleApp):
         """Handle vehicle speed limit exceeded event"""
         logger.info(
             "Warning: Vehicle speed limit (130) exceeded: %f",
-            data.get(self.vehicle.Speed),
+            data.get(self.vehicle.Speed).value,
         )
 
 

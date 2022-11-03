@@ -31,15 +31,15 @@ logging.getLogger().setLevel(logging.DEBUG)
 async def on_speed_update(data: DataPointReply):
     logger.info(
         "Subscription: Vehicle.Speed: %f",
-        data.get(vehicle.Speed),
+        data.get(vehicle.Speed).value,
     )
 
 
 async def on_seat_pos_update(data: DataPointReply):
     logger.info(
         "Subscription: Vehicle.Speed: %f  Vehicle.Cabin.Seat.Row1.Pos1.Position: %i",
-        data.get(vehicle.Speed),
-        data.get(vehicle.Cabin.Seat.Row1.Pos1.Position),
+        data.get(vehicle.Speed).value,
+        data.get(vehicle.Cabin.Seat.Row1.Pos1.Position).value,
     )
 
 
@@ -47,7 +47,7 @@ async def on_pos_condition_update(data: DataPointReply):
     logger.info(
         """Subscription: Vehicle.Speed: %f
         Warning: Vehicle.Cabin.Seat.Row1.Pos1.Position Exceeded 100""",
-        data.get(vehicle.Speed),
+        data.get(vehicle.Speed).value,
     )
 
 
@@ -55,8 +55,8 @@ async def on_seat_speed_update(data: DataPointReply):
     logger.info(
         """Subscription: Vehicle.Speed: %f
         Warning: Vehicle.Cabin.Seat.Row1.Pos1.Position: %i is below 100""",
-        data.get(vehicle.Speed),
-        data.get(vehicle.Cabin.Seat.Row1.Pos1.Position),
+        data.get(vehicle.Speed).value,
+        data.get(vehicle.Cabin.Seat.Row1.Pos1.Position).value,
     )
 
 
@@ -71,7 +71,7 @@ class VdbQueryExample(VehicleApp):
         """Run when the vehicle app starts"""
         pos = await vehicle.Cabin.Seat.Row(1).Pos(1).Position.get()
 
-        logger.info("Get: Vehicle.Cabin.Seat.Row1.Pos1.Position: %i", pos)
+        logger.info("Get: Vehicle.Cabin.Seat.Row1.Pos1.Position: %i", pos.value)
 
         vdb_rule = await self.vehicle.Speed.where(
             "Vehicle.Cabin.Seat.Row1.Pos1.Position > 100"

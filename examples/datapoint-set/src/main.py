@@ -51,7 +51,7 @@ class SetDatapointApp(VehicleApp):
     async def on_position_update(self, data: DataPointReply):
         logger.info(
             "Vehicle.Cabin.Seat.Row1.Pos1.Position: %i",
-            data.get(vehicle.Cabin.Seat.Row1.Pos1.Position),
+            data.get(vehicle.Cabin.Seat.Row1.Pos1.Position).value,
         )
 
     @subscribe_topic(TOPIC_SET_VALUE_REQUEST)

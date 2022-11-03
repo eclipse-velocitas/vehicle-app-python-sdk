@@ -32,8 +32,8 @@ class SingleMessageCallback:
 
 
 class PropertyWatcherCallback:
-    """This class monitors a topic for incoming message and checks, if a specific property
-    has the correct value"""
+    """This class monitors a topic for incoming message and checks, if a specific
+    property has the correct value"""
 
     def __init__(self, path, value):
         self.__path = path

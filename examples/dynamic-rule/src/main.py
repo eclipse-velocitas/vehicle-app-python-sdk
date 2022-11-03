@@ -58,8 +58,8 @@ class SpeedLimitWarner(VehicleApp):
         logger.info(
             "Warning: Vehicle speed limit (%s) exceeded: %f. ABS is engaged: %s",
             self.speed_limit,
-            data.get(self.vehicle.Speed),
-            data.get(self.vehicle.ADAS.ABS.IsEnabled),
+            data.get(self.vehicle.Speed).value,
+            data.get(self.vehicle.ADAS.ABS.IsEnabled).value,
         )
 
     async def on_start(self):

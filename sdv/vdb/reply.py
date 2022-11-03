@@ -12,16 +12,145 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, List, overload
+
+from sdv.proto.broker_pb2 import SubscribeReply
 from sdv.proto.types_pb2 import Datapoint as BrokerDatapoint
+from sdv.vdb.types import TypedDataPointResult
+
+if TYPE_CHECKING:
+    from sdv import model
 
 
 class DataPointReply:
     """Wrapper for dynamic datatype casting of VDB reply."""
 
-    def __init__(self, reply):
+    def __init__(self, reply: SubscribeReply):
         self.reply = reply
 
-    def get(self, datapoint):
+    @overload
+    def get(self, datapoint: "model.DataPointBoolean") -> TypedDataPointResult[bool]:
+        ...
+
+    @overload
+    def get(
+        self, datapoint: "model.DataPointBooleanArray"
+    ) -> TypedDataPointResult[List[bool]]:
+        ...
+
+    @overload
+    def get(self, datapoint: "model.DataPointDouble") -> TypedDataPointResult[float]:
+        ...
+
+    @overload
+    def get(
+        self, datapoint: "model.DataPointDoubleArray"
+    ) -> TypedDataPointResult[List[float]]:
+        ...
+
+    @overload
+    def get(self, datapoint: "model.DataPointFloat") -> TypedDataPointResult[float]:
+        ...
+
+    @overload
+    def get(
+        self, datapoint: "model.DataPointFloatArray"
+    ) -> TypedDataPointResult[List[float]]:
+        ...
+
+    @overload
+    def get(self, datapoint: "model.DataPointInt8") -> TypedDataPointResult[int]:
+        ...
+
+    @overload
+    def get(
+        self, datapoint: "model.DataPointInt8Array"
+    ) -> TypedDataPointResult[List[int]]:
+        ...
+
+    @overload
+    def get(self, datapoint: "model.DataPointInt16") -> TypedDataPointResult[int]:
+        ...
+
+    @overload
+    def get(
+        self, datapoint: "model.DataPointInt16Array"
+    ) -> TypedDataPointResult[List[int]]:
+        ...
+
+    @overload
+    def get(self, datapoint: "model.DataPointInt32") -> TypedDataPointResult[int]:
+        ...
+
+    @overload
+    def get(
+        self, datapoint: "model.DataPointInt32Array"
+    ) -> TypedDataPointResult[List[int]]:
+        ...
+
+    @overload
+    def get(self, datapoint: "model.DataPointInt64") -> TypedDataPointResult[int]:
+        ...
+
+    @overload
+    def get(
+        self, datapoint: "model.DataPointInt64Array"
+    ) -> TypedDataPointResult[List[int]]:
+        ...
+
+    @overload
+    def get(self, datapoint: "model.DataPointString") -> TypedDataPointResult[str]:
+        ...
+
+    @overload
+    def get(
+        self, datapoint: "model.DataPointStringArray"
+    ) -> TypedDataPointResult[List[str]]:
+        ...
+
+    @overload
+    def get(self, datapoint: "model.DataPointUint8") -> TypedDataPointResult[int]:
+        ...
+
+    @overload
+    def get(
+        self, datapoint: "model.DataPointUint8Array"
+    ) -> TypedDataPointResult[List[int]]:
+        ...
+
+    @overload
+    def get(self, datapoint: "model.DataPointUint16") -> TypedDataPointResult[int]:
+        ...
+
+    @overload
+    def get(
+        self, datapoint: "model.DataPointUint16Array"
+    ) -> TypedDataPointResult[List[int]]:
+        ...
+
+    @overload
+    def get(self, datapoint: "model.DataPointUint32") -> TypedDataPointResult[int]:
+        ...
+
+    @overload
+    def get(
+        self, datapoint: "model.DataPointUint32Array"
+    ) -> TypedDataPointResult[List[int]]:
+        ...
+
+    @overload
+    def get(self, datapoint: "model.DataPointUint64") -> TypedDataPointResult[int]:
+        ...
+
+    @overload
+    def get(
+        self, datapoint: "model.DataPointUint64Array"
+    ) -> TypedDataPointResult[List[int]]:
+        ...
+
+    def get(self, datapoint: "model.DataPoint"):
         datapoint_type = datapoint.__class__.__name__
         vdb_datapoint: BrokerDatapoint = self.reply.fields[datapoint.get_path()]
         datapoint_values = {
@@ -58,4 +187,6 @@ class DataPointReply:
         if isinstance(datapoint_value, Exception):
             raise datapoint_value
 
-        return datapoint_value
+        return TypedDataPointResult(
+            datapoint.get_path(), datapoint_value, vdb_datapoint.timestamp
+        )

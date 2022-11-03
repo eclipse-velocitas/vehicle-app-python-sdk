@@ -150,7 +150,8 @@ async def test_get_string():
     ):
         response = await vehicle.String.get()
         assert (
-            response == get_sample_datapoint("Vehicle.String", "Example").string_value
+            response.value
+            == get_sample_datapoint("Vehicle.String", "Example").string_value
         )
 
 
@@ -184,7 +185,7 @@ async def test_get_string_array():
     ):
         response = await vehicle.StringArray.get()
         assert (
-            response
+            response.value
             == get_sample_datapoint(
                 "Vehicle.StringArray", ["Yes", "No"]
             ).string_array.values
@@ -220,7 +221,7 @@ async def test_get_bool():
         return_value=GetDatapointsReply(datapoints=get_fields("all")),
     ):
         response = await vehicle.Bool.get()
-        assert response == get_sample_datapoint("Vehicle.Bool", True).bool_value
+        assert response.value == get_sample_datapoint("Vehicle.Bool", True).bool_value
 
 
 @pytest.mark.asyncio
@@ -253,7 +254,7 @@ async def test_get_bool_array():
     ):
         response = await vehicle.BoolArray.get()
         assert (
-            response
+            response.value
             == get_sample_datapoint(
                 "Vehicle.BoolArray", [True, False]
             ).bool_array.values
@@ -289,7 +290,7 @@ async def test_get_int8():
         return_value=GetDatapointsReply(datapoints=get_fields("all")),
     ):
         response = await vehicle.Int8.get()
-        assert response == get_sample_datapoint("Vehicle.Int8", 12).int32_value
+        assert response.value == get_sample_datapoint("Vehicle.Int8", 12).int32_value
 
 
 @pytest.mark.asyncio
@@ -322,7 +323,7 @@ async def test_get_int8_array():
     ):
         response = await vehicle.Int8Array.get()
         assert (
-            response
+            response.value
             == get_sample_datapoint(
                 "Vehicle.Int8Array", [12, 13, 14]
             ).int32_array.values
@@ -358,7 +359,7 @@ async def test_get_int16():
         return_value=GetDatapointsReply(datapoints=get_fields("all")),
     ):
         response = await vehicle.Int16.get()
-        assert response == get_sample_datapoint("Vehicle.Int16", 144).int32_value
+        assert response.value == get_sample_datapoint("Vehicle.Int16", 144).int32_value
 
 
 @pytest.mark.asyncio
@@ -391,7 +392,7 @@ async def test_get_int16_array():
     ):
         response = await vehicle.Int16Array.get()
         assert (
-            response
+            response.value
             == get_sample_datapoint(
                 "Vehicle.Int16Array", [98, 10, 34]
             ).int32_array.values
@@ -427,7 +428,7 @@ async def test_get_int32():
         return_value=GetDatapointsReply(datapoints=get_fields("all")),
     ):
         response = await vehicle.Int32.get()
-        assert response == get_sample_datapoint("Vehicle.Int32", 176).int32_value
+        assert response.value == get_sample_datapoint("Vehicle.Int32", 176).int32_value
 
 
 @pytest.mark.asyncio
@@ -460,7 +461,7 @@ async def test_get_int32_array():
     ):
         response = await vehicle.Int32Array.get()
         assert (
-            response
+            response.value
             == get_sample_datapoint(
                 "Vehicle.Int32Array", [40, 50, 60]
             ).int32_array.values
@@ -496,7 +497,7 @@ async def test_get_int64():
         return_value=GetDatapointsReply(datapoints=get_fields("all")),
     ):
         response = await vehicle.Int64.get()
-        assert response == get_sample_datapoint("Vehicle.Int64", 999).int64_value
+        assert response.value == get_sample_datapoint("Vehicle.Int64", 999).int64_value
 
 
 @pytest.mark.asyncio
@@ -529,7 +530,7 @@ async def test_get_int64_array():
     ):
         response = await vehicle.Int64Array.get()
         assert (
-            response
+            response.value
             == get_sample_datapoint(
                 "Vehicle.Int64Array", [70, 90, 1440]
             ).int64_array.values
@@ -565,7 +566,7 @@ async def test_get_uint8():
         return_value=GetDatapointsReply(datapoints=get_fields("all")),
     ):
         response = await vehicle.UInt8.get()
-        assert response == get_sample_datapoint("Vehicle.UInt8", 90).uint32_value
+        assert response.value == get_sample_datapoint("Vehicle.UInt8", 90).uint32_value
 
 
 @pytest.mark.asyncio
@@ -598,7 +599,7 @@ async def test_get_uint8_array():
     ):
         response = await vehicle.UInt8Array.get()
         assert (
-            response
+            response.value
             == get_sample_datapoint(
                 "Vehicle.UInt8Array", [10, 20, 30]
             ).uint32_array.values
@@ -634,7 +635,9 @@ async def test_get_uint16():
         return_value=GetDatapointsReply(datapoints=get_fields("all")),
     ):
         response = await vehicle.UInt16.get()
-        assert response == get_sample_datapoint("Vehicle.UInt16", 144).uint32_value
+        assert (
+            response.value == get_sample_datapoint("Vehicle.UInt16", 144).uint32_value
+        )
 
 
 @pytest.mark.asyncio
@@ -667,7 +670,7 @@ async def test_get_uint16_array():
     ):
         response = await vehicle.UInt16Array.get()
         assert (
-            response
+            response.value
             == get_sample_datapoint(
                 "Vehicle.UInt16Array", [30, 40, 50]
             ).uint32_array.values
@@ -703,7 +706,9 @@ async def test_get_uint32():
         return_value=GetDatapointsReply(datapoints=get_fields("all")),
     ):
         response = await vehicle.UInt32.get()
-        assert response == get_sample_datapoint("Vehicle.UInt32", 234).uint32_value
+        assert (
+            response.value == get_sample_datapoint("Vehicle.UInt32", 234).uint32_value
+        )
 
 
 @pytest.mark.asyncio
@@ -736,7 +741,7 @@ async def test_get_uint32_array():
     ):
         response = await vehicle.UInt32Array.get()
         assert (
-            response
+            response.value
             == get_sample_datapoint(
                 "Vehicle.UInt32Array", [81, 91, 101]
             ).uint32_array.values
@@ -772,7 +777,9 @@ async def test_get_uint64():
         return_value=GetDatapointsReply(datapoints=get_fields("all")),
     ):
         response = await vehicle.UInt64.get()
-        assert response == get_sample_datapoint("Vehicle.UInt64", 324).uint64_value
+        assert (
+            response.value == get_sample_datapoint("Vehicle.UInt64", 324).uint64_value
+        )
 
 
 @pytest.mark.asyncio
@@ -805,7 +812,7 @@ async def test_get_uint64_array():
     ):
         response = await vehicle.UInt64Array.get()
         assert (
-            response
+            response.value
             == get_sample_datapoint(
                 "Vehicle.UInt64Array", [981, 971, 961]
             ).uint64_array.values
@@ -841,7 +848,10 @@ async def test_get_float():
         return_value=GetDatapointsReply(datapoints=get_fields("all")),
     ):
         response = await vehicle.Float.get()
-        assert response == get_sample_datapoint("Vehicle.Float", 321.0987).float_value
+        assert (
+            response.value
+            == get_sample_datapoint("Vehicle.Float", 321.0987).float_value
+        )
 
 
 @pytest.mark.asyncio
@@ -874,7 +884,7 @@ async def test_get_float_array():
     ):
         response = await vehicle.FloatArray.get()
         assert (
-            response
+            response.value
             == get_sample_datapoint(
                 "Vehicle.FloatArray", [32.888, 67.9810, 124.67895]
             ).float_array.values
@@ -911,7 +921,8 @@ async def test_get_double():
     ):
         response = await vehicle.Double.get()
         assert (
-            response == get_sample_datapoint("Vehicle.Double", 45678.98765).double_value
+            response.value
+            == get_sample_datapoint("Vehicle.Double", 45678.98765).double_value
         )
 
 
@@ -945,7 +956,7 @@ async def test_get_double_array():
     ):
         response = await vehicle.DoubleArray.get()
         assert (
-            response
+            response.value
             == get_sample_datapoint(
                 "Vehicle.DoubleArray", [32.456789, 90.1234567, 100.01]
             ).double_array.values
@@ -1070,7 +1081,7 @@ async def test_get():
         return_value=GetDatapointsReply(datapoints=get_fields()),
     ):
         response = await vehicle.Speed.get()
-        assert response == get_sample_datapoint("Speed").float_value
+        assert response.value == get_sample_datapoint("Speed").float_value
 
 
 @pytest.mark.asyncio
