@@ -3,10 +3,10 @@
         "version": "1.6.9"
     },
     "databroker": {
-        "version": "databroker-v0.17.0"
+        "version": "0.0.2"
     },
     "seatservice": {
-        "version": "v0.1.0"
+        "version": "v0.2.0"
     },
     "hvacservice": {
         "version": "v0.1.0"
