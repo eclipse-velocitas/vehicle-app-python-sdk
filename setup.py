@@ -69,7 +69,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="sdv",
-    version="0.7.0",
+    version="0.7.1",
     description="A Python SDK for Vehicle app",
     long_description=long_description,
     long_description_content_type="text/markdown",

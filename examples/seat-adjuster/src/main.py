@@ -21,9 +21,7 @@ import json
 import logging
 import signal
 
-import grpc
 from sdv_model import Vehicle, vehicle  # type: ignore
-from sdv_model.proto.seats_pb2 import BASE, SeatLocation  # type: ignore
 
 from sdv.util.log import (  # type: ignore
     get_opentelemetry_log_factory,
@@ -80,31 +78,25 @@ class SeatAdjusterApp(VehicleApp):
         response_topic = "seatadjuster/setPosition/response"
         response_data = {"requestId": data["requestId"], "result": {}}
 
-        vehicle_speed = await self.Vehicle.Speed.get()
+        vehicle_speed = (await self.Vehicle.Speed.get()).value
 
+        position = data["position"]
         if vehicle_speed == 0:
             try:
-                location = SeatLocation(row=1, index=1)
-                await self.Vehicle.Cabin.SeatService.MoveComponent(
-                    location, BASE, data["position"]
-                )
+                await self.Vehicle.Cabin.Seat.Row1.Pos1.Position.set(position)
                 response_data["result"] = {
                     "status": 0,
-                    "message": f"""Called MoveComponent {data["position"]}""",
+                    "message": f"Set Seat position to: {position}",
                 }
-            except grpc.RpcError as rpcerror:
-                if rpcerror.code() == grpc.StatusCode.INVALID_ARGUMENT:
-                    error_msg = f"""Provided position '{data["position"]}'  \
-                    should be in between (0-1000)"""
-                else:
-                    error_msg = f"Received unknown RPC error: code={rpcerror.code()}\
-                    message={rpcerror.details()}"  # pylint: disable=E1101
-
-                response_data["result"] = {"status": 1, "message": error_msg}
+            except ValueError as error:
+                response_data["result"] = {
+                    "status": 1,
+                    "message": f"Failed to set the position {position}, error: {error}",
+                }
             except Exception:
                 response_data["result"] = {
                     "status": 1,
-                    "message": "Exception on MoveComponent",
+                    "message": "Exception on set Seat position",
                 }
 
         else:

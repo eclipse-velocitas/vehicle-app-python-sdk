@@ -25,27 +25,25 @@ SEATSERVICE_PORT='50051'
 SEATSERVICE_GRPC_PORT='52002'
 sudo chown $(whoami) $HOME
 
+SEATSERVICE_ASSET_FOLDER="$ROOT_DIRECTORY/.vscode/scripts/assets/seatservice/$SEATSERVICE_VERSION"
 #Detect host environment (distinguish for Mac M1 processor)
 if [[ `uname -m` == 'aarch64' || `uname -m` == 'arm64' ]]; then
-  echo "Detected ARM architecture"
-  PROCESSOR="aarch64"
-  SEATSERVICE_BINARY_NAME="bin_vservice-seat_aarch64_release.tar.gz"
-  SEATSERVICE_EXEC_PATH="$ROOT_DIRECTORY/.vscode/scripts/assets/seatservice/$SEATSERVICE_VERSION/$PROCESSOR/target/aarch64/release/install/bin"
+    echo "Detected ARM architecture"
+    PROCESSOR="aarch64"
+    SEATSERVICE_BINARY_NAME="bin_vservice-seat_aarch64_release.tar.gz"
 else
-  echo "Detected x86_64 architecture"
-  PROCESSOR="x86_64"
-  SEATSERVICE_BINARY_NAME="bin_vservice-seat_x86_64_release.tar.gz"
-  SEATSERVICE_EXEC_PATH="$ROOT_DIRECTORY/.vscode/scripts/assets/seatservice/$SEATSERVICE_VERSION/$PROCESSOR/target/x86_64/release/install/bin"
+    echo "Detected x86_64 architecture"
+    PROCESSOR="x86_64"
+    SEATSERVICE_BINARY_NAME="bin_vservice-seat_x86_64_release.tar.gz"
 fi
-
-API_URL=https://api.github.com/repos/eclipse/kuksa.val.services
+SEATSERVICE_EXEC_PATH="$SEATSERVICE_ASSET_FOLDER/$PROCESSOR/target/$PROCESSOR/release/install/bin"
 
 if [[ ! -f "$SEATSERVICE_EXEC_PATH/val_start.sh" ]]
 then
+  DOWNLOAD_URL=https://github.com/boschglobal/kuksa.val.services/releases/download
   echo "Downloading seatservice:$SEATSERVICE_VERSION"
-  SEATSERVICE_ASSET_ID=$(curl $API_URL/releases/tags/$SEATSERVICE_VERSION | jq -r ".assets[] | select(.name == \"$SEATSERVICE_BINARY_NAME\") | .id")
-  curl -o $ROOT_DIRECTORY/.vscode/scripts/assets/seatservice/$SEATSERVICE_VERSION/$PROCESSOR/$SEATSERVICE_BINARY_NAME --create-dirs -L -H "Accept: application/octet-stream" "$API_URL/releases/assets/$SEATSERVICE_ASSET_ID"
-  tar -xf $ROOT_DIRECTORY/.vscode/scripts/assets/seatservice/$SEATSERVICE_VERSION/$PROCESSOR/$SEATSERVICE_BINARY_NAME -C $ROOT_DIRECTORY/.vscode/scripts/assets/seatservice/$SEATSERVICE_VERSION/$PROCESSOR
+  curl -o $SEATSERVICE_ASSET_FOLDER/$PROCESSOR/$SEATSERVICE_BINARY_NAME --create-dirs -L -H "Accept: application/octet-stream" "$DOWNLOAD_URL/$SEATSERVICE_VERSION/$SEATSERVICE_BINARY_NAME"
+  tar -xf $SEATSERVICE_ASSET_FOLDER/$PROCESSOR/$SEATSERVICE_BINARY_NAME -C $SEATSERVICE_ASSET_FOLDER/$PROCESSOR
 fi
 
 export DAPR_GRPC_PORT=$SEATSERVICE_GRPC_PORT
