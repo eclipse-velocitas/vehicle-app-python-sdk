@@ -17,7 +17,6 @@
 
 import asyncio
 import logging
-import os
 from typing import List, Optional
 
 import grpc
@@ -44,16 +43,14 @@ class VehicleDataBrokerClient:
     def __new__(cls, port: Optional[int] = None):
         if cls._instance is None:
             cls._instance = super(VehicleDataBrokerClient, cls).__new__(cls)
-            if not conf.DISABLE_DAPR:
-                if port is None:
-                    port = int(str(os.getenv("DAPR_GRPC_PORT")))
-                cls._address = f"localhost:{port}"
-            else:
-                cls._address = conf.VEHICLE_DATA_BROKER_ADDRESS
-
+            
+            address = conf.service_locator.get_location("databroker")
+            cls._address = address
             cls._channel = grpc.aio.insecure_channel(cls._address)  # type: ignore
-            appid = conf.VEHICLE_DATA_BROKER_APP_ID
+            
+            appid = conf.service_locator.get_metadata("databroker")["app-id"]
             cls._metadata = (("dapr-app-id", appid),)
+            
             cls._stub = BrokerStub(cls._channel)
         return cls._instance
 

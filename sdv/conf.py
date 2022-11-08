@@ -14,19 +14,15 @@
 
 import os
 
-from .dapr.locator import DaprServiceLocator
 from sdv.locator import NativeGrpcServiceLocator
-
-# service_locator = DaprServiceLocator()
-service_locator = NativeGrpcServiceLocator()
-
-BROKER_APP_ID = os.getenv("VEHICLEDATABROKER_DAPR_APP_ID")
-if BROKER_APP_ID is None:
-    BROKER_APP_ID = "vehicledatabroker"
-VEHICLE_DATA_BROKER_APP_ID = str(BROKER_APP_ID)
+from sdv.dapr.locator import DaprServiceLocator
+from sdv.chariott.locator import ChariottServiceLocator
 
 DAPR_PUB_SUB_NAME = "mqtt-pubsub"
 DAPR_APP_PORT = 50008
-
-VEHICLE_DATA_BROKER_ADDRESS: str = os.getenv("VELOCITAS_VEHICLE_DATA_BROKER_ADDRESS", "locahost:50555")
-DISABLE_DAPR = os.getenv("VELOCITAS_DISABLE_DAPR", False)
+middleware_type = os.getenv("VELOCITAS_MIDDLEWARE_TYPE", "dapr")
+service_locator = NativeGrpcServiceLocator()
+if (middleware_type == "dapr"):
+    service_locator = DaprServiceLocator()
+elif (middleware_type == "chariot"):
+    service_locator = ChariottServiceLocator()
