@@ -11,33 +11,32 @@
 # under the License.
 #
 # SPDX-License-Identifier: Apache-2.0
+import grpc
+
 from sdv.locator import ServiceLocator
-from sdv.proto.chariott.runtime.v1.runtime_pb2_grpc import ChariottService
+from sdv.proto.chariott.common.v1.common_pb2 import (
+    DiscoverFulfillment,
+    DiscoverIntent,
+    Intent,
+)
 from sdv.proto.chariott.runtime.v1.runtime_pb2 import FulfillRequest
-from sdv.proto.chariott.common.v1.common_pb2 import DiscoverIntent, DiscoverFulfillment
+from sdv.proto.chariott.runtime.v1.runtime_pb2_grpc import ChariottServiceStub
 
 
 class ChariottServiceLocator(ServiceLocator):
     """chariott based service locator"""
 
-    async def get_location(self, service_name: str) -> str:
-        fulfillRequest = FulfillRequest()
-        fulfillRequest.namespace = f"sdv.{service_name.lower()}"
-        fulfillRequest.intent = DiscoverIntent()
-        service = ChariottService()
-        result = await service.Fulfill(fulfillRequest)
-        address = DiscoverFulfillment(result).services[0].url
-        return address
+    def get_location(self, service_name: str) -> str:
+        fulfill_request = FulfillRequest(
+            namespace=f"{service_name.lower()}",
+            intent=Intent(discover=DiscoverIntent()),
+        )
 
-    async def get_metadata(self, service_name: str):
-        fulfillRequest = FulfillRequest()
-        fulfillRequest.namespace = f"sdv.{service_name.lower()}"
-        fulfillRequest.intent = DiscoverIntent()
-        service = ChariottService()
-        result = await service.Fulfill(fulfillRequest)
-        app_id = DiscoverFulfillment(result).services[0].metadata.get("app-id")
+        with grpc.insecure_channel("localhost:4243") as channel:
+            service_stub = ChariottServiceStub(channel)
+            result = service_stub.Fulfill(fulfill_request)
+            address = result.fulfillment.discover.services[0].url
+            return address
 
-        if app_id is None:
-            app_id = service_name.lower()
-
-        return (("app-id", str(app_id)),)
+    def get_metadata(self, service_name: str):
+        return service_name.lower()

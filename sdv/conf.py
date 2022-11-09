@@ -14,15 +14,16 @@
 
 import os
 
-from sdv.locator import NativeGrpcServiceLocator
-from sdv.dapr.locator import DaprServiceLocator
 from sdv.chariott.locator import ChariottServiceLocator
+from sdv.dapr.locator import DaprServiceLocator
+from sdv.locator import NativeGrpcServiceLocator
 
 DAPR_PUB_SUB_NAME = "mqtt-pubsub"
 DAPR_APP_PORT = 50008
-middleware_type = os.getenv("VELOCITAS_MIDDLEWARE_TYPE", "dapr")
+DISABLE_DAPR = os.getenv("VELOCITAS_DISABLE_DAPR", True)
+middleware_type = os.getenv("VELOCITAS_MIDDLEWARE_TYPE", "chariot")
 service_locator = NativeGrpcServiceLocator()
-if (middleware_type == "dapr"):
+if middleware_type == "dapr":
     service_locator = DaprServiceLocator()
-elif (middleware_type == "chariot"):
+elif middleware_type == "chariot":
     service_locator = ChariottServiceLocator()

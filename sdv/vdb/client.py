@@ -44,11 +44,11 @@ class VehicleDataBrokerClient:
         if cls._instance is None:
             cls._instance = super(VehicleDataBrokerClient, cls).__new__(cls)
             
-            address = conf.service_locator.get_location("databroker")
-            cls._address = address
+            address = conf.service_locator.get_location("sdv.kuksa")
+            cls._address = address.replace("http://","").replace("/","")
             cls._channel = grpc.aio.insecure_channel(cls._address)  # type: ignore
             
-            appid = conf.service_locator.get_metadata("databroker")["app-id"]
+            appid = conf.service_locator.get_metadata("sdv.kuksa")
             cls._metadata = (("dapr-app-id", appid),)
             
             cls._stub = BrokerStub(cls._channel)

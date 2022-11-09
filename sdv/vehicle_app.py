@@ -120,7 +120,7 @@ class VehicleApp:
 
     async def publish_mqtt_event(self, topic: str, data: str) -> None:
         warn("publish_mqtt_event is deprecated. Use publish_event instead.", DeprecationWarning, stacklevel=2)
-        self.publish_event(topic, data)
+        await self.publish_event(topic, data)
 
     async def publish_event(self, topic: str, data: str) -> None:
         self.pubsub_client.publish_event(topic, data)
