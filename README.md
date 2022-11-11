@@ -3,7 +3,7 @@
 [![CI workflow](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/actions/workflows/ci.yaml/badge.svg)](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/actions/workflows/ci.yaml)
 [![License: Apache](https://img.shields.io/badge/License-Apache-yellow.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
-The Vehicle App SDK for Python allows to create `Vehicle Apps` from the [Velocitas](https://github.com/eclipse-velocitas/velocitas-docs) development model in the Python programming language.
+The `Vehicle App SDK` reduce the effort required to implement Vehicle Apps using the Velocitas development model in the Python programming language. To create a Vehicle App, please use our [Vehicle App Template](https://github.com/eclipse-velocitas/vehicle-app-python-template) which uses this sdk.
 
 This includes the following packages:
 
@@ -33,10 +33,7 @@ pip install git+https://github.com/eclipse-velocitas/vehicle-app-python-sdk.git@
 
 ## Documentation
 
-* [Runtime Services (local execution)](https://eclipse-velocitas.github.io/velocitas-docs/docs/tutorials/vehicle-app-runtime/run_runtime_services_locally/): Using runtime services (like _Vehicle Data Broker_ or _Vehicle Services_) in the development environment.
-* [Runtime Services (Kubernetes execution)](https://eclipse-velocitas.github.io/velocitas-docs/docs/tutorials/vehicle-app-runtime/run_runtime_services_kubernetes/): Using runtime services (like _Vehicle Data Broker_ or _Vehicle Services_) in Kubernetes (K3D) environment.
-* [Velocitas Development Model](https://eclipse-velocitas.github.io/velocitas-docs/docs/concepts/development_model/): Creating Vehicle App and Vehicle Models with the Python SDK
-* [Integration Tests](https://eclipse-velocitas.github.io/velocitas-docs/docs/tutorials/integration_tests/): Running and developing integration tests
+* [Velocitas Development Model](https://websites.eclipseprojects.io/velocitas/docs/about/development_model/): Learn more about the Velocitas programming model and the SDK
 
 ## Python Vehicle App SDK Examples
 
