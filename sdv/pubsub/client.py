@@ -11,7 +11,7 @@ class PubSubClient:
     """Generic Pub Sub facade"""
 
     def __init__(self):
-        if conf.DISABLE_DAPR:
+        if conf.middleware_type == "native":
             self.native_client = MqttClient()
         else:
             self.native_client = DaprClient()

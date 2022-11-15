@@ -1,6 +1,6 @@
 import asyncio
-import os
-import conf
+from urllib.parse import urlparse
+import sdv.conf as conf
 from typing import Optional
 
 import paho.mqtt.client as mqtt  # type: ignore
@@ -17,8 +17,8 @@ class MqttClient:
 
     def __init__(self, port: Optional[int] = None, hostname: Optional[str] = None):
         self._address = conf.service_locator.get_location("mqtt")
-        self._port = port
-        self._hostname = hostname
+        self._port = urlparse(self._address).port
+        self._hostname = urlparse(self._address).hostname
         self._pub_client = self.__create_client()
         self._sub_client = self.__create_client()
         self._registered_topics = []

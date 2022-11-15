@@ -15,6 +15,7 @@
 import os
 from sdv.locator import ServiceLocator
 
+
 class DaprServiceLocator(ServiceLocator):
     """dapr service locator"""
 

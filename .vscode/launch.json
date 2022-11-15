@@ -90,10 +90,11 @@
             "cwd": "${workspaceFolder}/examples/seat-adjuster",
             "program": "${workspaceFolder}/examples/seat-adjuster/src/main.py",
             "console": "integratedTerminal",
-            "env": { 
-                "VELOCITAS_DISABLE_DAPR" : "True",
-                "VELOCITAS_VEHICLE_DATA_BROKER_ADDRESS": "localhost:55555",
-                "VELOCITAS_SEATSERVICE_ADDRESS": "localhost:50051"
+            "env": {
+                "SDV_MIDDLEWARE_TYPE":"native",
+                "SDV_MQTT_ADDRESS":"mqtt://localhost:1883",
+                "SDV_VEHICLEDATABROKER_ADDRESS": "localhost:55555",
+                "SDV_SEATSERVICE_ADDRESS": "localhost:50051"
             }
         }
     ]
