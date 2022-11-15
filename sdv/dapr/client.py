@@ -19,6 +19,7 @@ import logging
 import os
 import urllib.request
 from http import HTTPStatus
+from urllib.error import HTTPError
 
 import grpc
 from dapr.proto import api_service_v1, api_v1  # type: ignore
@@ -47,7 +48,7 @@ def publish_mqtt_event(topic: str, data: str) -> None:
 
 
 async def wait_for_sidecar() -> None:
-    """Poll dapr sidecar health check endpoint until it returns 200 OK.
+    """Poll dapr sidecar health check endpoint until it returns 204 NO_CONTENT.
     GRPC proxy requests are only allowed after dapr sidecar is ready."""
 
     success = False
@@ -64,6 +65,12 @@ async def wait_for_sidecar() -> None:
                 logger.debug(
                     "dapr: Health endpoint returned status code: %s", response.status
                 )
+            except HTTPError as error:
+                if error.code == HTTPStatus.INTERNAL_SERVER_ERROR:
+                    logger.info("Waiting for dapr sidecar...")
+                else:
+                    logger.error("Unexpected error from dapr sidecar: %d", error.code)
+                await asyncio.sleep(0.1)
             except BaseException as error:
                 logger.debug("%s", str(error))
                 await asyncio.sleep(0.1)
