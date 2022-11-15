@@ -16,9 +16,17 @@ import os
 
 from .dapr.locator import DaprServiceLocator
 from sdv.locator import NativeGrpcServiceLocator
+from sdv.locator import NativeGrpcServiceLocator
 
 # service_locator = DaprServiceLocator()
 service_locator = NativeGrpcServiceLocator()
+# service_locator = DaprServiceLocator()
+service_locator = NativeGrpcServiceLocator()
+
+BROKER_APP_ID = os.getenv("VEHICLEDATABROKER_DAPR_APP_ID")
+if BROKER_APP_ID is None:
+    BROKER_APP_ID = "vehicledatabroker"
+VEHICLE_DATA_BROKER_APP_ID = str(BROKER_APP_ID)
 
 DAPR_PUB_SUB_NAME = "mqtt-pubsub"
 DAPR_APP_PORT = 50008
