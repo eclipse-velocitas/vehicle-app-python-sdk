@@ -18,25 +18,38 @@ from abc import ABC, abstractmethod
 
 class ServiceLocator(ABC):
     """Service Locator abstract base class."""
-
-    @abstractmethod
-    def get_location(self, service_name: str) -> str:
-        raise NotImplementedError
+    def __init__(self) -> None:
+        self._services: list[tuple[str, str]] = [] 
 
     @abstractmethod
     def get_metadata(self, service_name: str):
         raise NotImplementedError
+
+    def add_service(self, service_name: str, address: str):
+        self._services.append((service_name, address))
+
+    def get_location(self, service_name: str):
+        address = None
+        for service in self._services:
+            if (service[0] != service_name):
+                continue
+            address = service[1]
+            break
+
+        return address
 
 
 class NativeGrpcServiceLocator(ServiceLocator):
     """native grpc service locator"""
 
     def get_location(self, service_name: str) -> str:
-        address = os.getenv("VELOCITAS_" + service_name.upper() + "_ADDRESS")
+        address = os.getenv("SDV_" + service_name.upper() + "_ADDRESS", None)
+        if address is None:
+            address = super.get_location(service_name)
         return address
 
     def get_metadata(self, service_name: str):
-        app_id = os.getenv("VELOCITAS_" + service_name.upper() + "_ID")
+        app_id = os.getenv("SDV_" + service_name.upper() + "_ID")
         if app_id is None:
             app_id = service_name.lower()
 
