@@ -17,9 +17,6 @@ import os
 from .dapr.locator import DaprServiceLocator
 from sdv.locator import NativeGrpcServiceLocator
 
-service_locator = DaprServiceLocator()
-service_locator = NativeGrpcServiceLocator()
-
 DAPR_PUB_SUB_NAME = "mqtt-pubsub"
 DAPR_APP_PORT = 50008
 
@@ -27,9 +24,3 @@ middleware_type = os.getenv("SDV_MIDDLEWARE_TYPE", "native")
 service_locator = NativeGrpcServiceLocator()
 if middleware_type == "dapr":
     service_locator = DaprServiceLocator()
-
-
-service_locator.add_service(
-    "MqttClient", 
-    f"{os.getenv("SDV_MQTT_HOSTNAME", "localhost")}:{os.getenv("SDV_MQTT_PORT", "1883")}"
-)

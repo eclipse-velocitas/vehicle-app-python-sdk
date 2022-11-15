@@ -1,5 +1,6 @@
 import asyncio
 import os
+import conf
 from typing import Optional
 
 import paho.mqtt.client as mqtt  # type: ignore
@@ -15,13 +16,7 @@ class MqttClient:
     """This class is a wrapper for the on_message callback of the MQTT broker."""
 
     def __init__(self, port: Optional[int] = None, hostname: Optional[str] = None):
-        if port is None:
-            value = os.getenv("SDV_MQTT_PORT", "1883")
-            port = int(str(value))
-
-        if hostname is None:
-            hostname = os.getenv("SDV_MQTT_HOSTNAME", "localhost")
-
+        self._address = conf.service_locator.get_location("mqtt")
         self._port = port
         self._hostname = hostname
         self._pub_client = self.__create_client()
