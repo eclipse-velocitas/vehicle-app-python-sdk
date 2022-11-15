@@ -72,7 +72,7 @@ async def wait_for_sidecar() -> None:
                     logger.error("Unexpected error from dapr sidecar: %d", error.code)
                 await asyncio.sleep(0.1)
             except BaseException as error:
-                logger.debug("%s", str(error))
+                logger.error("%s", str(error))
                 await asyncio.sleep(0.1)
         else:
             await asyncio.sleep(0.1)
