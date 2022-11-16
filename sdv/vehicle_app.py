@@ -96,7 +96,7 @@ class VehicleApp:
                 topic = method[1].subscribeTopic
 
                 self.pubsub_client.subscribe_topic(topic, callback)
-                
+
         # register vehicle data broker subscriptions using dapr grpc proxying after dapr
         # is initialized
         for method in methods:
@@ -118,9 +118,13 @@ class VehicleApp:
             logger.error(ex)
             await self.stop()
 
-    async def publish_mqtt_event(self, topic: str, data: str) -> None:
-        warn("publish_mqtt_event is deprecated. Use publish_event instead.", DeprecationWarning, stacklevel=2)
-        self.publish_event(topic, data)
+    async def publish_mqtt_event(self, topic: str, data: str):
+        warn(
+            "publish_mqtt_event is deprecated. Use publish_event instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        await self.publish_event(topic, data)
 
-    async def publish_event(self, topic: str, data: str) -> None:
-        self.pubsub_client.publish_event(topic, data)
+    async def publish_event(self, topic: str, data: str):
+        await self.pubsub_client.publish_event(topic, data)
