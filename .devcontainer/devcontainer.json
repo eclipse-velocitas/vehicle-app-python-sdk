@@ -1,8 +1,10 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.194.3/containers/dapr-javascript-node
 {
-	"name": "VehicleApp Python SDK",
-	"dockerFile": "Dockerfile${localEnv:DEVCONTAINER_PROXY}",
+	"name": "Python VehicleApp SDK",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
 	"runArgs": [
 		"--init",
 		"--privileged"
@@ -21,8 +23,7 @@
 	},
 	"features": {
 		"docker-in-docker": {
-			"version": "latest",
-			"moby": true
+			"version": "20.10"
 		},
 		"common": {
 			"username": "automatic",
