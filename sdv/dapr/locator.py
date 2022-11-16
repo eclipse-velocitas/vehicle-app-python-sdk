@@ -13,7 +13,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import os
+
 from sdv.locator import ServiceLocator
+
+DAPR_PUB_SUB_NAME = "mqtt-pubsub"
 
 
 class DaprServiceLocator(ServiceLocator):
@@ -30,9 +33,11 @@ class DaprServiceLocator(ServiceLocator):
         return address
 
     def get_metadata(self, service_name: str):
+        if service_name == "pubsub":
+            return (("name", DAPR_PUB_SUB_NAME),)
+
         app_id = os.getenv(service_name.upper() + "_DAPR_APP_ID")
         if app_id is None:
             app_id = service_name.lower()
 
         return (("dapr-app-id", str(app_id)),)
-        # return (("dapr-app-id", service_name),)

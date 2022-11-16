@@ -121,6 +121,7 @@ async def main():
     seat_adjuster_app = SeatAdjusterApp(vehicle)
     await seat_adjuster_app.run()
 
+
 LOOP = asyncio.get_event_loop()
 LOOP.add_signal_handler(signal.SIGTERM, LOOP.stop)
 LOOP.run_until_complete(main())

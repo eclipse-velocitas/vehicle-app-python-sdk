@@ -19,12 +19,10 @@ import inspect
 import logging
 from warnings import warn
 
+from sdv.dapr.server import run_server
 from sdv.pubsub.client import PubSubClient
 from sdv.vdb.client import VehicleDataBrokerClient
 from sdv.vdb.subscriptions import SubscriptionManager, VdbSubscription
-
-from .dapr.client import wait_for_sidecar
-from .dapr.server import run_server
 
 logger = logging.getLogger(__name__)
 
