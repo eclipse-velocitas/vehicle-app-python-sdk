@@ -1,20 +1,21 @@
 from sdv.pubsub.mqtt import MqttClient
 from sdv.pubsub.dapr import DaprClient
-
+from sdv.pubsub.chariott import ChariottPubSubClient
+from sdv import conf
 import logging
 logger = logging.getLogger(__name__)
-
-from sdv import conf
 
 
 class PubSubClient:
     """Generic Pub Sub facade"""
 
     def __init__(self):
-        if conf.DISABLE_DAPR:
+        if conf.middleware_type == "native":
             self.native_client = MqttClient()
-        else:
+        elif conf.middleware_type == "dapr":
             self.native_client = DaprClient()
+        else:
+            self.native_client = ChariottPubSubClient()
 
     async def init(self):
         await self.native_client.init()

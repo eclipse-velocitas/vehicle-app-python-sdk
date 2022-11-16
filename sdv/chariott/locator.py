@@ -35,7 +35,9 @@ class ChariottServiceLocator(ServiceLocator):
         with grpc.insecure_channel("localhost:4243") as channel:
             service_stub = ChariottServiceStub(channel)
             result = service_stub.Fulfill(fulfill_request)
-            address = result.fulfillment.discover.services[0].url
+            address = result.fulfillment.discover.services[0].url \
+                .replace("http://", "") \
+                .replace("/", "")
             return address
 
     def get_metadata(self, service_name: str):

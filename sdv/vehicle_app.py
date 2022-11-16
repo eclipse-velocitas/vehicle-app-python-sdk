@@ -87,6 +87,7 @@ class VehicleApp:
         """Run the Vehicle App"""
         # dapr server has to be started regardless of actual pubsub client
         await run_server()
+        await self.pubsub_client.init()
 
         methods = inspect.getmembers(self)
 
