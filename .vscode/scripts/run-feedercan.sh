@@ -21,7 +21,7 @@ ROOT_DIRECTORY=$( realpath "$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P 
 source $ROOT_DIRECTORY/.vscode/scripts/exec-check.sh "$@" $(basename $BASH_SOURCE .sh)
 
 FEEDERCAN_VERSION=$(cat $ROOT_DIRECTORY/prerequisite_settings.json | jq .feedercan.version | tr -d '"')
-DATABROKER_GRPC_PORT='52001'
+DATABROKER_GRPC_PORT='55555'
 sudo chown $(whoami) $HOME
 
 # Downloading feedercan
@@ -61,8 +61,10 @@ else
   export CANDUMP_FILE="$CONFIG_DIR/default/candump.log"
 fi
 
-dapr run \
-    --app-id feedercan \
-    --app-protocol grpc \
-    --components-path $ROOT_DIRECTORY/.dapr/components \
-    --config $ROOT_DIRECTORY/.dapr/config.yaml -- python3 dbcfeeder.py
+#dapr run \
+#    --app-id feedercan \
+#    --app-protocol grpc \
+#    --components-path $ROOT_DIRECTORY/.dapr/components \
+#    --config $ROOT_DIRECTORY/.dapr/config.yaml -- \
+    
+python3 dbcfeeder.py
