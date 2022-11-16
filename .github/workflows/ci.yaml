@@ -61,7 +61,8 @@ jobs:
 
       - name: Run the daparized databroker binary
         run: |
-          ./.vscode/scripts/run-vehicledatabroker.sh --task &
+          ./.vscode/scripts/run-mosquitto.sh --task &
+          ./.vscode/scripts/run-vehicledatabroker.sh DAPR --task &
           sleep 10s
 
       - name: Run unit and integration tests

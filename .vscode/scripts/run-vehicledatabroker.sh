@@ -48,8 +48,9 @@ then
 fi
 
 export DAPR_GRPC_PORT=$DATABROKER_GRPC_PORT
-#export RUST_LOG="info,databroker=debug,vehicle_data_broker=debug"
-dapr run \
+if [ $1 == "DAPR" ]; then
+  echo "Run Dapr ...!"
+  dapr run \
   --app-id vehicledatabroker \
   --app-protocol grpc \
   --app-port $DATABROKER_PORT \
@@ -57,3 +58,7 @@ dapr run \
   --components-path $ROOT_DIRECTORY/.dapr/components \
   --config $ROOT_DIRECTORY/.dapr/config.yaml & \
   $DATABROKER_EXEC_PATH/databroker --address 0.0.0.0 --dummy-metadata
+else
+  echo "Run native ...!"
+  $DATABROKER_EXEC_PATH/databroker --address 0.0.0.0 --dummy-metadata
+fi

@@ -46,7 +46,7 @@ curations:
     curations:
       comment: "Proper license is defined in package repository https://pypi.org/project/filelock/"
       concluded_license: "Unlicense"
-  - id : "PIP::sdv-requirements:0.7.2"
+  - id : "PIP::sdv-requirements:0.8.0"
     curations:
       comment: "Bosch maintained component"
       concluded_license: "Apache-2.0"

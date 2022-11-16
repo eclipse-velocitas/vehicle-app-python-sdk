@@ -15,12 +15,16 @@
 """ Tests for methods in VehicleClient """
 
 import os
+
+os.environ["SDV_MIDDLEWARE_TYPE"] = "dapr"
+
 import sys
 from typing import Mapping, Text
 from unittest import mock
 
 import pytest
 
+from sdv import config
 from sdv.proto.broker_pb2 import (
     GetDatapointsReply,
     GetMetadataReply,
@@ -31,6 +35,11 @@ from sdv.proto.types_pb2 import Datapoint, DataType, Metadata
 from sdv.vdb.client import VehicleDataBrokerClient
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
+
+
+@pytest.fixture(autouse=True)
+def reset():
+    config._config = None
 
 
 @pytest.mark.asyncio

@@ -22,7 +22,8 @@ import signal
 
 from sdv_model import Vehicle, vehicle
 
-from sdv.base import Config
+from sdv import config
+from sdv.config import Config, MiddlewareType
 from sdv.vdb.subscriptions import DataPointReply
 from sdv.vehicle_app import VehicleApp, subscribe_topic
 
@@ -48,7 +49,7 @@ class SpeedLimitWarner(VehicleApp):
 
         await self.rule.unsubscribe()
         self.rule = (
-            await self.vehicle.Speed.join(self.vehicle.ADAS.ABS.IsEnabled)
+            await self.vehicle.Speed.join(self.vehicle.ADAS.ABS.IsEngaged)
             .where(condition)
             .subscribe(self.on_vehicle_speed_above_limit)
         )
@@ -78,7 +79,12 @@ async def main():
     logging.basicConfig()
     args = parser.parse_args()
     if not args.enable_dapr:
-        Config().disable_dapr()
+        logger.debug("Init native middleware")
+        config._config = Config(MiddlewareType.NATIVE)
+    else:
+        logger.debug("Init dapr middleware")
+        config._config = Config(MiddlewareType.DAPR)
+
     print("Starting speed limit warner...", flush=True)
 
     warner = SpeedLimitWarner(vehicle, args.limit)

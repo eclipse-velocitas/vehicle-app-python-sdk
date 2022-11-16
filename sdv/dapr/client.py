@@ -24,7 +24,7 @@ from urllib.error import HTTPError
 import grpc
 from dapr.proto import api_service_v1, api_v1  # type: ignore
 
-from .. import conf
+from sdv.dapr.locator import DAPR_PUB_SUB_NAME_VALUE
 
 logger = logging.getLogger(__name__)
 
@@ -36,7 +36,7 @@ def publish_mqtt_event(topic: str, data: str) -> None:
     channel = grpc.insecure_channel(address)
     dapr_stub = api_service_v1.DaprStub(channel)
     req = api_v1.PublishEventRequest(
-        pubsub_name=conf.DAPR_PUB_SUB_NAME,
+        pubsub_name=DAPR_PUB_SUB_NAME_VALUE,
         topic=topic,
         data=bytes(data, "utf-8"),
         metadata={"rawPayload": "true"},

@@ -19,7 +19,7 @@ from unittest import TestCase, mock
 import grpc
 import pytest
 
-from sdv.base import Config
+from sdv import config
 from sdv.model import (
     DataPoint,
     DataPointBoolean,
@@ -58,8 +58,9 @@ from sdv.vdb.client import VehicleDataBrokerClient
 
 
 @pytest.fixture(autouse=True)
-def setup_vdb_client():
+def reset():
     VehicleDataBrokerClient._instance = None
+    config._config = None
 
 
 @pytest.mark.asyncio
@@ -1707,7 +1708,6 @@ def get_vehicle_instance():
             self.FloatArray = DataPointFloatArray("FloatArray", self)
             self.DoubleArray = DataPointDoubleArray("DoubleArray", self)
 
-    Config().disable_dapr()
     vehicle = Vehicle()
     # vehicle.get_client()
     return vehicle

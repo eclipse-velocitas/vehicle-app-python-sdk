@@ -12,16 +12,67 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from sdv import conf
+
+from abc import ABC, abstractmethod
+from enum import Enum
+from typing import Optional
 
 
-class Config:
-    """General configuration of the vehicle app"""
+class MiddlewareType(str, Enum):
+    """Enumerator for the supported Velocitas Middlewares."""
 
-    def disable_dapr(self):
-        """Allows to disable dapr for development purposes.
+    NATIVE = "native"
+    DAPR = "dapr"
 
-        Note, that MQTT communication is not possible in this case."""
 
-        conf.DISABLE_DAPR = True
-        conf.VEHICLE_DATA_BROKER_ADDRESS = "localhost:55555"
+class ServiceLocator(ABC):
+    """Service Discovery Locator abstract base class."""
+
+    @abstractmethod
+    def get_service_location(self, service_name: str) -> str:
+        raise NotImplementedError
+
+    @abstractmethod
+    def get_metadata(self, service_name: Optional[str] = None):
+        raise NotImplementedError
+
+
+class PubSubClient(ABC):
+    """PubSub client descriptor abstract base class."""
+
+    @abstractmethod
+    async def init(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    async def run(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    async def register_topic(self, topic: str, coro):
+        raise NotImplementedError
+
+    @abstractmethod
+    async def publish_event(self, topic: str, data: str):
+        raise NotImplementedError
+
+
+class Middleware(ABC):
+    """Middleware abstract base class."""
+
+    def __init__(self) -> None:
+        self.type = MiddlewareType.NATIVE
+        self.service_locator: ServiceLocator
+        self.pubsub_client: PubSubClient
+
+    @abstractmethod
+    async def start(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    async def wait_until_ready(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    async def stop(self):
+        raise NotImplementedError
