@@ -20,7 +20,7 @@ import signal
 
 from vehicle_model.sample import Vehicle, vehicle
 
-from sdv.base import Config
+from sdv.config import Config, Middleware
 from sdv.vdb.subscriptions import DataPointReply
 from sdv.vehicle_app import VehicleApp
 
@@ -51,7 +51,7 @@ class ArrayDatatype(VehicleApp):
 async def main():
     """Main function"""
     logging.basicConfig()
-    Config().disable_dapr()
+    Config(Middleware.NATIVE).dump()
     print("Starting Array Datatype example...", flush=True)
 
     array = ArrayDatatype(vehicle)

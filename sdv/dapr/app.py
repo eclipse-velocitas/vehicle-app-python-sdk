@@ -12,10 +12,18 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-import os
+from sdv.app import AppConfig
 
-from sdv.config import Config, Middleware
+DAPR_APP_PORT = 50008
 
-__middleware = os.getenv("SDV_MIDDLEWARE_TYPE", Middleware.DAPR.value)
-config = Config(__middleware)
-service_locator = config.service_locator
+
+class DaprAppConfig(AppConfig):
+    """Main Dapr App Config Implementation."""
+
+    def __init__(self) -> None:
+        super().__init__()
+
+    def get_config(self) -> list[tuple()]:
+        return [
+            ("dapr-app-port", DAPR_APP_PORT),
+        ]

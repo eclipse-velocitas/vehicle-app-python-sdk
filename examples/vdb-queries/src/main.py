@@ -18,7 +18,7 @@ import signal
 
 from sdv_model import Vehicle, vehicle
 
-from sdv.base import Config
+from sdv.config import Config, Middleware
 from sdv.vdb.subscriptions import DataPointReply
 from sdv.vehicle_app import VehicleApp
 
@@ -102,7 +102,7 @@ class VdbQueryExample(VehicleApp):
 async def main():
     """Main function"""
     logging.basicConfig()
-    Config().disable_dapr()
+    Config(Middleware.NATIVE).dump()
     print("Starting Vdb Query Sample...", flush=True)
 
     example = VdbQueryExample(vehicle)

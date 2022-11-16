@@ -37,7 +37,7 @@ from sdv.vdb.client import VehicleDataBrokerClient
 from sdv.vdb.subscriptions import SubscriptionManager, VdbSubscription
 from sdv.vdb.types import TypedDataPointResult
 
-from . import conf
+from sdv import conf
 
 logger = logging.getLogger(__name__)
 
