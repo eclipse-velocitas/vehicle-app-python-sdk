@@ -12,16 +12,19 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from sdv import conf
+from abc import ABC, abstractmethod
 
 
-class Config:
-    """General configuration of the vehicle app"""
+class AppConfig(ABC):
+    """Velocitas App Config abstract base class."""
 
-    def disable_dapr(self):
-        """Allows to disable dapr for development purposes.
+    def __init__(self) -> None:
+        self.config = None
 
-        Note, that MQTT communication is not possible in this case."""
+    def set_config(self, config: list[tuple()]):
+        self.config = config
 
-        conf.DISABLE_DAPR = True
-        conf.VEHICLE_DATA_BROKER_ADDRESS = "localhost:55555"
+    # list of (key, value)
+    @abstractmethod
+    def get_config(self) -> list[tuple()]:
+        raise NotImplementedError

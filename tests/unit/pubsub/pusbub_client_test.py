@@ -15,11 +15,12 @@
 """ Tests for methods in PubSubClient """
 import os
 import sys
-import pytest
 from unittest import mock
 
-from sdv.pubsub.client import PubSubClient 
+import pytest
+
 from sdv import conf
+from sdv.pubsub.client import PubSubClient
 from sdv.pubsub.dapr import DaprClient
 from sdv.pubsub.mqtt import MqttClient
 

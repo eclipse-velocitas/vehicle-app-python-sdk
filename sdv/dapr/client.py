@@ -24,7 +24,7 @@ from urllib.error import HTTPError
 import grpc
 from dapr.proto import api_service_v1, api_v1  # type: ignore
 
-from .. import conf
+from sdv import conf
 
 logger = logging.getLogger(__name__)
 

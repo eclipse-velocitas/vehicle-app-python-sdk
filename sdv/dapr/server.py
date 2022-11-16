@@ -20,13 +20,14 @@ from threading import Thread
 import grpc
 from dapr.proto import appcallback_service_v1  # type: ignore
 
-from .. import conf
-from ._servicier import TopicSubscribeCallable, _CallbackServicer
+from sdv import conf
+from sdv.dapr._servicier import TopicSubscribeCallable, _CallbackServicer
+from sdv.dapr.app import DaprAppConfig
 
 
 class _DaprServer:
     def __init__(self):
-        self._port = conf.DAPR_APP_PORT
+        self._port = DaprAppConfig().get_config()[0][1]
         self._worker_thread = Thread(target=self._start_server_loop)
         self._worker_thread.daemon = True
         self._is_running = False

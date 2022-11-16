@@ -20,7 +20,7 @@ import signal
 
 from sdv_model import Vehicle, vehicle
 
-from sdv.base import Config
+from sdv.config import Config, Middleware
 from sdv.vdb.subscriptions import DataPointReply
 from sdv.vehicle_app import VehicleApp, subscribe_data_points
 
@@ -47,7 +47,7 @@ class SpeedLimitWarner(VehicleApp):
 async def main():
     """Main function"""
     logging.basicConfig()
-    Config().disable_dapr()
+    Config(Middleware.NATIVE).dump()
     print("Starting speed limit warner...", flush=True)
     warner = SpeedLimitWarner(vehicle)
     await warner.run()

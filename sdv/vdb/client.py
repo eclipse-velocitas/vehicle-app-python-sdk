@@ -29,7 +29,7 @@ from sdv.proto.broker_pb2 import (
 )
 from sdv.proto.broker_pb2_grpc import BrokerStub
 
-from .. import conf
+from sdv import conf
 
 logger = logging.getLogger(__name__)
 
@@ -46,10 +46,10 @@ class VehicleDataBrokerClient:
 
             cls._address = conf.service_locator.get_location("vehicledatabroker")
             cls._channel = grpc.aio.insecure_channel(cls._address)  # type: ignore
-            
+
             metadata = conf.service_locator.get_metadata("vehicledatabroker")
             cls._metadata = metadata
-            
+
             cls._stub = BrokerStub(cls._channel)
         return cls._instance
 
