@@ -25,5 +25,5 @@ class PubSubClient:
     def subscribe_topic(self, topic, coro):
         self.native_client.register_topic(topic, coro)
 
-    def publish_event(self, topic: str, data: str) -> None:
+    async def publish_event(self, topic: str, data: str):
         self.native_client.publish_event(topic, data)
