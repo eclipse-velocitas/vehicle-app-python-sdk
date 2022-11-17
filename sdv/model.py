@@ -187,6 +187,33 @@ class Service(Node):
         self.metadata = conf.service_locator.get_metadata(self.name)
 
 
+class Batch(Node):
+    """Class for defining batches of data points updated in a single chunk"""
+
+    def __init__(self):
+        super().__init__()
+        self.__datapoints_batch = {}
+
+    def add(self, path: str, datapoint: BrokerDatapoint):
+        self.__datapoints_batch[path] = datapoint
+
+    async def commit(self):
+        if len(self.__datapoints_batch) > 0:
+            try:
+                response = await self.get_client().SetDatapoints(
+                    self.__datapoints_batch
+                )
+                self.__datapoints_batch = {}
+                if response.errors:
+                    raise TypeError(
+                        "set target values for non-actuators is not allowed!"
+                    )
+
+            except (grpc.aio.AioRpcError, Exception):  # type: ignore
+                logger.error("Error occured in DataPoint.set")
+                raise
+
+
 class DataPoint(Node):
     """Base class for data points. Do not use for modelling directly."""
 
@@ -246,21 +273,24 @@ class DataPoint(Node):
         """
         raise Exception(f"Unknown datpoint type for to set the value = {value}")
 
-    async def _set(self, datapoint: BrokerDatapoint):
+    async def _set(self, datapoint: BrokerDatapoint, batch=None):
         """Wrapper setter for the public set(value) with specific Datapoint type."""
-        try:
-            path = self.get_path()
-            response = await self.get_client().SetDatapoints(
-                datapoints={path: datapoint}
-            )
-            if response.errors:
-                raise TypeError(
-                    f"set target value for non-actuator {path} is not allowed!"
+        if batch is not None:
+            batch.add(self.get_path(), datapoint)
+        else:
+            try:
+                path = self.get_path()
+                response = await self.get_client().SetDatapoints(
+                    datapoints={path: datapoint}
                 )
+                if response.errors:
+                    raise TypeError(
+                        f"set target value for non-actuator {path} is not allowed!"
+                    )
 
-        except (grpc.aio.AioRpcError, Exception):  # type: ignore
-            logger.error("Error occured in DataPoint.set")
-            raise
+            except (grpc.aio.AioRpcError, Exception):  # type: ignore
+                logger.error("Error occured in DataPoint.set")
+                raise
 
 
 class DataPointBoolean(DataPoint):
@@ -277,10 +307,10 @@ class DataPointBoolean(DataPoint):
             logger.exception(ex)
             raise
 
-    async def set(self, value: bool):
+    async def set(self, value: bool, batch=None):
         try:
             datapoint = BrokerDatapoint(bool_value=value)
-            await self._set(datapoint)
+            await self._set(datapoint, batch)
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointBoolean.set")
             logger.exception(ex)
