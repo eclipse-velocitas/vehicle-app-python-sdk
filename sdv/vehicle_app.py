@@ -19,8 +19,8 @@ import inspect
 import logging
 from warnings import warn
 
+from sdv import config
 from sdv.dapr.server import run_server
-from sdv.pubsub.client import PubSubClient
 from sdv.vdb.client import VehicleDataBrokerClient
 from sdv.vdb.subscriptions import SubscriptionManager, VdbSubscription
 
@@ -68,7 +68,7 @@ class VehicleApp:
 
     def __init__(self):
         self._vdb_client = VehicleDataBrokerClient()
-        self.pubsub_client = PubSubClient()
+        self.pubsub_client = config.pubsub_client
         logger.debug("VehicleApp instantiation successfully done")
 
     async def on_start(self):
@@ -93,7 +93,7 @@ class VehicleApp:
                 callback = method[1]
                 topic = method[1].subscribeTopic
 
-                self.pubsub_client.subscribe_topic(topic, callback)
+                await self.pubsub_client.register_topic(topic, callback)
 
         # register vehicle data broker subscriptions using dapr grpc proxying after dapr
         # is initialized

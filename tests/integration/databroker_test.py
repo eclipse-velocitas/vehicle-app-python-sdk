@@ -23,7 +23,7 @@ from unittest import mock
 import grpc
 import pytest
 
-from sdv.config import Config, Middleware
+from sdv.config import Config, MiddlewareType
 from sdv.test.databroker_testhelper import SubscribeException, Vehicle
 from sdv.test.inttesthelper import IntTestHelper
 from sdv.vdb.client import VehicleDataBrokerClient
@@ -237,7 +237,7 @@ async def callback(reply, datapoint):
 
 
 def get_vehicleapp_instance():
-    Config(Middleware.NATIVE).dump()
+    Config(MiddlewareType.NATIVE).dump()
     client = VehicleApp()
     return client
 

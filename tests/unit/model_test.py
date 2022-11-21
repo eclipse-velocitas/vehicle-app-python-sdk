@@ -21,7 +21,7 @@ from unittest import TestCase, mock
 import grpc
 import pytest
 
-from sdv.config import Config, Middleware
+from sdv.config import Config, MiddlewareType
 from sdv.model import (
     DataPoint,
     DataPointBoolean,
@@ -1709,7 +1709,7 @@ def get_vehicle_instance():
             self.FloatArray = DataPointFloatArray("FloatArray", self)
             self.DoubleArray = DataPointDoubleArray("DoubleArray", self)
 
-    Config(Middleware.NATIVE).dump()
+    Config(MiddlewareType.NATIVE).dump()
     vehicle = Vehicle()
     # vehicle.get_client()
     return vehicle

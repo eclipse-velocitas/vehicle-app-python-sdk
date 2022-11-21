@@ -12,17 +12,13 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from enum import Enum
+import os
 
+from sdv.base import MiddlewareType, PubSubClient, ServiceLocator
 from sdv.dapr.locator import DaprServiceLocator
-from sdv.locator import NativeGrpcServiceLocator, ServiceLocator
-
-
-class Middleware(str, Enum):
-    """Enumerator for the supported Velocitas Middlewares."""
-
-    NATIVE = "native"
-    DAPR = "dapr"
+from sdv.dapr.pubsub import DaprClient
+from sdv.native.locator import NativeServiceLocator
+from sdv.native.mqtt import MqttClient
 
 
 class Config:
@@ -30,21 +26,45 @@ class Config:
 
     def __init__(self, *args):
         if len(args) > 1:
-            raise ValueError("........")
+            raise ValueError("Only one middleware type is supported at a time!")
         elif isinstance(args[0], str):
-            self.middleware_value = args[0]
-        elif isinstance(args[0], Middleware):
-            # This will raise a KeyError is the middleware is not supported.
-            self.middleware_value = Middleware._value2member_map_[args[0]]
+            __middleware = MiddlewareType(args[0])
+        elif isinstance(args[0], MiddlewareType):
+            __middleware = args[0]
+        else:
+            raise ValueError(f"Not supported middleware type {args[0]}")
 
-        self.service_locator = self.__create_locator(self.middleware_value)
+        self.middleware_type: MiddlewareType = __middleware
+        self.service_locator = self.__service_locator(self.middleware_type.value)
+        self.pubsub_client = self.__pubsub_client(self.middleware_type.value)
 
-    def __create_locator(self, middleware: str) -> ServiceLocator:
-        if middleware == Middleware.NATIVE.value:
-            return NativeGrpcServiceLocator()
-        if middleware == Middleware.DAPR.value:
-            return DaprServiceLocator()
+    def __service_locator(self, middleware_type: str) -> ServiceLocator:
+        if middleware_type == MiddlewareType.NATIVE.value:
+            locateor: ServiceLocator = NativeServiceLocator()
+        if middleware_type == MiddlewareType.DAPR.value:
+            locateor: ServiceLocator = DaprServiceLocator()
+
+        return locateor
+
+    def __pubsub_client(self, middleware_type: str) -> PubSubClient:
+        if middleware_type == MiddlewareType.NATIVE.value:
+            client: PubSubClient = MqttClient()
+        if middleware_type == MiddlewareType.DAPR.value:
+            client: PubSubClient = DaprClient()
+
+        return client
 
     @classmethod
     def dump(cls):
-        print(f"Middleware: {cls.middleware}, ServiceLocator: {cls.service_locator}")
+        print(
+            f"Middleware: {cls.middleware_type}, ServiceLocator: {cls.service_locator}"
+        )
+
+
+DISABLE_DAPR: bool = True
+__middleware_type = os.getenv("SDV_MIDDLEWARE_TYPE", MiddlewareType.DAPR.value)
+__config = Config(__middleware_type)
+
+middleware_type = __config.middleware_type
+service_locator = __config.service_locator
+pubsub_client = __config.pubsub_client

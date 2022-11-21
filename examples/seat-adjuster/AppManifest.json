@@ -3,9 +3,6 @@
         "Name": "seatadjuster",
         "Port": 50008,
         "DAPR_GRPC_PORT": 50001,
-        "MiddleWare" : {
-            "type" : "native"
-        },
         "Dockerfile": "./app/Dockerfile",
         "dependencies": {
             "services": [
@@ -32,6 +29,19 @@
                     "version": "v0.1.0"
                 }
             ],
+            "middleware": {
+                "type": "dapr",
+                "dependencies": [
+                    {
+                        "name": "cli",
+                        "version": "1.7.1"
+                    },
+                    {
+                        "name": "runtime",
+                        "version": "1.8.1"
+                    }
+                ]
+            },
             "python": {
                 "version": "3.9"
             },

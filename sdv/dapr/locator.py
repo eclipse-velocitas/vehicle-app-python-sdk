@@ -13,31 +13,40 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import os
+from typing import Optional
 
-from sdv.locator import ServiceLocator
+from sdv.base import ServiceLocator
 
-DAPR_PUB_SUB_NAME = "mqtt-pubsub"
+DAPR_APP_ID_KEY = "dapr-app-id"
+DAPR_APP_PORT_KEY = "dapr-app-port"
+DAPR_APP_PORT_VALUE = 50008
+
+DAPR_PUB_SUB_NAME_KEY = "mqtt-pubsub"
+DAPR_PUB_SUB_NAME_VALUE = "mqtt-pubsub"
 
 
 class DaprServiceLocator(ServiceLocator):
-    """dapr service locator"""
+    """Middleware descriptor abstract base class."""
 
-    def get_location(self, service_name: str) -> str:
+    def get_service_location(self, service_name: str) -> str:
         env_var = os.getenv("DAPR_GRPC_PORT")
         if env_var is None:
             port = 51001
         else:
             port = int(str(os.getenv("DAPR_GRPC_PORT")))
 
-        address = f"localhost:{port}"
+        address = f"grpc://localhost:{port}"
         return address
 
-    def get_metadata(self, service_name: str):
+    def get_metadata(self, service_name: Optional[str] = None):
+
         if service_name == "pubsub":
-            return (("name", DAPR_PUB_SUB_NAME),)
+            return ((DAPR_PUB_SUB_NAME_KEY, DAPR_PUB_SUB_NAME_VALUE),)
+        elif service_name is None:
+            service_name = ""
 
         app_id = os.getenv(service_name.upper() + "_DAPR_APP_ID")
         if app_id is None:
             app_id = service_name.lower()
 
-        return (("dapr-app-id", str(app_id)),)
+        return ((DAPR_APP_ID_KEY, str(app_id)),)

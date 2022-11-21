@@ -31,7 +31,6 @@
       "clientId": "vsmqtt_client"
     }
   ],
-  "pre-commit-helper.runOnSave": "all hooks",
   "mypy.runUsingActiveInterpreter": true,
   "python.linting.mypyArgs": [],
 }

@@ -18,7 +18,10 @@ from urllib.parse import urlparse
 
 import paho.mqtt.client as mqtt  # type: ignore
 
-import sdv.conf as conf
+from sdv.base import PubSubClient
+from sdv.native.locator import NativeServiceLocator
+
+_service_locator = NativeServiceLocator()
 
 
 class MqttTopicSubscription:
@@ -27,11 +30,11 @@ class MqttTopicSubscription:
         self.callback = callback
 
 
-class MqttClient:
+class MqttClient(PubSubClient):
     """This class is a wrapper for the on_message callback of the MQTT broker."""
 
     def __init__(self, port: Optional[int] = None, hostname: Optional[str] = None):
-        self._address = conf.service_locator.get_location("mqtt")
+        self._address = _service_locator.get_service_location("mqtt")
         self._port = urlparse(self._address).port
         self._hostname = urlparse(self._address).hostname
         self._pub_client = self.__create_client()
@@ -54,7 +57,7 @@ class MqttClient:
     async def init(self):
         """Do nothing"""
 
-    def register_topic(self, topic, coro):
+    async def register_topic(self, topic, coro):
         if not self._sub_client.is_connected():
             self._registered_topics.append(MqttTopicSubscription(topic, coro))
         else:
@@ -73,5 +76,5 @@ class MqttClient:
 
         # self.__on_connect_callback(self._sub_client, topic, coro)
 
-    def publish_event(self, topic: str, data: str) -> None:
-        self._pub_client.publish(topic, data)
+    async def publish_event(self, topic: str, data: str):
+        return self._pub_client.publish(topic, data)
