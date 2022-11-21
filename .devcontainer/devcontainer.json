@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.194.3/containers/dapr-javascript-node
 {
-	"name": "Python VehicleApp SDK",
+	"name": "VehicleApp Python SDK",
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
@@ -19,33 +19,25 @@
 		"python.linting.pylintPath": "/usr/local/bin/pylint",
 		"python.formatting.provider": "black",
 		"python.linting.banditEnabled": true,
-		"python.linting.flake8Enabled": true
-	},
-	"features": {
-		"docker-in-docker": {
-			"version": "20.10"
-		},
-		"common": {
-			"username": "automatic",
-			"uid": "automatic",
-			"gid": "automatic",
-			"installZsh": true,
-			"installOhMyZsh": true,
-			"upgradePackages": true,
-			"nonFreePackages": false
+		"python.linting.flake8Enabled": true,
+		"terminal.integrated.defaultProfile.linux": "zsh",
+		"terminal.integrated.profiles.linux": {
+			"zsh": {
+				"path": "/usr/bin/zsh"
+			}
 		}
 	},
+	// workaround for the devcontainer features
+	"overrideCommand": false,
+	"mounts": [
+		"source=dind-var-lib-docker,target=/var/lib/docker,type=volume"
+	],
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
+		"ms-python.python",
 		"dbaeumer.vscode-eslint",
 		"ms-azuretools.vscode-dapr",
 		"ms-azuretools.vscode-docker",
-		"ms-vscode.vscode-typescript-tslint-plugin",
-		"ms-python.python",
-		"cschleiden.vscode-github-actions",
-		"ms-vscode.powershell",
-		"pspester.pester-test",
-		"ms-vsliveshare.vsliveshare-pack",
 		"rpdswtk.vsmqtt",
 		"dotjoshjohnson.xml",
 		"ms-kubernetes-tools.vscode-kubernetes-tools",

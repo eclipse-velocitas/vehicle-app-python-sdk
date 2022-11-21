@@ -14,6 +14,11 @@
 # SPDX-License-Identifier: Apache-2.0
 
 echo "#######################################################"
+echo "### Executing add-python.sh                         ###"
+echo "#######################################################"
+.devcontainer/scripts/add-python.sh 2>&1 | tee -a $HOME/add-python.log
+
+echo "#######################################################"
 echo "### Install python requirements                     ###"
 echo "#######################################################"
 REQUIREMENTS="./requirements.txt"
