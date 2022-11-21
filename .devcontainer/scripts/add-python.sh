@@ -13,6 +13,13 @@
 # SPDX-License-Identifier: Apache-2.0
 
 echo "#######################################################"
+echo "### Installing OS updates                           ###"
+echo "#######################################################"
+sudo apt-get update
+sudo apt-get upgrade -y
+sudo apt-get install -y wget ca-certificates
+
+echo "#######################################################"
 echo "### Installing python version 3                     ###"
 echo "#######################################################"
 ROOT_DIRECTORY=$( realpath "$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/../.." )
