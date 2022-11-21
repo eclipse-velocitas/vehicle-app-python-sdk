@@ -78,7 +78,7 @@ setup(
         "sdv",
         "sdv.util",
         "sdv.dapr",
-        "sdv.pubsub",
+        "sdv.native",
         "sdv.proto",
         "sdv.vdb",
         "sdv.test",

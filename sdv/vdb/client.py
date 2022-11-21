@@ -18,9 +18,11 @@
 import asyncio
 import logging
 from typing import List, Optional
+from urllib.parse import urlparse
 
 import grpc
 
+from sdv import config
 from sdv.proto.broker_pb2 import (
     GetDatapointsRequest,
     GetMetadataRequest,
@@ -28,8 +30,6 @@ from sdv.proto.broker_pb2 import (
     SubscribeRequest,
 )
 from sdv.proto.broker_pb2_grpc import BrokerStub
-
-from sdv import conf
 
 logger = logging.getLogger(__name__)
 
@@ -44,10 +44,12 @@ class VehicleDataBrokerClient:
         if cls._instance is None:
             cls._instance = super(VehicleDataBrokerClient, cls).__new__(cls)
 
-            cls._address = conf.service_locator.get_location("vehicledatabroker")
-            cls._channel = grpc.aio.insecure_channel(cls._address)  # type: ignore
+            _address = config.service_locator.get_service_location("vehicledatabroker")
+            _hostname = urlparse(_address).hostname
+            _port = urlparse(_address).port
+            cls._channel = grpc.aio.insecure_channel(f"{_hostname}:{_port}")
 
-            metadata = conf.service_locator.get_metadata("vehicledatabroker")
+            metadata = config.service_locator.get_metadata("vehicledatabroker")
             cls._metadata = metadata
 
             cls._stub = BrokerStub(cls._channel)

@@ -12,34 +12,28 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-import logging
-
-from sdv.config import Middleware
-from sdv.pubsub.dapr import DaprClient
-from sdv.pubsub.mqtt import MqttClient
-
-logger = logging.getLogger(__name__)
-
-from sdv import conf
+from sdv.base import PubSubClient
+from sdv.dapr.client import publish_mqtt_event, wait_for_sidecar
+from sdv.dapr.server import register_topic, run_server
 
 
-class PubSubClient:
-    """Generic Pub Sub facade"""
+class DaprClient(PubSubClient):
+    """This class is a wrapper for the on_message callback of the MQTT broker."""
 
     def __init__(self):
-        if conf.config.middleware_value == Middleware.NATIVE.value:
-            self.native_client = MqttClient()
-        elif conf.config.middleware_value == Middleware.DAPR.value:
-            self.native_client = DaprClient()
+        # self.register_topic = register_topic
+        # self.publish_event = publish_mqtt_event
+        """Nothing to do"""
 
     async def init(self):
-        await self.native_client.init()
+        """Disabled, run_server is not only pubsub specfic for dapr."""
+        await run_server()
 
     async def run(self):
-        await self.native_client.run()
+        await wait_for_sidecar()
 
-    def subscribe_topic(self, topic, coro):
-        self.native_client.register_topic(topic, coro)
+    async def register_topic(self, topic: str, coro):
+        register_topic(topic, coro)
 
     async def publish_event(self, topic: str, data: str):
-        self.native_client.publish_event(topic, data)
+        return publish_mqtt_event(topic, data)

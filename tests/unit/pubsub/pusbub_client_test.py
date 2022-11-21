@@ -19,47 +19,50 @@ from unittest import mock
 
 import pytest
 
-from sdv import conf
-from sdv.pubsub.client import PubSubClient
-from sdv.pubsub.dapr import DaprClient
-from sdv.pubsub.mqtt import MqttClient
+from sdv.base import MiddlewareType, PubSubClient
+from sdv.config import Config
+from sdv.dapr.pubsub import DaprClient
+from sdv.native.mqtt import MqttClient
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 
 
+config = Config(MiddlewareType.NATIVE)
+
+
 @pytest.mark.asyncio
 async def test_for_subscribe_topic():
-    conf.DISABLE_DAPR = True
+    config.DISABLE_DAPR = True
 
     client = get_pubsub_client_instance()
     with mock.patch.object(
-        client.native_client,
+        client.pubsub_client,
         "register_topic",
         new_callable=mock.AsyncMock,
     ) as mocked_client:
         await client.subscribe_topic("/test/native", None)
-        assert isinstance(client.native_client, MqttClient)
+        assert isinstance(client.pubsub_client, MqttClient)
         mocked_client.assert_called_once_with("/test/native", None)
 
-    conf.DISABLE_DAPR = False
+    config.DISABLE_DAPR = False
     client = get_pubsub_client_instance()
     with mock.patch.object(
-        client.native_client,
+        client.pubsub_client,
         "register_topic",
         new_callable=mock.AsyncMock,
     ) as mocked_client:
         await client.subscribe_topic("/test/dapr", None)
-        assert isinstance(client.native_client, DaprClient)
+        assert isinstance(client.pubsub_client, DaprClient)
         mocked_client.assert_called_once_with("/test/dapr", None)
 
 
 @pytest.mark.asyncio
 async def test_for_get_publish_event():
-    conf.DISABLE_DAPR = True
+    config.DISABLE_DAPR = True
 
     client = get_pubsub_client_instance()
     with mock.patch.object(
-        client.native_client,
+        client.pubsub_client,
         "publish_event",
         new_callable=mock.AsyncMock,
     ) as mocked_client:
@@ -68,5 +71,4 @@ async def test_for_get_publish_event():
 
 
 def get_pubsub_client_instance() -> PubSubClient:
-    client = PubSubClient()
-    return client
+    return config.pubsub_client

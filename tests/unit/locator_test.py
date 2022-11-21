@@ -20,7 +20,7 @@ from unittest import mock
 
 import pytest
 
-from sdv import conf
+from sdv import config
 from sdv.model import Service
 
 
@@ -47,4 +47,4 @@ class CustomService(Service):
 
     def __init__(self):
         super().__init__()
-        self.address = conf.service_locator.get_location(self.name)
+        self.address = config.service_locator.get_service_location(self.name)

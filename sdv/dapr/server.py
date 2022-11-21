@@ -20,14 +20,15 @@ from threading import Thread
 import grpc
 from dapr.proto import appcallback_service_v1  # type: ignore
 
-from sdv import conf
 from sdv.dapr._servicier import TopicSubscribeCallable, _CallbackServicer
-from sdv.dapr.app import DaprAppConfig
+from sdv.dapr.locator import DaprServiceLocator
+
+_service_locator = DaprServiceLocator()
 
 
 class _DaprServer:
     def __init__(self):
-        self._port = DaprAppConfig().get_config()[0][1]
+        self._port = _service_locator.get_metadata("")[0][1]
         self._worker_thread = Thread(target=self._start_server_loop)
         self._worker_thread.daemon = True
         self._is_running = False
@@ -63,6 +64,7 @@ def register_topic(topic: str, callback: TopicSubscribeCallable) -> None:
         topic (str): MQTT topic name
         callback (TopicSubscribeCallable): method to be be called on incoming messages
     """
+    pubsub_name = _service_locator.get_metadata("pubsub")
     _servicer.register_topic(
-        conf.DAPR_PUB_SUB_NAME, topic, callback, metadata={"rawPayload": "true"}
+        pubsub_name[0][1], topic, callback, metadata={"rawPayload": "true"}
     )

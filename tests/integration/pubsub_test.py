@@ -23,7 +23,7 @@
 # import grpc
 import pytest
 
-from sdv.config import Config, Middleware
+from sdv.config import Config, MiddlewareType
 from sdv.test.databroker_testhelper import Vehicle
 
 # from sdv.test.databroker_testhelper import SubscribeException, Vehicle
@@ -51,6 +51,6 @@ class TestPubSubVehicleApp(VehicleApp):
 
 
 def get_vehicleapp_instance():
-    Config(Middleware.NATIVE).dump()
+    Config(MiddlewareType.NATIVE).dump()
     client = TestPubSubVehicleApp()
     return client
