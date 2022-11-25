@@ -830,7 +830,8 @@ class BatchSetBuilder:
             logger.error(
                 f"Key '{node_name}' already present in set-batch!"
                 f" Overwriting existing value '{self.__nodes[node_name]}'"
-                f" with '{node_value}'.")
+                f" with '{node_value}'."
+            )
         self.__nodes[node_name] = node_value
         return self
 
@@ -843,7 +844,8 @@ class BatchSetBuilder:
             response = await self.__client.SetDatapoints(self.__nodes)
             if response.errors:
                 raise TypeError(
-                    "Some data point values could not be set: ", response.errors)
+                    "Some data point values could not be set: ", response.errors
+                )
 
         except (grpc.aio.AioRpcError, Exception):  # type: ignore
             logger.error("Error occured on updating several data points")
