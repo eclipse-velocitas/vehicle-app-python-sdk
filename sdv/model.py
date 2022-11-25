@@ -828,16 +828,18 @@ class BatchSetBuilder:
         node_value = node.create_broker_data_point(value)
         if node_name in self.__nodes:
             logger.error(
-                f"Key '{node_name}' already present in set-batch!"
-                f" Overwriting existing value '{self.__nodes[node_name]}'"
-                f" with '{node_value}'."
+                "Key '%s' already present in set-batch!"
+                " Overwriting existing value '%s' with '%s'.",
+                node_name,
+                self.__nodes[node_name],
+                node_value,
             )
         self.__nodes[node_name] = node_value
         return self
 
     async def apply(self):
         if len(self.__nodes) == 0:
-            logger.warn("Empty node list, nothing updated")
+            logger.warning("Empty node list, nothing updated")
             return
 
         try:

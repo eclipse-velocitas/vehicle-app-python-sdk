@@ -23,6 +23,7 @@ import pytest
 
 from sdv.base import Config
 from sdv.model import (
+    DataPoint as ModelDataPoint,
     DataPointBoolean,
     DataPointBooleanArray,
     DataPointDouble,
@@ -138,6 +139,22 @@ async def test_get_exception():
             assert isinstance(ex, (grpc.aio.AioRpcError))
 
 
+def test_try_create_unspecific():
+    unspecific = ModelDataPoint("unspecific", None)
+
+    with pytest.raises(Exception):
+        unspecific.create_broker_data_point(42)
+
+
+def test_create_string():
+    vehicle = get_vehicle_instance()
+
+    test_value = "huhu"
+    broker_data_point = vehicle.String.create_broker_data_point(test_value)
+    assert broker_data_point.HasField("string_value")
+    assert broker_data_point.string_value == test_value
+
+
 @pytest.mark.asyncio
 async def test_get_string():
     vehicle = get_vehicle_instance()
@@ -171,6 +188,19 @@ async def test_set_string():
             TestCase.fail(
                 False, f"datapoint.set(new_value) raised an exception {error}"
             )
+
+
+def test_create_string_array():
+    vehicle = get_vehicle_instance()
+
+    expected_array = ["huhu", "Sarah"]
+    broker_data_point = vehicle.StringArray.create_broker_data_point(expected_array)
+
+    assert broker_data_point.HasField("string_array")
+    actual_array = broker_data_point.string_array.values
+    assert len(expected_array) == len(actual_array)
+    for expected_value, actual_value in zip(expected_array, actual_array):
+        assert expected_value == actual_value
 
 
 @pytest.mark.asyncio
@@ -210,6 +240,15 @@ async def test_set_string_array():
             )
 
 
+def test_create_bool():
+    vehicle = get_vehicle_instance()
+
+    test_value = True
+    broker_data_point = vehicle.Bool.create_broker_data_point(test_value)
+    assert broker_data_point.HasField("bool_value")
+    assert broker_data_point.bool_value == test_value
+
+
 @pytest.mark.asyncio
 async def test_get_bool():
     vehicle = get_vehicle_instance()
@@ -240,6 +279,19 @@ async def test_set_bool():
             TestCase.fail(
                 False, f"datapoint.set(new_value) raised an exception {error}"
             )
+
+
+def test_create_bool_array():
+    vehicle = get_vehicle_instance()
+
+    expected_array = [True, False]
+    broker_data_point = vehicle.BoolArray.create_broker_data_point(expected_array)
+
+    assert broker_data_point.HasField("bool_array")
+    actual_array = broker_data_point.bool_array.values
+    assert len(expected_array) == len(actual_array)
+    for expected_value, actual_value in zip(expected_array, actual_array):
+        assert expected_value == actual_value
 
 
 @pytest.mark.asyncio
@@ -279,6 +331,15 @@ async def test_set_bool_array():
             )
 
 
+def test_create_int8():
+    vehicle = get_vehicle_instance()
+
+    test_value = -128
+    broker_data_point = vehicle.Int8.create_broker_data_point(test_value)
+    assert broker_data_point.HasField("int32_value")
+    assert broker_data_point.int32_value == test_value
+
+
 @pytest.mark.asyncio
 async def test_get_int8():
     vehicle = get_vehicle_instance()
@@ -309,6 +370,19 @@ async def test_set_int8():
             TestCase.fail(
                 False, f"datapoint.set(new_value) raised an exception {error}"
             )
+
+
+def test_create_int8_array():
+    vehicle = get_vehicle_instance()
+
+    expected_array = [-128, 127]
+    broker_data_point = vehicle.Int8Array.create_broker_data_point(expected_array)
+
+    assert broker_data_point.HasField("int32_array")
+    actual_array = broker_data_point.int32_array.values
+    assert len(expected_array) == len(actual_array)
+    for expected_value, actual_value in zip(expected_array, actual_array):
+        assert expected_value == actual_value
 
 
 @pytest.mark.asyncio
@@ -348,6 +422,15 @@ async def test_set_int8_array():
             )
 
 
+def test_create_int16():
+    vehicle = get_vehicle_instance()
+
+    test_value = -32768
+    broker_data_point = vehicle.Int16.create_broker_data_point(test_value)
+    assert broker_data_point.HasField("int32_value")
+    assert broker_data_point.int32_value == test_value
+
+
 @pytest.mark.asyncio
 async def test_get_int16():
     vehicle = get_vehicle_instance()
@@ -378,6 +461,19 @@ async def test_set_int16():
             TestCase.fail(
                 False, f"datapoint.set(new_value) raised an exception {error}"
             )
+
+
+def test_create_int16_array():
+    vehicle = get_vehicle_instance()
+
+    expected_array = [-32768, 32767]
+    broker_data_point = vehicle.Int16Array.create_broker_data_point(expected_array)
+
+    assert broker_data_point.HasField("int32_array")
+    actual_array = broker_data_point.int32_array.values
+    assert len(expected_array) == len(actual_array)
+    for expected_value, actual_value in zip(expected_array, actual_array):
+        assert expected_value == actual_value
 
 
 @pytest.mark.asyncio
@@ -417,6 +513,15 @@ async def test_set_int16_array():
             )
 
 
+def test_create_int32():
+    vehicle = get_vehicle_instance()
+
+    test_value = -2147483648
+    broker_data_point = vehicle.Int32.create_broker_data_point(test_value)
+    assert broker_data_point.HasField("int32_value")
+    assert broker_data_point.int32_value == test_value
+
+
 @pytest.mark.asyncio
 async def test_get_int32():
     vehicle = get_vehicle_instance()
@@ -447,6 +552,19 @@ async def test_set_int32():
             TestCase.fail(
                 False, f"datapoint.set(new_value) raised an exception {error}"
             )
+
+
+def test_create_int32_array():
+    vehicle = get_vehicle_instance()
+
+    expected_array = [-2147483648, 2147483647]
+    broker_data_point = vehicle.Int32Array.create_broker_data_point(expected_array)
+
+    assert broker_data_point.HasField("int32_array")
+    actual_array = broker_data_point.int32_array.values
+    assert len(expected_array) == len(actual_array)
+    for expected_value, actual_value in zip(expected_array, actual_array):
+        assert expected_value == actual_value
 
 
 @pytest.mark.asyncio
@@ -486,6 +604,15 @@ async def test_set_int32_array():
             )
 
 
+def test_create_int64():
+    vehicle = get_vehicle_instance()
+
+    test_value = -9223372036854775808
+    broker_data_point = vehicle.Int64.create_broker_data_point(test_value)
+    assert broker_data_point.HasField("int64_value")
+    assert broker_data_point.int64_value == test_value
+
+
 @pytest.mark.asyncio
 async def test_get_int64():
     vehicle = get_vehicle_instance()
@@ -516,6 +643,19 @@ async def test_set_int64():
             TestCase.fail(
                 False, f"datapoint.set(new_value) raised an exception {error}"
             )
+
+
+def test_create_int64_array():
+    vehicle = get_vehicle_instance()
+
+    expected_array = [-9223372036854775808, 9223372036854775807]
+    broker_data_point = vehicle.Int64Array.create_broker_data_point(expected_array)
+
+    assert broker_data_point.HasField("int64_array")
+    actual_array = broker_data_point.int64_array.values
+    assert len(expected_array) == len(actual_array)
+    for expected_value, actual_value in zip(expected_array, actual_array):
+        assert expected_value == actual_value
 
 
 @pytest.mark.asyncio
@@ -555,6 +695,15 @@ async def test_set_int64_array():
             )
 
 
+def test_create_uint8():
+    vehicle = get_vehicle_instance()
+
+    test_value = 255
+    broker_data_point = vehicle.UInt8.create_broker_data_point(test_value)
+    assert broker_data_point.HasField("uint32_value")
+    assert broker_data_point.uint32_value == test_value
+
+
 @pytest.mark.asyncio
 async def test_get_uint8():
     vehicle = get_vehicle_instance()
@@ -585,6 +734,19 @@ async def test_set_uint8():
             TestCase.fail(
                 False, f"datapoint.set(new_value) raised an exception {error}"
             )
+
+
+def test_create_uint8_array():
+    vehicle = get_vehicle_instance()
+
+    expected_array = [0, 255]
+    broker_data_point = vehicle.UInt8Array.create_broker_data_point(expected_array)
+
+    assert broker_data_point.HasField("uint32_array")
+    actual_array = broker_data_point.uint32_array.values
+    assert len(expected_array) == len(actual_array)
+    for expected_value, actual_value in zip(expected_array, actual_array):
+        assert expected_value == actual_value
 
 
 @pytest.mark.asyncio
@@ -624,6 +786,15 @@ async def test_set_uint8_array():
             )
 
 
+def test_create_uint16():
+    vehicle = get_vehicle_instance()
+
+    test_value = 65535
+    broker_data_point = vehicle.UInt16.create_broker_data_point(test_value)
+    assert broker_data_point.HasField("uint32_value")
+    assert broker_data_point.uint32_value == test_value
+
+
 @pytest.mark.asyncio
 async def test_get_uint16():
     vehicle = get_vehicle_instance()
@@ -656,6 +827,19 @@ async def test_set_uint16():
             TestCase.fail(
                 False, f"datapoint.set(new_value) raised an exception {error}"
             )
+
+
+def test_create_uint16_array():
+    vehicle = get_vehicle_instance()
+
+    expected_array = [0, 65535]
+    broker_data_point = vehicle.UInt16Array.create_broker_data_point(expected_array)
+
+    assert broker_data_point.HasField("uint32_array")
+    actual_array = broker_data_point.uint32_array.values
+    assert len(expected_array) == len(actual_array)
+    for expected_value, actual_value in zip(expected_array, actual_array):
+        assert expected_value == actual_value
 
 
 @pytest.mark.asyncio
@@ -695,6 +879,15 @@ async def test_set_uint16_array():
             )
 
 
+def test_create_uint32():
+    vehicle = get_vehicle_instance()
+
+    test_value = 4294967295
+    broker_data_point = vehicle.UInt32.create_broker_data_point(test_value)
+    assert broker_data_point.HasField("uint32_value")
+    assert broker_data_point.uint32_value == test_value
+
+
 @pytest.mark.asyncio
 async def test_get_uint32():
     vehicle = get_vehicle_instance()
@@ -727,6 +920,19 @@ async def test_set_uint32():
             TestCase.fail(
                 False, f"datapoint.set(new_value) raised an exception {error}"
             )
+
+
+def test_create_uint32_array():
+    vehicle = get_vehicle_instance()
+
+    expected_array = [0, 4294967295]
+    broker_data_point = vehicle.UInt32Array.create_broker_data_point(expected_array)
+
+    assert broker_data_point.HasField("uint32_array")
+    actual_array = broker_data_point.uint32_array.values
+    assert len(expected_array) == len(actual_array)
+    for expected_value, actual_value in zip(expected_array, actual_array):
+        assert expected_value == actual_value
 
 
 @pytest.mark.asyncio
@@ -766,6 +972,15 @@ async def test_set_uint32_array():
             )
 
 
+def test_create_uint64():
+    vehicle = get_vehicle_instance()
+
+    test_value = 18446744073709551615
+    broker_data_point = vehicle.UInt64.create_broker_data_point(test_value)
+    assert broker_data_point.HasField("uint64_value")
+    assert broker_data_point.uint64_value == test_value
+
+
 @pytest.mark.asyncio
 async def test_get_uint64():
     vehicle = get_vehicle_instance()
@@ -798,6 +1013,19 @@ async def test_set_uint64():
             TestCase.fail(
                 False, f"datapoint.set(new_value) raised an exception {error}"
             )
+
+
+def test_create_uint64_array():
+    vehicle = get_vehicle_instance()
+
+    expected_array = [0, 18446744073709551615]
+    broker_data_point = vehicle.UInt64Array.create_broker_data_point(expected_array)
+
+    assert broker_data_point.HasField("uint64_array")
+    actual_array = broker_data_point.uint64_array.values
+    assert len(expected_array) == len(actual_array)
+    for expected_value, actual_value in zip(expected_array, actual_array):
+        assert expected_value == actual_value
 
 
 @pytest.mark.asyncio
@@ -837,6 +1065,15 @@ async def test_set_uint64_array():
             )
 
 
+def test_create_float():
+    vehicle = get_vehicle_instance()
+
+    test_value = 0.75
+    broker_data_point = vehicle.Float.create_broker_data_point(test_value)
+    assert broker_data_point.HasField("float_value")
+    assert broker_data_point.float_value == test_value
+
+
 @pytest.mark.asyncio
 async def test_get_float():
     vehicle = get_vehicle_instance()
@@ -870,6 +1107,19 @@ async def test_set_float():
             TestCase.fail(
                 False, f"datapoint.set(new_value) raised an exception {error}"
             )
+
+
+def test_create_float_array():
+    vehicle = get_vehicle_instance()
+
+    expected_array = [-0.125, 0.875]
+    broker_data_point = vehicle.FloatArray.create_broker_data_point(expected_array)
+
+    assert broker_data_point.HasField("float_array")
+    actual_array = broker_data_point.float_array.values
+    assert len(expected_array) == len(actual_array)
+    for expected_value, actual_value in zip(expected_array, actual_array):
+        assert expected_value == actual_value
 
 
 @pytest.mark.asyncio
@@ -909,6 +1159,15 @@ async def test_set_float_array():
             )
 
 
+def test_create_double():
+    vehicle = get_vehicle_instance()
+
+    test_value = 2.718281828459
+    broker_data_point = vehicle.Double.create_broker_data_point(test_value)
+    assert broker_data_point.HasField("double_value")
+    assert broker_data_point.double_value == test_value
+
+
 @pytest.mark.asyncio
 async def test_get_double():
     vehicle = get_vehicle_instance()
@@ -942,6 +1201,19 @@ async def test_set_double():
             TestCase.fail(
                 False, f"datapoint.set(new_value) raised an exception {error}"
             )
+
+
+def test_create_double_array():
+    vehicle = get_vehicle_instance()
+
+    expected_array = [2.718281828459, 3.141592653589]
+    broker_data_point = vehicle.DoubleArray.create_broker_data_point(expected_array)
+
+    assert broker_data_point.HasField("double_array")
+    actual_array = broker_data_point.double_array.values
+    assert len(expected_array) == len(actual_array)
+    for expected_value, actual_value in zip(expected_array, actual_array):
+        assert expected_value == actual_value
 
 
 @pytest.mark.asyncio
