@@ -22,8 +22,8 @@ import grpc
 import pytest
 
 from sdv.base import Config
-from sdv.model import DataPoint as ModelDataPoint
 from sdv.model import (
+    DataPoint,
     DataPointBoolean,
     DataPointBooleanArray,
     DataPointDouble,
@@ -54,7 +54,8 @@ from sdv.model import (
     NamedRange,
 )
 from sdv.proto.broker_pb2 import GetDatapointsReply, SetDatapointsReply, SubscribeReply
-from sdv.proto.types_pb2 import Datapoint
+from sdv.proto.types_pb2 import Datapoint as BrokerDatapoint
+from sdv.proto.types_pb2 import DatapointError
 from sdv.vdb.client import VehicleDataBrokerClient
 
 
@@ -140,7 +141,7 @@ async def test_get_exception():
 
 
 def test_try_create_unspecific():
-    unspecific = ModelDataPoint("unspecific", None)
+    unspecific = DataPoint("unspecific", None)
 
     with pytest.raises(Exception):
         unspecific.create_broker_data_point(42)
@@ -1464,6 +1465,53 @@ def test_path_out_of_range():
         assert e.args[0] == "5 is not in range 1-2"
 
 
+@pytest.mark.asyncio
+async def test_setting_multiple_data_points_atomicly():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(errors={}),
+    ) as mock_set_dps:
+
+        (
+            await vehicle.preset(vehicle.Bool, False)
+            .preset(vehicle.StringArray, ["Huhu", "Sarah"])
+            .apply()
+        )
+
+        bool_data_point = vehicle.Bool.create_broker_data_point(False)
+        string_array = vehicle.StringArray.create_broker_data_point(["Huhu", "Sarah"])
+        mock_set_dps.assert_called_once_with(
+            {
+                vehicle.Bool.get_path(): bool_data_point,
+                vehicle.StringArray.get_path(): string_array,
+            }
+        )
+
+
+@pytest.mark.asyncio
+async def test_fail_setting_multiple_data_points_atomicly():
+    vehicle = get_vehicle_instance()
+
+    with mock.patch.object(
+        vehicle.get_client(),
+        "SetDatapoints",
+        new_callable=mock.AsyncMock,
+        return_value=SetDatapointsReply(
+            errors={vehicle.Bool.get_path(): DatapointError.UNKNOWN_DATAPOINT}
+        ),
+    ):
+        with pytest.raises(TypeError):
+            (
+                await vehicle.preset(vehicle.Bool, False)
+                .preset(vehicle.String, "Huhu")
+                .apply()
+            )
+
+
 DoorSides = ["Left", "Right"]
 TrunkOptions = ["Front", "Rear"]
 
@@ -1543,8 +1591,8 @@ def get_fields(condition=""):
     return data
 
 
-def get_sample_datapoint(data, value=10) -> Datapoint:
-    datapoint = Datapoint()
+def get_sample_datapoint(data, value=10) -> BrokerDatapoint:
+    datapoint = BrokerDatapoint()
     if data == "Speed":
         datapoint.float_value = float(value)
     if data == "Position":
