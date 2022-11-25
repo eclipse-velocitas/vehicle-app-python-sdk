@@ -22,8 +22,8 @@ import grpc
 import pytest
 
 from sdv.base import Config
+from sdv.model import DataPoint as ModelDataPoint
 from sdv.model import (
-    DataPoint as ModelDataPoint,
     DataPointBoolean,
     DataPointBooleanArray,
     DataPointDouble,
