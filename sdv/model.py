@@ -133,9 +133,10 @@ class DataPoint(Node):
         """
         raise Exception(f"Unknown datpoint type for to set the value = {value}")
 
-    async def _set(self, datapoint: BrokerDatapoint):
+    async def _set(self, value, subclass_name: str):
         """Wrapper setter for the public set(value) with specific Datapoint type."""
         try:
+            datapoint = self.create_broker_data_point(value)
             path = self.get_path()
             response = await self.get_client().SetDatapoints(
                 datapoints={path: datapoint}
@@ -145,8 +146,9 @@ class DataPoint(Node):
                     f"set target value for non-actuator {path} is not allowed!"
                 )
 
-        except (grpc.aio.AioRpcError, Exception):  # type: ignore
-            logger.error("Error occured in DataPoint.set")
+        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
+            logger.error("Error occured in %s.set", subclass_name)
+            logger.exception(ex)
             raise
 
     def create_broker_data_point(self, value):
@@ -171,13 +173,7 @@ class DataPointBoolean(DataPoint):
             raise
 
     async def set(self, value: bool):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointBoolean.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: bool):
         return BrokerDatapoint(bool_value=value)
@@ -198,13 +194,7 @@ class DataPointBooleanArray(DataPoint):
             raise
 
     async def set(self, value: List[bool]):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointBooleanArray.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: List[bool]):
         array = BoolArray(values=value)
@@ -226,13 +216,7 @@ class DataPointInt8(DataPoint):
             raise
 
     async def set(self, value: int):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointInt8.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: int):
         return BrokerDatapoint(int32_value=value)
@@ -253,13 +237,7 @@ class DataPointInt8Array(DataPoint):
             raise
 
     async def set(self, value: List[int]):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointInt8Array.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: List[int]):
         array = Int32Array(values=value)
@@ -281,13 +259,7 @@ class DataPointInt16(DataPoint):
             raise
 
     async def set(self, value: int):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointInt16.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: int):
         return BrokerDatapoint(int32_value=value)
@@ -308,13 +280,7 @@ class DataPointInt16Array(DataPoint):
             raise
 
     async def set(self, value: List[int]):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointInt16Array.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: List[int]):
         array = Int32Array(values=value)
@@ -336,13 +302,7 @@ class DataPointInt32(DataPoint):
             raise
 
     async def set(self, value: int):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointInt32.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: int):
         return BrokerDatapoint(int32_value=value)
@@ -363,13 +323,7 @@ class DataPointInt32Array(DataPoint):
             raise
 
     async def set(self, value: List[int]):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointInt32Array.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: List[int]):
         array = Int32Array(values=value)
@@ -391,13 +345,7 @@ class DataPointInt64(DataPoint):
             raise
 
     async def set(self, value: int):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointInt64.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: int):
         return BrokerDatapoint(int64_value=value)
@@ -418,13 +366,7 @@ class DataPointInt64Array(DataPoint):
             raise
 
     async def set(self, value: List[int]):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointInt64Array.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: List[int]):
         array = Int64Array(values=value)
@@ -446,13 +388,7 @@ class DataPointUint8(DataPoint):
             raise
 
     async def set(self, value: int):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointUint8.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: int):
         return BrokerDatapoint(uint32_value=value)
@@ -473,13 +409,7 @@ class DataPointUint8Array(DataPoint):
             raise
 
     async def set(self, value: List[int]):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointUint8Array.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: List[int]):
         array = Uint32Array(values=value)
@@ -501,13 +431,7 @@ class DataPointUint16(DataPoint):
             raise
 
     async def set(self, value: int):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointUint16.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: int):
         return BrokerDatapoint(uint32_value=value)
@@ -528,13 +452,7 @@ class DataPointUint16Array(DataPoint):
             raise
 
     async def set(self, value: List[int]):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointUint16Array.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: List[int]):
         array = Uint32Array(values=value)
@@ -556,13 +474,7 @@ class DataPointUint32(DataPoint):
             raise
 
     async def set(self, value: int):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointUint32.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: int):
         return BrokerDatapoint(uint32_value=value)
@@ -583,13 +495,7 @@ class DataPointUint32Array(DataPoint):
             raise
 
     async def set(self, value: List[int]):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointUint32Array.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: List[int]):
         array = Uint32Array(values=value)
@@ -611,13 +517,7 @@ class DataPointUint64(DataPoint):
             raise
 
     async def set(self, value: int):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointUint64.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: int):
         return BrokerDatapoint(uint64_value=value)
@@ -638,13 +538,7 @@ class DataPointUint64Array(DataPoint):
             raise
 
     async def set(self, value: List[int]):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointUint64Array.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: List[int]):
         array = Uint64Array(values=value)
@@ -666,13 +560,7 @@ class DataPointFloat(DataPoint):
             raise
 
     async def set(self, value: float):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointFloat.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: float):
         return BrokerDatapoint(float_value=value)
@@ -693,13 +581,7 @@ class DataPointFloatArray(DataPoint):
             raise
 
     async def set(self, value: List[float]):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointFloatArray.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: List[float]):
         array = FloatArray(values=value)
@@ -721,13 +603,7 @@ class DataPointDouble(DataPoint):
             raise
 
     async def set(self, value: float):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointDouble.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: float):
         return BrokerDatapoint(double_value=value)
@@ -748,13 +624,7 @@ class DataPointDoubleArray(DataPoint):
             raise
 
     async def set(self, value: List[float]):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointDoubleArray.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: List[float]):
         array = DoubleArray(values=value)
@@ -776,13 +646,7 @@ class DataPointString(DataPoint):
             raise
 
     async def set(self, value: str):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointString.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: str):
         return BrokerDatapoint(string_value=value)
@@ -803,13 +667,7 @@ class DataPointStringArray(DataPoint):
             raise
 
     async def set(self, value: List[str]):
-        try:
-            datapoint = self.create_broker_data_point(value)
-            await self._set(datapoint)
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointStringArray.set")
-            logger.exception(ex)
-            raise
+        await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: List[str]):
         array = StringArray(values=value)
