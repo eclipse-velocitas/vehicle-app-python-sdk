@@ -816,32 +816,36 @@ class DataPointStringArray(DataPoint):
         return BrokerDatapoint(string_array=array)
 
 
-class AtomicSetBuilder:
+class BatchSetBuilder:
+    """Collects data points to be updated in a single 'atomic' set"""
 
     def __init__(self, client):
-        self.client = client
-        self.data_points = {}
+        self.__client = client
+        self.__nodes = {}
 
-    def preset(self, node: DataPoint, value):
-        data_point_name = node.get_path()
-        data_point_value = node.create_broker_data_point(value)
-        self.data_points[data_point_name] = data_point_value
+    def preset(self, node: DataPoint, value) -> 'BatchSetBuilder':
+        node_name = node.get_path()
+        node_value = node.create_broker_data_point(value)
+        if node_name in self.__nodes:
+            logger.error(f"Key '{node_name}' already present in set-batch!"
+                         f" Overwriting existing value '{self.__nodes[node_name]}'"
+                         f" with '{node_value}'.")
+        self.__nodes[node_name] = node_value
         return self
 
     async def apply(self):
-        if len(self.data_points) == 0:
-            logger.warn("Empty data point list, nothing updated")
+        if len(self.__nodes) == 0:
+            logger.warn("Empty node list, nothing updated")
             return
 
         try:
-            response = await self.client.SetDatapoints(self.data_points)
+            response = await self.__client.SetDatapoints(self.__nodes)
             if response.errors:
-                raise TypeError(
-                    "set target values for non-actuators is not allowed!"
-                )
+                raise TypeError("Some data point values could not be set: ",
+                                response.errors)
 
         except (grpc.aio.AioRpcError, Exception):  # type: ignore
-            logger.error("Error occured in DataPoint.set")
+            logger.error("Error occured on updating several data points")
             raise
 
 
@@ -851,8 +855,8 @@ class Model(Node):
     But also a Model class can be a leaf, if it does not contain data Points,
     just methods."""
 
-    def preset(self, node: DataPoint, value) -> AtomicSetBuilder:
-        builder = AtomicSetBuilder(self.get_client())
+    def preset(self, node: DataPoint, value) -> BatchSetBuilder:
+        builder = BatchSetBuilder(self.get_client())
         return builder.preset(node, value)
 
 
