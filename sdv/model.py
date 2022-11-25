@@ -823,13 +823,14 @@ class BatchSetBuilder:
         self.__client = client
         self.__nodes = {}
 
-    def preset(self, node: DataPoint, value) -> 'BatchSetBuilder':
+    def preset(self, node: DataPoint, value) -> "BatchSetBuilder":
         node_name = node.get_path()
         node_value = node.create_broker_data_point(value)
         if node_name in self.__nodes:
-            logger.error(f"Key '{node_name}' already present in set-batch!"
-                         f" Overwriting existing value '{self.__nodes[node_name]}'"
-                         f" with '{node_value}'.")
+            logger.error(
+                f"Key '{node_name}' already present in set-batch!"
+                f" Overwriting existing value '{self.__nodes[node_name]}'"
+                f" with '{node_value}'.")
         self.__nodes[node_name] = node_value
         return self
 
@@ -841,8 +842,8 @@ class BatchSetBuilder:
         try:
             response = await self.__client.SetDatapoints(self.__nodes)
             if response.errors:
-                raise TypeError("Some data point values could not be set: ",
-                                response.errors)
+                raise TypeError(
+                    "Some data point values could not be set: ", response.errors)
 
         except (grpc.aio.AioRpcError, Exception):  # type: ignore
             logger.error("Error occured on updating several data points")
