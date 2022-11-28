@@ -12,19 +12,20 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 import asyncio
-from typing import Optional
-from typing import Iterator
-import grpc 
+from typing import Iterator, Optional
+
+import grpc
+
 import sdv.conf as conf
 from sdv.proto.chariott.common.v1.common_pb2 import (
-    WriteIntent,
-    SubscribeIntent,
     Intent,
-    Value
+    SubscribeIntent,
+    Value,
+    WriteIntent,
 )
-from sdv.proto.chariott.runtime.v1.runtime_pb2_grpc import ChariottServiceStub
 from sdv.proto.chariott.runtime.v1.runtime_pb2 import FulfillRequest
-from sdv.proto.chariott.streaming.v1.streaming_pb2 import OpenRequest, Event
+from sdv.proto.chariott.runtime.v1.runtime_pb2_grpc import ChariottServiceStub
+from sdv.proto.chariott.streaming.v1.streaming_pb2 import Event, OpenRequest
 from sdv.proto.chariott.streaming.v1.streaming_pb2_grpc import ChannelServiceStub
 
 
@@ -46,13 +47,11 @@ class ChariottPubSubClient:
     async def run(self):
         """Do nothing"""
 
-    async def _message_watcher(
-            self,
-            message_iterator: Iterator[Event]) -> None:
+    async def _message_watcher(self, message_iterator: Iterator[Event]) -> None:
         try:
             for message in message_iterator:
                 print(message)
-§         except Exception as e:
+        except Exception as e:
             print(e)
             raise
 
@@ -63,32 +62,26 @@ class ChariottPubSubClient:
             self._channel_id = dict(stream.initial_metadata())["x-chariott-channel-id"]
 
             task = asyncio.create_task(
-                coro=self._message_watcher(stream),
-                name='sdv.kvs'
+                coro=self._message_watcher(stream), name="sdv.kvs"
             )
             self._subscriptions.append(task)
 
             self._initialized = True
             self.__on_connect()
-            
 
     def __register_waiting_topics(self):
-        if not self._initialized: 
+        if not self._initialized:
             return
         for topic in self._topics_waiting_for_subscription:
             self.__register_topic(topic["topic"], topic["coro"])
 
     def __register_topic(self, topic, coro):
-        self._registered_topics.append({
-            "topic": topic,
-            "coro": coro
-        })
+        self._registered_topics.append({"topic": topic, "coro": coro})
 
         fulfill_request = FulfillRequest(
             namespace=self._kv_namespace,
-            intent=Intent(subscribe=SubscribeIntent(
-                channel_id=self._channel_id, 
-                sources=[topic])
+            intent=Intent(
+                subscribe=SubscribeIntent(channel_id=self._channel_id, sources=[topic])
             ),
         )
 
@@ -97,9 +90,7 @@ class ChariottPubSubClient:
             service_stub.Fulfill(fulfill_request)
 
     def register_topic(self, topic, coro):
-        self._topics_waiting_for_subscription.append(
-            {"topic": topic, "coro": coro}
-        )
+        self._topics_waiting_for_subscription.append({"topic": topic, "coro": coro})
 
         self.__register_waiting_topics()
 

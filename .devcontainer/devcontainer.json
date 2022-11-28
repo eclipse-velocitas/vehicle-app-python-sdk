@@ -20,6 +20,7 @@
 		"python.linting.flake8Enabled": true
 	},
 	"features": {
+		"ghcr.io/devcontainers/features/rust:1": {},
 		"docker-in-docker": {
 			"version": "latest",
 			"moby": true
