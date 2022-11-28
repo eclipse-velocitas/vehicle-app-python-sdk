@@ -1466,7 +1466,7 @@ def test_path_out_of_range():
 
 
 @pytest.mark.asyncio
-async def test_setting_multiple_data_points_atomicly():
+async def test_setting_multiple_data_points_atomically():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(
@@ -1493,7 +1493,7 @@ async def test_setting_multiple_data_points_atomicly():
 
 
 @pytest.mark.asyncio
-async def test_fail_setting_multiple_data_points_atomicly():
+async def test_fail_setting_multiple_data_points_atomically():
     vehicle = get_vehicle_instance()
 
     with mock.patch.object(

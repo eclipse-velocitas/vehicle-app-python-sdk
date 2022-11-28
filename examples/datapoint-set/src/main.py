@@ -38,7 +38,7 @@ TOPIC_SET_SENSOR_VALUE_REQUEST = "vehicleapp/setSensor/request"
 
 
 class SetDatapointApp(VehicleApp):
-    """Speed Limit Warner Vehicle App"""
+    """Variant of Seat Adjuster App - using actuators to request seat positions"""
 
     def __init__(self, vehicle: Vehicle):
         super().__init__()

@@ -33,8 +33,9 @@ TOPIC_SET_VALUE_REQUEST = "vehicleapp/setValue/request"
 # {"position": 300} -> this request for set seat position
 
 
-class SetMultipleDatapointsAtomiclyApp(VehicleApp):
-    """Speed Limit Warner Vehicle App"""
+class SetMultipleDatapointsAtomicallyApp(VehicleApp):
+    """Variant of Seat Adjuster App - demonstrates setting multiple data points
+    in one atomic step"""
 
     def __init__(self, vehicle: Vehicle):
         super().__init__()
@@ -76,7 +77,7 @@ async def main():
     logging.basicConfig()
     logger.info("Starting SetDatapoint Sample...")
 
-    example = SetMultipleDatapointsAtomiclyApp(vehicle)
+    example = SetMultipleDatapointsAtomicallyApp(vehicle)
     await example.run()
 
 
