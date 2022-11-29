@@ -675,7 +675,18 @@ class DataPointStringArray(DataPoint):
 
 
 class BatchSetBuilder:
-    """Collects data points to be updated in a single 'atomic' set"""
+    """
+    Collects data points to be set in a single 'atomic' operation.
+    The data points to be set need being added in a chain of 'add' calls, which
+    is terminated by an 'apply' call to commit the changed values to the data model:
+
+    (
+        await model.set_many()
+        .add(model.subbranch.BoolDatapoint1, True)
+        .add(model.subbranch.BoolDatapoint2, False)
+        .apply()
+    )
+    """
 
     def __init__(self, client):
         self.__client = client
