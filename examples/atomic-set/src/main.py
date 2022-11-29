@@ -59,8 +59,9 @@ class SetMultipleDatapointsAtomicallyApp(VehicleApp):
         try:
             # This is a valid set request, the Position is an actuator.
             (
-                await vehicle.preset(vehicle.Cabin.Seat.Row1.Pos1.Position, position)
-                .preset(vehicle.Cabin.Seat.Row1.Pos2.Position, position)
+                await vehicle.set_many()
+                .add(vehicle.Cabin.Seat.Row1.Pos1.Position, position)
+                .add(vehicle.Cabin.Seat.Row1.Pos2.Position, position)
                 .apply()
             )
             await self.publish_mqtt_event(

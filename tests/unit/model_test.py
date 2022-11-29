@@ -1477,8 +1477,9 @@ async def test_setting_multiple_data_points_atomically():
     ) as mock_set_dps:
 
         (
-            await vehicle.preset(vehicle.Bool, False)
-            .preset(vehicle.StringArray, ["Huhu", "Sarah"])
+            await vehicle.set_many()
+            .add(vehicle.Bool, False)
+            .add(vehicle.StringArray, ["Huhu", "Sarah"])
             .apply()
         )
 
@@ -1506,8 +1507,9 @@ async def test_fail_setting_multiple_data_points_atomically():
     ):
         with pytest.raises(TypeError):
             (
-                await vehicle.preset(vehicle.Bool, False)
-                .preset(vehicle.String, "Huhu")
+                await vehicle.set_many()
+                .add(vehicle.Bool, False)
+                .add(vehicle.String, "Huhu")
                 .apply()
             )
 

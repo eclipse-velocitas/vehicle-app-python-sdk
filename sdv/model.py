@@ -17,7 +17,7 @@
 import asyncio
 import contextvars
 import logging
-from typing import Generic, List, Type, TypeVar
+from typing import Generic, List, Type, TypeVar, overload
 
 import grpc
 from deprecated import deprecated
@@ -681,7 +681,103 @@ class BatchSetBuilder:
         self.__client = client
         self.__nodes = {}
 
-    def preset(self, node: DataPoint, value) -> "BatchSetBuilder":
+    @overload
+    def add(self, node: DataPointBoolean, value: bool) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointBooleanArray, value: List[bool]) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointDouble, value: float) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointDoubleArray, value: List[float]) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointFloat, value: float) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointFloatArray, value: List[float]) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointInt8, value: int) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointInt8Array, value: List[int]) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointInt16, value: int) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointInt16Array, value: List[int]) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointInt32, value: int) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointInt32Array, value: List[int]) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointInt64, value: int) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointInt64Array, value: List[int]) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointString, value: str) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointStringArray, value: List[str]) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointUint8, value: int) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointUint8Array, value: List[int]) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointUint16, value: int) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointUint16Array, value: List[int]) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointUint32, value: int) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointUint32Array, value: List[int]) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointUint64, value: int) -> "BatchSetBuilder":
+        ...
+
+    @overload
+    def add(self, node: DataPointUint64Array, value: List[int]) -> "BatchSetBuilder":
+        ...
+
+    def add(self, node: DataPoint, value) -> "BatchSetBuilder":
         node_name = node.get_path()
         node_value = node.create_broker_data_point(value)
         if node_name in self.__nodes:
@@ -718,9 +814,8 @@ class Model(Node):
     But also a Model class can be a leaf, if it does not contain data Points,
     just methods."""
 
-    def preset(self, node: DataPoint, value) -> BatchSetBuilder:
-        builder = BatchSetBuilder(self.get_client())
-        return builder.preset(node, value)
+    def set_many(self) -> BatchSetBuilder:
+        return BatchSetBuilder(self.get_client())
 
 
 class Service(Node):
