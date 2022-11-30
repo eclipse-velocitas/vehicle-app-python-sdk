@@ -94,8 +94,9 @@ class VehicleApp:
 
                 await self.pubsub_client.register_topic(topic, callback)
 
-        # register vehicle data broker subscriptions using dapr grpc proxying after dapr
-        # is initialized
+        await config.middleware.wait_for_middleware()
+
+        # register vehicle data broker subscriptions after middleware is initialized
         for method in methods:
             if hasattr(method[1], "subscribeDataPoints"):
                 sub = VdbSubscription(
