@@ -65,7 +65,7 @@
 		{
 			"label": "run-vehicledatabroker",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-vehicledatabroker.sh --task",
+			"command": "./.vscode/scripts/run-vehicledatabroker.sh ${input:middleware} --task",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
@@ -99,7 +99,7 @@
 		{
 			"label": "run-seatservice",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-seatservice.sh --task",
+			"command": "./.vscode/scripts/run-seatservice.sh ${input:middleware} --task",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
@@ -158,7 +158,7 @@
 		{
 			"label": "run-feedercan",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-feedercan.sh --task",
+			"command": "./.vscode/scripts/run-feedercan.sh ${input:middleware} --task",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
@@ -184,7 +184,7 @@
 		{
 			"label": "run-feedercan (DogMode)",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-feedercan.sh DOGMODE --task",
+			"command": "./.vscode/scripts/run-feedercan.sh DOGMODE ${input:middleware} --task",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
@@ -278,6 +278,17 @@
 					"endsPattern": "."
 				}
 			}
+		}
+	],
+	"inputs": [
+		{
+			"description": "Options for selecting the type middleware",
+			"id": "middleware",
+			"type": "pickString",
+			"options": [
+				"DAPR",
+				"NATIVE"
+			],
 		}
 	]
 }

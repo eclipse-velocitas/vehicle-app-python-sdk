@@ -25,6 +25,22 @@ class MiddlewareType(str, Enum):
     DAPR = "dapr"
 
 
+class Middleware(ABC):
+    """Middleware abstract base class."""
+
+    @abstractmethod
+    async def start(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    async def wait_for_middleware(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    async def stop(self):
+        raise NotImplementedError
+
+
 class ServiceLocator(ABC):
     """Service Discovery Locator abstract base class."""
 

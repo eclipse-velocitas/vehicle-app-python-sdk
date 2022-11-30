@@ -20,7 +20,6 @@ import logging
 from warnings import warn
 
 from sdv import config
-from sdv.dapr.server import run_server
 from sdv.vdb.client import VehicleDataBrokerClient
 from sdv.vdb.subscriptions import SubscriptionManager, VdbSubscription
 
@@ -83,8 +82,8 @@ class VehicleApp:
 
     async def run(self):
         """Run the Vehicle App"""
-        # dapr server has to be started regardless of actual pubsub client
-        await run_server()
+        # start middleware lifecycle
+        await config.middleware.start()
 
         methods = inspect.getmembers(self)
 
@@ -108,7 +107,6 @@ class VehicleApp:
                     logger.exception(ex)
         try:
             asyncio.create_task(self.pubsub_client.run())
-            # await wait_for_sidecar()
             await self.on_start()
             while True:
                 await asyncio.sleep(1)
