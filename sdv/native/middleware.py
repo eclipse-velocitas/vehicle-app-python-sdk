@@ -12,24 +12,15 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-import os
-from typing import Optional
-
-from sdv.base import ServiceLocator
+from sdv.base import Middleware
 
 
-class NativeServiceLocator(ServiceLocator):
-    """Middleware descriptor abstract base class."""
+class NativeMiddleware(Middleware):
+    async def start(self):
+        pass
 
-    def get_service_location(self, service_name: str) -> str:
-        address = os.getenv("SDV_" + service_name.upper() + "_ADDRESS")
-        return str(address)
+    async def wait_for_middleware(self):
+        pass
 
-    def get_metadata(self, service_name: Optional[str] = None):
-        if service_name is None:
-            service_name = ""
-
-        #  TO BE REMOVED
-        DAPR_APP_PORT_ID = "dapr-app-port"
-        DAPR_APP_PORT = 50008
-        return ((DAPR_APP_PORT_ID, str(DAPR_APP_PORT)),)
+    async def stop(self):
+        pass

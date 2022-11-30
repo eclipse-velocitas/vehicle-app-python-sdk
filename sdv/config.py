@@ -14,10 +14,12 @@
 
 import os
 
-from sdv.base import MiddlewareType, PubSubClient, ServiceLocator
+from sdv.base import Middleware, MiddlewareType, PubSubClient, ServiceLocator
 from sdv.dapr.locator import DaprServiceLocator
+from sdv.dapr.middleware import DaprMiddleware
 from sdv.dapr.pubsub import DaprClient
 from sdv.native.locator import NativeServiceLocator
+from sdv.native.middleware import NativeMiddleware
 from sdv.native.mqtt import MqttClient
 
 
@@ -35,24 +37,36 @@ class Config:
             raise ValueError(f"Not supported middleware type {args[0]}")
 
         self.middleware_type: MiddlewareType = __middleware
+        self.middleware: Middleware = self.__create_middleware(self.middleware_type)
         self.service_locator = self.__service_locator(self.middleware_type.value)
         self.pubsub_client = self.__pubsub_client(self.middleware_type.value)
 
     def __service_locator(self, middleware_type: str) -> ServiceLocator:
+        _locator: ServiceLocator
         if middleware_type == MiddlewareType.NATIVE.value:
-            locateor: ServiceLocator = NativeServiceLocator()
+            _locator = NativeServiceLocator()
         if middleware_type == MiddlewareType.DAPR.value:
-            locateor: ServiceLocator = DaprServiceLocator()
+            _locator = DaprServiceLocator()
 
-        return locateor
+        return _locator
 
     def __pubsub_client(self, middleware_type: str) -> PubSubClient:
+        _client: PubSubClient
         if middleware_type == MiddlewareType.NATIVE.value:
-            client: PubSubClient = MqttClient()
+            _client = MqttClient()
         if middleware_type == MiddlewareType.DAPR.value:
-            client: PubSubClient = DaprClient()
+            _client = DaprClient()
 
-        return client
+        return _client
+
+    def __create_middleware(self, middleware_type: str) -> Middleware:
+        _middleware: Middleware
+        if middleware_type == MiddlewareType.NATIVE.value:
+            _middleware = NativeMiddleware()
+        if middleware_type == MiddlewareType.DAPR.value:
+            _middleware = DaprMiddleware()
+
+        return _middleware
 
     @classmethod
     def dump(cls):
@@ -66,5 +80,6 @@ __middleware_type = os.getenv("SDV_MIDDLEWARE_TYPE", MiddlewareType.DAPR.value)
 __config = Config(__middleware_type)
 
 middleware_type = __config.middleware_type
+middleware = __config.middleware
 service_locator = __config.service_locator
 pubsub_client = __config.pubsub_client

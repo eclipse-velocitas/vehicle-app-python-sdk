@@ -39,7 +39,7 @@ class MqttClient(PubSubClient):
         self._hostname = urlparse(self._address).hostname
         self._pub_client = self.__create_client()
         self._sub_client = self.__create_client()
-        self._registered_topics = []
+        self._registered_topics: list[MqttTopicSubscription] = []
 
         @self._sub_client.connect_callback()
         def on_connect(client, userdata, flags, rc):
