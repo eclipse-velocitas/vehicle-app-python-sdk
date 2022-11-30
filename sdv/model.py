@@ -74,13 +74,6 @@ class Node:
         context.set(ctx)
 
 
-        _address = config.service_locator.get_service_location(self.name)
-        _hostname = urlparse(_address).hostname
-        _port = urlparse(_address).port
-        self.channel = grpc.aio.insecure_channel(f"{_hostname}:{_port}")
-        self.metadata = config.service_locator.get_metadata(self.name)
-
-
 class DataPoint(Node):
     """Base class for data points. Do not use for modelling directly."""
 
@@ -841,9 +834,11 @@ class Service(Node):
 
     def __init__(self):
         super().__init__()
-        _address = conf.service_locator.get_location(self.name)
-        self.channel = grpc.aio.insecure_channel(_address)  # type: ignore
-        self.metadata = conf.service_locator.get_metadata(self.name)
+        _address = config.service_locator.get_service_location(self.name)
+        _hostname = urlparse(_address).hostname
+        _port = urlparse(_address).port
+        self.channel = grpc.aio.insecure_channel(f"{_hostname}:{_port}")
+        self.metadata = config.service_locator.get_metadata(self.name)
 
 
 _COLLECTION_DEPRECATION_MSG = """The generated vehicle model must reflect the actual
