@@ -72,13 +72,6 @@ class SeatAdjusterApp(VehicleApp):
             ),
         )
 
-    @subscribe_topic("seatadjuster/mqttNative/request")
-    async def mqttnative_request_received(self, data_str: str) -> None:
-        data = json.loads(data_str)
-        response_topic = "seatadjuster/mqttNative/response"
-        response_data = {"requestId": data["requestId"], "result": {}}
-        await self.publish_event(response_topic, json.dumps(response_data))
-
     @subscribe_topic("seatadjuster/setPosition/request")
     async def on_set_position_request_received(self, data_str: str) -> None:
         data = json.loads(data_str)
