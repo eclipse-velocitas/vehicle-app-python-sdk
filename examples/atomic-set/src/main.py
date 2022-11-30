@@ -32,13 +32,10 @@ TOPIC_SET_VALUE_REQUEST = "vehicleapp/setValue/request"
 # Payload:
 # {"position": 300} -> this request for set seat position
 
-TOPIC_SET_SENSOR_VALUE_REQUEST = "vehicleapp/setSensor/request"
-# Payload:
-# {"sensor": true} -> attempts to set sensor value, this shall thows an exception
 
-
-class SetDatapointApp(VehicleApp):
-    """Variant of Seat Adjuster App - using actuators to request seat positions"""
+class SetMultipleDatapointsAtomicallyApp(VehicleApp):
+    """Variant of Seat Adjuster App - demonstrates setting multiple data points
+    in one atomic step"""
 
     def __init__(self, vehicle: Vehicle):
         super().__init__()
@@ -61,23 +58,15 @@ class SetDatapointApp(VehicleApp):
         logger.info("Set Position request %i", position)
         try:
             # This is a valid set request, the Position is an actuator.
-            await vehicle.Cabin.Seat.Row1.Pos1.Position.set(position)
+            (
+                await vehicle.set_many()
+                .add(vehicle.Cabin.Seat.Row1.Pos1.Position, position)
+                .add(vehicle.Cabin.Seat.Row1.Pos2.Position, position)
+                .apply()
+            )
             await self.publish_mqtt_event(
                 TOPIC_SET_VALUE_RESPONSE, json.dumps(f".set({position}) request sent")
             )
-        except TypeError as error:
-            await self.publish_mqtt_event(
-                TOPIC_SET_VALUE_RESPONSE, json.dumps(str(error))
-            )
-
-    @subscribe_topic(TOPIC_SET_SENSOR_VALUE_REQUEST)
-    async def on_set_sensor_recieved(self, data_str: str) -> None:
-        data = json.loads(data_str)
-        value = data["sensor"]
-        try:
-            # This is an invalid set request, the IsBelted is not an actuator.
-            # A TypeError will be raised
-            await vehicle.Cabin.Seat.Row1.Pos1.IsBelted.set(value)
         except TypeError as error:
             await self.publish_mqtt_event(
                 TOPIC_SET_VALUE_RESPONSE, json.dumps(str(error))
@@ -89,7 +78,7 @@ async def main():
     logging.basicConfig()
     logger.info("Starting SetDatapoint Sample...")
 
-    example = SetDatapointApp(vehicle)
+    example = SetMultipleDatapointsAtomicallyApp(vehicle)
     await example.run()
 
 

@@ -49,6 +49,7 @@ These examples demonstrate how to use the Python Vehicle App SDK:
 | [VDB Queries](./examples/vdb-queries/) | Demonstrates various aspects of creating Vehicle Data Broker queries.
 | [Array Datatype](./examples/array-datatype/) | Shows a Vehicle Data Broker query that returns an array data point.
 | [DataPoint-Set](./examples/datapoint-set/) | Shows how to set the value of the datapoint actuator value API.
+| [Atomic-Set](./examples/atomic-set/) | Shows how to set the values of multiple datapoint actuators in one "atomic" step.
 
 ## Contribution
 - [GitHub Issues](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/issues)

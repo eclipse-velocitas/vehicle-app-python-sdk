@@ -63,6 +63,22 @@
                 "SEATSERVICE_DAPR_APP_ID": "seatservice",
                 "VEHICLEDATABROKER_DAPR_APP_ID": "vehicledatabroker"
             }
+        },
+        {
+            "type": "python",
+            "request": "launch",
+            "name": "examples/atomic-set",
+            "cwd": "${workspaceFolder}/examples/atomic-set",
+            "program": "${workspaceFolder}/examples/atomic-set/src/main.py",
+            "console": "integratedTerminal",
+            "preLaunchTask": "dapr-SeatAdjuster-run",
+            "postDebugTask": "dapr-SeatAdjuster-stop",
+            "env": {
+                "DAPR_GRPC_PORT": "50001",
+                "DAPR_HTTP_PORT": "3500",
+                "SEATSERVICE_DAPR_APP_ID": "seatservice",
+                "VEHICLEDATABROKER_DAPR_APP_ID": "vehicledatabroker"
+            }
         }
     ]
 }
