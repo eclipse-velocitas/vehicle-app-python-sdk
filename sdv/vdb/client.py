@@ -44,10 +44,11 @@ class VehicleDataBrokerClient:
         if cls._instance is None:
             cls._instance = super(VehicleDataBrokerClient, cls).__new__(cls)
 
-            _address = config.service_locator.get_service_location("vehicledatabroker")
-            _hostname = urlparse(_address).hostname
-            _port = urlparse(_address).port
-            cls._channel = grpc.aio.insecure_channel(f"{_hostname}:{_port}")
+            _location = config.service_locator.get_service_location("vehicledatabroker")
+            _hostname = urlparse(_location).hostname
+            _port = urlparse(_location).port
+            _address = f"{_hostname}:{_port}"
+            cls._channel = grpc.aio.insecure_channel(_address)  # type: ignore
 
             metadata = config.service_locator.get_metadata("vehicledatabroker")
             cls._metadata = metadata

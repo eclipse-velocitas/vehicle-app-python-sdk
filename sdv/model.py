@@ -834,10 +834,11 @@ class Service(Node):
 
     def __init__(self):
         super().__init__()
-        _address = config.service_locator.get_service_location(self.name)
-        _hostname = urlparse(_address).hostname
-        _port = urlparse(_address).port
-        self.channel = grpc.aio.insecure_channel(f"{_hostname}:{_port}")
+        _location = config.service_locator.get_service_location(self.name)
+        _hostname = urlparse(_location).hostname
+        _port = urlparse(_location).port
+        _address = f"{_hostname}:{_port}"
+        self.channel = grpc.aio.insecure_channel(_address)  # type: ignore
         self.metadata = config.service_locator.get_metadata(self.name)
 
 

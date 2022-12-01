@@ -19,7 +19,7 @@ class NativeMiddleware(Middleware):
     async def start(self):
         pass
 
-    async def wait_for_middleware(self):
+    async def wait_until_ready(self):
         pass
 
     async def stop(self):
