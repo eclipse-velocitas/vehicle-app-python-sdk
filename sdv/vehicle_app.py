@@ -94,7 +94,7 @@ class VehicleApp:
 
                 await self.pubsub_client.register_topic(topic, callback)
 
-        await config.middleware.wait_for_middleware()
+        await config.middleware.wait_until_ready()
 
         # register vehicle data broker subscriptions after middleware is initialized
         for method in methods:

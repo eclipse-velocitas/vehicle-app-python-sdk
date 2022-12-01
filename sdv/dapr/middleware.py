@@ -21,7 +21,7 @@ class DaprMiddleware(Middleware):
     async def start(self):
         await run_server()
 
-    async def wait_for_middleware(self):
+    async def wait_until_ready(self):
         await wait_for_sidecar()
 
     async def stop(self):

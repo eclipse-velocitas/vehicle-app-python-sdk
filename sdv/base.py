@@ -33,7 +33,7 @@ class Middleware(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def wait_for_middleware(self):
+    async def wait_until_ready(self):
         raise NotImplementedError
 
     @abstractmethod
