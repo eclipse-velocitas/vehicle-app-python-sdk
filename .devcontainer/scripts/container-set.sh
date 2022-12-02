@@ -13,21 +13,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-export HTTP_PROXY=${HTTP_PROXY}
-export HTTPS_PROXY=${HTTPS_PROXY}
-export NO_PROXY=${NO_PROXY}
-
 echo "#######################################################"
 echo "### Checking container creation                     ###"
 echo "#######################################################"
-
-echo "## checking if user 'vscode' was created by common-debian.sh"
-if id -u vscode > /dev/null 2>&1; then
-    echo "## found existing user 'vscode'"
-else
-    echo "## WARNING: failed to find user 'vscode'. Adding user 'vscode' directly as a fallback"
-    useradd vscode --password vscode -m
-    apt-get install sudo
-    usermod -aG sudo vscode
-    sleep 5
-fi
+useradd vscode --password vscode -m
+usermod -aG sudo vscode
