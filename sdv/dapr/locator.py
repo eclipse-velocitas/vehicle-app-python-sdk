@@ -21,7 +21,6 @@ DAPR_APP_ID_KEY = "dapr-app-id"
 DAPR_APP_PORT_KEY = "dapr-app-port"
 DAPR_APP_PORT_VALUE = 50008
 
-DAPR_PUB_SUB_NAME_KEY = "mqtt-pubsub"
 DAPR_PUB_SUB_NAME_VALUE = "mqtt-pubsub"
 
 
@@ -39,10 +38,7 @@ class DaprServiceLocator(ServiceLocator):
         return address
 
     def get_metadata(self, service_name: Optional[str] = None):
-
-        if service_name == "pubsub":
-            return ((DAPR_PUB_SUB_NAME_KEY, DAPR_PUB_SUB_NAME_VALUE),)
-        elif service_name is None:
+        if service_name is None:
             service_name = ""
 
         app_id = os.getenv(service_name.upper() + "_DAPR_APP_ID")

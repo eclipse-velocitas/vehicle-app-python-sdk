@@ -834,12 +834,13 @@ class Service(Node):
 
     def __init__(self):
         super().__init__()
-        _location = config.service_locator.get_service_location(self.name)
+        service_locator = config.middleware.service_locator
+        _location = service_locator.get_service_location(self.name)
         _hostname = urlparse(_location).hostname
         _port = urlparse(_location).port
         _address = f"{_hostname}:{_port}"
         self.channel = grpc.aio.insecure_channel(_address)  # type: ignore
-        self.metadata = config.service_locator.get_metadata(self.name)
+        self.metadata = service_locator.get_metadata(self.name)
 
 
 _COLLECTION_DEPRECATION_MSG = """The generated vehicle model must reflect the actual

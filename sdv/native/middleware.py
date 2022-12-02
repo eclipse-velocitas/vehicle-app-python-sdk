@@ -12,10 +12,27 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from sdv.base import Middleware
+from urllib.parse import urlparse
+
+from sdv.base import Middleware, MiddlewareType
+from sdv.native.locator import NativeServiceLocator
+from sdv.native.mqtt import MqttClient
 
 
 class NativeMiddleware(Middleware):
+    """Native middleware implementation."""
+
+    def __init__(self) -> None:
+        super().__init__()
+
+        self.type = MiddlewareType.NATIVE
+        self.service_locator = NativeServiceLocator()
+
+        _address = self.service_locator.get_service_location("mqtt")
+        _port = urlparse(_address).port
+        _hostname = urlparse(_address).hostname
+        self.pubsub_client = MqttClient(_port, _hostname)
+
     async def start(self):
         pass
 

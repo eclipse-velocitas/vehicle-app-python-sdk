@@ -32,7 +32,7 @@ from sdv.vehicle_app import VehicleApp, subscribe_topic
 
 logging.setLogRecordFactory(get_opentelemetry_log_factory())
 logging.basicConfig(format=get_opentelemetry_log_format())
-logging.getLogger().setLevel("INFO")
+logging.getLogger().setLevel("DEBUG")
 logger = logging.getLogger(__name__)
 
 

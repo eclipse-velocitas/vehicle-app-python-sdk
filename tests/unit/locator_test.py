@@ -20,8 +20,11 @@ from unittest import mock
 
 import pytest
 
-from sdv import config
+from sdv.base import MiddlewareType
+from sdv.config import Config
 from sdv.model import Service
+
+service_locator = Config(MiddlewareType.NATIVE).middleware.service_locator
 
 
 @pytest.mark.asyncio
@@ -47,4 +50,4 @@ class CustomService(Service):
 
     def __init__(self):
         super().__init__()
-        self.address = config.service_locator.get_service_location(self.name)
+        self.address = service_locator.get_service_location(self.name)

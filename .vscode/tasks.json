@@ -30,7 +30,7 @@
 		{
 			"label": "ensure-dapr",
 			"type": "shell",
-			"command": "./.vscode/scripts/ensure-dapr.sh --task",
+			"command": "./.vscode/scripts/ensure-dapr.sh ${input:middleware} --task",
 			"group": "none",
 			"presentation": {
 				"close": true

@@ -17,6 +17,9 @@ from typing import Optional
 
 from sdv.base import ServiceLocator
 
+APP_PORT_ID = "dapr-app-port"
+APP_PORT = "50008"
+
 
 class NativeServiceLocator(ServiceLocator):
     """Middleware descriptor abstract base class."""
@@ -29,7 +32,4 @@ class NativeServiceLocator(ServiceLocator):
         if service_name is None:
             service_name = ""
 
-        #  TO BE REMOVED
-        DAPR_APP_PORT_ID = "dapr-app-port"
-        DAPR_APP_PORT = 50008
-        return ((DAPR_APP_PORT_ID, str(DAPR_APP_PORT)),)
+        return ((APP_PORT_ID, APP_PORT),)

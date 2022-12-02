@@ -43,14 +43,18 @@ class VehicleDataBrokerClient:
     def __new__(cls, port: Optional[int] = None):
         if cls._instance is None:
             cls._instance = super(VehicleDataBrokerClient, cls).__new__(cls)
-
-            _location = config.service_locator.get_service_location("vehicledatabroker")
+            service_locator = config.middleware.service_locator
+            _location = service_locator.get_service_location("vehicledatabroker")
             _hostname = urlparse(_location).hostname
-            _port = urlparse(_location).port
+            if port is None:
+                _port = urlparse(_location).port
+            else:
+                _port = port
+
             _address = f"{_hostname}:{_port}"
             cls._channel = grpc.aio.insecure_channel(_address)  # type: ignore
 
-            metadata = config.service_locator.get_metadata("vehicledatabroker")
+            metadata = service_locator.get_metadata("vehicledatabroker")
             cls._metadata = metadata
 
             cls._stub = BrokerStub(cls._channel)

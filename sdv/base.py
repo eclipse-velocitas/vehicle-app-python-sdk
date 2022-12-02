@@ -25,22 +25,6 @@ class MiddlewareType(str, Enum):
     DAPR = "dapr"
 
 
-class Middleware(ABC):
-    """Middleware abstract base class."""
-
-    @abstractmethod
-    async def start(self):
-        raise NotImplementedError
-
-    @abstractmethod
-    async def wait_until_ready(self):
-        raise NotImplementedError
-
-    @abstractmethod
-    async def stop(self):
-        raise NotImplementedError
-
-
 class ServiceLocator(ABC):
     """Service Discovery Locator abstract base class."""
 
@@ -70,4 +54,25 @@ class PubSubClient(ABC):
 
     @abstractmethod
     async def publish_event(self, topic: str, data: str):
+        raise NotImplementedError
+
+
+class Middleware(ABC):
+    """Middleware abstract base class."""
+
+    def __init__(self) -> None:
+        self.type = MiddlewareType.NATIVE
+        self.service_locator: ServiceLocator
+        self.pubsub_client: PubSubClient
+
+    @abstractmethod
+    async def start(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    async def wait_until_ready(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    async def stop(self):
         raise NotImplementedError

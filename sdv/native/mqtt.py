@@ -13,18 +13,19 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import asyncio
+import logging
 from typing import Optional
-from urllib.parse import urlparse
 
 import paho.mqtt.client as mqtt  # type: ignore
 
 from sdv.base import PubSubClient
-from sdv.native.locator import NativeServiceLocator
 
-_service_locator = NativeServiceLocator()
+logger = logging.getLogger(__name__)
 
 
 class MqttTopicSubscription:
+    """Mqtt topic subscription object that consists of topic and callback."""
+
     def __init__(self, topic, callback):
         self.topic = topic
         self.callback = callback
@@ -34,22 +35,30 @@ class MqttClient(PubSubClient):
     """This class is a wrapper for the on_message callback of the MQTT broker."""
 
     def __init__(self, port: Optional[int] = None, hostname: Optional[str] = None):
-        self._address = _service_locator.get_service_location("mqtt")
-        self._port = urlparse(self._address).port
-        self._hostname = urlparse(self._address).hostname
-        self._pub_client = self.__create_client()
-        self._sub_client = self.__create_client()
+        self._port = port
+        self._hostname = hostname
         self._registered_topics: list[MqttTopicSubscription] = []
 
-        @self._sub_client.connect_callback()
-        def on_connect(client, userdata, flags, rc):
+        self._pub_client = mqtt.Client()
+        self._sub_client = mqtt.Client()
+        self._sub_client.on_connect = self.on_connect
+        self._sub_client.on_disconnect = self.on_disconnect
+
+        self._sub_client.connect(self._hostname, self._port)
+        self._pub_client.connect(self._hostname, self._port)
+
+    def on_connect(self, client, userdata, flags, rc):
+        if rc == 0:
+            logger.debug("Mqtt native connection OK!")
+
+            # subscribe the registered topics
             for subscription in self._registered_topics:
                 client.subscribe(subscription.topic)
+        else:
+            logger.error("Bad connection request, return code: %d", rc)
 
-    def __create_client(self):
-        client = mqtt.Client()
-        client.connect(self._hostname, self._port)
-        return client
+    def on_disconnect(self, client, userdata, rc):
+        logger.debug("Mqtt native is disconnected with reason:  %d", rc)
 
     async def run(self):
         self._sub_client.loop_start()
@@ -73,8 +82,6 @@ class MqttClient(PubSubClient):
                 asyncio.run_coroutine_threadsafe(coro(message), loop)
             else:
                 coro(message)
-
-        # self.__on_connect_callback(self._sub_client, topic, coro)
 
     async def publish_event(self, topic: str, data: str):
         return self._pub_client.publish(topic, data)

@@ -67,7 +67,8 @@ class VehicleApp:
 
     def __init__(self):
         self._vdb_client = VehicleDataBrokerClient()
-        self.pubsub_client = config.pubsub_client
+        self.middleware = config.middleware
+        self.pubsub_client = self.middleware.pubsub_client
         logger.debug("VehicleApp instantiation successfully done")
 
     async def on_start(self):

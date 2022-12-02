@@ -21,8 +21,6 @@ class DaprClient(PubSubClient):
     """This class is a wrapper for the on_message callback of the MQTT broker."""
 
     def __init__(self):
-        # self.register_topic = register_topic
-        # self.publish_event = publish_mqtt_event
         """Nothing to do"""
 
     async def init(self):
