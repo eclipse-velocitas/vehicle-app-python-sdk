@@ -95,10 +95,9 @@
 ## Workflows
 | Dependency | Version | License |
 |:-----------|:-------:|--------:|
-|actions/checkout|v2|MIT License|
 |actions/checkout|v3|MIT License|
-|actions/setup-python|v1|MIT License|
-|actions/upload-artifact|v2|MIT License|
-|github/codeql-action|v1|MIT License|
-|pre-commit/action|v2.0.3|MIT License|
+|actions/setup-python|v4|MIT License|
+|actions/upload-artifact|v3|MIT License|
+|github/codeql-action|v2|MIT License|
+|pre-commit/action|v3.0.0|MIT License|
 |softprops/action-gh-release|v1|MIT License|
