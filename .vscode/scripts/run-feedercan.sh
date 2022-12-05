@@ -48,7 +48,7 @@ export LOG_LEVEL=info,databroker=info,dbcfeeder.broker_client=debug,dbcfeeder=de
 
 CONFIG_DIR="$ROOT_DIRECTORY/.vscode/scripts/feeder_config"
 export USECASE="databroker"
-if [ $1 == "DOGMODE" ]; then
+if [ $2 == "DOGMODE" ]; then
   echo "Use DogMode feeder config ...!"
   # DogMode CAN feeder config
   export DBC_FILE="$CONFIG_DIR/dogmode/DogMode.dbc"
@@ -61,7 +61,7 @@ else
   export CANDUMP_FILE="$CONFIG_DIR/default/candump.log"
 fi
 
-if [ $2 == "DAPR" ]; then
+if [ $1 == "DAPR" ]; then
   echo "Run Dapr ...!"
   dapr run \
     --app-id feedercan \

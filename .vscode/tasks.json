@@ -184,7 +184,7 @@
 		{
 			"label": "run-feedercan (DogMode)",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-feedercan.sh DOGMODE ${input:middleware} --task",
+			"command": "./.vscode/scripts/run-feedercan.sh ${input:middleware} DOGMODE --task",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
