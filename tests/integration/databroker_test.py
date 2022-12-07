@@ -18,12 +18,13 @@
 """ Tests for methods in VehicleDataBrokerClient """
 
 import os
+
+os.environ["SDV_MIDDLEWARE_TYPE"] = "native"
 from unittest import mock
 
 import grpc
 import pytest
 
-from sdv.config import Config, MiddlewareType
 from sdv.test.databroker_testhelper import SubscribeException, Vehicle
 from sdv.test.inttesthelper import IntTestHelper
 from sdv.vdb.client import VehicleDataBrokerClient
@@ -237,7 +238,6 @@ async def callback(reply, datapoint):
 
 
 def get_vehicleapp_instance():
-    Config(MiddlewareType.NATIVE).dump()
     client = VehicleApp()
     return client
 
@@ -249,6 +249,5 @@ async def change_datapoint(datapoint, value):
 
 
 def get_vehicle_instance():
-    Config().disable_dapr()
     vehicle = Vehicle()
     return vehicle

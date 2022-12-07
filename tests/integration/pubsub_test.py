@@ -22,12 +22,11 @@
 
 # import grpc
 import pytest
+import os
 
-from sdv.config import Config, MiddlewareType
-from sdv.test.databroker_testhelper import Vehicle
+os.environ["SDV_MIDDLEWARE_TYPE"] = "native"
 
-# from sdv.test.databroker_testhelper import SubscribeException, Vehicle
-# from sdv.test.inttesthelper import IntTestHelper
+from sdv.test.databroker_testhelper import Vehicle, vehicle
 from sdv.vdb.client import VehicleDataBrokerClient
 from sdv.vehicle_app import VehicleApp
 
@@ -39,8 +38,8 @@ def setup_vdb_client():
 
 @pytest.mark.asyncio
 async def test_for_publish_mqtt_event():
-    client = get_vehicleapp_instance()
-    await client.publish_mqtt_event("test/test_for_publish_mqtt_event", "test")
+    mqtt_client = get_vehicleapp_instance().pubsub_client
+    await mqtt_client.publish_event("test/test_for_publish_mqtt_event", "test")
     assert True
 
 
@@ -51,6 +50,7 @@ class TestPubSubVehicleApp(VehicleApp):
 
 
 def get_vehicleapp_instance():
-    Config(MiddlewareType.NATIVE).dump()
-    client = TestPubSubVehicleApp()
-    return client
+    mw = os.getenv("SDV_MIDDLEWARE_TYPE")
+    print(f"-----------------> {mw}")
+    app = TestPubSubVehicleApp(vehicle)
+    return app

@@ -34,3 +34,6 @@ class SubscribeException(Exception):
     def __init__(self, datapoint) -> None:
         super().__init__()
         self.datapoint = datapoint
+
+
+vehicle = Vehicle()

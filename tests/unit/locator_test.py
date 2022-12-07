@@ -16,38 +16,44 @@
 
 
 import os
+
+#os.environ["SDV_MIDDLEWARE_TYPE"] = "dapr"
 from unittest import mock
 
 import pytest
 
-from sdv.base import MiddlewareType
-from sdv.config import Config
+from sdv import config
 from sdv.model import Service
 
-service_locator = Config(MiddlewareType.NATIVE).middleware.service_locator
+
+@pytest.fixture(autouse=True)
+def setup_config():
+    config._config = None
 
 
 @pytest.mark.asyncio
 async def test_for_get_metadata():
     service = CustomService()
     response = service.metadata
-    assert response == (("dapr-app-id", "customservice"),)
+    assert response == (("dapr-app-id", str(service.name).lower()),)
 
 
 @pytest.mark.asyncio
 async def test_for_get_location():
     service = CustomService()
     response = service.address
-    assert response == "localhost:51001"
+    assert response == "grpc://localhost:51001"
     with mock.patch.dict(os.environ, {"DAPR_GRPC_PORT": "55555"}):
         service = CustomService()
         response = service.address
-        assert response == "localhost:55555"
+        assert response == "grpc://localhost:55555"
 
 
 class CustomService(Service):
     "Custom model"
+    os.environ["SDV_MIDDLEWARE_TYPE"] = "dapr"
 
     def __init__(self):
         super().__init__()
+        service_locator = config.middleware.service_locator
         self.address = service_locator.get_service_location(self.name)

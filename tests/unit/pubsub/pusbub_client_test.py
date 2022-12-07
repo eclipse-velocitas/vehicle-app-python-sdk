@@ -14,61 +14,65 @@
 
 """ Tests for methods in PubSubClient """
 import os
+
+os.environ["SDV_MIDDLEWARE_TYPE"] = "native"
+
 import sys
 from unittest import mock
 
 import pytest
 
-from sdv.base import MiddlewareType, PubSubClient
-from sdv.config import Config
-from sdv.dapr.pubsub import DaprClient
+from sdv import config
+from sdv.base import Middleware
 from sdv.native.mqtt import MqttClient
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 
 
-config = Config(MiddlewareType.NATIVE)
+@pytest.fixture(autouse=True)
+def setup_config():
+    config._config = None
 
 
 @pytest.mark.asyncio
 async def test_for_subscribe_topic():
-    config.DISABLE_DAPR = True
+    # config.DISABLE_DAPR = True
 
-    client = get_pubsub_client_instance()
+    # client = get_pubsub_client_instance()
+    # with mock.patch.object(
+    #     client.pubsub_client,
+    #     "register_topic",
+    #     new_callable=mock.AsyncMock,
+    # ) as mocked_client:
+    #     await client.subscribe_topic("/test/native", None)
+    #     assert isinstance(client.pubsub_client, MqttClient)
+    #     mocked_client.assert_called_once_with("/test/native", None)
+
+    # config.DISABLE_DAPR = False
+    middleware = get_middleware_instance()
     with mock.patch.object(
-        client.pubsub_client,
+        middleware.pubsub_client,
         "register_topic",
         new_callable=mock.AsyncMock,
     ) as mocked_client:
-        await client.subscribe_topic("/test/native", None)
-        assert isinstance(client.pubsub_client, MqttClient)
-        mocked_client.assert_called_once_with("/test/native", None)
-
-    config.DISABLE_DAPR = False
-    client = get_pubsub_client_instance()
-    with mock.patch.object(
-        client.pubsub_client,
-        "register_topic",
-        new_callable=mock.AsyncMock,
-    ) as mocked_client:
-        await client.subscribe_topic("/test/dapr", None)
-        assert isinstance(client.pubsub_client, DaprClient)
+        await middleware.pubsub_client.register_topic("/test/dapr", None)
+        assert isinstance(middleware.pubsub_client, MqttClient)
         mocked_client.assert_called_once_with("/test/dapr", None)
 
 
 @pytest.mark.asyncio
 async def test_for_get_publish_event():
-    config.DISABLE_DAPR = True
+    # config.DISABLE_DAPR = True
 
-    client = get_pubsub_client_instance()
+    middleware = get_middleware_instance()
     with mock.patch.object(
-        client.pubsub_client,
+        middleware.pubsub_client,
         "publish_event",
         new_callable=mock.AsyncMock,
     ) as mocked_client:
-        await client.publish_event("/test/native", "message")
+        await middleware.pubsub_client.publish_event("/test/native", "message")
         mocked_client.assert_called_once_with("/test/native", "message")
 
 
-def get_pubsub_client_instance() -> PubSubClient:
-    return config.pubsub_client
+def get_middleware_instance() -> Middleware:
+    return config.middleware
