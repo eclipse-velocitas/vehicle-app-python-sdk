@@ -66,8 +66,8 @@ class VehicleApp:
     """Vehicle App base class. All Vehicle Apps must inherit from this class"""
 
     def __init__(self):
-        self._vdb_client = VehicleDataBrokerClient()
         self.middleware = config.middleware
+        self._vdb_client = VehicleDataBrokerClient()
         self.pubsub_client = self.middleware.pubsub_client
         logger.debug("VehicleApp instantiation successfully done")
 

@@ -39,12 +39,28 @@
         {
             "type": "python",
             "request": "launch",
+            "name": "examples/array-datatype",
+            "cwd": "${workspaceFolder}/examples/array-datatype",
+            "program": "${workspaceFolder}/examples/array-datatype/src/main.py",
+            "console": "integratedTerminal",
+            "env": {
+                "SDV_MIDDLEWARE_TYPE": "native",
+                "SDV_MQTT_ADDRESS": "mqtt://localhost:1883",
+                "SDV_VEHICLEDATABROKER_ADDRESS": "grpc://localhost:55555"
+            }
+        },
+        {
+            "type": "python",
+            "request": "launch",
             "name": "examples/vdb-queries",
             "cwd": "${workspaceFolder}/examples/vdb-queries",
             "program": "${workspaceFolder}/examples/vdb-queries/src/main.py",
             "console": "integratedTerminal",
             "env": {
-                "DAPR_GRPC_PORT": "55555"
+                "SDV_MIDDLEWARE_TYPE": "native",
+                "SDV_MQTT_ADDRESS": "mqtt://localhost:1883",
+                "SDV_VEHICLEDATABROKER_ADDRESS": "grpc://localhost:55555",
+                "SDV_SEATSERVICE_ADDRESS": "grpc://localhost:50051"
             }
         },
         {
@@ -54,6 +70,11 @@
             "cwd": "${workspaceFolder}/examples/static-rule",
             "program": "${workspaceFolder}/examples/static-rule/src/main.py",
             "console": "integratedTerminal",
+            "env": {
+                "SDV_MIDDLEWARE_TYPE": "native",
+                "SDV_MQTT_ADDRESS": "mqtt://localhost:1883",
+                "SDV_VEHICLEDATABROKER_ADDRESS": "grpc://localhost:55555"
+            }
         },
         {
             "type": "python",
@@ -62,6 +83,11 @@
             "cwd": "${workspaceFolder}/examples/dynamic-rule",
             "program": "${workspaceFolder}/examples/dynamic-rule/src/main.py",
             "console": "integratedTerminal",
+            "env": {
+                "SDV_MIDDLEWARE_TYPE": "native",
+                "SDV_MQTT_ADDRESS": "mqtt://localhost:1883",
+                "SDV_VEHICLEDATABROKER_ADDRESS": "grpc://localhost:55555"
+            }
         },
         {
             "type": "python",
@@ -73,6 +99,7 @@
             "preLaunchTask": "dapr-SeatAdjuster-run",
             "postDebugTask": "dapr-SeatAdjuster-stop",
             "env": {
+                "SDV_MIDDLEWARE_TYPE": "dapr",
                 "DAPR_GRPC_PORT": "50001",
                 "DAPR_HTTP_PORT": "3500",
                 "SEATSERVICE_DAPR_APP_ID": "seatservice",
@@ -89,6 +116,7 @@
             "preLaunchTask": "dapr-SeatAdjuster-run",
             "postDebugTask": "dapr-SeatAdjuster-stop",
             "env": {
+                "SDV_MIDDLEWARE_TYPE": "dapr",
                 "DAPR_GRPC_PORT": "50001",
                 "DAPR_HTTP_PORT": "3500",
                 "SEATSERVICE_DAPR_APP_ID": "seatservice",

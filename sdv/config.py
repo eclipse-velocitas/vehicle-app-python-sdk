@@ -44,10 +44,6 @@ class Config:
 
         return _middleware
 
-    @classmethod
-    def dump(cls):
-        print(f"Middleware: {cls.middleware.type}")
-
 
 __middleware_type = os.getenv("SDV_MIDDLEWARE_TYPE", MiddlewareType.DAPR.value)
 _config = Config(__middleware_type)
