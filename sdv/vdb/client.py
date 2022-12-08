@@ -12,9 +12,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# Disable name checks due to proto generated classes
-# pylint: disable=C0103
-
 import asyncio
 import logging
 import os

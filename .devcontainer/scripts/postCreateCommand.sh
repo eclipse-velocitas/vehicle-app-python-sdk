@@ -31,3 +31,8 @@ if [ -f $REQUIREMENTS ]; then
 fi
 
 pip3 install -e .
+
+# add folder to safe
+# add repo to git safe.directory
+REPO=$(pwd)
+git config --global --add safe.directory $REPO

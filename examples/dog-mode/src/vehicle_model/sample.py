@@ -14,9 +14,6 @@
 
 """Sample Vehicle Data Model"""
 
-# Disable pylint warnings for snake_case naming convention because of gRPC stubs.
-# pylint: disable=C0103
-
 from vehicle_model.proto.hvac_pb2 import (
     AcStatus,
     SetAcStatusRequest,

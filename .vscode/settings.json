@@ -2,13 +2,15 @@
   "python.defaultInterpreterPath": "/usr/bin/python3",
   "python.disableInstallationCheck": true,
   "python.linting.banditEnabled": true,
+  "python.linting.banditArgs": [
+    "--skip=B101"
+  ],
   "python.linting.flake8Enabled": true,
-  "python.linting.pylintEnabled": true,
-  "python.linting.mypyEnabled": false,
+  "python.linting.mypyEnabled": true,
   "python.linting.pydocstyleEnabled": true,
   "python.linting.enabled": true,
   "python.linting.flake8Args": [
-    "--ignore=W503, B903, E402",
+    "--ignore=W503, B903, E402, B905",
     "--max-line-length=89"
   ],
   "python.formatting.provider": "black",
@@ -31,7 +33,6 @@
       "clientId": "vsmqtt_client"
     }
   ],
-  "pre-commit-helper.runOnSave": "all hooks",
   "mypy.runUsingActiveInterpreter": true,
   "python.linting.mypyArgs": [],
 }

@@ -12,9 +12,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# skip B101
-# pylint: disable=C0413
-
 from unittest import mock
 
 import pytest
@@ -26,8 +23,6 @@ from sdv.vehicle_app import VehicleApp
 
 @pytest.mark.asyncio
 async def test_for_seats_movecomponent():
-    # Disable no-value-for-parameter, seems to be false positive with mock lib
-    # pylint: disable=no-value-for-parameter
     with mock.patch.object(
         SeatService,
         "MoveComponent",
@@ -44,8 +39,6 @@ async def test_for_seats_movecomponent():
 
 @pytest.mark.asyncio
 async def test_for_seats_movecomponent_set_high_position():
-    # Disable no-value-for-parameter, seems to be false positive with mock lib
-    # pylint: disable=no-value-for-parameter
     with mock.patch.object(
         SeatService,
         "MoveComponent",
@@ -62,8 +55,6 @@ async def test_for_seats_movecomponent_set_high_position():
 
 @pytest.mark.asyncio
 async def test_for_seats_movecomponent_error_path():
-    # Disable no-value-for-parameter, seems to be false positive with mock lib
-    # pylint: disable=no-value-for-parameter
     with mock.patch.object(
         SeatService,
         "MoveComponent",
@@ -80,9 +71,6 @@ async def test_for_seats_movecomponent_error_path():
 
 @pytest.mark.asyncio
 async def test_for_publish_to_topic():
-    # Disable no-value-for-parameter, seems to be false positive with mock lib
-    # pylint: disable=no-value-for-parameter
-
     with mock.patch.object(
         VehicleApp, "publish_mqtt_event", new_callable=mock.AsyncMock, return_value=-1
     ):

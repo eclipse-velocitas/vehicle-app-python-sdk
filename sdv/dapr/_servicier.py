@@ -54,7 +54,7 @@ class _CallbackServicer(appcallback_service_v1.AppCallbackServicer):
         self._registered_topics: List[appcallback_v1.TopicSubscription] = []
         self._main_event_loop = asyncio.get_event_loop()
 
-    def register_topic(  # pylint: disable=R0913 # too many arguments
+    def register_topic(
         self,
         pubsub_name: str,
         topic: str,
@@ -127,4 +127,4 @@ class _CallbackServicer(appcallback_service_v1.AppCallbackServicer):
             # This calls the method on the worker_thread rather than the main thread
             method(request.data)  # type: ignore
 
-        return empty_pb2.Empty()  # pylint: disable=E1101
+        return empty_pb2.Empty()
