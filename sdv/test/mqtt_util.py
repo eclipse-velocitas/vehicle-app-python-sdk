@@ -97,7 +97,7 @@ class MqttClient:
 
         return callback.message
 
-    def publish_and_wait_for_property(  # pylint: disable=R0913
+    def publish_and_wait_for_property(
         self,
         request_topic: str,
         response_topic: str,

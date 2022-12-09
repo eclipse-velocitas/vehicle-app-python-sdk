@@ -13,8 +13,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import asyncio
-
-# pylint: disable=C0103,R0902,R0912,E1101,C0302
 import threading
 from unittest import TestCase, mock
 

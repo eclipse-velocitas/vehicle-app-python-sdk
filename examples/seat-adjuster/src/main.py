@@ -14,8 +14,6 @@
 
 """A sample Velocitas vehicle app for adjusting seat position."""
 
-# pylint: disable=C0103, C0413, E1101
-
 import asyncio
 import json
 import logging

@@ -42,7 +42,7 @@ def subscribe_topic(topic: str):
     return wrap
 
 
-def subscribe_data_points(data_point_names: str, condition: str = None):
+def subscribe_data_points(data_point_names: str, condition: str = ""):
     """Annotation to subscribe to one or more data points provided by
        the vehicle data broker.
 
@@ -54,7 +54,7 @@ def subscribe_data_points(data_point_names: str, condition: str = None):
     """
     query = "SELECT " + data_point_names
 
-    if condition is not None:
+    if condition:
         query += " WHERE " + condition
 
     def wrap(func):

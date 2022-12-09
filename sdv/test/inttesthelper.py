@@ -12,8 +12,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# pylint: disable=C0103,R0904
-
 import asyncio
 import os
 from typing import Dict, List, Mapping, Optional

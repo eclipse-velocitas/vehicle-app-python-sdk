@@ -12,8 +12,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# pylint: disable=R0801,W0105
-
 """ Tests for methods in VehicleCollectorClient """
 import pytest
 

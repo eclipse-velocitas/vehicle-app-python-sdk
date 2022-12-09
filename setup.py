@@ -34,9 +34,11 @@ extra_requirements = {
         "grpcio",
         "dapr",
         "cloudevents",
-        "grpcio-tools",
+        # because of the restriction in dapr 1.8.3, remove when it fixed in dapr
+        "grpcio-tools<=1.48.2",
         "grpc-stubs",
-        "mypy-protobuf",
+        # because of the restriction in dapr 1.8.3, remove when it fixed in dapr
+        "mypy-protobuf<=3.3.0",
         "apscheduler",
         "Deprecated",
         "types-Deprecated",
@@ -54,7 +56,7 @@ extra_requirements = {
         "pre-commit",
         "pydocstyle",
         "black",
-        "pylint",
+        "isort",
         "mypy",
         "bandit",
         "flake8",
@@ -69,7 +71,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="sdv",
-    version="0.7.1",
+    version="0.7.2",
     description="A Python SDK for Vehicle app",
     long_description=long_description,
     long_description_content_type="text/markdown",

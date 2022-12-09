@@ -12,8 +12,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# pylint: disable=C0103
-
 import asyncio
 import contextvars
 import logging

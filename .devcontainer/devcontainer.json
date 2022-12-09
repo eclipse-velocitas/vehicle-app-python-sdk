@@ -15,8 +15,6 @@
 		"python.defaultInterpreterPath": "/usr/bin/python3",
 		"python.disableInstallationCheck": true,
 		"python.linting.enabled": true,
-		"python.linting.pylintEnabled": true,
-		"python.linting.pylintPath": "/usr/local/bin/pylint",
 		"python.formatting.provider": "black",
 		"python.linting.banditEnabled": true,
 		"python.linting.flake8Enabled": true,
@@ -43,7 +41,6 @@
 		"ms-kubernetes-tools.vscode-kubernetes-tools",
 		"matangover.mypy",
 		"anweber.vscode-httpyac",
-		"elagil.pre-commit-helper",
 		"ms-python.isort"
 	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
