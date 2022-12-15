@@ -30,6 +30,10 @@ curations:
     curations:
       comment: "Proper license is defined in package repository https://pypi.org/project/grpcio/"
       concluded_license: "Apache-2.0"
+  - id: "PyPI::grpcio:1.49.1"
+    curations:
+      comment: "Proper license is defined in package repository https://pypi.org/project/grpcio/"
+      concluded_license: "Apache-2.0"
   - id: "PyPI::identify:2.5.9"
     curations:
       comment: "Proper license is defined in package repository https://pypi.org/project/identify/"
@@ -74,3 +78,6 @@ resolutions:
   - id: "CVE-2020-11023"
     reason: "INEFFECTIVE_VULNERABILITY"
     comment: "No evidences that pkg:pypi/deprecation@2.1.0 is affected. mainly jquery package is affected"
+  -id: "CVE-2022-24439"
+    reason: "INEFFECTIVE_VULNERABILITY"
+    comment: "bandit has dependency on gitpython but not using affected functinality. No usage of gitpython directly"
