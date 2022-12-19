@@ -17,11 +17,6 @@
 
 import os
 
-os.environ["SDV_MIDDLEWARE_TYPE"] = "native"
-os.environ["SDV_MQTT_ADDRESS"] = "mqtt://localhost:1883"
-os.environ["SDV_VEHICLEDATABROKER_ADDRESS"] = "grpc://localhost:55555"
-# SDV_SEATSERVICE_ADDRESS "grpc://localhost:50051"
-
 from unittest import mock
 
 import pytest
@@ -34,6 +29,11 @@ from sdv.native.middleware import NativeMiddleware
 
 @pytest.fixture(autouse=True)
 def reset():
+    os.environ["SDV_MIDDLEWARE_TYPE"] = "native"
+    os.environ["SDV_MQTT_ADDRESS"] = "mqtt://localhost:1883"
+    os.environ["SDV_VEHICLEDATABROKER_ADDRESS"] = "grpc://localhost:55555"
+    os.environ["SDV_CUSTOMSERVICE_ADDRESS"] = "grpc://localhost:51001"
+
     VehicleDataBrokerClient._instance = None
     config._config = Config("native")
     config.middleware = NativeMiddleware()
@@ -43,7 +43,7 @@ def reset():
 async def test_for_get_metadata():
     service = CustomService()
     response = service.metadata
-    assert response == ()
+    assert response is None
 
 
 @pytest.mark.asyncio
@@ -51,10 +51,12 @@ async def test_for_get_location():
     service = CustomService()
     _address = service.address
     assert _address == "localhost:51001"
-    with mock.patch.dict(os.environ, {"DAPR_GRPC_PORT": "55555"}):
+    with mock.patch.dict(
+        os.environ, {"SDV_CUSTOMSERVICE_ADDRESS": "grpc://localhost:51555"}
+    ):
         service = CustomService()
         response = service.address
-        assert response == "localhost:55555"
+        assert response == "localhost:51555"
 
 
 class CustomService(Service):
