@@ -17,18 +17,21 @@
 
 import os
 
-#os.environ["SDV_MIDDLEWARE_TYPE"] = "dapr"
 from unittest import mock
 
 import pytest
 
 from sdv import config
-from sdv.model import Service
+from sdv.config import Config
+from sdv.model import Service, VehicleDataBrokerClient
+from sdv.dapr.middleware import DaprMiddleware
 
 
 @pytest.fixture(autouse=True)
-def setup_config():
-    config._config = None
+def reset():
+    VehicleDataBrokerClient._instance = None
+    config._config = Config("dapr")
+    config.middleware = DaprMiddleware()
 
 
 @pytest.mark.asyncio
@@ -41,19 +44,16 @@ async def test_for_get_metadata():
 @pytest.mark.asyncio
 async def test_for_get_location():
     service = CustomService()
-    response = service.address
-    assert response == "grpc://localhost:51001"
+    _address = service.address
+    assert _address == "localhost:51001"
     with mock.patch.dict(os.environ, {"DAPR_GRPC_PORT": "55555"}):
         service = CustomService()
         response = service.address
-        assert response == "grpc://localhost:55555"
+        assert response == "localhost:55555"
 
 
 class CustomService(Service):
     "Custom model"
-    os.environ["SDV_MIDDLEWARE_TYPE"] = "dapr"
 
     def __init__(self):
         super().__init__()
-        service_locator = config.middleware.service_locator
-        self.address = service_locator.get_service_location(self.name)

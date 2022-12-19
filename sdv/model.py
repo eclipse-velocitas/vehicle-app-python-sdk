@@ -838,8 +838,8 @@ class Service(Node):
         _location = service_locator.get_service_location(self.name)
         _hostname = urlparse(_location).hostname
         _port = urlparse(_location).port
-        _address = f"{_hostname}:{_port}"
-        self.channel = grpc.aio.insecure_channel(_address)  # type: ignore
+        self.address = f"{_hostname}:{_port}"
+        self.channel = grpc.aio.insecure_channel(self.address)  # type: ignore
         self.metadata = service_locator.get_metadata(self.name)
 
 

@@ -23,15 +23,19 @@ from unittest import mock
 import pytest
 
 from sdv import config
+from sdv.config import Config
 from sdv.base import Middleware
+from sdv.dapr.pubsub import DaprClient
 from sdv.native.mqtt import MqttClient
+from sdv.native.middleware import NativeMiddleware
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 
 
 @pytest.fixture(autouse=True)
-def setup_config():
-    config._config = None
+def reset():
+    config._config = Config("native")
+    config.middleware = NativeMiddleware()
 
 
 @pytest.mark.asyncio

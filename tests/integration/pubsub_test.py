@@ -20,20 +20,23 @@
 # import os
 # from unittest import mock
 
+import os
+
 # import grpc
 import pytest
-import os
 
 os.environ["SDV_MIDDLEWARE_TYPE"] = "native"
 
+from sdv import config
 from sdv.test.databroker_testhelper import Vehicle, vehicle
 from sdv.vdb.client import VehicleDataBrokerClient
 from sdv.vehicle_app import VehicleApp
 
 
 @pytest.fixture(autouse=True)
-def setup_vdb_client():
+def reset():
     VehicleDataBrokerClient._instance = None
+    config._config = None
 
 
 @pytest.mark.asyncio
@@ -50,7 +53,5 @@ class TestPubSubVehicleApp(VehicleApp):
 
 
 def get_vehicleapp_instance():
-    mw = os.getenv("SDV_MIDDLEWARE_TYPE")
-    print(f"-----------------> {mw}")
     app = TestPubSubVehicleApp(vehicle)
     return app

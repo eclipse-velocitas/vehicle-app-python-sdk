@@ -21,6 +21,7 @@ from unittest import TestCase, mock
 import grpc
 import pytest
 
+from sdv import config
 from sdv.model import (
     DataPoint,
     DataPointBoolean,
@@ -59,8 +60,9 @@ from sdv.vdb.client import VehicleDataBrokerClient
 
 
 @pytest.fixture(autouse=True)
-def setup_vdb_client():
+def reset():
     VehicleDataBrokerClient._instance = None
+    config._config = None
 
 
 @pytest.mark.asyncio

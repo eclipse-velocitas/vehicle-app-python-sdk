@@ -25,6 +25,7 @@ from unittest import mock
 import grpc
 import pytest
 
+from sdv import config
 from sdv.test.databroker_testhelper import SubscribeException, Vehicle
 from sdv.test.inttesthelper import IntTestHelper
 from sdv.vdb.client import VehicleDataBrokerClient
@@ -32,8 +33,9 @@ from sdv.vehicle_app import VehicleApp
 
 
 @pytest.fixture(autouse=True)
-def setup_vdb_client():
+def reset():
     VehicleDataBrokerClient._instance = None
+    config._config = None
 
 
 @pytest.mark.asyncio
