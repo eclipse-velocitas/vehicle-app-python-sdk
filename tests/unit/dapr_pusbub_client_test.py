@@ -15,7 +15,7 @@
 """ Tests for methods in PubSubClient """
 import os
 
-os.environ["SDV_MIDDLEWARE_TYPE"] = "native"
+os.environ["SDV_MIDDLEWARE_TYPE"] = "dapr"
 
 import sys
 from unittest import mock
@@ -26,33 +26,19 @@ from sdv import config
 from sdv.base import Middleware
 from sdv.config import Config
 from sdv.dapr.pubsub import DaprClient
-from sdv.native.middleware import NativeMiddleware
-from sdv.native.mqtt import MqttClient
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 
 
 @pytest.fixture(autouse=True)
 def reset():
-    config._config = Config("native")
-    config.middleware = NativeMiddleware()
+    config._config = Config("dapr")
+    config.middleware = config._config.middleware
 
 
 @pytest.mark.asyncio
 async def test_for_subscribe_topic():
-    # config.DISABLE_DAPR = True
 
-    # client = get_pubsub_client_instance()
-    # with mock.patch.object(
-    #     client.pubsub_client,
-    #     "register_topic",
-    #     new_callable=mock.AsyncMock,
-    # ) as mocked_client:
-    #     await client.subscribe_topic("/test/native", None)
-    #     assert isinstance(client.pubsub_client, MqttClient)
-    #     mocked_client.assert_called_once_with("/test/native", None)
-
-    # config.DISABLE_DAPR = False
     middleware = get_middleware_instance()
     with mock.patch.object(
         middleware.pubsub_client,
@@ -60,13 +46,12 @@ async def test_for_subscribe_topic():
         new_callable=mock.AsyncMock,
     ) as mocked_client:
         await middleware.pubsub_client.register_topic("/test/dapr", None)
-        assert isinstance(middleware.pubsub_client, MqttClient)
+        assert isinstance(middleware.pubsub_client, DaprClient)
         mocked_client.assert_called_once_with("/test/dapr", None)
 
 
 @pytest.mark.asyncio
 async def test_for_get_publish_event():
-    # config.DISABLE_DAPR = True
 
     middleware = get_middleware_instance()
     with mock.patch.object(
@@ -74,8 +59,8 @@ async def test_for_get_publish_event():
         "publish_event",
         new_callable=mock.AsyncMock,
     ) as mocked_client:
-        await middleware.pubsub_client.publish_event("/test/native", "message")
-        mocked_client.assert_called_once_with("/test/native", "message")
+        await middleware.pubsub_client.publish_event("/test/dapr", "message")
+        mocked_client.assert_called_once_with("/test/dapr", "message")
 
 
 def get_middleware_instance() -> Middleware:
