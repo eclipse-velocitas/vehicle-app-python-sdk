@@ -16,15 +16,14 @@
 
 
 import os
-
 from unittest import mock
 
 import pytest
 
 from sdv import config
 from sdv.config import Config
-from sdv.model import Service, VehicleDataBrokerClient
 from sdv.dapr.middleware import DaprMiddleware
+from sdv.model import Service, VehicleDataBrokerClient
 
 
 @pytest.fixture(autouse=True)
