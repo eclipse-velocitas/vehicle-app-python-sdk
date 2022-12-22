@@ -135,8 +135,4 @@ async def main():
     await dogmode_app.run()
 
 
-if __name__ == "__main__":
-    LOOP = asyncio.get_event_loop()
-    LOOP.add_signal_handler(signal.SIGTERM, LOOP.stop)
-    LOOP.run_until_complete(main())
-    LOOP.close()
+asyncio.run(main())

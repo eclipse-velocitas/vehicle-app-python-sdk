@@ -89,7 +89,4 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-l", "--limit", help="Speed limit", default=130.0)
 parser.add_argument("-e", "--enable-dapr", help="Enable dapr", action="store_true")
 
-LOOP = asyncio.get_event_loop()
-LOOP.add_signal_handler(signal.SIGTERM, LOOP.stop)
-LOOP.run_until_complete(main())
-LOOP.close()
+asyncio.run(main())
