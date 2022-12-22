@@ -20,7 +20,6 @@ os.environ["HVACSERVICE_DAPR_APP_ID"] = "hvacservice"
 import asyncio
 import json
 import logging
-import signal
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from vehicle_model.sample import Vehicle, vehicle

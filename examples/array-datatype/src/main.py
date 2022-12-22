@@ -16,7 +16,6 @@
 
 import asyncio
 import logging
-import signal
 
 from vehicle_model.sample import Vehicle, vehicle
 

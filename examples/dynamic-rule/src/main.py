@@ -18,7 +18,6 @@ import argparse
 import asyncio
 import json
 import logging
-import signal
 
 from sdv_model import Vehicle, vehicle
 
