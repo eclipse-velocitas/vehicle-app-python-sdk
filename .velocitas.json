@@ -1,0 +1,34 @@
+{
+    "packages": [
+        {
+            "name": "devenv-runtime-local",
+            "version": "v1.0.0"
+        },
+        {
+            "name": "devenv-github-workflows",
+            "version": "v1.0.0",
+            "variables": {
+                "language": "python",
+                "repoType": "sdk",
+                "appManifestPath": "AppManifest.json"
+            }
+        },
+        {
+            "name": "devenv-github-templates",
+            "version": "v1.0.0",
+            "variables": {
+                "repoType": "sdk",
+                "githubRepoId": "eclipse-velocitas/vehicle-app-python-sdk"
+            }
+        },
+        {
+            "name": "devenv-devcontainer-setup",
+            "version": "v1.0.0",
+            "variables": {
+                "language": "python",
+                "repoType": "sdk",
+                "appManifestPath": "AppManifest.json"
+            }
+        }
+    ]
+}

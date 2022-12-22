@@ -30,7 +30,7 @@
 		{
 			"label": "ensure-dapr",
 			"type": "shell",
-			"command": "./.vscode/scripts/ensure-dapr.sh ${input:middleware} --task",
+			"command": "${input:runtime-local-path}/src/ensure-dapr.sh ${input:middleware}",
 			"group": "none",
 			"presentation": {
 				"close": true
@@ -39,7 +39,7 @@
 		{
 			"label": "run-mosquitto",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-mosquitto.sh --task",
+			"command": "${input:runtime-local-path}/src/run-mosquitto.sh",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
@@ -65,7 +65,7 @@
 		{
 			"label": "run-vehicledatabroker",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-vehicledatabroker.sh ${input:middleware} --task",
+			"command": "${input:runtime-local-path}/src/run-vehicledatabroker.sh ${input:middleware}",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
@@ -91,7 +91,7 @@
 		{
 			"label": "run-vehicledatabroker-cli",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-vehicledatabroker-cli.sh --task",
+			"command": "${input:runtime-local-path}/src/run-vehicledatabroker-cli.sh",
 			"group": "none",
 			"isBackground": false,
 			"problemMatcher": []
@@ -99,7 +99,7 @@
 		{
 			"label": "run-seatservice",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-seatservice.sh ${input:middleware} --task",
+			"command": "${input:runtime-local-path}/src/run-seatservice.sh ${input:middleware}",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
@@ -125,7 +125,7 @@
 		{
 			"label": "run-hvacservice (Runtime)",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-hvacservice.sh --task",
+			"command": "${input:runtime-local-path}/src/run-hvacservice.sh",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
@@ -158,7 +158,7 @@
 		{
 			"label": "run-feedercan",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-feedercan.sh ${input:middleware} --task",
+			"command": "${input:runtime-local-path}/src/run-feedercan.sh ${input:middleware}",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
@@ -184,7 +184,7 @@
 		{
 			"label": "run-feedercan (DogMode)",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-feedercan.sh ${input:middleware} DOGMODE --task",
+			"command": "${input:runtime-local-path}/src/run-feedercan.sh ${input:middleware} DOGMODE",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
@@ -296,6 +296,26 @@
 			"options": [
 				"DAPR",
 				"NATIVE"
+			],
+		}
+	],
+	"inputs": [
+		{
+			"id": "runtime-local-path",
+            "type": "command",
+            "command": "shellCommand.execute",
+            "args": {
+                "useSingleResult": true,
+                "command": "velocitas component --getPath devenv-runtime-local",
+                "cwd": "${workspaceFolder}",
+            }
+		},
+		{
+			"description": "Options for example apps from SDK package.",
+			"id": "exampleApp",
+			"type": "pickString",
+			"options": [
+				"seat-adjuster"
 			],
 		}
 	]

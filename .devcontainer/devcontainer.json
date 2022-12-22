@@ -1,7 +1,6 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
-// https://github.com/microsoft/vscode-dev-containers/tree/v0.194.3/containers/dapr-javascript-node
+// This file is maintained by velocitas CLI, do not modify manually. Change settings in .velocitas.json
 {
-	"name": "VehicleApp Python SDK",
+	"name": "VehicleApp Python sdk",
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
@@ -13,11 +12,14 @@
 	"settings": {
 		"python.pythonPath": "/usr/bin/python3",
 		"python.defaultInterpreterPath": "/usr/bin/python3",
-		"python.disableInstallationCheck": true,
+		// Only Flake8 is used as linter and static code analyzer, as faster tool
 		"python.linting.enabled": true,
-		"python.formatting.provider": "black",
-		"python.linting.banditEnabled": true,
 		"python.linting.flake8Enabled": true,
+		// Style Formatter
+		"python.formatting.provider": "black",
+		// Security Linter
+		"python.linting.banditEnabled": true,
+		"python.disableInstallationCheck": true,
 		"terminal.integrated.defaultProfile.linux": "zsh",
 		"terminal.integrated.profiles.linux": {
 			"zsh": {
@@ -32,21 +34,22 @@
 	],
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
-		"ms-python.python",
 		"dbaeumer.vscode-eslint",
 		"ms-azuretools.vscode-dapr",
 		"ms-azuretools.vscode-docker",
+		"ms-vscode.vscode-typescript-tslint-plugin",
+		"ms-python.python",
+		"cschleiden.vscode-github-actions",
+		"pspester.pester-test",
 		"rpdswtk.vsmqtt",
 		"dotjoshjohnson.xml",
 		"ms-kubernetes-tools.vscode-kubernetes-tools",
 		"matangover.mypy",
 		"anweber.vscode-httpyac",
+		"augustocdias.tasks-shell-input",
 		"ms-python.isort"
 	],
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-	// Ensure Dapr is running on opening the container
-	"postCreateCommand": "bash .devcontainer/scripts/postCreateCommand.sh",
+	"onCreateCommand": "bash .devcontainer/scripts/postCreateCommand.sh",
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode"
 }

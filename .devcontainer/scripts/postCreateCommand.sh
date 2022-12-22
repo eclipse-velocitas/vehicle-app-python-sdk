@@ -1,3 +1,4 @@
+# This file is maintained by velocitas CLI, do not modify manually. Change settings in .velocitas.json
 #!/bin/bash
 # Copyright (c) 2022 Robert Bosch GmbH and Microsoft Corporation
 #
@@ -12,6 +13,12 @@
 # under the License.
 #
 # SPDX-License-Identifier: Apache-2.0
+
+echo "#######################################################"
+echo "### Run VADF Lifecycle Management                   ###"
+echo "#######################################################"
+velocitas init
+velocitas sync
 
 echo "#######################################################"
 echo "### Executing add-python.sh                         ###"
@@ -32,7 +39,6 @@ fi
 
 pip3 install -e .
 
-# add folder to safe
 # add repo to git safe.directory
 REPO=$(pwd)
 git config --global --add safe.directory $REPO
