@@ -22,9 +22,9 @@ ENV PATH=$PATH:/home/vscode/.dapr/bin
 ENV DOCKER_BUILDKIT=1
 
 # Fix for bug in devcontainer features
-ADD https://raw.githubusercontent.com/devcontainers/features/main/src/common-utils/install.sh /tmp/scripts/install-common.sh
+ADD https://raw.githubusercontent.com/devcontainers/features/7fa90110d762797cc0b1c2fe8fcc028c9b813d56/src/common-utils/install.sh /tmp/scripts/install-common.sh
 RUN UID="4000" bash /tmp/scripts/install-common.sh
-ADD https://raw.githubusercontent.com/devcontainers/features/main/src/docker-in-docker/install.sh /tmp/scripts/install-dind.sh
+ADD https://raw.githubusercontent.com/devcontainers/features/7fa90110d762797cc0b1c2fe8fcc028c9b813d56/src/docker-in-docker/install.sh /tmp/scripts/install-dind.sh
 RUN VERSION="20.10" bash /tmp/scripts/install-dind.sh
 
 COPY scripts/*.sh /tmp/scripts/
