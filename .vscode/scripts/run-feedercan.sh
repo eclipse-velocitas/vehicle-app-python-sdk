@@ -48,7 +48,7 @@ export LOG_LEVEL=info,databroker=info,dbcfeeder.broker_client=debug,dbcfeeder=de
 
 CONFIG_DIR="$ROOT_DIRECTORY/.vscode/scripts/feeder_config"
 export USECASE="databroker"
-if [ $1 == "DOGMODE" ]; then
+if [ $2 == "DOGMODE" ]; then
   echo "Use DogMode feeder config ...!"
   # DogMode CAN feeder config
   export DBC_FILE="$CONFIG_DIR/dogmode/DogMode.dbc"
@@ -61,8 +61,19 @@ else
   export CANDUMP_FILE="$CONFIG_DIR/default/candump.log"
 fi
 
-dapr run \
+if [ $1 == "DAPR" ]; then
+  echo "Run Dapr ...!"
+  dapr run \
     --app-id feedercan \
     --app-protocol grpc \
     --components-path $ROOT_DIRECTORY/.dapr/components \
     --config $ROOT_DIRECTORY/.dapr/config.yaml -- python3 dbcfeeder.py
+elif [ $1 == "NATIVE" ]; then
+  echo "Run native ...!"
+  DATABROKER_GRPC_PORT='55555'
+  export DAPR_GRPC_PORT=$DATABROKER_GRPC_PORT
+  python3 dbcfeeder.py
+else
+  echo "Error: Unsupported middleware type ($1)!"
+  exit 1
+fi

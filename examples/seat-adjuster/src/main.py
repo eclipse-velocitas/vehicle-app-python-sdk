@@ -29,7 +29,7 @@ from sdv.vehicle_app import VehicleApp, subscribe_topic
 
 logging.setLogRecordFactory(get_opentelemetry_log_factory())
 logging.basicConfig(format=get_opentelemetry_log_format())
-logging.getLogger().setLevel("INFO")
+logging.getLogger().setLevel("DEBUG")
 logger = logging.getLogger(__name__)
 
 
@@ -58,7 +58,7 @@ class SeatAdjusterApp(VehicleApp):
 
     async def on_seat_position_changed(self, data: DataPointReply):
         response_topic = "seatadjuster/currentPosition"
-        await self.publish_mqtt_event(
+        await self.publish_event(
             response_topic,
             json.dumps(
                 {
@@ -101,7 +101,7 @@ class SeatAdjusterApp(VehicleApp):
                 is {vehicle_speed} and not 0"""
             response_data["result"] = {"status": 1, "message": error_msg}
 
-        await self.publish_mqtt_event(response_topic, json.dumps(response_data))
+        await self.publish_event(response_topic, json.dumps(response_data))
 
 
 async def main():

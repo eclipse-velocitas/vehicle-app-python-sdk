@@ -16,10 +16,12 @@ import asyncio
 import contextvars
 import logging
 from typing import Generic, List, Type, TypeVar, overload
+from urllib.parse import urlparse
 
 import grpc
 from deprecated import deprecated
 
+from sdv import config
 from sdv.proto.types_pb2 import BoolArray
 from sdv.proto.types_pb2 import Datapoint as BrokerDatapoint
 from sdv.proto.types_pb2 import (
@@ -34,8 +36,6 @@ from sdv.proto.types_pb2 import (
 from sdv.vdb.client import VehicleDataBrokerClient
 from sdv.vdb.subscriptions import SubscriptionManager, VdbSubscription
 from sdv.vdb.types import TypedDataPointResult
-
-from . import conf
 
 logger = logging.getLogger(__name__)
 
@@ -832,9 +832,13 @@ class Service(Node):
 
     def __init__(self):
         super().__init__()
-        _address = conf.service_locator.get_location(self.name)
-        self.channel = grpc.aio.insecure_channel(_address)  # type: ignore
-        self.metadata = conf.service_locator.get_metadata(self.name)
+        service_locator = config.middleware.service_locator
+        _location = service_locator.get_service_location(self.name)
+        _hostname = urlparse(_location).hostname
+        _port = urlparse(_location).port
+        self.address = f"{_hostname}:{_port}"
+        self.channel = grpc.aio.insecure_channel(self.address)  # type: ignore
+        self.metadata = service_locator.get_metadata(self.name)
 
 
 _COLLECTION_DEPRECATION_MSG = """The generated vehicle model must reflect the actual

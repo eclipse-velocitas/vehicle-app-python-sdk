@@ -52,16 +52,17 @@ jobs:
       - name: Install Dependencies
         run: |
           python3 -m pip install --upgrade pip
-          pip3 install tox tox-gh-actions
           python3 -m pip install -r requirements.txt
           python3 -m pip install -r requirements-links.txt
+          python3 -m pip install tox-gh-actions
 
       - name: Run Linters
         uses: pre-commit/action@v3.0.0
 
       - name: Run the daparized databroker binary
         run: |
-          ./.vscode/scripts/run-vehicledatabroker.sh --task &
+          ./.vscode/scripts/run-mosquitto.sh --task &
+          ./.vscode/scripts/run-vehicledatabroker.sh DAPR --task &
           sleep 10s
 
       - name: Run unit and integration tests

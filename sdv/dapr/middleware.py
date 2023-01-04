@@ -12,25 +12,27 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from sdv.model import DataPointFloat, Model
+from sdv.base import Middleware, MiddlewareType
+from sdv.dapr.client import wait_for_sidecar
+from sdv.dapr.locator import DaprServiceLocator
+from sdv.dapr.pubsub import DaprClient
+from sdv.dapr.server import run_server
 
 
-class Vehicle(Model):
-    """Sample Vehicle model."""
+class DaprMiddleware(Middleware):
+    """Dapr middleware implementation."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
+        self.type = MiddlewareType.DAPR
+        self.pubsub_client = DaprClient()
+        self.service_locator = DaprServiceLocator()
 
-        self.Speed = DataPointFloat("Speed", self)
-        self.ThisIsAFloat = DataPointFloat("ThisIsAFloat", self)
+    async def start(self):
+        await run_server()
 
+    async def wait_until_ready(self):
+        await wait_for_sidecar()
 
-class SubscribeException(Exception):
-    """Custom Exception"""
-
-    def __init__(self, datapoint) -> None:
-        super().__init__()
-        self.datapoint = datapoint
-
-
-vehicle = Vehicle()
+    async def stop(self):
+        pass

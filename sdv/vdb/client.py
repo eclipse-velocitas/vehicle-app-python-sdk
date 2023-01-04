@@ -14,11 +14,12 @@
 
 import asyncio
 import logging
-import os
 from typing import List, Optional
+from urllib.parse import urlparse
 
 import grpc
 
+from sdv import config
 from sdv.proto.broker_pb2 import (
     GetDatapointsRequest,
     GetMetadataRequest,
@@ -26,8 +27,6 @@ from sdv.proto.broker_pb2 import (
     SubscribeRequest,
 )
 from sdv.proto.broker_pb2_grpc import BrokerStub
-
-from .. import conf
 
 logger = logging.getLogger(__name__)
 
@@ -41,16 +40,20 @@ class VehicleDataBrokerClient:
     def __new__(cls, port: Optional[int] = None):
         if cls._instance is None:
             cls._instance = super(VehicleDataBrokerClient, cls).__new__(cls)
-            if not conf.DISABLE_DAPR:
-                if port is None:
-                    port = int(str(os.getenv("DAPR_GRPC_PORT")))
-                cls._address = f"localhost:{port}"
+            service_locator = config.middleware.service_locator
+            _location = service_locator.get_service_location("vehicledatabroker")
+            _hostname = urlparse(_location).hostname
+            if port is None:
+                _port = urlparse(_location).port
             else:
-                cls._address = conf.VEHICLE_DATA_BROKER_ADDRESS
+                _port = port
 
-            cls._channel = grpc.aio.insecure_channel(cls._address)  # type: ignore
-            appid = conf.VEHICLE_DATA_BROKER_APP_ID
-            cls._metadata = (("dapr-app-id", appid),)
+            _address = f"{_hostname}:{_port}"
+            cls._channel = grpc.aio.insecure_channel(_address)  # type: ignore
+
+            metadata = service_locator.get_metadata("vehicledatabroker")
+            cls._metadata = metadata
+
             cls._stub = BrokerStub(cls._channel)
         return cls._instance
 

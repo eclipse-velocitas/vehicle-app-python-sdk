@@ -15,12 +15,14 @@
 """ Tests for methods in VehicleDataBrokerClient """
 
 import os
+
+os.environ["SDV_MIDDLEWARE_TYPE"] = "native"
 from unittest import mock
 
 import grpc
 import pytest
 
-from sdv.base import Config
+from sdv import config
 from sdv.test.databroker_testhelper import SubscribeException, Vehicle
 from sdv.test.inttesthelper import IntTestHelper
 from sdv.vdb.client import VehicleDataBrokerClient
@@ -28,8 +30,9 @@ from sdv.vehicle_app import VehicleApp
 
 
 @pytest.fixture(autouse=True)
-def setup_vdb_client():
+def reset():
     VehicleDataBrokerClient._instance = None
+    config._config = None
 
 
 @pytest.mark.asyncio
@@ -234,7 +237,6 @@ async def callback(reply, datapoint):
 
 
 def get_vehicleapp_instance():
-    Config().disable_dapr()
     client = VehicleApp()
     return client
 
@@ -246,6 +248,5 @@ async def change_datapoint(datapoint, value):
 
 
 def get_vehicle_instance():
-    Config().disable_dapr()
     vehicle = Vehicle()
     return vehicle
