@@ -42,10 +42,10 @@ async def test_for_subscribe_topic():
     middleware = get_middleware_instance()
     with mock.patch.object(
         middleware.pubsub_client,
-        "register_topic",
+        "subscribe_topic",
         new_callable=mock.AsyncMock,
     ) as mocked_client:
-        await middleware.pubsub_client.register_topic("/test/dapr", None)
+        await middleware.pubsub_client.subscribe_topic("/test/dapr", None)
         assert isinstance(middleware.pubsub_client, DaprClient)
         mocked_client.assert_called_once_with("/test/dapr", None)
 

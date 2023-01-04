@@ -60,9 +60,12 @@ if [ $1 == "DAPR" ]; then
     --components-path $ROOT_DIRECTORY/.dapr/components \
     --config $ROOT_DIRECTORY/.dapr/config.yaml & \
     $SEATSERVICE_EXEC_PATH/val_start.sh
-else
+elif [ $1 == "NATIVE" ]; then
   echo "Run native ...!"
   SEATSERVICE_GRPC_PORT='55555'
   export DAPR_GRPC_PORT=$SEATSERVICE_GRPC_PORT
   $SEATSERVICE_EXEC_PATH/val_start.sh
+else
+  echo "Error: Unsupported middleware type ($1)!"
+  exit 1
 fi

@@ -58,7 +58,10 @@ if [ $1 == "DAPR" ]; then
   --components-path $ROOT_DIRECTORY/.dapr/components \
   --config $ROOT_DIRECTORY/.dapr/config.yaml & \
   $DATABROKER_EXEC_PATH/databroker --address 0.0.0.0 --dummy-metadata
-else
+elif [ $1 == "NATIVE" ]; then
   echo "Run native ...!"
   $DATABROKER_EXEC_PATH/databroker --address 0.0.0.0 --dummy-metadata
+else
+  echo "Error: Unsupported middleware type ($1)!"
+  exit 1
 fi

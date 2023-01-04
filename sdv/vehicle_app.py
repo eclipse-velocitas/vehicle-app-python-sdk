@@ -93,7 +93,7 @@ class VehicleApp:
                 callback = method[1]
                 topic = method[1].subscribeTopic
 
-                await self.pubsub_client.register_topic(topic, callback)
+                await self.pubsub_client.subscribe_topic(topic, callback)
 
         await config.middleware.wait_until_ready()
 

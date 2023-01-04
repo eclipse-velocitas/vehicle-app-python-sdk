@@ -30,7 +30,7 @@ class DaprClient(PubSubClient):
     async def run(self):
         await wait_for_sidecar()
 
-    async def register_topic(self, topic: str, coro):
+    async def subscribe_topic(self, topic: str, coro):
         register_topic(topic, coro)
 
     async def publish_event(self, topic: str, data: str):

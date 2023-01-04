@@ -68,9 +68,12 @@ if [ $1 == "DAPR" ]; then
     --app-protocol grpc \
     --components-path $ROOT_DIRECTORY/.dapr/components \
     --config $ROOT_DIRECTORY/.dapr/config.yaml -- python3 dbcfeeder.py
-else
+elif [ $1 == "NATIVE" ]; then
   echo "Run native ...!"
   DATABROKER_GRPC_PORT='55555'
   export DAPR_GRPC_PORT=$DATABROKER_GRPC_PORT
   python3 dbcfeeder.py
+else
+  echo "Error: Unsupported middleware type ($1)!"
+  exit 1
 fi

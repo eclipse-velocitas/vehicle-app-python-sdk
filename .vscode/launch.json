@@ -39,7 +39,7 @@
         {
             "type": "python",
             "request": "launch",
-            "name": "examples/array-datatype",
+            "name": "examples/array-datatype (native)",
             "cwd": "${workspaceFolder}/examples/array-datatype",
             "program": "${workspaceFolder}/examples/array-datatype/src/main.py",
             "console": "integratedTerminal",
@@ -52,7 +52,7 @@
         {
             "type": "python",
             "request": "launch",
-            "name": "examples/vdb-queries",
+            "name": "examples/vdb-queries (native)",
             "cwd": "${workspaceFolder}/examples/vdb-queries",
             "program": "${workspaceFolder}/examples/vdb-queries/src/main.py",
             "console": "integratedTerminal",
@@ -66,7 +66,7 @@
         {
             "type": "python",
             "request": "launch",
-            "name": "examples/static-rule",
+            "name": "examples/static-rule (native)",
             "cwd": "${workspaceFolder}/examples/static-rule",
             "program": "${workspaceFolder}/examples/static-rule/src/main.py",
             "console": "integratedTerminal",
@@ -79,7 +79,7 @@
         {
             "type": "python",
             "request": "launch",
-            "name": "examples/dynamic-rule",
+            "name": "examples/dynamic-rule (native)",
             "cwd": "${workspaceFolder}/examples/dynamic-rule",
             "program": "${workspaceFolder}/examples/dynamic-rule/src/main.py",
             "console": "integratedTerminal",
@@ -92,7 +92,7 @@
         {
             "type": "python",
             "request": "launch",
-            "name": "examples/datapoint-set",
+            "name": "examples/datapoint-set (dapr)",
             "cwd": "${workspaceFolder}/examples/datapoint-set",
             "program": "${workspaceFolder}/examples/datapoint-set/src/main.py",
             "console": "integratedTerminal",
@@ -109,7 +109,7 @@
         {
             "type": "python",
             "request": "launch",
-            "name": "examples/atomic-set",
+            "name": "examples/atomic-set (dapr)",
             "cwd": "${workspaceFolder}/examples/atomic-set",
             "program": "${workspaceFolder}/examples/atomic-set/src/main.py",
             "console": "integratedTerminal",

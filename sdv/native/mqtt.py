@@ -37,7 +37,7 @@ class MqttClient(PubSubClient):
     def __init__(self, port: Optional[int] = None, hostname: Optional[str] = None):
         self._port = port
         self._hostname = hostname
-        self._registered_topics: list[MqttTopicSubscription] = []
+        self._topics_to_subscribe: list[MqttTopicSubscription] = []
 
         self._pub_client = mqtt.Client()
         self._sub_client = mqtt.Client()
@@ -52,7 +52,7 @@ class MqttClient(PubSubClient):
             logger.debug("Mqtt native connection OK!")
 
             # subscribe the registered topics
-            for subscription in self._registered_topics:
+            for subscription in self._topics_to_subscribe:
                 client.subscribe(subscription.topic)
         else:
             logger.error("Bad connection request, return code: %d", rc)
@@ -66,10 +66,9 @@ class MqttClient(PubSubClient):
     async def init(self):
         """Do nothing"""
 
-    async def register_topic(self, topic, coro):
-        if not self._sub_client.is_connected():
-            self._registered_topics.append(MqttTopicSubscription(topic, coro))
-        else:
+    async def subscribe_topic(self, topic, coro):
+        self._topics_to_subscribe.append(MqttTopicSubscription(topic, coro))
+        if self._sub_client.is_connected():
             self._sub_client.subscribe(topic)
 
         loop = asyncio.get_event_loop()

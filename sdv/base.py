@@ -49,7 +49,7 @@ class PubSubClient(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def register_topic(self, topic: str, coro):
+    async def subscribe_topic(self, topic: str, coro):
         raise NotImplementedError
 
     @abstractmethod
