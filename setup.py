@@ -63,6 +63,7 @@ extra_requirements = {
         "flake8-bugbear",
         "flake8-builtins",
         "pip-tools",
+        "pre-commit",
     ]
 }
 
