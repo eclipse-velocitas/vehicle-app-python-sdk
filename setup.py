@@ -61,7 +61,6 @@ extra_requirements = {
         "bandit",
         "flake8",
         "flake8-bugbear",
-        "flake8-builtins",
         "pip-tools",
     ]
 }
