@@ -24,7 +24,6 @@
 |filelock|3.8.2|The Unlicense (Unlicense)|
 |flake8|6.0.0|MIT|
 |flake8-bugbear|22.12.6|MIT|
-|flake8-builtins|2.0.1|GNU General Public License v2 (GPLv2)|
 |frozenlist|1.3.3|Apache 2.0|
 |gitdb|4.0.10|BSD|
 |GitPython|3.1.29|BSD|
