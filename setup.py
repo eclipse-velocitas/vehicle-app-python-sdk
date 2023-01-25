@@ -84,6 +84,9 @@ setup(
         "sdv.vdb",
         "sdv.test",
         "sdv_examples.seat-adjuster",
+        "sdv.proto.chariott.common.v1",
+        "sdv.proto.chariott.runtime.v1",
+
     ],
     package_dir={
         "sdv_examples.seat-adjuster": "examples/seat-adjuster",

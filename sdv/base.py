@@ -23,6 +23,7 @@ class MiddlewareType(str, Enum):
 
     NATIVE = "native"
     DAPR = "dapr"
+    CHARRIOT = "chariott"
 
 
 class ServiceLocator(ABC):
