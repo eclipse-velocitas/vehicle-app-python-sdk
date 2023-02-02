@@ -51,7 +51,7 @@
 |pathspec|0.10.2|Mozilla Public License 2.0 (MPL 2.0)|
 |pbr|5.11.0|Apache 2.0|
 |pep517|0.13.0|MIT|
-|pip|22.3.1|MIT|
+|pip|23.0|MIT|
 |pip-tools|6.11.0|BSD|
 |platformdirs|2.6.0|MIT|
 |pluggy|1.0.0|MIT|
