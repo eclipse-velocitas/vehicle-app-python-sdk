@@ -3,7 +3,7 @@
         "Name": "array-datatype",
         "Port": 50008,
         "DAPR_GRPC_PORT": 50001,
-        "vehicle_model": {
+        "VehicleModel": {
             "src": "https://github.com/COVESA/vehicle_signal_specification/releases/download/v3.0/vss_rel_3.0.json"
         },
         "dependencies": {
