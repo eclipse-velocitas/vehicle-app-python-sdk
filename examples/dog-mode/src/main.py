@@ -20,6 +20,7 @@ os.environ["HVACSERVICE_DAPR_APP_ID"] = "hvacservice"
 import asyncio
 import json
 import logging
+import signal
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from vehicle_model.sample import Vehicle, vehicle
@@ -134,4 +135,7 @@ async def main():
     await dogmode_app.run()
 
 
-asyncio.run(main())
+LOOP = asyncio.get_event_loop()
+LOOP.add_signal_handler(signal.SIGTERM, LOOP.stop)
+LOOP.run_until_complete(main())
+LOOP.close()

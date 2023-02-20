@@ -18,6 +18,7 @@ import argparse
 import asyncio
 import json
 import logging
+import signal
 
 from sdv_model import Vehicle, vehicle
 
@@ -94,4 +95,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-l", "--limit", help="Speed limit", default=130.0)
 parser.add_argument("-e", "--enable-dapr", help="Enable dapr", action="store_true")
 
-asyncio.run(main())
+LOOP = asyncio.get_event_loop()
+LOOP.add_signal_handler(signal.SIGTERM, LOOP.stop)
+LOOP.run_until_complete(main())
+LOOP.close()
