@@ -113,27 +113,27 @@ repos:
               .*_pb2_grpc.py
           )$
 
-  - repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.3.1
-    hooks:
-      - id: insert-license
-        files: '.*\.(py|pyi|yaml|yml|sh|helmignore|dockerignore|gitignore)$'
-        args:
-          - --license-filepath
-          - license_header.txt
-          - --comment-style
-          - "#"
-      - id: insert-license
-        files: '.*\.(proto)$'
-        args:
-          - --license-filepath
-          - license_header.txt
-          - --comment-style
-          - //
-      - id: insert-license
-        files: "Dockerfile.*"
-        args:
-          - --license-filepath
-          - license_header.txt
-          - --comment-style
-          - "#"
+  # - repo: https://github.com/Lucas-C/pre-commit-hooks
+  #   rev: v1.3.1
+  #   hooks:
+  #     - id: insert-license
+  #       files: '.*\.(py|pyi|yaml|yml|sh|helmignore|dockerignore|gitignore)$'
+  #       args:
+  #         - --license-filepath
+  #         - license_header.txt
+  #         - --comment-style
+  #         - "#"
+  #     - id: insert-license
+  #       files: '.*\.(proto)$'
+  #       args:
+  #         - --license-filepath
+  #         - license_header.txt
+  #         - --comment-style
+  #         - //
+  #     - id: insert-license
+  #       files: "Dockerfile.*"
+  #       args:
+  #         - --license-filepath
+  #         - license_header.txt
+  #         - --comment-style
+  #         - "#"
