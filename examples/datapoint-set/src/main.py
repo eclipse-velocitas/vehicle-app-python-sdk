@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Robert Bosch GmbH and Microsoft Corporation
+# Copyright (c) 2022-2023 Robert Bosch GmbH and Microsoft Corporation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -15,6 +15,7 @@
 import asyncio
 import json
 import logging
+import signal
 
 from sdv_model import Vehicle, vehicle
 
@@ -92,4 +93,7 @@ async def main():
     await example.run()
 
 
-asyncio.run(main())
+LOOP = asyncio.get_event_loop()
+LOOP.add_signal_handler(signal.SIGTERM, LOOP.stop)
+LOOP.run_until_complete(main())
+LOOP.close()

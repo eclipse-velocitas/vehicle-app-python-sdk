@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Robert Bosch GmbH and Microsoft Corporation
+# Copyright (c) 2022-2023 Robert Bosch GmbH and Microsoft Corporation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -20,6 +20,7 @@ os.environ["HVACSERVICE_DAPR_APP_ID"] = "hvacservice"
 import asyncio
 import json
 import logging
+import signal
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from vehicle_model.sample import Vehicle, vehicle
@@ -134,4 +135,7 @@ async def main():
     await dogmode_app.run()
 
 
-asyncio.run(main())
+LOOP = asyncio.get_event_loop()
+LOOP.add_signal_handler(signal.SIGTERM, LOOP.stop)
+LOOP.run_until_complete(main())
+LOOP.close()

@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Robert Bosch GmbH and Microsoft Corporation
+# Copyright (c) 2022-2023 Robert Bosch GmbH and Microsoft Corporation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -12,7 +12,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM ubuntu:20.04
+FROM ghcr.io/eclipse-velocitas/devcontainer-base-images/python:latest
 
 # Force dapr to use localhost traffic
 ENV DAPR_HOST_IP="127.0.0.1"
@@ -21,18 +21,10 @@ ENV PATH=$PATH:/home/vscode/.dapr/bin
 
 ENV DOCKER_BUILDKIT=1
 
-# Fix for bug in devcontainer features
-ADD https://raw.githubusercontent.com/devcontainers/features/7fa90110d762797cc0b1c2fe8fcc028c9b813d56/src/common-utils/install.sh /tmp/scripts/install-common.sh
-RUN UID="4000" bash /tmp/scripts/install-common.sh
-ADD https://raw.githubusercontent.com/devcontainers/features/7fa90110d762797cc0b1c2fe8fcc028c9b813d56/src/docker-in-docker/install.sh /tmp/scripts/install-dind.sh
-RUN VERSION="20.10" bash /tmp/scripts/install-dind.sh
-
 COPY scripts/*.sh /tmp/scripts/
 RUN find /tmp/scripts/ -type f -iname "*.sh" -exec chmod +x {} \;
 RUN /bin/bash /tmp/scripts/container-set.sh
 RUN /bin/bash /tmp/scripts/configure-proxies.sh
-
-VOLUME [ "/var/lib/docker" ]
 
 # Setting the ENTRYPOINT to docker-init.sh will start up the Docker Engine
 # inside the container "overrideCommand": false is set in devcontainer.json.

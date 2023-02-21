@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2022 Robert Bosch GmbH and Microsoft Corporation
+# Copyright (c) 2022-2023 Robert Bosch GmbH and Microsoft Corporation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -31,7 +31,7 @@ if [[ `uname -m` == 'aarch64' || `uname -m` == 'arm64' ]]; then
     echo "Detected ARM architecture"
     PROCESSOR="aarch64"
     DATABROKER_BINARY_NAME="databroker_aarch64.tar.gz"
-    DATABROKER_EXEC_PATH="$DATABROKER_ASSET_FOLDER/$PROCESSOR/target/aarch64-unknown-linux-gnu/release"
+    DATABROKER_EXEC_PATH="$DATABROKER_ASSET_FOLDER/$PROCESSOR/target/release"
 else
     echo "Detected x86_64 architecture"
     PROCESSOR="x86_64"
