@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2022-2023 Robert Bosch GmbH and Microsoft Corporation
+# Copyright (c) 2022 Robert Bosch GmbH and Microsoft Corporation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -12,7 +12,6 @@
 # under the License.
 #
 # SPDX-License-Identifier: Apache-2.0
-
 
 if [[ "$#" -eq 1 ]]; then
     tput setaf 1; echo "ERROR: To execute script, use VSCODE Tasks: [CTRL+SHIFT+P -> Tasks: Run Tasks -> $1]."
