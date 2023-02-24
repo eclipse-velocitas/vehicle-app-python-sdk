@@ -22,7 +22,7 @@ requirements = [
     "opentelemetry-distro<=0.36b0",
     "opentelemetry-instrumentation-logging<=0.36b0",
     "opentelemetry-sdk<=1.15.0",
-    "opentelemetry-api<=1.15.0"
+    "opentelemetry-api<=1.15.0",
 ]
 
 extra_requirements = {
