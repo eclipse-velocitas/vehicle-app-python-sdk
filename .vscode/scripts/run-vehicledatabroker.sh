@@ -30,21 +30,21 @@ DATABROKER_ASSET_FOLDER="$ROOT_DIRECTORY/.vscode/scripts/assets/databroker/$DATA
 if [[ `uname -m` == 'aarch64' || `uname -m` == 'arm64' ]]; then
     echo "Detected ARM architecture"
     PROCESSOR="aarch64"
-    DATABROKER_BINARY_NAME="databroker_aarch64.tar.gz"
-    DATABROKER_EXEC_PATH="$DATABROKER_ASSET_FOLDER/$PROCESSOR/target/release"
+    DATABROKER_BINARY_NAME="databroker-arm64.tar.gz"
+    DATABROKER_EXEC_PATH="$DATABROKER_ASSET_FOLDER/$PROCESSOR/databroker"
 else
     echo "Detected x86_64 architecture"
     PROCESSOR="x86_64"
-    DATABROKER_BINARY_NAME='databroker_x86_64.tar.gz'
-    DATABROKER_EXEC_PATH="$DATABROKER_ASSET_FOLDER/$PROCESSOR/target/release"
+    DATABROKER_BINARY_NAME='databroker-amd64.tar.gz'
+    DATABROKER_EXEC_PATH="$DATABROKER_ASSET_FOLDER/$PROCESSOR/databroker"
 fi
 
 if [[ ! -f "$DATABROKER_EXEC_PATH/databroker" ]]
 then
-  DOWNLOAD_URL=https://github.com/boschglobal/kuksa.val/releases/download
+  DOWNLOAD_URL=https://github.com/eclipse/kuksa.val/releases/download
   echo "Downloading databroker:$DATABROKER_VERSION"
   curl -o $DATABROKER_ASSET_FOLDER/$PROCESSOR/$DATABROKER_BINARY_NAME --create-dirs -L -H "Accept: application/octet-stream" "$DOWNLOAD_URL/$DATABROKER_VERSION/$DATABROKER_BINARY_NAME"
-  tar -xf $DATABROKER_ASSET_FOLDER/$PROCESSOR/$DATABROKER_BINARY_NAME -C $DATABROKER_ASSET_FOLDER/$PROCESSOR
+  tar -xf $DATABROKER_ASSET_FOLDER/$PROCESSOR/$DATABROKER_BINARY_NAME -C "$DATABROKER_ASSET_FOLDER/$PROCESSOR"
 fi
 
 export DAPR_GRPC_PORT=$DATABROKER_GRPC_PORT
