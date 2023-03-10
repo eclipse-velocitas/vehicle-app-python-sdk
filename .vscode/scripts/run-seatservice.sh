@@ -40,7 +40,7 @@ SEATSERVICE_EXEC_PATH="$SEATSERVICE_ASSET_FOLDER/$PROCESSOR/target/$PROCESSOR/re
 
 if [[ ! -f "$SEATSERVICE_EXEC_PATH/val_start.sh" ]]
 then
-  DOWNLOAD_URL=https://github.com/boschglobal/kuksa.val.services/releases/download
+  DOWNLOAD_URL=https://github.com/eclipse/kuksa.val.services/releases/download
   echo "Downloading seatservice:$SEATSERVICE_VERSION"
   curl -o $SEATSERVICE_ASSET_FOLDER/$PROCESSOR/$SEATSERVICE_BINARY_NAME --create-dirs -L -H "Accept: application/octet-stream" "$DOWNLOAD_URL/$SEATSERVICE_VERSION/$SEATSERVICE_BINARY_NAME"
   tar -xf $SEATSERVICE_ASSET_FOLDER/$PROCESSOR/$SEATSERVICE_BINARY_NAME -C $SEATSERVICE_ASSET_FOLDER/$PROCESSOR

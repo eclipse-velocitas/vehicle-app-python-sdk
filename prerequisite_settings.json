@@ -6,7 +6,7 @@
         "version": "0.3.0"
     },
     "seatservice": {
-        "version": "v0.3.0"
+        "version": "v0.2.0"
     },
     "hvacservice": {
         "version": "v0.1.0"
