@@ -14,35 +14,36 @@
 # SPDX-License-Identifier: Apache-2.0
 
 echo "#######################################################"
-echo "### Running VehicleDataBroke CLI                    ###"
+echo "### Running VehicleDataBroker CLI                   ###"
 echo "#######################################################"
 
 ROOT_DIRECTORY=$( realpath "$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/../.." )
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source $ROOT_DIRECTORY/.vscode/scripts/exec-check.sh "$@" $(basename $BASH_SOURCE .sh)
 DATABROKER_VERSION=$(cat $ROOT_DIRECTORY/prerequisite_settings.json | jq .databroker.version | tr -d '"')
 
 sudo chown $(whoami) $HOME
-DATABROKER_ASSET_FOLDER="$ROOT_DIRECTORY/.vscode/scripts/assets/databroker/$DATABROKER_VERSION"
-DOWNLOAD_URL=https://github.com/boschglobal/kuksa.val/releases/download
-
+# Needed because of how the databroker release is tagged
+DATABROKER_ASSET_FOLDER="$SCRIPT_DIR/assets/databroker/$DATABROKER_VERSION"
 #Detect host environment (distinguish for Mac M1 processor)
 if [[ `uname -m` == 'aarch64' || `uname -m` == 'arm64' ]]; then
     echo "Detected ARM architecture"
     PROCESSOR="aarch64"
-    DATABROKER_BINARY_NAME="databroker_aarch64.tar.gz"
-    DATABROKER_EXEC_PATH="$DATABROKER_ASSET_FOLDER/$PROCESSOR/target/aarch64-unknown-linux-gnu/release"
+    DATABROKER_BINARY_NAME="databroker-cli-arm64.tar.gz"
 else
     echo "Detected x86_64 architecture"
     PROCESSOR="x86_64"
-    DATABROKER_BINARY_NAME='databroker_x86_64.tar.gz'
-    DATABROKER_EXEC_PATH="$DATABROKER_ASSET_FOLDER/$PROCESSOR/target/release"
+    DATABROKER_BINARY_NAME='databroker-cli-amd64.tar.gz'
 fi
 
-if [[ ! -f "$DATABROKER_EXEC_PATH/databroker" ]]
+DATABROKER_EXEC_PATH="$DATABROKER_ASSET_FOLDER/$PROCESSOR/databroker-cli"
+
+if [[ ! -f "$DATABROKER_EXEC_PATH/databroker-cli" ]]
 then
-  echo "Downloading databroker:$DATABROKER_VERSION"
-  curl -o $DATABROKER_ASSET_FOLDER/$PROCESSOR/$DATABROKER_BINARY_NAME --create-dirs -L -H "Accept: application/octet-stream" "$DOWNLOAD_URL/$DATABROKER_VERSION/$DATABROKER_BINARY_NAME"
-  tar -xf $DATABROKER_ASSET_FOLDER/$PROCESSOR/$DATABROKER_BINARY_NAME -C $DATABROKER_ASSET_FOLDER/$PROCESSOR
+    DOWNLOAD_URL=https://github.com/eclipse/kuksa.val/releases/download
+    echo "Downloading databroker:$DATABROKER_VERSION"
+    curl -o $DATABROKER_ASSET_FOLDER/$PROCESSOR/$DATABROKER_BINARY_NAME --create-dirs -L -H "Accept: application/octet-stream" "$DOWNLOAD_URL/$DATABROKER_VERSION/$DATABROKER_BINARY_NAME"
+    tar -xf $DATABROKER_ASSET_FOLDER/$PROCESSOR/$DATABROKER_BINARY_NAME -C $DATABROKER_ASSET_FOLDER/$PROCESSOR
 fi
 
 $DATABROKER_EXEC_PATH/databroker-cli
