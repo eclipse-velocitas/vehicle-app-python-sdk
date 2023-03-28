@@ -29,18 +29,18 @@
                 {
                     "name": "feedercan",
                     "image": "ghcr.io/eclipse/kuksa.val.feeders/dbc2val",
-                    "version": "v0.1.0"
+                    "version": "v0.1.1"
                 }
             ],
             "python": {
-                "version": "3.9"
+                "version": "3.10"
             },
             "dapr": {
                 "cli": {
-                    "version": "1.9.1"
+                    "version": "1.10.0"
                 },
                 "runtime": {
-                    "version": "1.8.1"
+                    "version": "1.10.2"
                 }
             }
         }

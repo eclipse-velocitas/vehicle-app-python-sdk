@@ -24,7 +24,7 @@ This includes the following packages:
 
 ## Prerequisites
 
-- Python 3.9 or later is required to use this package.
+- Python 3.10 or later is required to use this package.
 
 ## Install the package
 
