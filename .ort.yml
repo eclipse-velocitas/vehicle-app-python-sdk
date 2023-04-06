@@ -54,10 +54,3 @@ curations:
     curations:
       comment: "Bosch maintained component"
       concluded_license: "Apache-2.0"
-
-
-resolutions:
-  vulnerabilities:
-  - id: "CVE-2022-42969"
-    reason: "INEFFECTIVE_VULNERABILITY"
-    comment: "Vulnerability only applicable for SVN projects. Requires a change to be made by a third party https://github.com/pytest-dev/py/issues/287"
