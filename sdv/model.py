@@ -107,7 +107,7 @@ class DataPoint(Node):
         return query
 
     async def subscribe(self, on_update):
-        query = self.get_query()
+        query = self.get_path()
         sub = VdbSubscription(self.get_client(), query, on_update)
         SubscriptionManager._add_subscription(sub)
         return sub
@@ -116,7 +116,7 @@ class DataPoint(Node):
         try:
             path = self.get_path()
             response = await self.get_client().GetDatapoints([path])
-            return response.datapoints[path]
+            return response.entries[path]
         except (grpc.aio.AioRpcError, Exception):  # type: ignore
             logger.error("Error occured in DataPoint.get")
             logger.debug(

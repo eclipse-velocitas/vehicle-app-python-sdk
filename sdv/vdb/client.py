@@ -20,12 +20,8 @@ from urllib.parse import urlparse
 import grpc
 
 from sdv import config
-from sdv.proto.val_pb2 import (
-    GetRequest,
-    SetRequest,
-    SubscribeRequest,
-    GetServerInfoRequest,
-)
+import sdv.proto.val_pb2 as val
+import sdv.proto.types_pb2 as types
 from sdv.proto.val_pb2_grpc import VALStub
 
 logger = logging.getLogger(__name__)
@@ -69,9 +65,16 @@ class VehicleDataBrokerClient:
         asyncio.run_coroutine_threadsafe(self.close(), asyncio.get_event_loop())
 
     async def GetDatapoints(self, datapoints: List[str]):
+        entries = []
+        for point in datapoints:
+            entries.append(
+                val.EntryRequest(
+                    path=point, fields=[types.FIELD_UNSPECIFIED], view=types.VIEW_ALL
+                )
+            )
         try:
             response = await self._stub.Get(
-                GetRequest(datapoints=datapoints), metadata=self._metadata
+                val.GetRequest(entries=entries), metadata=self._metadata
             )
             return response
         except grpc.aio.AioRpcError:  # type: ignore
@@ -80,10 +83,19 @@ class VehicleDataBrokerClient:
             )
             raise
 
-    async def SetDatapoints(self, datapoints):
+    async def SetDatapoints(self, datapoints: dict):
+        updates = []
+        for key in datapoints.keys():
+            updates.append(
+                val.EntryUpdate(
+                    entry=types.DataEntry(path=key, value=datapoints[key]),
+                    fields=[types.FIELD_UNSPECIFIED],
+                )
+            )
         try:
             response = await self._stub.Set(
-                SetRequest(datapoints=datapoints), metadata=self._metadata
+                val.SetRequest(updates=updates),
+                metadata=self._metadata,
             )
             return response
         except grpc.aio.AioRpcError:  # type: ignore
@@ -95,7 +107,15 @@ class VehicleDataBrokerClient:
     def Subscribe(self, query: str):
         try:
             response = self._stub.Subscribe(
-                SubscribeRequest(query=query),
+                val.SubscribeRequest(
+                    entries=[
+                        val.SubscribeEntry(
+                            path=query,
+                            fields=[types.FIELD_UNSPECIFIED],
+                            view=types.VIEW_ALL,
+                        )
+                    ]
+                ),
                 metadata=self._metadata,
             )
             return response
@@ -108,7 +128,7 @@ class VehicleDataBrokerClient:
     async def GetMetadata(self, names: list):
         try:
             response = await self._stub.GetServerInfo(
-                GetServerInfoRequest(names=names), metadata=self._metadata
+                val.GetServerInfoRequest(), metadata=self._metadata
             )
             return response
         except grpc.aio.AioRpcError:  # type: ignore
