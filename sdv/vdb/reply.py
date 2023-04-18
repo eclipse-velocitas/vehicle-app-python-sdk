@@ -16,7 +16,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, List, overload
 
-from sdv.proto.broker_pb2 import SubscribeReply
+from sdv.proto.val_pb2 import SubscribeResponse
 from sdv.proto.types_pb2 import Datapoint as BrokerDatapoint
 from sdv.vdb.types import TypedDataPointResult
 
@@ -27,7 +27,7 @@ if TYPE_CHECKING:
 class DataPointReply:
     """Wrapper for dynamic datatype casting of VDB reply."""
 
-    def __init__(self, reply: SubscribeReply):
+    def __init__(self, reply: SubscribeResponse):
         self.reply = reply
 
     @overload

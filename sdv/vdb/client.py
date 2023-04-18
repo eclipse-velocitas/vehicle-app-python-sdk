@@ -20,13 +20,13 @@ from urllib.parse import urlparse
 import grpc
 
 from sdv import config
-from sdv.proto.broker_pb2 import (
-    GetDatapointsRequest,
-    GetMetadataRequest,
-    SetDatapointsRequest,
+from sdv.proto.val_pb2 import (
+    GetRequest,
+    SetRequest,
     SubscribeRequest,
+    GetServerInfoRequest,
 )
-from sdv.proto.broker_pb2_grpc import BrokerStub
+from sdv.proto.val_pb2_grpc import VALStub
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +54,7 @@ class VehicleDataBrokerClient:
             metadata = service_locator.get_metadata("vehicledatabroker")
             cls._metadata = metadata
 
-            cls._stub = BrokerStub(cls._channel)
+            cls._stub = VALStub(cls._channel)
         return cls._instance
 
     async def close(self):
@@ -70,8 +70,8 @@ class VehicleDataBrokerClient:
 
     async def GetDatapoints(self, datapoints: List[str]):
         try:
-            response = await self._stub.GetDatapoints(
-                GetDatapointsRequest(datapoints=datapoints), metadata=self._metadata
+            response = await self._stub.Get(
+                GetRequest(datapoints=datapoints), metadata=self._metadata
             )
             return response
         except grpc.aio.AioRpcError:  # type: ignore
@@ -82,8 +82,8 @@ class VehicleDataBrokerClient:
 
     async def SetDatapoints(self, datapoints):
         try:
-            response = await self._stub.SetDatapoints(
-                SetDatapointsRequest(datapoints=datapoints), metadata=self._metadata
+            response = await self._stub.Set(
+                SetRequest(datapoints=datapoints), metadata=self._metadata
             )
             return response
         except grpc.aio.AioRpcError:  # type: ignore
@@ -107,8 +107,8 @@ class VehicleDataBrokerClient:
 
     async def GetMetadata(self, names: list):
         try:
-            response = await self._stub.GetMetadata(
-                GetMetadataRequest(names=names), metadata=self._metadata
+            response = await self._stub.GetServerInfo(
+                GetServerInfoRequest(names=names), metadata=self._metadata
             )
             return response
         except grpc.aio.AioRpcError:  # type: ignore
