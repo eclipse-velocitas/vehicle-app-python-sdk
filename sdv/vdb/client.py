@@ -69,7 +69,9 @@ class VehicleDataBrokerClient:
         for point in datapoints:
             entries.append(
                 val.EntryRequest(
-                    path=point, fields=[types.FIELD_UNSPECIFIED], view=types.VIEW_ALL
+                    path=point,
+                    fields=[types.FIELD_UNSPECIFIED],
+                    view=types.VIEW_CURRENT_VALUE,
                 )
             )
         try:
@@ -89,7 +91,7 @@ class VehicleDataBrokerClient:
             updates.append(
                 val.EntryUpdate(
                     entry=types.DataEntry(path=key, value=datapoints[key]),
-                    fields=[types.FIELD_UNSPECIFIED],
+                    fields=[types.FIELD_ACTUATOR_TARGET],
                 )
             )
         try:
@@ -112,7 +114,7 @@ class VehicleDataBrokerClient:
                         val.SubscribeEntry(
                             path=query,
                             fields=[types.FIELD_UNSPECIFIED],
-                            view=types.VIEW_ALL,
+                            view=types.VIEW_CURRENT_VALUE,
                         )
                     ]
                 ),

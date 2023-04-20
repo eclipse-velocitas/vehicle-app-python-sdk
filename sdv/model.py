@@ -97,18 +97,9 @@ class DataPoint(Node):
         self.get_context().append(condition)
         return self
 
-    def get_query(self) -> str:
-        if not self.get_context():
-            self.set_context([self.get_path()])
-
-        ctx = self.get_context()
-        query = "SELECT " + " ".join(ctx).replace(" JOIN", ",")
-        self.set_context([])
-        return query
-
     async def subscribe(self, on_update):
-        query = self.get_path()
-        sub = VdbSubscription(self.get_client(), query, on_update)
+        path = self.get_path()
+        sub = VdbSubscription(self.get_client(), path, on_update)
         SubscriptionManager._add_subscription(sub)
         return sub
 
@@ -163,7 +154,7 @@ class DataPointBoolean(DataPoint):
         try:
             response: BrokerDatapoint = await super().get()
             return TypedDataPointResult[bool](
-                self.get_path(), response.bool_value, response.timestamp
+                self.get_path(), response.bool, response.timestamp
             )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointBoolean.get")
@@ -174,7 +165,7 @@ class DataPointBoolean(DataPoint):
         await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: bool):
-        return BrokerDatapoint(bool_value=value)
+        return BrokerDatapoint(bool=value)
 
 
 class DataPointBooleanArray(DataPoint):
@@ -206,7 +197,7 @@ class DataPointInt8(DataPoint):
         try:
             response: BrokerDatapoint = await super().get()
             return TypedDataPointResult[int](
-                self.get_path(), response.int32_value, response.timestamp
+                self.get_path(), response.int32, response.timestamp
             )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointInt8.get")
@@ -217,7 +208,7 @@ class DataPointInt8(DataPoint):
         await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: int):
-        return BrokerDatapoint(int32_value=value)
+        return BrokerDatapoint(int32=value)
 
 
 class DataPointInt8Array(DataPoint):
@@ -249,7 +240,7 @@ class DataPointInt16(DataPoint):
         try:
             response: BrokerDatapoint = await super().get()
             return TypedDataPointResult[int](
-                self.get_path(), response.int32_value, response.timestamp
+                self.get_path(), response.int32, response.timestamp
             )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointInt16.get")
@@ -260,7 +251,7 @@ class DataPointInt16(DataPoint):
         await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: int):
-        return BrokerDatapoint(int32_value=value)
+        return BrokerDatapoint(int32=value)
 
 
 class DataPointInt16Array(DataPoint):
@@ -292,7 +283,7 @@ class DataPointInt32(DataPoint):
         try:
             response: BrokerDatapoint = await super().get()
             return TypedDataPointResult[int](
-                self.get_path(), response.int32_value, response.timestamp
+                self.get_path(), response.int32, response.timestamp
             )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointInt32.get")
@@ -303,7 +294,7 @@ class DataPointInt32(DataPoint):
         await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: int):
-        return BrokerDatapoint(int32_value=value)
+        return BrokerDatapoint(int32=value)
 
 
 class DataPointInt32Array(DataPoint):
@@ -335,7 +326,7 @@ class DataPointInt64(DataPoint):
         try:
             response: BrokerDatapoint = await super().get()
             return TypedDataPointResult[int](
-                self.get_path(), response.int64_value, response.timestamp
+                self.get_path(), response.int64, response.timestamp
             )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointInt64.get")
@@ -346,7 +337,7 @@ class DataPointInt64(DataPoint):
         await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: int):
-        return BrokerDatapoint(int64_value=value)
+        return BrokerDatapoint(int64=value)
 
 
 class DataPointInt64Array(DataPoint):
@@ -378,7 +369,7 @@ class DataPointUint8(DataPoint):
         try:
             response: BrokerDatapoint = await super().get()
             return TypedDataPointResult[int](
-                self.get_path(), response.uint32_value, response.timestamp
+                self.get_path(), response.uint32, response.timestamp
             )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointUInt8.get")
@@ -389,7 +380,7 @@ class DataPointUint8(DataPoint):
         await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: int):
-        return BrokerDatapoint(uint32_value=value)
+        return BrokerDatapoint(uint32=value)
 
 
 class DataPointUint8Array(DataPoint):
@@ -421,7 +412,7 @@ class DataPointUint16(DataPoint):
         try:
             response: BrokerDatapoint = await super().get()
             return TypedDataPointResult[int](
-                self.get_path(), response.uint32_value, response.timestamp
+                self.get_path(), response.uint32, response.timestamp
             )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointUInt16.get")
@@ -432,7 +423,7 @@ class DataPointUint16(DataPoint):
         await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: int):
-        return BrokerDatapoint(uint32_value=value)
+        return BrokerDatapoint(uint32=value)
 
 
 class DataPointUint16Array(DataPoint):
@@ -464,7 +455,7 @@ class DataPointUint32(DataPoint):
         try:
             response: BrokerDatapoint = await super().get()
             return TypedDataPointResult[int](
-                self.get_path(), response.uint32_value, response.timestamp
+                self.get_path(), response.uint32, response.timestamp
             )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointUInt32.get")
@@ -475,7 +466,7 @@ class DataPointUint32(DataPoint):
         await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: int):
-        return BrokerDatapoint(uint32_value=value)
+        return BrokerDatapoint(uint32=value)
 
 
 class DataPointUint32Array(DataPoint):
@@ -507,7 +498,7 @@ class DataPointUint64(DataPoint):
         try:
             response: BrokerDatapoint = await super().get()
             return TypedDataPointResult[int](
-                self.get_path(), response.uint64_value, response.timestamp
+                self.get_path(), response.uint64, response.timestamp
             )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointUInt64.get")
@@ -518,7 +509,7 @@ class DataPointUint64(DataPoint):
         await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: int):
-        return BrokerDatapoint(uint64_value=value)
+        return BrokerDatapoint(uint64=value)
 
 
 class DataPointUint64Array(DataPoint):
@@ -550,7 +541,7 @@ class DataPointFloat(DataPoint):
         try:
             response: BrokerDatapoint = await super().get()
             return TypedDataPointResult[float](
-                self.get_path(), response.float_value, response.timestamp
+                self.get_path(), response.float, response.timestamp
             )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointFloat.get")
@@ -561,7 +552,7 @@ class DataPointFloat(DataPoint):
         await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: float):
-        return BrokerDatapoint(float_value=value)
+        return BrokerDatapoint(float=value)
 
 
 class DataPointFloatArray(DataPoint):
@@ -593,7 +584,7 @@ class DataPointDouble(DataPoint):
         try:
             response: BrokerDatapoint = await super().get()
             return TypedDataPointResult[float](
-                self.get_path(), response.double_value, response.timestamp
+                self.get_path(), response.double, response.timestamp
             )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointDouble.get")
@@ -604,7 +595,7 @@ class DataPointDouble(DataPoint):
         await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: float):
-        return BrokerDatapoint(double_value=value)
+        return BrokerDatapoint(double=value)
 
 
 class DataPointDoubleArray(DataPoint):
@@ -636,7 +627,7 @@ class DataPointString(DataPoint):
         try:
             response: BrokerDatapoint = await super().get()
             return TypedDataPointResult[str](
-                self.get_path(), response.string_value, response.timestamp
+                self.get_path(), response.string, response.timestamp
             )
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in DataPointString.get")
@@ -647,7 +638,7 @@ class DataPointString(DataPoint):
         await self._set(value, self.__class__.__name__)
 
     def create_broker_data_point(self, value: str):
-        return BrokerDatapoint(string_value=value)
+        return BrokerDatapoint(string=value)
 
 
 class DataPointStringArray(DataPoint):

@@ -27,7 +27,7 @@ if TYPE_CHECKING:
 class DataPointReply:
     """Wrapper for dynamic datatype casting of VDB reply."""
 
-    def __init__(self, reply: SubscribeResponse):
+    def __init__(self, reply: val.SubscribeResponse):
         self.reply = reply
 
     @overload

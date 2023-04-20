@@ -66,10 +66,10 @@ class SubscriptionManager:
         try:
             task = asyncio.create_task(
                 SubscriptionManager._subscribe_to_data_points_forever(vdb_sub),
-                name=vdb_sub.query,
+                name=vdb_sub.path,
             )
             SubscriptionManager._subscription_tasks[vdb_sub] = task
-            logger.info("Subscribing to %s", vdb_sub.query)
+            logger.info("Subscribing to %s", vdb_sub.path)
             return task
         except (grpc.aio.AioRpcError, Exception):  # type: ignore
             logger.exception("Error occured in SubscriptionManager._add_subscription.")
@@ -79,7 +79,7 @@ class SubscriptionManager:
     @staticmethod
     async def _subscribe_to_data_points(vdb_sub):
         try:
-            async for reply in vdb_sub.vdb_client.Subscribe(vdb_sub.query):
+            async for reply in vdb_sub.vdb_client.Subscribe(vdb_sub.path):
                 reply_wrapper = DataPointReply(reply)
                 if asyncio.iscoroutinefunction(vdb_sub.call_back):
                     await vdb_sub.call_back(reply_wrapper)
@@ -114,8 +114,8 @@ class SubscriptionManager:
 class VdbSubscription:
     """Expose subscription handling to client."""
 
-    def __init__(self, vdb_client=None, query=None, call_back=None):
-        self.query = query
+    def __init__(self, vdb_client=None, path=None, call_back=None):
+        self.path = path
         self.vdb_client = vdb_client
         self.call_back = call_back
 
