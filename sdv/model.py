@@ -109,7 +109,7 @@ class DataPoint(Node):
             response = await self.get_client().GetDatapoints([path])
             for entry in response.entries:
                 if entry.path == path:
-                    return entry
+                    return entry.value
         except (grpc.aio.AioRpcError, Exception):  # type: ignore
             logger.error("Error occured in DataPoint.get")
             logger.debug(
