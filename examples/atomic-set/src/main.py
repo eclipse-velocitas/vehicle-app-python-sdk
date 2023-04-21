@@ -43,12 +43,14 @@ class SetMultipleDatapointsAtomicallyApp(VehicleApp):
 
     async def on_start(self):
         """Run when the vehicle app starts"""
-        await vehicle.Cabin.Seat.Row1.Pos1.Position.subscribe(self.on_position_update)
+        await self.vehicle.Cabin.Seat.Row1.Pos1.Position.subscribe(
+            self.on_position_update
+        )
 
     async def on_position_update(self, data: DataPointReply):
         logger.info(
             "Vehicle.Cabin.Seat.Row1.Pos1.Position: %i",
-            data.get(vehicle.Cabin.Seat.Row1.Pos1.Position).value,
+            data.get(self.vehicle.Cabin.Seat.Row1.Pos1.Position).value,
         )
 
     @subscribe_topic(TOPIC_SET_VALUE_REQUEST)
@@ -60,8 +62,8 @@ class SetMultipleDatapointsAtomicallyApp(VehicleApp):
             # This is a valid set request, the Position is an actuator.
             (
                 await vehicle.set_many()
-                .add(vehicle.Cabin.Seat.Row1.Pos1.Position, position)
-                .add(vehicle.Cabin.Seat.Row1.Pos2.Position, position)
+                .add(self.vehicle.Cabin.Seat.Row1.Pos1.Position, position)
+                .add(self.vehicle.Cabin.Seat.Row1.Pos2.Position, position)
                 .apply()
             )
             await self.publish_mqtt_event(

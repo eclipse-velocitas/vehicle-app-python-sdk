@@ -64,14 +64,14 @@ class VehicleDataBrokerClient:
     def __exit__(self, exc_type, exc_value, traceback) -> None:
         asyncio.run_coroutine_threadsafe(self.close(), asyncio.get_event_loop())
 
-    async def GetDatapoints(self, datapoints: List[str]):
+    async def GetDatapoints(self, paths: List[str]):
         entries = (
             val.EntryRequest(
-                path=point,
+                path=path,
                 fields=(types.FIELD_UNSPECIFIED,),
                 view=types.VIEW_CURRENT_VALUE,
             )
-            for point in datapoints
+            for path in paths
         )
         try:
             response = await self._stub.Get(
@@ -87,10 +87,10 @@ class VehicleDataBrokerClient:
     async def SetDatapoints(self, datapoints: dict):
         updates = (
             val.EntryUpdate(
-                entry=types.DataEntry(path=key, value=datapoints[key]),
+                entry=types.DataEntry(path=path, actuator_target=datapoints[path]),
                 fields=(types.FIELD_ACTUATOR_TARGET,),
             )
-            for key in datapoints.keys()
+            for path in datapoints.keys()
         )
 
         try:
