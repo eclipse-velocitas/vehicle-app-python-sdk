@@ -65,15 +65,14 @@ class VehicleDataBrokerClient:
         asyncio.run_coroutine_threadsafe(self.close(), asyncio.get_event_loop())
 
     async def GetDatapoints(self, datapoints: List[str]):
-        entries = []
-        for point in datapoints:
-            entries.append(
-                val.EntryRequest(
-                    path=point,
-                    fields=[types.FIELD_UNSPECIFIED],
-                    view=types.VIEW_CURRENT_VALUE,
-                )
+        entries = (
+            val.EntryRequest(
+                path=point,
+                fields=(types.FIELD_UNSPECIFIED,),
+                view=types.VIEW_CURRENT_VALUE,
             )
+            for point in datapoints
+        )
         try:
             response = await self._stub.Get(
                 val.GetRequest(entries=entries), metadata=self._metadata
@@ -86,14 +85,14 @@ class VehicleDataBrokerClient:
             raise
 
     async def SetDatapoints(self, datapoints: dict):
-        updates = []
-        for key in datapoints.keys():
-            updates.append(
-                val.EntryUpdate(
-                    entry=types.DataEntry(path=key, value=datapoints[key]),
-                    fields=[types.FIELD_ACTUATOR_TARGET],
-                )
+        updates = (
+            val.EntryUpdate(
+                entry=types.DataEntry(path=key, value=datapoints[key]),
+                fields=(types.FIELD_ACTUATOR_TARGET,),
             )
+            for key in datapoints.keys()
+        )
+
         try:
             response = await self._stub.Set(
                 val.SetRequest(updates=updates),
@@ -106,17 +105,17 @@ class VehicleDataBrokerClient:
             )
             raise
 
-    def Subscribe(self, query: str):
+    def Subscribe(self, path: str):
         try:
             response = self._stub.Subscribe(
                 val.SubscribeRequest(
-                    entries=[
+                    entries=(
                         val.SubscribeEntry(
-                            path=query,
-                            fields=[types.FIELD_UNSPECIFIED],
+                            path=path,
+                            fields=(types.FIELD_VALUE,),
                             view=types.VIEW_CURRENT_VALUE,
-                        )
-                    ]
+                        ),
+                    )
                 ),
                 metadata=self._metadata,
             )
