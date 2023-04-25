@@ -14,7 +14,8 @@
 			"presentation": {
 				"close": true,
 				"reveal": "never"
-			}
+			},
+			"hide": true
 		},
 		{
 			"label": "dapr-SeatAdjuster-stop",
@@ -25,7 +26,8 @@
 			"presentation": {
 				"close": true,
 				"reveal": "never"
-			}
+			},
+			"hide": true
 		},
 		{
 			"label": "ensure-dapr",
@@ -34,7 +36,8 @@
 			"group": "none",
 			"presentation": {
 				"close": true
-			}
+			},
+			"problemMatcher": []
 		},
 		{
 			"label": "run-mosquitto",
@@ -286,6 +289,7 @@
 			"command": "pre-commit run --show-diff-on-failure --color=always --all-files",
 			"group": "none",
 			"isBackground": false,
+			"problemMatcher": []
 		}
 	],
 	"inputs": [
