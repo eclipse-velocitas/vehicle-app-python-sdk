@@ -18,10 +18,10 @@ import asyncio
 import logging
 import signal
 
-from vehicle_model.sample import Vehicle, vehicle
-
 from sdv.vdb.subscriptions import DataPointReply
 from sdv.vehicle_app import VehicleApp
+
+from sdv_model import Vehicle, vehicle  # type: ignore
 
 logger = logging.getLogger(__name__)
 logging.getLogger().setLevel(logging.DEBUG)
@@ -32,19 +32,20 @@ class ArrayDatatype(VehicleApp):
 
     def __init__(self, vehicle: Vehicle):
         super().__init__()
-        self.vehicle = vehicle
+        self.Vehicle = vehicle
 
     def print_values(self, data: DataPointReply):
         """Handle string array limit exceeded event"""
 
         logger.info(
-            "Example Array contains: %s", data.get(self.vehicle.TestArray).value
+            "Example Array contains: %s",
+            data.get(self.Vehicle.Powertrain.FuelSystem.SupportedFuel).value
         )
 
     async def on_start(self):
         """Run when the vehicle app starts"""
 
-        await self.vehicle.TestArray.subscribe(self.print_values)
+        await self.Vehicle.Powertrain.FuelSystem.SupportedFuel.subscribe(self.print_values)
 
 
 async def main():

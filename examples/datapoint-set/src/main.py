@@ -17,10 +17,10 @@ import json
 import logging
 import signal
 
-from sdv_model import Vehicle, vehicle
-
 from sdv.vdb.subscriptions import DataPointReply
 from sdv.vehicle_app import VehicleApp, subscribe_topic
+
+from vehicle import Vehicle, vehicle  # type: ignore
 
 logger = logging.getLogger(__name__)
 logging.getLogger().setLevel(logging.DEBUG)
@@ -42,16 +42,16 @@ class SetDatapointApp(VehicleApp):
 
     def __init__(self, vehicle: Vehicle):
         super().__init__()
-        self.vehicle = vehicle
+        self.Vehicle = vehicle
 
     async def on_start(self):
         """Run when the vehicle app starts"""
-        await vehicle.Cabin.Seat.Row1.Pos1.Position.subscribe(self.on_position_update)
+        await self.Vehicle.Cabin.Seat.Row1.Pos1.Position.subscribe(self.on_position_update)
 
     async def on_position_update(self, data: DataPointReply):
         logger.info(
             "Vehicle.Cabin.Seat.Row1.Pos1.Position: %i",
-            data.get(vehicle.Cabin.Seat.Row1.Pos1.Position).value,
+            data.get(self.Vehicle.Cabin.Seat.Row1.Pos1.Position).value,
         )
 
     @subscribe_topic(TOPIC_SET_VALUE_REQUEST)
@@ -61,7 +61,7 @@ class SetDatapointApp(VehicleApp):
         logger.info("Set Position request %i", position)
         try:
             # This is a valid set request, the Position is an actuator.
-            await vehicle.Cabin.Seat.Row1.Pos1.Position.set(position)
+            await self.Vehicle.Cabin.Seat.Row1.Pos1.Position.set(position)
             await self.publish_mqtt_event(
                 TOPIC_SET_VALUE_RESPONSE, json.dumps(f".set({position}) request sent")
             )
@@ -77,7 +77,7 @@ class SetDatapointApp(VehicleApp):
         try:
             # This is an invalid set request, the IsBelted is not an actuator.
             # A TypeError will be raised
-            await vehicle.Cabin.Seat.Row1.Pos1.IsBelted.set(value)
+            await self.Vehicle.Cabin.Seat.Row1.Pos1.IsBelted.set(value)
         except TypeError as error:
             await self.publish_mqtt_event(
                 TOPIC_SET_VALUE_RESPONSE, json.dumps(str(error))
