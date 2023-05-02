@@ -20,47 +20,45 @@ echo "#######################################################"
 ROOT_DIRECTORY=$( realpath "$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/../.." )
 source $ROOT_DIRECTORY/.vscode/scripts/exec-check.sh "$@" $(basename $BASH_SOURCE .sh)
 
-DATABROKER_VERSION=$(cat $ROOT_DIRECTORY/prerequisite_settings.json | jq .databroker.version | tr -d '"')
-DATABROKER_PORT='55555'
-DATABROKER_GRPC_PORT='52001'
-sudo chown $(whoami) $HOME
-DATABROKER_ASSET_FOLDER="$ROOT_DIRECTORY/.vscode/scripts/assets/databroker/$DATABROKER_VERSION"
+DATABROKER_IMAGE=$(cat $ROOT_DIRECTORY/prerequisite_settings.json | jq .databroker.image | tr -d '"')
+DATABROKER_TAG=$(cat $ROOT_DIRECTORY/prerequisite_settings.json | jq .databroker.version | tr -d '"')
 
-#Detect host environment (distinguish for Mac M1 processor)
-if [[ `uname -m` == 'aarch64' || `uname -m` == 'arm64' ]]; then
-    echo "Detected ARM architecture"
-    PROCESSOR="aarch64"
-    DATABROKER_BINARY_NAME="databroker-arm64.tar.gz"
-    DATABROKER_EXEC_PATH="$DATABROKER_ASSET_FOLDER/$PROCESSOR/databroker"
-else
-    echo "Detected x86_64 architecture"
-    PROCESSOR="x86_64"
-    DATABROKER_BINARY_NAME='databroker-amd64.tar.gz'
-    DATABROKER_EXEC_PATH="$DATABROKER_ASSET_FOLDER/$PROCESSOR/databroker"
-fi
-
-if [[ ! -f "$DATABROKER_EXEC_PATH/databroker" ]]
+RUNNING_CONTAINER=$(docker ps | grep "$DATABROKER_IMAGE" | awk '{ print $1 }')
+if [ -n "$RUNNING_CONTAINER" ]v;
 then
-  DOWNLOAD_URL=https://github.com/eclipse/kuksa.val/releases/download
-  echo "Downloading databroker:$DATABROKER_VERSION"
-  curl -o $DATABROKER_ASSET_FOLDER/$PROCESSOR/$DATABROKER_BINARY_NAME --create-dirs -L -H "Accept: application/octet-stream" "$DOWNLOAD_URL/$DATABROKER_VERSION/$DATABROKER_BINARY_NAME"
-  tar -xf $DATABROKER_ASSET_FOLDER/$PROCESSOR/$DATABROKER_BINARY_NAME -C "$DATABROKER_ASSET_FOLDER/$PROCESSOR"
+    docker container stop $RUNNING_CONTAINER
 fi
 
-export DAPR_GRPC_PORT=$DATABROKER_GRPC_PORT
+VSPEC_FILE_PATH=$ROOT_DIRECTORY/.vscode/scripts/broker_config/vss_rel_3.0.json
+KUKSA_DATA_BROKER_PORT='55555'
+#export RUST_LOG="info,databroker=debug,vehicle_data_broker=debug"
+
 if [ $1 == "DAPR" ]; then
-  echo "Run Dapr ...!"
+  echo "Run with Dapr ...!"
   dapr run \
-  --app-id vehicledatabroker \
-  --app-protocol grpc \
-  --app-port $DATABROKER_PORT \
-  --dapr-grpc-port $DATABROKER_GRPC_PORT \
-  --components-path $ROOT_DIRECTORY/.dapr/components \
-  --config $ROOT_DIRECTORY/.dapr/config.yaml & \
-  $DATABROKER_EXEC_PATH/databroker --address 0.0.0.0 --dummy-metadata
+    --app-id vehicledatabroker \
+    --app-protocol grpc \
+    --app-port $KUKSA_DATA_BROKER_PORT \
+    --components-path $ROOT_DIRECTORY/.dapr/components \
+    --config $ROOT_DIRECTORY/.dapr/config.yaml \
+  -- docker run \
+    -v $VSPEC_FILE_PATH:$VSPEC_FILE_PATH \
+    -e KUKSA_DATA_BROKER_METADATA_FILE=$VSPEC_FILE_PATH \
+    -e KUKSA_DATA_BROKER_PORT \
+    -e DAPR_GRPC_PORT \
+    -e DAPR_HTTP_PORT \
+    -e RUST_LOG \
+    --network host \
+    $DATABROKER_IMAGE:$DATABROKER_TAG
 elif [ $1 == "NATIVE" ]; then
   echo "Run native ...!"
-  $DATABROKER_EXEC_PATH/databroker --address 0.0.0.0 --dummy-metadata
+  docker run \
+    -v $VSPEC_FILE_PATH:$VSPEC_FILE_PATH \
+    -e KUKSA_DATA_BROKER_METADATA_FILE=$VSPEC_FILE_PATH \
+    -e KUKSA_DATA_BROKER_PORT \
+    -e RUST_LOG \
+    --network host \
+    $DATABROKER_IMAGE:$DATABROKER_TAG
 else
   echo "Error: Unsupported middleware type ($1)!"
   exit 1

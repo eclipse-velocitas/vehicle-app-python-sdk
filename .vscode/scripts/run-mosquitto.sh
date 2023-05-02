@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2022 Robert Bosch GmbH and Microsoft Corporation
+# Copyright (c) 2022-2023 Robert Bosch GmbH and Microsoft Corporation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -14,18 +14,20 @@
 # SPDX-License-Identifier: Apache-2.0
 
 echo "#######################################################"
-echo "### Running Mosquitto                               ###"
+echo "### Running MQTT Broker                             ###"
 echo "#######################################################"
 
 ROOT_DIRECTORY=$( realpath "$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/../.." )
 source $ROOT_DIRECTORY/.vscode/scripts/exec-check.sh "$@" $(basename $BASH_SOURCE .sh)
 
-#Terminate existing running VAL services
-RUNNING_CONTAINER=$(docker ps | grep "eclipse-mosquitto" | awk '{ print $1 }')
-MOSQUITTO_VERSION=$(cat $ROOT_DIRECTORY/prerequisite_settings.json | jq .mosquitto.version | tr -d '"')
+MOSQUITTO_IMAGE=$(cat $ROOT_DIRECTORY/prerequisite_settings.json | jq .mosquitto.image | tr -d '"')
+MOSQUITTO_TAG=$(cat $ROOT_DIRECTORY/prerequisite_settings.json | jq .mosquitto.version | tr -d '"')
 
+#Terminate existing running services
+RUNNING_CONTAINER=$(docker ps | grep "$MOSQUITTO_IMAGE" | awk '{ print $1 }')
 if [ -n "$RUNNING_CONTAINER" ];
 then
     docker container stop $RUNNING_CONTAINER
 fi
-docker run -p 1883:1883 -p 9001:9001 eclipse-mosquitto:$MOSQUITTO_VERSION
+
+docker run -p 1883:1883 -p 9001:9001 $MOSQUITTO_IMAGE:$MOSQUITTO_TAG mosquitto -c /mosquitto-no-auth.conf

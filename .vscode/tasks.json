@@ -126,9 +126,35 @@
 			}
 		},
 		{
+			"label": "run-hvacservice",
+			"type": "shell",
+			"command": "./.vscode/scripts/run-hvacservice.sh ${input:middleware} --task",
+			"group": "none",
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated"
+			},
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": [
+					{
+						"regexp": ".",
+						"file": 1,
+						"location": 2,
+						"message": 3
+					}
+				],
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^You're up and running! Dapr logs will appear here.",
+					"endsPattern": "."
+				}
+			}
+		},
+		{
 			"label": "run-hvacservice (Runtime)",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-hvacservice.sh --task",
+			"command": "./.vscode/scripts/run-hvacservice.sh ${input:middleware} --task",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
