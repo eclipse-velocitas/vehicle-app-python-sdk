@@ -24,7 +24,7 @@ DATABROKER_IMAGE=$(cat $ROOT_DIRECTORY/prerequisite_settings.json | jq .databrok
 DATABROKER_TAG=$(cat $ROOT_DIRECTORY/prerequisite_settings.json | jq .databroker.version | tr -d '"')
 
 RUNNING_CONTAINER=$(docker ps | grep "$DATABROKER_IMAGE" | awk '{ print $1 }')
-if [ -n "$RUNNING_CONTAINER" ]v;
+if [ -n "$RUNNING_CONTAINER" ];
 then
     docker container stop $RUNNING_CONTAINER
 fi
