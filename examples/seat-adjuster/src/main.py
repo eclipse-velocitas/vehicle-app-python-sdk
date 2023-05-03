@@ -19,14 +19,14 @@ import json
 import logging
 import signal
 
+from vehicle import Vehicle, vehicle  # type: ignore
+
 from sdv.util.log import (  # type: ignore
     get_opentelemetry_log_factory,
     get_opentelemetry_log_format,
 )
 from sdv.vdb.subscriptions import DataPointReply
 from sdv.vehicle_app import VehicleApp, subscribe_topic
-
-from vehicle import Vehicle, vehicle  # type: ignore
 
 logging.setLogRecordFactory(get_opentelemetry_log_factory())
 logging.basicConfig(format=get_opentelemetry_log_format())

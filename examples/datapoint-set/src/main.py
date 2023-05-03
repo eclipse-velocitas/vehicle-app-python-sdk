@@ -17,10 +17,10 @@ import json
 import logging
 import signal
 
+from sdv_model import Vehicle, vehicle  # type: ignore
+
 from sdv.vdb.subscriptions import DataPointReply
 from sdv.vehicle_app import VehicleApp, subscribe_topic
-
-from sdv_model import Vehicle, vehicle  # type: ignore
 
 logger = logging.getLogger(__name__)
 logging.getLogger().setLevel(logging.DEBUG)
@@ -46,7 +46,9 @@ class SetDatapointApp(VehicleApp):
 
     async def on_start(self):
         """Run when the vehicle app starts"""
-        await self.Vehicle.Cabin.Seat.Row1.Pos1.Position.subscribe(self.on_position_update)
+        await self.Vehicle.Cabin.Seat.Row1.Pos1.Position.subscribe(
+            self.on_position_update
+        )
 
     async def on_position_update(self, data: DataPointReply):
         logger.info(

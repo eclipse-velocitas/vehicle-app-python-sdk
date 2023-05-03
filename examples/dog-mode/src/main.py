@@ -23,12 +23,11 @@ import logging
 import signal
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from vehicle_model.sample import Vehicle, vehicle
 
 from sdv.util.log import get_default_date_format, get_default_log_format
 from sdv.vdb.subscriptions import DataPointReply
 from sdv.vehicle_app import VehicleApp, subscribe_data_points
-
-from vehicle_model.sample import Vehicle, vehicle
 
 logging.basicConfig(format=get_default_log_format(), datefmt=get_default_date_format())
 logging.getLogger().setLevel("INFO")

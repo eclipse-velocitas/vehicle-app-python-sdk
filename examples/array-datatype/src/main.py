@@ -18,10 +18,10 @@ import asyncio
 import logging
 import signal
 
+from sdv_model import Vehicle, vehicle  # type: ignore
+
 from sdv.vdb.subscriptions import DataPointReply
 from sdv.vehicle_app import VehicleApp
-
-from sdv_model import Vehicle, vehicle  # type: ignore
 
 logger = logging.getLogger(__name__)
 logging.getLogger().setLevel(logging.DEBUG)
@@ -39,13 +39,15 @@ class ArrayDatatype(VehicleApp):
 
         logger.info(
             "Example Array contains: %s",
-            data.get(self.Vehicle.Powertrain.FuelSystem.SupportedFuel).value
+            data.get(self.Vehicle.Powertrain.FuelSystem.SupportedFuel).value,
         )
 
     async def on_start(self):
         """Run when the vehicle app starts"""
 
-        await self.Vehicle.Powertrain.FuelSystem.SupportedFuel.subscribe(self.print_values)
+        await self.Vehicle.Powertrain.FuelSystem.SupportedFuel.subscribe(
+            self.print_values
+        )
 
 
 async def main():
