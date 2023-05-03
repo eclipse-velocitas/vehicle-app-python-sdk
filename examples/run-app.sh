@@ -65,7 +65,7 @@ if [ $SDV_MIDDLEWARE_TYPE == "dapr" ]; then
       --app-protocol grpc \
       --app-port $APP_PORT \
       --config $ROOT_DIRECTORY/.dapr/config.yaml  \
-      --components-path $ROOT_DIRECTORY/.dapr/components \
+      --resources-path $ROOT_DIRECTORY/.dapr/components \
     -- python3 $APP_NAME/src/main.py
 elif [ $SDV_MIDDLEWARE_TYPE == "native" ]; then
     echo "Run native ...!"

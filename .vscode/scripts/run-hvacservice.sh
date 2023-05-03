@@ -39,7 +39,7 @@ if [ $1 == "DAPR" ]; then
     --app-id hvacservice \
     --app-protocol grpc \
     --app-port $SERVICE_PORT \
-    --components-path $ROOT_DIRECTORY/.dapr/components \
+    --resources-path $ROOT_DIRECTORY/.dapr/components \
     --config $ROOT_DIRECTORY/.dapr/config.yaml \
   -- docker run \
     -e VEHICLEDATABROKER_DAPR_APP_ID \

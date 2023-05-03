@@ -53,7 +53,7 @@ if [ $1 == "DAPR" ]; then
   dapr run \
     --app-id feedercan \
     --app-protocol grpc \
-    --components-path $ROOT_DIRECTORY/.dapr/components \
+    --resources-path $ROOT_DIRECTORY/.dapr/components \
     --config $ROOT_DIRECTORY/.dapr/config.yaml \
   -- docker run \
     -v ${CONFIG_DIR}:/data \
