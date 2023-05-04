@@ -38,21 +38,21 @@
                 "VEHICLEDATABROKER_DAPR_APP_ID": "vehicledatabroker"
             }
         }
-	],
-	"inputs": [
-		{
-			"description": "Select an example to launch",
-			"id": "example",
-			"type": "pickString",
-			"options": [
-				"array-datatype",
-				"atomic-set",
+    ],
+    "inputs": [
+        {
+            "description": "Select an example to launch",
+            "id": "example",
+            "type": "pickString",
+            "options": [
+                "array-datatype",
+                "atomic-set",
                 "datapoint-set",
                 "dog-mode",
                 "dynamic-rule",
                 "static-rule",
                 "vdb-queries"
-			]
-		}
-	]
+            ]
+        }
+    ]
 }
