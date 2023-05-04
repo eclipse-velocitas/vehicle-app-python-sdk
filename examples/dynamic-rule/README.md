@@ -7,7 +7,7 @@
 cd examples/dynamic-rule/src
 
 # with dapr enabled
-dapr run --app-id speedlimitwarner --app-protocol grpc --app-port 50008 --config ../../.dapr/config.yaml --components-path ../../.dapr/components -- python3 main.py -e
+dapr run --app-id speedlimitwarner --app-protocol grpc --app-port 50008 --config ../../.dapr/config.yaml --resources-path ../../.dapr/components -- python3 main.py -e
 ```
 
 ```bash

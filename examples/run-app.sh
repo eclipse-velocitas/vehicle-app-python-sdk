@@ -25,6 +25,8 @@ Help()
    echo "Syntax: ./run-app.sh [-a APP_NAME -p APP_PORT=50008]"
    echo "options:"
    echo "-a             Option to set the application name from the list of examples directory, the name must match the directory name."
+   echo "-d             Run with Dapr middleware (default)."
+   echo "-n             Run with native middleware."
    echo "-p             Option to set the application's gRPC port. Default is 50008"
    echo "-h/--help      Help."
    echo
@@ -33,10 +35,13 @@ ROOT_DIRECTORY=$( realpath "$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P 
 
 # Get App attributes (Name and Port Number)
 APP_PORT=50008
-while getopts a:p:h flag
+export SDV_MIDDLEWARE_TYPE=dapr
+while getopts a:dnp:h flag
 do
     case "${flag}" in
         a) APP_NAME=${OPTARG};;
+        d) export SDV_MIDDLEWARE_TYPE=dapr;;
+        n) export SDV_MIDDLEWARE_TYPE=native;;
         p) APP_PORT=${OPTARG};;
         h) Help
         exit;;
@@ -52,10 +57,20 @@ fi
 # Export the Data broker DAPR_GRPC_PORT
 export DAPR_GRPC_PORT=55555
 
-DAPR_APP_ID="${APP_NAME//[.,\-,_,' ']/}"
-dapr run \
-    --app-id $DAPR_APP_ID \
-    --app-protocol grpc \
-    --app-port $APP_PORT \
-    --config $ROOT_DIRECTORY/.dapr/config.yaml  \
-    --components-path $ROOT_DIRECTORY/.dapr/components python3 $APP_NAME/src/main.py
+if [ $SDV_MIDDLEWARE_TYPE == "dapr" ]; then
+    echo "Run with Dapr ...!"
+    DAPR_APP_ID="${APP_NAME//[.,\-,_,' ']/}"
+    dapr run \
+      --app-id $DAPR_APP_ID \
+      --app-protocol grpc \
+      --app-port $APP_PORT \
+      --config $ROOT_DIRECTORY/.dapr/config.yaml  \
+      --resources-path $ROOT_DIRECTORY/.dapr/components \
+    -- python3 $APP_NAME/src/main.py
+elif [ $SDV_MIDDLEWARE_TYPE == "native" ]; then
+    echo "Run native ...!"
+    python3 $APP_NAME/src/main.py
+else
+    echo "Error: Unsupported middleware type '$SDV_MIDDLEWARE_TYPE'!"
+    exit 1
+fi

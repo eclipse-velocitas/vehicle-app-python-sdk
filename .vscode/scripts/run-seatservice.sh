@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2022 Robert Bosch GmbH and Microsoft Corporation
+# Copyright (c) 2022-2023 Robert Bosch GmbH and Microsoft Corporation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -14,57 +14,50 @@
 # SPDX-License-Identifier: Apache-2.0
 
 echo "#######################################################"
-echo "### Running Seatservice                             ###"
+echo "### Running Seat Service                            ###"
 echo "#######################################################"
 
 ROOT_DIRECTORY=$( realpath "$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/../.." )
 source $ROOT_DIRECTORY/.vscode/scripts/exec-check.sh "$@" $(basename $BASH_SOURCE .sh)
 
-SEATSERVICE_VERSION=$(cat $ROOT_DIRECTORY/prerequisite_settings.json | jq .seatservice.version | tr -d '"')
-SEATSERVICE_PORT='50051'
-SEATSERVICE_GRPC_PORT='52002'
-sudo chown $(whoami) $HOME
+SEATSERVICE_IMAGE=$(cat $ROOT_DIRECTORY/prerequisite_settings.json | jq .seatservice.image | tr -d '"')
+SEATSERVICE_TAG=$(cat $ROOT_DIRECTORY/prerequisite_settings.json | jq .seatservice.version | tr -d '"')
 
-SEATSERVICE_ASSET_FOLDER="$ROOT_DIRECTORY/.vscode/scripts/assets/seatservice/$SEATSERVICE_VERSION"
-#Detect host environment (distinguish for Mac M1 processor)
-if [[ `uname -m` == 'aarch64' || `uname -m` == 'arm64' ]]; then
-    echo "Detected ARM architecture"
-    PROCESSOR="aarch64"
-    SEATSERVICE_BINARY_NAME="bin_vservice-seat_aarch64_release.tar.gz"
-else
-    echo "Detected x86_64 architecture"
-    PROCESSOR="x86_64"
-    SEATSERVICE_BINARY_NAME="bin_vservice-seat_x86_64_release.tar.gz"
-fi
-SEATSERVICE_EXEC_PATH="$SEATSERVICE_ASSET_FOLDER/$PROCESSOR/target/$PROCESSOR/release/install/bin"
-
-if [[ ! -f "$SEATSERVICE_EXEC_PATH/val_start.sh" ]]
+RUNNING_CONTAINER=$(docker ps | grep "$SEATSERVICE_IMAGE" | awk '{ print $1 }')
+if [ -n "$RUNNING_CONTAINER" ];
 then
-  DOWNLOAD_URL=https://github.com/eclipse/kuksa.val.services/releases/download
-  echo "Downloading seatservice:$SEATSERVICE_VERSION"
-  curl -o $SEATSERVICE_ASSET_FOLDER/$PROCESSOR/$SEATSERVICE_BINARY_NAME --create-dirs -L -H "Accept: application/octet-stream" "$DOWNLOAD_URL/$SEATSERVICE_VERSION/$SEATSERVICE_BINARY_NAME"
-  tar -xf $SEATSERVICE_ASSET_FOLDER/$PROCESSOR/$SEATSERVICE_BINARY_NAME -C $SEATSERVICE_ASSET_FOLDER/$PROCESSOR
+    docker container stop $RUNNING_CONTAINER
 fi
 
-export DAPR_GRPC_PORT=$SEATSERVICE_GRPC_PORT
-export CAN=cansim
 export VEHICLEDATABROKER_DAPR_APP_ID=vehicledatabroker
+export VEHICLEDATABROKER_NATIVE_PORT=55555
+export SERVICE_PORT=50051
+export CAN=cansim
 
 if [ $1 == "DAPR" ]; then
-  echo "Run Dapr ...!"
+  echo "Run with Dapr ...!"
   dapr run \
     --app-id seatservice \
     --app-protocol grpc \
-    --app-port $SEATSERVICE_PORT \
-    --dapr-grpc-port $SEATSERVICE_GRPC_PORT \
-    --components-path $ROOT_DIRECTORY/.dapr/components \
-    --config $ROOT_DIRECTORY/.dapr/config.yaml & \
-    $SEATSERVICE_EXEC_PATH/val_start.sh
+    --app-port $SERVICE_PORT \
+    --resources-path $ROOT_DIRECTORY/.dapr/components \
+    --config $ROOT_DIRECTORY/.dapr/config.yaml \
+  -- docker run \
+    -e VEHICLEDATABROKER_DAPR_APP_ID \
+    -e DAPR_GRPC_PORT \
+    -e DAPR_HTTP_PORT \
+    -e SERVICE_PORT \
+    -e CAN \
+    --network host \
+    $SEATSERVICE_IMAGE:$SEATSERVICE_TAG
 elif [ $1 == "NATIVE" ]; then
   echo "Run native ...!"
-  SEATSERVICE_GRPC_PORT='55555'
-  export DAPR_GRPC_PORT=$SEATSERVICE_GRPC_PORT
-  $SEATSERVICE_EXEC_PATH/val_start.sh
+  docker run \
+    -e DAPR_GRPC_PORT=$VEHICLEDATABROKER_NATIVE_PORT \
+    -e SERVICE_PORT \
+    -e CAN \
+    --network host \
+    $SEATSERVICE_IMAGE:$SEATSERVICE_TAG
 else
   echo "Error: Unsupported middleware type ($1)!"
   exit 1
