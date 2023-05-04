@@ -22,7 +22,7 @@ Help()
    # Display Help
    echo "Simple script that run the example applications."
    echo
-   echo "Syntax: ./run-app.sh [-a APP_NAME -p APP_PORT=50008]"
+   echo "Syntax: ./run-app.sh -a APP_NAME [-d|-n] [-p APP_PORT=50008]"
    echo "options:"
    echo "-a             Option to set the application name from the list of examples directory, the name must match the directory name."
    echo "-d             Run with Dapr middleware (default)."
