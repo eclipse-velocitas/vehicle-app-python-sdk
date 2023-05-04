@@ -54,9 +54,6 @@ if [ ! -d "$APP_NAME" ]; then
     exit 0;
 fi
 
-# Export the Data broker DAPR_GRPC_PORT
-export DAPR_GRPC_PORT=55555
-
 if [ $SDV_MIDDLEWARE_TYPE == "dapr" ]; then
     echo "Run with Dapr ...!"
     DAPR_APP_ID="${APP_NAME//[.,\-,_,' ']/}"
@@ -69,6 +66,10 @@ if [ $SDV_MIDDLEWARE_TYPE == "dapr" ]; then
     -- python3 $APP_NAME/src/main.py
 elif [ $SDV_MIDDLEWARE_TYPE == "native" ]; then
     echo "Run native ...!"
+    export SDV_MQTT_ADDRESS="mqtt://localhost:1883"
+    export SDV_VEHICLEDATABROKER_ADDRESS="grpc://localhost:55555"
+    export SDV_SEATSERVICE_ADDRESS="grpc://localhost:50051"
+    export SDV_HVACSERVICE_ADDRESS="grpc://localhost:50052"
     python3 $APP_NAME/src/main.py
 else
     echo "Error: Unsupported middleware type '$SDV_MIDDLEWARE_TYPE'!"
