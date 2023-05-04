@@ -16,7 +16,7 @@ import asyncio
 import logging
 import signal
 
-from sdv_model import Vehicle, vehicle
+from sdv_model import Vehicle, vehicle  # type: ignore
 
 from sdv.vdb.subscriptions import DataPointReply
 from sdv.vehicle_app import VehicleApp
@@ -64,15 +64,15 @@ class VdbQueryExample(VehicleApp):
 
     def __init__(self, vehicle: Vehicle):
         super().__init__()
-        self.vehicle = vehicle
+        self.Vehicle = vehicle
 
     async def on_start(self):
         """Run when the vehicle app starts"""
-        pos = await vehicle.Cabin.Seat.Row(1).Pos(1).Position.get()
+        pos = await self.Vehicle.Cabin.Seat.Row(1).Pos(1).Position.get()
 
         logger.info("Get: Vehicle.Cabin.Seat.Row1.Pos1.Position: %i", pos.value)
 
-        vdb_rule = await self.vehicle.Speed.where(
+        vdb_rule = await self.Vehicle.Speed.where(
             "Vehicle.Cabin.Seat.Row1.Pos1.Position > 100"
         ).subscribe(on_pos_condition_update)
 
@@ -82,18 +82,18 @@ class VdbQueryExample(VehicleApp):
         await vdb_rule.subscribe()
 
         await asyncio.sleep(5)
-        await vehicle.Speed.subscribe(on_speed_update)
+        await self.Vehicle.Speed.subscribe(on_speed_update)
         (
-            await vehicle.Cabin.Seat.Row(1)
+            await self.Vehicle.Cabin.Seat.Row(1)
             .Pos(1)
-            .Position.join(vehicle.Speed)
+            .Position.join(self.Vehicle.Speed)
             .where("Vehicle.Cabin.Seat.Row1.Pos1.Position < 100")
             .subscribe(on_seat_speed_update)
         )
         (
-            await vehicle.Cabin.Seat.Row(1)
+            await self.Vehicle.Cabin.Seat.Row(1)
             .Pos(1)
-            .Position.join(vehicle.Speed)
+            .Position.join(self.Vehicle.Speed)
             .subscribe(on_seat_pos_update)
         )
 
