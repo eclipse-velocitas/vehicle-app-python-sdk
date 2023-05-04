@@ -2,8 +2,8 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "dapr-SeatAdjuster-run",
-			"appId": "seatadjuster",
+			"label": "dapr-VehicleApp-run",
+			"appId": "vehicleapp",
 			"appPort": 50008,
 			"componentsPath": "./.dapr/components",
 			"config": "./.dapr/config.yaml",
@@ -18,10 +18,10 @@
 			"hide": true
 		},
 		{
-			"label": "dapr-SeatAdjuster-stop",
+			"label": "dapr-VehicleApp-stop",
 			"type": "shell",
 			"command": [
-				"dapr stop --app-id seatadjuster"
+				"dapr stop --app-id vehicleapp"
 			],
 			"presentation": {
 				"close": true,
