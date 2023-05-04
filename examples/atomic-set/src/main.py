@@ -70,9 +70,7 @@ class SetMultipleDatapointsAtomicallyApp(VehicleApp):
                 TOPIC_SET_VALUE_RESPONSE, json.dumps(f".set({position}) request sent")
             )
         except TypeError as error:
-            await self.publish_event(
-                TOPIC_SET_VALUE_RESPONSE, json.dumps(str(error))
-            )
+            await self.publish_event(TOPIC_SET_VALUE_RESPONSE, json.dumps(str(error)))
 
 
 async def main():

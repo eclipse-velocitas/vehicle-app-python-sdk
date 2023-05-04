@@ -68,9 +68,7 @@ class SetDatapointApp(VehicleApp):
                 TOPIC_SET_VALUE_RESPONSE, json.dumps(f".set({position}) request sent")
             )
         except TypeError as error:
-            await self.publish_event(
-                TOPIC_SET_VALUE_RESPONSE, json.dumps(str(error))
-            )
+            await self.publish_event(TOPIC_SET_VALUE_RESPONSE, json.dumps(str(error)))
 
     @subscribe_topic(TOPIC_SET_SENSOR_VALUE_REQUEST)
     async def on_set_sensor_recieved(self, data_str: str) -> None:
@@ -81,9 +79,7 @@ class SetDatapointApp(VehicleApp):
             # A TypeError will be raised
             await self.Vehicle.Cabin.Seat.Row1.Pos1.IsBelted.set(value)
         except TypeError as error:
-            await self.publish_event(
-                TOPIC_SET_VALUE_RESPONSE, json.dumps(str(error))
-            )
+            await self.publish_event(TOPIC_SET_VALUE_RESPONSE, json.dumps(str(error)))
 
 
 async def main():

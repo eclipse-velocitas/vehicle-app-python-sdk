@@ -67,9 +67,7 @@ class DogModeApp(VehicleApp):
 
     async def on_pt_battery_stateofcharge(self, stateOfCharge):
         logger.info("Current Battery: %s", stateOfCharge)
-        await self.publish_event(
-            "dogmode/stateOfCharge", json.dumps(stateOfCharge)
-        )
+        await self.publish_event("dogmode/stateOfCharge", json.dumps(stateOfCharge))
 
     @subscribe_data_points(
         """Vehicle.Cabin.DogModeTemperature, Vehicle.Cabin.DogMode,
