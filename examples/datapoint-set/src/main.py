@@ -64,11 +64,11 @@ class SetDatapointApp(VehicleApp):
         try:
             # This is a valid set request, the Position is an actuator.
             await self.Vehicle.Cabin.Seat.Row1.Pos1.Position.set(position)
-            await self.publish_mqtt_event(
+            await self.publish_event(
                 TOPIC_SET_VALUE_RESPONSE, json.dumps(f".set({position}) request sent")
             )
         except TypeError as error:
-            await self.publish_mqtt_event(
+            await self.publish_event(
                 TOPIC_SET_VALUE_RESPONSE, json.dumps(str(error))
             )
 
@@ -81,7 +81,7 @@ class SetDatapointApp(VehicleApp):
             # A TypeError will be raised
             await self.Vehicle.Cabin.Seat.Row1.Pos1.IsBelted.set(value)
         except TypeError as error:
-            await self.publish_mqtt_event(
+            await self.publish_event(
                 TOPIC_SET_VALUE_RESPONSE, json.dumps(str(error))
             )
 

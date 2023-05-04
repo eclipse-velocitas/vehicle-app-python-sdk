@@ -67,7 +67,7 @@ class DogModeApp(VehicleApp):
 
     async def on_pt_battery_stateofcharge(self, stateOfCharge):
         logger.info("Current Battery: %s", stateOfCharge)
-        await self.publish_mqtt_event(
+        await self.publish_event(
             "dogmode/stateOfCharge", json.dumps(stateOfCharge)
         )
 
@@ -101,7 +101,7 @@ class DogModeApp(VehicleApp):
 
         try:
             req_data = {"temperature": self.temperature}
-            await self.publish_mqtt_event(
+            await self.publish_event(
                 "dogmode/ambientAirTemperature", json.dumps(req_data)
             )
         except Exception as ex:
@@ -122,7 +122,7 @@ class DogModeApp(VehicleApp):
 
         json_data = {"Temperature": self.temperature, "StateOfCharge": self.soc}
         try:
-            await self.publish_mqtt_event("dogmode/display", json.dumps(json_data))
+            await self.publish_event("dogmode/display", json.dumps(json_data))
         except Exception as e:
             logger.info("An error occurred while trying to publish temperature %s", e)
 

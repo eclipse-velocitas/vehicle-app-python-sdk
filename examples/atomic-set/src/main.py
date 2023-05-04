@@ -66,11 +66,11 @@ class SetMultipleDatapointsAtomicallyApp(VehicleApp):
                 .add(self.Vehicle.Cabin.Seat.Row1.Pos2.Position, position)
                 .apply()
             )
-            await self.publish_mqtt_event(
+            await self.publish_event(
                 TOPIC_SET_VALUE_RESPONSE, json.dumps(f".set({position}) request sent")
             )
         except TypeError as error:
-            await self.publish_mqtt_event(
+            await self.publish_event(
                 TOPIC_SET_VALUE_RESPONSE, json.dumps(str(error))
             )
 
