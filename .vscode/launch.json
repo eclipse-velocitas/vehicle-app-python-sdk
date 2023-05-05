@@ -5,6 +5,7 @@
     "version": "0.2.0",
     "compounds": [],
     "configurations": [
+        // <!-- begin examples/seat-adjuster -->
         {
             "type": "python",
             "request": "launch",
