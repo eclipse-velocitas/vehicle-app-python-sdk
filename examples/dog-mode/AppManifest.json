@@ -1,47 +1,36 @@
 [
     {
         "Name": "dogmode",
-        "Port": 50008,
-        "DAPR_GRPC_PORT": 50001,
-        "VehicleModel": {
-            "src": "https://github.com/COVESA/vehicle_signal_specification/releases/download/v3.0/vss_rel_3.0.json"
+        "vehicleModel": {
+            "src": "https://github.com/COVESA/vehicle_signal_specification/releases/download/v3.0/vss_rel_3.0.json",
+            "datapoints": [
+                {
+                    "path": "Vehicle.Cabin.AmbientAirTemperature",
+                    "required": "true",
+                    "access": "read"
+                },
+                {
+                    "path": "Vehicle.Cabin.DogMode",
+                    "required": "true",
+                    "access": "read"
+                },
+                {
+                    "path": "Vehicle.Cabin.DogModeTemperature",
+                    "required": "true",
+                    "access": "read"
+                },
+                {
+                    "path": "Vehicle.Powertrain.Battery.StateOfCharge.Current",
+                    "required": "true",
+                    "access": "read"
+                }
+            ]
         },
-        "dependencies": {
-            "services": [
-                {
-                    "name": "hvacservice",
-                    "image": "ghcr.io/eclipse/kuksa.val.services/hvac_service",
-                    "version": "v0.1.0"
-                }
-            ],
-            "runtime": [
-                {
-                    "name": "mosquitto",
-                    "image": "eclipse-mosquitto",
-                    "version": "2.0.14"
-                },
-                {
-                    "name": "databroker",
-                    "image": "ghcr.io/eclipse/kuksa.val/databroker",
-                    "version": "0.3.0"
-                },
-                {
-                    "name": "feedercan",
-                    "image": "ghcr.io/eclipse/kuksa.val.feeders/dbc2val",
-                    "version": "v0.1.0"
-                }
-            ],
-            "python": {
-                "version": "3.10"
-            },
-            "dapr": {
-                "cli": {
-                    "version": "1.10.0"
-                },
-                "runtime": {
-                    "version": "1.10.2"
-                }
-            }
-        }
+        "runtime": [
+            "grpc://sdv.databroker.v1.Broker/Subscribe",
+            "grpc://sdv.edge.comfort.hvac.v1.Hvac/SetAcStatus",
+            "grpc://sdv.edge.comfort.hvac.v1.Hvac/SetTemperature",
+            "mqtt"
+        ]
     }
 ]
