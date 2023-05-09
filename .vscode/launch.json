@@ -8,7 +8,7 @@
         {
             "type": "python",
             "request": "launch",
-            "name": "debug example (native middleware)",
+            "name": "Example, native middleware",
             "cwd": "${workspaceFolder}/examples/${input:example}",
             "program": "${workspaceFolder}/examples/${input:example}/src/main.py",
             "console": "integratedTerminal",
@@ -23,7 +23,7 @@
         {
             "type": "python",
             "request": "launch",
-            "name": "debug example (Dapr middleware)",
+            "name": "Example, Dapr middleware",
             "cwd": "${workspaceFolder}/examples/${input:example}",
             "program": "${workspaceFolder}/examples/${input:example}/src/main.py",
             "console": "integratedTerminal",
