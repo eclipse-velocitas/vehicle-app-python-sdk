@@ -19,7 +19,7 @@ import json
 import logging
 import signal
 
-from sdv_model import Vehicle, vehicle  # type: ignore
+from vehicle import Vehicle, vehicle  # type: ignore
 
 from sdv.util.log import (  # type: ignore
     get_opentelemetry_log_factory,

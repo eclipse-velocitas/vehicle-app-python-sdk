@@ -20,7 +20,7 @@ import json
 import logging
 import signal
 
-from sdv_model import Vehicle, vehicle
+from sdv_model import Vehicle, vehicle  # type: ignore
 
 from sdv import config
 from sdv.config import Config, MiddlewareType
@@ -36,7 +36,7 @@ class SpeedLimitWarner(VehicleApp):
 
     def __init__(self, vehicle: Vehicle, speed_limit: float):
         super().__init__()
-        self.vehicle = vehicle
+        self.Vehicle = vehicle
         self.speed_limit = speed_limit
 
     @subscribe_topic("speedlimitwarner/setLimit/request")
@@ -49,7 +49,7 @@ class SpeedLimitWarner(VehicleApp):
 
         await self.rule.unsubscribe()
         self.rule = (
-            await self.vehicle.Speed.join(self.vehicle.ADAS.ABS.IsEngaged)
+            await self.Vehicle.Speed.join(self.Vehicle.ADAS.ABS.IsEngaged)
             .where(condition)
             .subscribe(self.on_vehicle_speed_above_limit)
         )
@@ -59,8 +59,8 @@ class SpeedLimitWarner(VehicleApp):
         logger.info(
             "Warning: Vehicle speed limit (%s) exceeded: %f. ABS is engaged: %s",
             self.speed_limit,
-            data.get(self.vehicle.Speed).value,
-            data.get(self.vehicle.ADAS.ABS.IsEnabled).value,
+            data.get(self.Vehicle.Speed).value,
+            data.get(self.Vehicle.ADAS.ABS.IsEnabled).value,
         )
 
     async def on_start(self):
@@ -68,7 +68,7 @@ class SpeedLimitWarner(VehicleApp):
 
         condition = f"Vehicle.Speed > {self.speed_limit}"
         self.rule = (
-            await self.vehicle.Speed.join(self.vehicle.ADAS.ABS.IsEngaged)
+            await self.Vehicle.Speed.join(self.Vehicle.ADAS.ABS.IsEngaged)
             .where(condition)
             .subscribe(self.on_vehicle_speed_above_limit)
         )

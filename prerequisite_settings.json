@@ -1,18 +1,23 @@
 {
     "mosquitto": {
-        "version": "1.6.9"
+        "image": "eclipse-mosquitto",
+        "version": "2.0.14"
     },
     "databroker": {
+        "image": "ghcr.io/eclipse/kuksa.val/databroker",
         "version": "0.3.0"
     },
     "seatservice": {
+        "image": "ghcr.io/eclipse/kuksa.val.services/seat_service",
         "version": "v0.2.0"
     },
     "hvacservice": {
-        "version": "v0.1.0"
+        "image": "ghcr.io/eclipse/kuksa.val.services/hvac_service",
+        "version": "v0.2.0"
     },
     "feedercan": {
-        "version": "v0.1.0"
+        "image": "ghcr.io/eclipse/kuksa.val.feeders/dbc2val",
+        "version": "v0.1.1"
     },
     "python": {
         "version": "3.10"

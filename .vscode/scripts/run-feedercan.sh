@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2022 Robert Bosch GmbH and Microsoft Corporation
+# Copyright (c) 2022-2023 Robert Bosch GmbH and Microsoft Corporation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -20,59 +20,65 @@ echo "#######################################################"
 ROOT_DIRECTORY=$( realpath "$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/../.." )
 source $ROOT_DIRECTORY/.vscode/scripts/exec-check.sh "$@" $(basename $BASH_SOURCE .sh)
 
-FEEDERCAN_VERSION=$(cat $ROOT_DIRECTORY/prerequisite_settings.json | jq .feedercan.version | tr -d '"')
-DATABROKER_GRPC_PORT='52001'
-sudo chown $(whoami) $HOME
+FEEDERCAN_IMAGE=$(cat $ROOT_DIRECTORY/prerequisite_settings.json | jq .feedercan.image | tr -d '"')
+FEEDERCAN_TAG=$(cat $ROOT_DIRECTORY/prerequisite_settings.json | jq .feedercan.version | tr -d '"')
 
-# Downloading feedercan
-FEEDERCAN_SOURCE="kuksa.val.feeders"
-FEEDERCAN_EXEC_PATH="$ROOT_DIRECTORY/.vscode/scripts/assets/feedercan/$FEEDERCAN_VERSION"
-
-DOWNLOAD_URL=https://github.com/eclipse/kuksa.val.feeders/tarball
-
-if [[ ! -f "$FEEDERCAN_EXEC_PATH/dbc2val/dbcfeeder.py" ]]
+RUNNING_CONTAINER=$(docker ps | grep "$FEEDERCAN_IMAGE" | awk '{ print $1 }')
+if [ -n "$RUNNING_CONTAINER" ];
 then
-  echo "Downloading FEEDERCAN:$FEEDERCAN_VERSION"
-  curl --create-dirs -o "$ROOT_DIRECTORY/.vscode/scripts/assets/feedercan/$FEEDERCAN_VERSION/$FEEDERCAN_SOURCE" --location --remote-header-name --remote-name "$DOWNLOAD_URL/$FEEDERCAN_VERSION"
-  FEEDERCAN_BASE_DIRECTORY=$(tar -tzf $ROOT_DIRECTORY/.vscode/scripts/assets/feedercan/$FEEDERCAN_VERSION/$FEEDERCAN_SOURCE | head -1 | cut -f1 -d"/")
-  tar -xf $ROOT_DIRECTORY/.vscode/scripts/assets/feedercan/$FEEDERCAN_VERSION/$FEEDERCAN_SOURCE -C $ROOT_DIRECTORY/.vscode/scripts/assets/feedercan/$FEEDERCAN_VERSION/
-  cp -r $ROOT_DIRECTORY/.vscode/scripts/assets/feedercan/$FEEDERCAN_VERSION/$FEEDERCAN_BASE_DIRECTORY/dbc2val $ROOT_DIRECTORY/.vscode/scripts/assets/feedercan/$FEEDERCAN_VERSION
-  rm -rf $ROOT_DIRECTORY/.vscode/scripts/assets/feedercan/$FEEDERCAN_VERSION/$FEEDERCAN_BASE_DIRECTORY
+    docker container stop $RUNNING_CONTAINER
 fi
-cd $ROOT_DIRECTORY/.vscode/scripts/assets/feedercan/$FEEDERCAN_VERSION/dbc2val
-pip3 install -r requirements.txt
 
-export DAPR_GRPC_PORT=$DATABROKER_GRPC_PORT
 export VEHICLEDATABROKER_DAPR_APP_ID=vehicledatabroker
+export DATABROKER_NATIVE_PORT=55555
 export LOG_LEVEL=info,databroker=info,dbcfeeder.broker_client=debug,dbcfeeder=debug
-
-CONFIG_DIR="$ROOT_DIRECTORY/.vscode/scripts/feeder_config"
 export USECASE="databroker"
+
 if [ $2 == "DOGMODE" ]; then
   echo "Use DogMode feeder config ...!"
-  # DogMode CAN feeder config
-  export DBC_FILE="$CONFIG_DIR/dogmode/DogMode.dbc"
-  export MAPPING_FILE="$CONFIG_DIR/dogmode/mapping_DogMode.yml"
-  export CANDUMP_FILE="$CONFIG_DIR/dogmode/candump_DogMode.log"
+  CONFIG_DIR="$ROOT_DIRECTORY/.vscode/scripts/feeder_config/dogmode"
+  export DBC_FILE="/data/DogMode.dbc"
+  export MAPPING_FILE="/data/mapping_DogMode.yml"
+  export CANDUMP_FILE="/data/candump_DogMode.log"
 else
-  # Default CAN feeder config
-  export DBC_FILE="$CONFIG_DIR/default/Model3CAN.dbc"
-  export MAPPING_FILE="$CONFIG_DIR/default/mapping.yml"
-  export CANDUMP_FILE="$CONFIG_DIR/default/candump.log"
+  echo "Use default feeder config ...!"
+  CONFIG_DIR="$ROOT_DIRECTORY/.vscode/scripts/feeder_config/default"
+  export DBC_FILE="/data/Model3CAN.dbc"
+  export MAPPING_FILE="/data/mapping.yml"
+  export CANDUMP_FILE="/data/candump.log"
 fi
 
 if [ $1 == "DAPR" ]; then
-  echo "Run Dapr ...!"
+  echo "Run with Dapr ...!"
   dapr run \
     --app-id feedercan \
     --app-protocol grpc \
-    --components-path $ROOT_DIRECTORY/.dapr/components \
-    --config $ROOT_DIRECTORY/.dapr/config.yaml -- python3 dbcfeeder.py
+    --resources-path $ROOT_DIRECTORY/.dapr/components \
+    --config $ROOT_DIRECTORY/.dapr/config.yaml \
+  -- docker run \
+    -v ${CONFIG_DIR}:/data \
+    -e VEHICLEDATABROKER_DAPR_APP_ID \
+    -e DAPR_GRPC_PORT \
+    -e DAPR_HTTP_PORT \
+    -e LOG_LEVEL \
+    -e USECASE \
+    -e CANDUMP_FILE \
+    -e DBC_FILE \
+    -e MAPPING_FILE \
+    --network host \
+    $FEEDERCAN_IMAGE:$FEEDERCAN_TAG
 elif [ $1 == "NATIVE" ]; then
   echo "Run native ...!"
-  DATABROKER_GRPC_PORT='55555'
-  export DAPR_GRPC_PORT=$DATABROKER_GRPC_PORT
-  python3 dbcfeeder.py
+  docker run \
+    -v ${CONFIG_DIR}:/data \
+    -e DAPR_GRPC_PORT=$DATABROKER_NATIVE_PORT \
+    -e LOG_LEVEL \
+    -e USECASE \
+    -e CANDUMP_FILE \
+    -e DBC_FILE \
+    -e MAPPING_FILE \
+    --network host \
+    $FEEDERCAN_IMAGE:$FEEDERCAN_TAG
 else
   echo "Error: Unsupported middleware type ($1)!"
   exit 1

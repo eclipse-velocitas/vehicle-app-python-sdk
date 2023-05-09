@@ -21,12 +21,6 @@
   ],
   "vsmqtt.brokerProfiles": [
     {
-      "name": "mosquitto (k3d)",
-      "host": "localhost",
-      "port": 31883,
-      "clientId": "vsmqtt_client"
-    },
-    {
       "name": "mosquitto (local)",
       "host": "localhost",
       "port": 1883,

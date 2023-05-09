@@ -12,7 +12,7 @@ This includes the following packages:
 
 * [sdv.model](./sdv/model.py) - Vehicle Model ontology
 * [sdv.dapr](./sdv/dapr) - Dapr middleware integration
-* [sdv.conf](./sdv/conf.py) - Vehicle App configuration
+* [sdv.conf](./sdv/config.py) - Vehicle App configuration
 * [sdv.vehicle_app](./sdv/vehicle_app.py) - Vehicle App abstraction
 * [sdv.vdb](./sdv/vdb) - Vehicle Data Broker integration
 * [sdv.test](./sdv/test) - Integration test support
@@ -45,14 +45,21 @@ These examples demonstrate how to use the Python Vehicle App SDK:
 
 | Example | Description |
 |---------|-------------|
-| [Dynamic Rule](./examples/dynamic-rule/) | Create a Vehicle Data Broker rule with the fluent query methods.
-| [Seat Adjuster](./examples/seat-adjuster/) | Seat-Adjuster App that demonstrates MQTT communication and invocation of a Vehicle Service over gRPC.
+| [Array Datatype](./examples/array-datatype/) | Shows a Vehicle Data Broker query that returns an array data point.
+| [Atomic Set](./examples/atomic-set/) | Shows how to set the values of multiple datapoint actuators in one "atomic" step.
+| [DataPoint Set](./examples/datapoint-set/) | Shows how to set the value of the datapoint actuator value API.
 | [Dog Mode](./examples/dog-mode//) | Dog-Mode App that demonstrates MQTT communication and invocation of a Vehicle Service over gRPC, the app also subscribes for vehicle data points and sets the cabin temperature.
+| [Dynamic Rule](./examples/dynamic-rule/) | Create a Vehicle Data Broker rule with the fluent query methods.
 | [Static Rule](./examples/static-rule/) | Create a Vehicle Data Broker rule with the subscribe_to_data_point annotation.
 | [VDB Queries](./examples/vdb-queries/) | Demonstrates various aspects of creating Vehicle Data Broker queries.
-| [Array Datatype](./examples/array-datatype/) | Shows a Vehicle Data Broker query that returns an array data point.
-| [DataPoint-Set](./examples/datapoint-set/) | Shows how to set the value of the datapoint actuator value API.
-| [Atomic-Set](./examples/atomic-set/) | Shows how to set the values of multiple datapoint actuators in one "atomic" step.
+| [Seat Adjuster](./examples/seat-adjuster/) | Seat-Adjuster App that demonstrates MQTT communication and seat control via actuator data points.<br>(i) This example can only be run from the [Vehicle App Template](https://github.com/eclipse-velocitas/vehicle-app-python-template).
+
+All examples (except the Seat Adjuster) can be run via
+```bash
+cd examples
+./run-app.sh -a <example-folder-name>
+```
+By default the examples are started using the Dapr middleware. If specifying the `-n` flag they are started with native middleware, instead.
 
 ## Contribution
 - [GitHub Issues](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/issues)

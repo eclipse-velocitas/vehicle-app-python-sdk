@@ -50,7 +50,7 @@ class DogModeApp(VehicleApp):
 
     def __init__(self, vehicle: Vehicle):
         super().__init__()
-        self.vehicle = vehicle
+        self.Vehicle = vehicle
         self.not_notified = True
 
     async def on_start(self):
@@ -67,9 +67,7 @@ class DogModeApp(VehicleApp):
 
     async def on_pt_battery_stateofcharge(self, stateOfCharge):
         logger.info("Current Battery: %s", stateOfCharge)
-        await self.publish_mqtt_event(
-            "dogmode/stateOfCharge", json.dumps(stateOfCharge)
-        )
+        await self.publish_event("dogmode/stateOfCharge", json.dumps(stateOfCharge))
 
     @subscribe_data_points(
         """Vehicle.Cabin.DogModeTemperature, Vehicle.Cabin.DogMode,
@@ -77,18 +75,18 @@ class DogModeApp(VehicleApp):
         Vehicle.Cabin.AmbientAirTemperature"""
     )
     async def on_change(self, data: DataPointReply):
-        dogModeTemperature = data.get(self.vehicle.Cabin.DogModeTemperature).value
-        dogMode = data.get(self.vehicle.Cabin.DogMode).value
-        self.soc = data.get(self.vehicle.Powertrain.Battery.StateOfCharge.Current).value
-        self.temperature = data.get(self.vehicle.Cabin.AmbientAirTemperature).value
+        dogModeTemperature = data.get(self.Vehicle.Cabin.DogModeTemperature).value
+        dogMode = data.get(self.Vehicle.Cabin.DogMode).value
+        self.soc = data.get(self.Vehicle.Powertrain.Battery.StateOfCharge.Current).value
+        self.temperature = data.get(self.Vehicle.Cabin.AmbientAirTemperature).value
 
         logger.info(
             "Current temperature of the desired Vehicle is: %s", self.temperature
         )
 
-        await self.vehicle.Cabin.HvacService.ToggleAcStatus(status=dogMode)
+        await self.Vehicle.Cabin.HvacService.ToggleAcStatus(status=dogMode)
         if dogMode:
-            await self.vehicle.Cabin.HvacService.SetTemperature(
+            await self.Vehicle.Cabin.HvacService.SetTemperature(
                 temperature=dogModeTemperature
             )
 
@@ -101,7 +99,7 @@ class DogModeApp(VehicleApp):
 
         try:
             req_data = {"temperature": self.temperature}
-            await self.publish_mqtt_event(
+            await self.publish_event(
                 "dogmode/ambientAirTemperature", json.dumps(req_data)
             )
         except Exception as ex:
@@ -122,7 +120,7 @@ class DogModeApp(VehicleApp):
 
         json_data = {"Temperature": self.temperature, "StateOfCharge": self.soc}
         try:
-            await self.publish_mqtt_event("dogmode/display", json.dumps(json_data))
+            await self.publish_event("dogmode/display", json.dumps(json_data))
         except Exception as e:
             logger.info("An error occurred while trying to publish temperature %s", e)
 
