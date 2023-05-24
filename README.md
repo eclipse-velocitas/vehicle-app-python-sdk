@@ -36,8 +36,8 @@ pip install git+https://github.com/eclipse-velocitas/vehicle-app-python-sdk.git@
 
 ## Documentation
 
-* [Velocitas Development Model](https://websites.eclipseprojects.io/velocitas/docs/about/development_model/): Learn more about the Velocitas programming model and the SDK
-* [Velocitas Tutorials](https://websites.eclipseprojects.io/velocitas/docs/tutorials/): Learn how to get started, including setting up the development environment, creating a Vehicle Model as well as developing and deploying a Vehicle App.
+* [Velocitas Development Model](https://eclipse.dev/velocitas/docs/concepts/development_model/): Learn more about the Velocitas programming model and the SDK
+* [Velocitas Tutorials](https://eclipse.dev/velocitas/docs/tutorials/): Learn how to get started, including setting up the development environment, creating a Vehicle Model as well as developing and deploying a Vehicle App.
 
 ## Python Vehicle App SDK Examples
 
