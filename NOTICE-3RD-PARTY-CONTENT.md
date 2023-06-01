@@ -96,6 +96,7 @@
 | Dependency | Version | License |
 |:-----------|:-------:|--------:|
 |actions/checkout|v3|MIT License|
+|actions/setup-java|v1.4.4|MIT License|
 |actions/setup-python|v4|MIT License|
 |actions/upload-artifact|v3|MIT License|
 |github/codeql-action|v2|MIT License|
