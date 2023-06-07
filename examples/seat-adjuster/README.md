@@ -24,5 +24,7 @@ It is possible to import and run this example from your app development reposito
 
 If you like to run this example without using Dapr as middleware, you may need to provide some environment variables to the seat-adjuster process, which define where to find the required runtime components:
 
-`SDV_MQTT_ADDRESS` - address (and port) of the MQTT broker, default is `mqtt://localhost:1883`
-`SDV_VEHICLEDATABROKER_ADDRESS` - address (and port) of the KUKSA Data Broker, default is `grpc://localhost:55555`
+| Variable name                   | Default value            | Description
+|---------------------------------|--------------------------|-------------
+| `SDV_MQTT_ADDRESS`              | `mqtt://localhost:1883`  | Address (and port) of the MQTT broker
+| `SDV_VEHICLEDATABROKER_ADDRESS` | `grpc://localhost:55555` | Address (and port) of the KUKSA Data Broker
