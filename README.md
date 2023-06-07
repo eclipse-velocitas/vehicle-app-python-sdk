@@ -10,10 +10,12 @@ The `Vehicle App SDK` reduces the effort required to implement Vehicle Apps by u
 
 This includes the following packages:
 
-* [sdv.model](./sdv/model.py) - Vehicle Model ontology
-* [sdv.dapr](./sdv/dapr) - Dapr middleware integration
-* [sdv.conf](./sdv/config.py) - Vehicle App configuration
 * [sdv.vehicle_app](./sdv/vehicle_app.py) - Vehicle App abstraction
+* [sdv.model](./sdv/model.py) - Vehicle Model ontology
+* [sdv.config](./sdv/config.py) - Vehicle App configuration
+* [sdv.base](./sdv/base.py) - Base classes for middleware abstraction
+* [sdv.dapr](./sdv/dapr) - Dapr middleware integration
+* [sdv.native](./sdv/native) - Native middleware definition
 * [sdv.vdb](./sdv/vdb) - Vehicle Data Broker integration
 * [sdv.test](./sdv/test) - Integration test support
 * [sdv.util](./sdv/util) - Logging and other utilities

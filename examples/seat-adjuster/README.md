@@ -22,9 +22,10 @@ It is possible to import and run this example from your app development reposito
 
 ## Executing with "native" middleware (without Dapr runtime)
 
-If you like to run this example without using Dapr as middleware, you may need to provide some environment variables to the seat-adjuster process, which define where to find the required runtime components:
+If you like to run this example without using Dapr as middleware, you may need to provide some environment variables to the seat-adjuster process, which define the middleware type being _native_ and where to find the required runtime components:
 
-| Variable name                   | Default value            | Description
-|---------------------------------|--------------------------|-------------
-| `SDV_MQTT_ADDRESS`              | `mqtt://localhost:1883`  | Address (and port) of the MQTT broker
-| `SDV_VEHICLEDATABROKER_ADDRESS` | `grpc://localhost:55555` | Address (and port) of the KUKSA Data Broker
+| Variable name                   | Default value              | Description
+|---------------------------------|----------------------------|-------------
+| `SDV_MIDDLEWARE_TYPE`           | `"dapr"`                   | Defines the middleware type -> set to `"native"`
+| `SDV_MQTT_ADDRESS`              | `"mqtt://localhost:1883"`  | Address (and port) of the MQTT broker
+| `SDV_VEHICLEDATABROKER_ADDRESS` | `"grpc://localhost:55555"` | Address (and port) of the KUKSA Data Broker
