@@ -62,11 +62,7 @@ class SeatAdjusterApp(VehicleApp):
         await self.publish_event(
             response_topic,
             json.dumps(
-                {
-                    "position": data.get(
-                        self.Vehicle.Cabin.Seat.Row1.Pos1.Position
-                    ).value
-                }
+                {"position": data.get(self.Vehicle.Cabin.Seat.Row1.Pos1.Position).value}
             ),
         )
 
