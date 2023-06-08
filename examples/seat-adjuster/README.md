@@ -29,3 +29,20 @@ If you like to run this example without using Dapr as middleware, you may need t
 | `SDV_MIDDLEWARE_TYPE`           | `"dapr"`                   | Defines the middleware type -> set to `"native"`
 | `SDV_MQTT_ADDRESS`              | `"mqtt://localhost:1883"`  | Address (and port) of the MQTT broker
 | `SDV_VEHICLEDATABROKER_ADDRESS` | `"grpc://localhost:55555"` | Address (and port) of the KUKSA Data Broker
+
+
+## Building a Docker image
+
+This example app provides a Dockerfile to enable creating a Docker container image to run it.
+The image must be build passing the repositories root folder as build context, e.g.:
+
+``` bash
+docker build -f app/Dockerfile .
+```
+
+:warning: If your build environment works behind (corporate) **proxy**, please remember telling docker your proxy configuration.
+If you've set the respective environment variables, this might work:
+
+``` bash
+docker build -f app/Dockerfile . --build-arg http_proxy --build-arg HTTP_PROXY --build-arg https_proxy --build-arg HTTPS_PROXY --build-arg no_proxy --build-arg NO_PROXY
+```
