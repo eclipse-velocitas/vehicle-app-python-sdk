@@ -10,10 +10,12 @@ The `Vehicle App SDK` reduces the effort required to implement Vehicle Apps by u
 
 This includes the following packages:
 
-* [sdv.model](./sdv/model.py) - Vehicle Model ontology
-* [sdv.dapr](./sdv/dapr) - Dapr middleware integration
-* [sdv.conf](./sdv/config.py) - Vehicle App configuration
 * [sdv.vehicle_app](./sdv/vehicle_app.py) - Vehicle App abstraction
+* [sdv.model](./sdv/model.py) - Vehicle Model ontology
+* [sdv.config](./sdv/config.py) - Vehicle App configuration
+* [sdv.base](./sdv/base.py) - Base classes for middleware abstraction
+* [sdv.dapr](./sdv/dapr) - Dapr middleware integration
+* [sdv.native](./sdv/native) - Native middleware definition
 * [sdv.vdb](./sdv/vdb) - Vehicle Data Broker integration
 * [sdv.test](./sdv/test) - Integration test support
 * [sdv.util](./sdv/util) - Logging and other utilities
@@ -52,7 +54,7 @@ These examples demonstrate how to use the Python Vehicle App SDK:
 | [Dynamic Rule](./examples/dynamic-rule/) | Create a Vehicle Data Broker rule with the fluent query methods.
 | [Static Rule](./examples/static-rule/) | Create a Vehicle Data Broker rule with the subscribe_to_data_point annotation.
 | [VDB Queries](./examples/vdb-queries/) | Demonstrates various aspects of creating Vehicle Data Broker queries.
-| [Seat Adjuster](./examples/seat-adjuster/) | Seat-Adjuster App that demonstrates MQTT communication and seat control via actuator data points.<br>(i) This example can only be run from the [Vehicle App Template](https://github.com/eclipse-velocitas/vehicle-app-python-template).
+| [Seat Adjuster](./examples/seat-adjuster/) | Seat-Adjuster App that demonstrates MQTT communication and seat control via actuator data points.<br>:point_right: This example can only be run from the [Vehicle App Template](https://github.com/eclipse-velocitas/vehicle-app-python-template). :point_left:
 
 All examples (except the Seat Adjuster) can be run via
 ```bash
