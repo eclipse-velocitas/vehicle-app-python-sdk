@@ -19,14 +19,13 @@ import json
 import logging
 import signal
 
-from vehicle import Vehicle, vehicle  # type: ignore
-
 from sdv.util.log import (  # type: ignore
     get_opentelemetry_log_factory,
     get_opentelemetry_log_format,
 )
 from sdv.vdb.subscriptions import DataPointReply
 from sdv.vehicle_app import VehicleApp, subscribe_topic
+from vehicle import Vehicle, vehicle  # type: ignore
 
 logging.setLogRecordFactory(get_opentelemetry_log_factory())
 logging.basicConfig(format=get_opentelemetry_log_format())
@@ -102,7 +101,6 @@ class SeatAdjusterApp(VehicleApp):
 
 
 async def main():
-
     """Main function"""
     logger.info("Starting seat adjuster app...")
     seat_adjuster_app = SeatAdjusterApp(vehicle)

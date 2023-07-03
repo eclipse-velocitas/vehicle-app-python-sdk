@@ -15,56 +15,51 @@
 from unittest import mock
 
 import pytest
-from sdv_model.Cabin.SeatService import SeatService  # type: ignore
-from sdv_model.proto.seats_pb2 import BASE, SeatLocation  # type: ignore
-
 from sdv.vehicle_app import VehicleApp
+from vehicle import vehicle  # type: ignore
 
 
 @pytest.mark.asyncio
-async def test_for_seats_movecomponent():
+async def test_for_set_position_request_received():
     with mock.patch.object(
-        SeatService,
-        "MoveComponent",
+        vehicle.Cabin.Seat.Row1.Pos1.Position,
+        "set",
         new_callable=mock.AsyncMock,
-        return_value=get_sample_request_data(),
+        return_value=get_sample_response(),
     ):
-        location = SeatLocation(row=1, index=1)
         get_position = get_sample_request_data()
-        response = await SeatService.MoveComponent(
-            location, BASE, get_position["position"]  # type: ignore
+        response = await vehicle.Cabin.Seat.Row1.Pos1.Position.set(
+            get_position["position"]
         )
-        assert response == get_sample_request_data()
+        assert response == get_sample_response()
 
 
 @pytest.mark.asyncio
-async def test_for_seats_movecomponent_set_high_position():
+async def test_for_set_position_request_received_high_position():
     with mock.patch.object(
-        SeatService,
-        "MoveComponent",
+        vehicle.Cabin.Seat.Row1.Pos1.Position,
+        "set",
         new_callable=mock.AsyncMock,
         return_value=get_error_invalid_arg_response(),
     ):
-        location = SeatLocation(row=1, index=1)
         set_position = set_seat_position_high()
-        response = await SeatService.MoveComponent(
-            location, BASE, set_position["position"]  # type: ignore
+        response = await vehicle.Cabin.Seat.Row1.Pos1.Position.set(
+            set_position["position"]
         )
         assert response == get_error_invalid_arg_response()
 
 
 @pytest.mark.asyncio
-async def test_for_seats_movecomponent_error_path():
+async def test_for_set_position_request_received_error_path():
     with mock.patch.object(
-        SeatService,
-        "MoveComponent",
+        vehicle.Cabin.Seat.Row1.Pos1.Position,
+        "set",
         new_callable=mock.AsyncMock,
         return_value=get_error_response(),
     ):
-        location = SeatLocation(row=1, index=1)
         get_position = get_sample_request_data()
-        response = await SeatService.MoveComponent(
-            location, BASE, get_position["position"]  # type: ignore
+        response = await vehicle.Cabin.Seat.Row1.Pos1.Position.set(
+            get_position["position"]
         )
         assert response == get_error_response()
 
@@ -81,11 +76,11 @@ async def test_for_publish_to_topic():
 
 
 def get_sample_request_data():
-    return {"position": 330, "requestId": "123456789"}
+    return {"position": 330, "requestId": 123456789}
 
 
 def set_seat_position_high():
-    return {"position": 1001, "requestId": "123456789"}
+    return {"position": 1001, "requestId": 123456789}
 
 
 def get_error_invalid_arg_response():
@@ -102,7 +97,13 @@ def get_error_invalid_arg_response():
 def get_sample_response():
     get_position = get_sample_request_data()
     resp_data = {
-        "requestId": {"requestId": get_position["position"], "result": {"status": 0}}
+        "requestId": {
+            "requestId": get_position["requestId"],
+            "result": {
+                "status": 0,
+                "message": f"Set Seat position to: {get_position['position']}",
+            },
+        }
     }
     return resp_data
 
