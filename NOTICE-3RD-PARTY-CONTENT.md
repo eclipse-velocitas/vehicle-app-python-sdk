@@ -100,5 +100,4 @@
 |actions/setup-python|v4|MIT License|
 |actions/upload-artifact|v3|MIT License|
 |github/codeql-action|v2|MIT License|
-|pre-commit/action|v3.0.0|MIT License|
 |softprops/action-gh-release|v1|MIT License|

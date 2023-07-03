@@ -15,8 +15,9 @@
 from unittest import mock
 
 import pytest
-from sdv.vehicle_app import VehicleApp
 from vehicle import vehicle  # type: ignore
+
+from sdv.vehicle_app import VehicleApp
 
 
 @pytest.mark.asyncio

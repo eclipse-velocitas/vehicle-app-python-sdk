@@ -108,7 +108,6 @@ class DogModeApp(VehicleApp):
             )
 
     async def display_values(self):
-
         logger.info("Publish Current Temperature and StateOfCharge")
         try:
             logger.info(

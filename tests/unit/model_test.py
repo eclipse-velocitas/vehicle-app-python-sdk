@@ -1474,7 +1474,6 @@ async def test_setting_multiple_data_points_atomically():
         new_callable=mock.AsyncMock,
         return_value=SetDatapointsReply(errors={}),
     ) as mock_set_dps:
-
         (
             await vehicle.set_many()
             .add(vehicle.Bool, False)
