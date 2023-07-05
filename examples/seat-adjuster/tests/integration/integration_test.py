@@ -19,9 +19,6 @@ import pytest
 from sdv.test.inttesthelper import IntTestHelper
 from sdv.test.mqtt_util import MqttClient
 
-# from asyncio import sleep
-
-
 REQUEST_TOPIC = "seatadjuster/setPosition/request"
 RESPONSE_TOPIC = "seatadjuster/setPosition/response"
 
