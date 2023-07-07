@@ -44,7 +44,6 @@ def reset():
 
 @pytest.mark.asyncio
 async def test_for_get_metadata():
-
     client = get_vehicle_client_instance()
 
     with mock.patch.object(

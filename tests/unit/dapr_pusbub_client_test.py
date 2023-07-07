@@ -38,7 +38,6 @@ def reset():
 
 @pytest.mark.asyncio
 async def test_for_subscribe_topic():
-
     middleware = get_middleware_instance()
     with mock.patch.object(
         middleware.pubsub_client,
@@ -52,7 +51,6 @@ async def test_for_subscribe_topic():
 
 @pytest.mark.asyncio
 async def test_for_get_publish_event():
-
     middleware = get_middleware_instance()
     with mock.patch.object(
         middleware.pubsub_client,

@@ -41,7 +41,7 @@ RUN pip3 install --no-cache-dir pyinstaller==5.9.0 \
 
 WORKDIR /app
 
-RUN pyinstaller --clean -F -s src/main.py
+RUN pyinstaller --clean -F -s --paths=src src/main.py
 
 WORKDIR /app/dist
 
