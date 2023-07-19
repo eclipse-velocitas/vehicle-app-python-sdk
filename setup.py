@@ -34,10 +34,8 @@ extra_requirements = {
         "grpcio==1.56.0",
         "dapr==1.10.0",
         "cloudevents",
-        # because of the restriction in dapr 1.8.3, remove when it fixed in dapr
         "grpcio-tools==1.56.0",
         "grpc-stubs",
-        # because of the restriction in dapr 1.8.3, remove when it fixed in dapr
         "mypy-protobuf",
         "apscheduler",
         "Deprecated",
