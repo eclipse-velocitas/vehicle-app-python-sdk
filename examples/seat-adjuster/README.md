@@ -1,6 +1,6 @@
 # Seat-adjuster example
 
-:warning: This example is currently not executable from within the vehicle-app-pytthon-sdk's devContainer. Please use the "import example" feature of the related [vehicle-app-python-template repository](https://github.com/eclipse-velocitas/vehicle-app-python-template). Also, building the docker container for this example needs to be done after the import within the Python template's devContainer.
+:warning: This example is currently not executable from within the vehicle-app-python-sdk's devContainer. Please use the "import example" feature of the related [vehicle-app-python-template repository](https://github.com/eclipse-velocitas/vehicle-app-python-template). Also, building the docker container for this example needs to be done after the import within the Python template's devContainer.
 
 
 ## Run this example from your Python app development repo
@@ -11,7 +11,7 @@ It is possible to import and run this example from your app development reposito
 
    Use the VS Code task `Import example app from SDK` (to get there press `Ctrl+Shift+P` and select `Tasks: Run Task`) and choose `seat-adjuster` from the list.
 
-   :warning: Make sure you have commited or stash all your possible changes within the `app` folder, because the files of that folder will be overwritten by the files of this example.
+   :warning: Make sure you have committed or stash all your possible changes within the `app` folder, because the files of that folder will be overwritten by the files of this example.
 
 2. Running this example with Dapr middleware
 
