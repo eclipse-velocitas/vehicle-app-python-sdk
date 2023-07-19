@@ -19,7 +19,7 @@
 |cloudevents|1.9.0|Apache 2.0|
 |colorama|0.4.6|BSD|
 |coverage|7.2.2|Apache 2.0|
-|dapr|1.8.3|Apache 2.0|
+|dapr|1.10.0|Apache 2.0|
 |Deprecated|1.2.13|MIT|
 |deprecation|2.1.0|Apache 2.0|
 |distlib|0.3.6|Python Software Foundation License|
@@ -31,8 +31,8 @@
 |gitdb|4.0.10|BSD|
 |GitPython|3.1.31|BSD|
 |grpc-stubs|1.24.12.1|MIT|
-|grpcio|1.48.2|Apache 2.0|
-|grpcio-tools|1.48.2|Apache 2.0|
+|grpcio|1.56.0|Apache 2.0|
+|grpcio-tools|1.56.0|Apache 2.0|
 |identify|2.5.22|MIT|
 |idna|3.4|BSD|
 |iniconfig|2.0.0|MIT|
@@ -55,12 +55,12 @@
 |paho-mqtt|1.6.1|OSI Approved|
 |pathspec|0.11.1|Mozilla Public License 2.0 (MPL 2.0)|
 |pbr|5.11.1|Apache 2.0|
-|pip|23.1.2|MIT|
+|pip|23.2|MIT|
 |pip-tools|6.12.3|BSD|
 |platformdirs|3.2.0|MIT|
 |pluggy|1.0.0|MIT|
 |pre-commit|3.2.2|MIT|
-|protobuf|3.20.3|Google License|
+|protobuf|4.21.12|Google License|
 |pycodestyle|2.10.0|MIT|
 |pydocstyle|6.3.0|MIT|
 |pyflakes|3.0.1|MIT|
