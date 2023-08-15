@@ -14,7 +14,7 @@
 
 syntax = "proto3";
 
-import "types.proto";
+import "sdv/databroker/v1/types.proto";
 
 package sdv.databroker.v1;
 

@@ -16,7 +16,7 @@ syntax = "proto3";
 
 package sdv.databroker.v1;
 
-import "types.proto";
+import "sdv/databroker/v1/types.proto";
 
 service Broker {
   // Request a set of datapoints (values)
