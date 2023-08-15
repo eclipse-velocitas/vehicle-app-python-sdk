@@ -22,9 +22,9 @@ import grpc
 from deprecated import deprecated
 
 from sdv import config
-from sdv.proto.types_pb2 import BoolArray
-from sdv.proto.types_pb2 import Datapoint as BrokerDatapoint
-from sdv.proto.types_pb2 import (
+from sdv.databroker.v1.types_pb2 import BoolArray
+from sdv.databroker.v1.types_pb2 import Datapoint as BrokerDatapoint
+from sdv.databroker.v1.types_pb2 import (
     DoubleArray,
     FloatArray,
     Int32Array,

@@ -19,7 +19,4 @@ echo "#######################################################"
 
 ROOT_DIR=$( realpath "$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )" )
 
-python3 -m grpc_tools.protoc -I ./sdv/proto --grpc_python_out=./sdv/proto --python_out=./sdv/proto --mypy_out=./sdv/proto ./sdv/proto/**/*.proto
-mv -f ./sdv/proto/**/*.py ./sdv/proto
-mv -f ./sdv/proto/**/*.pyi ./sdv/proto
-sed -i -e 's/from sdv\..* import/from sdv.proto import/g' -e 's/import sdv\..*\./import sdv.proto./g' ./sdv/proto/*.py*
+python3 -m grpc_tools.protoc -I ./sdv/proto --grpc_python_out=. --python_out=. --mypy_out=. ./sdv/proto/**/*.proto

@@ -16,8 +16,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, List, overload
 
-from sdv.proto.broker_pb2 import SubscribeReply
-from sdv.proto.types_pb2 import Datapoint as BrokerDatapoint
+from sdv.databroker.v1.broker_pb2 import SubscribeReply
+from sdv.databroker.v1.types_pb2 import Datapoint as BrokerDatapoint
 from sdv.vdb.types import TypedDataPointResult
 
 if TYPE_CHECKING:

@@ -18,14 +18,14 @@ from typing import Dict, List, Mapping, Optional
 
 import grpc
 
-from sdv.proto.broker_pb2_grpc import BrokerStub
-from sdv.proto.collector_pb2 import (
+from sdv.databroker.v1.broker_pb2_grpc import BrokerStub
+from sdv.databroker.v1roker.v1.collector_pb2 import (
     RegisterDatapointsRequest,
     RegistrationMetadata,
     UpdateDatapointsRequest,
 )
-from sdv.proto.collector_pb2_grpc import CollectorStub
-from sdv.proto.types_pb2 import ChangeType, Datapoint, DataType
+from sdv.databroker.v1.collector_pb2_grpc import CollectorStub
+from sdv.databroker.v1.types_pb2 import ChangeType, Datapoint, DataType
 
 
 class IntTestHelper:

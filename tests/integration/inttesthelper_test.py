@@ -15,7 +15,7 @@
 """ Tests for methods in VehicleCollectorClient """
 import pytest
 
-from sdv.proto.types_pb2 import DataType
+from sdv.databroker.v1.types_pb2 import DataType
 from sdv.test.inttesthelper import IntTestHelper
 
 

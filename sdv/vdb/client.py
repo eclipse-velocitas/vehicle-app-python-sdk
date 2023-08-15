@@ -20,13 +20,13 @@ from urllib.parse import urlparse
 import grpc
 
 from sdv import config
-from sdv.proto.broker_pb2 import (
+from sdv.databroker.v1roker.v1.broker_pb2 import (
     GetDatapointsRequest,
     GetMetadataRequest,
     SetDatapointsRequest,
     SubscribeRequest,
 )
-from sdv.proto.broker_pb2_grpc import BrokerStub
+from sdv.databroker.v1.broker_pb2_grpc import BrokerStub
 
 logger = logging.getLogger(__name__)
 

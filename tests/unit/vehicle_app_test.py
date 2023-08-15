@@ -21,8 +21,8 @@ from unittest import mock
 
 import pytest
 
-from sdv.proto.broker_pb2 import SubscribeReply
-from sdv.proto.types_pb2 import Datapoint
+from sdv.databroker.v1roker.v1.broker_pb2 import SubscribeReply
+from sdv.databroker.v1.types_pb2 import Datapoint
 from sdv.vehicle_app import VehicleApp, subscribe_data_points
 
 

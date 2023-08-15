@@ -25,13 +25,13 @@ from unittest import mock
 import pytest
 
 from sdv import config
-from sdv.proto.broker_pb2 import (
+from sdv.databroker.v1.broker_pb2 import (
     GetDatapointsReply,
     GetMetadataReply,
     SetDatapointsReply,
     SubscribeReply,
 )
-from sdv.proto.types_pb2 import Datapoint, DataType, Metadata
+from sdv.databroker.v1.types_pb2 import Datapoint, DataType, Metadata
 from sdv.vdb.client import VehicleDataBrokerClient
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))

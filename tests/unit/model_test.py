@@ -51,9 +51,9 @@ from sdv.model import (
     ModelCollection,
     NamedRange,
 )
-from sdv.proto.broker_pb2 import GetDatapointsReply, SetDatapointsReply, SubscribeReply
-from sdv.proto.types_pb2 import Datapoint as BrokerDatapoint
-from sdv.proto.types_pb2 import DatapointError
+from sdv.databroker.v1.broker_pb2 import GetDatapointsReply, SetDatapointsReply, SubscribeReply
+from sdv.databroker.v1.types_pb2 import Datapoint as BrokerDatapoint
+from sdv.databroker.v1.types_pb2 import DatapointError
 from sdv.vdb.client import VehicleDataBrokerClient
 
 
