@@ -826,6 +826,21 @@ class Model(Node):
     def set_many(self) -> BatchSetBuilder:
         return BatchSetBuilder(self.get_client())
 
+    def getNode(self, datapoint_str: str) -> Node:
+        if self.get_path() not in datapoint_str:
+            raise ValueError("Input string has to start with the root")
+        nodes = datapoint_str.split(".")
+        dataPoint = self
+
+        if len(nodes) > 1:
+            for node in nodes[1:]:
+                try:
+                    dataPoint = getattr(dataPoint, node)
+                except Exception as err:
+                    raise AttributeError("Node not found") from err
+
+        return dataPoint
+
 
 class Service(Node):
     """The Service class contains a set of gRPC methods"""

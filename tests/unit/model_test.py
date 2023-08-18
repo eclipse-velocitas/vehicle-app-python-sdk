@@ -1512,6 +1512,26 @@ async def test_fail_setting_multiple_data_points_atomically():
             )
 
 
+@pytest.mark.asyncio
+async def test_get_node__available():
+    vehicle = get_vehicle_instance()
+    assert vehicle.getNode(vehicle.Speed.get_path()) == vehicle.Speed
+
+
+@pytest.mark.asyncio
+async def test_get_node__not_available():
+    vehicle = get_vehicle_instance()
+    with pytest.raises(AttributeError):
+        vehicle.getNode("Vehicle.NotAvailable")
+
+
+@pytest.mark.asyncio
+async def test_get_node__root_not_in_string():
+    vehicle = get_vehicle_instance()
+    with pytest.raises(ValueError):
+        vehicle.getNode("Speed")
+
+
 DoorSides = ["Left", "Right"]
 TrunkOptions = ["Front", "Rear"]
 
