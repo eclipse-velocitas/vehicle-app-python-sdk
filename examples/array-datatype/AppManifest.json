@@ -1,18 +1,32 @@
-[
-    {
-        "name": "array-datatype",
-        "vehicleModel": {
-            "src": "https://github.com/COVESA/vehicle_signal_specification/releases/download/v3.0/vss_rel_3.0.json",
-            "datapoints": [
-                {
-                    "path": "Vehicle.Powertrain.FuelSystem.SupportedFuel",
-                    "required": "true",
-                    "access": "read"
+{
+    "manifestVersion": "v3",
+    "name": "array-datatype",
+    "interfaces": [
+        {
+            "type": "vehicle-signal-interface",
+            "config": {
+                "src": "https://github.com/COVESA/vehicle_signal_specification/releases/download/v3.0/vss_rel_3.0.json",
+                "datapoints": {
+                    "required": [
+                        {
+                            "path": "Vehicle.Powertrain.FuelSystem.SupportedFuel",
+                            "optional": "false",
+                            "access": "read"
+                        }
+                    ]
                 }
-            ]
+            }
         },
-        "runtime": [
-            "grpc://sdv.databroker.v1.Broker/Subscribe"
-        ]
-    }
-]
+        {
+            "type": "grpc-interface",
+            "config": {
+                "src": "https://github.com/eclipse/kuksa.val/blob/master/kuksa_databroker/proto/sdv/databroker/v1/broker.proto",
+                "required": {
+                    "methods": [
+                        "Subscribe"
+                    ]
+                }
+            }
+        }
+    ]
+}
