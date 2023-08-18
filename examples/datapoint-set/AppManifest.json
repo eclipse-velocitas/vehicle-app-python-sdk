@@ -10,26 +10,12 @@
                     "required": [
                         {
                             "path": "Vehicle.Cabin.Seat.Row1.Pos1.IsBelted",
-                            "optional": "false",
                             "access": "write"
                         },
                         {
                             "path": "Vehicle.Cabin.Seat.Row1.Pos1.Position",
-                            "optional": "false",
                             "access": "write"
                         }
-                    ]
-                }
-            }
-        },
-        {
-            "type": "grpc-interface",
-            "config": {
-                "src": "https://github.com/eclipse/kuksa.val/blob/master/kuksa_databroker/proto/sdv/databroker/v1/broker.proto",
-                "required": {
-                    "methods": [
-                        "SetDatapoints",
-                        "Subscribe"
                     ]
                 }
             }
