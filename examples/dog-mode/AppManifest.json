@@ -10,22 +10,18 @@
                     "required": [
                         {
                             "path": "Vehicle.Cabin.AmbientAirTemperature",
-                            "optional": "false",
                             "access": "read"
                         },
                         {
                             "path": "Vehicle.Cabin.DogMode",
-                            "optional": "false",
                             "access": "read"
                         },
                         {
                             "path": "Vehicle.Cabin.DogModeTemperature",
-                            "optional": "false",
                             "access": "read"
                         },
                         {
                             "path": "Vehicle.Powertrain.Battery.StateOfCharge.Current",
-                            "optional": "false",
                             "access": "read"
                         }
                     ]
@@ -35,18 +31,7 @@
         {
             "type": "grpc-interface",
             "config": {
-                "src": "https://github.com/eclipse/kuksa.val/blob/master/kuksa_databroker/proto/sdv/databroker/v1/broker.proto",
-                "required": {
-                    "methods": [
-                        "Subscribe"
-                    ]
-                }
-            }
-        },
-        {
-            "type": "grpc-interface",
-            "config": {
-                "src": "https://github.com/eclipse/kuksa.val.services/blob/main/hvac_service/proto/sdv/edge/comfort/hvac/v1/hvac.proto",
+                "src": "https://github.com/eclipse/kuksa.val.services/blob/v0.2.0/hvac_service/proto/sdv/edge/comfort/hvac/v1/hvac.proto",
                 "required": {
                     "methods": [
                         "SetAcStatus",

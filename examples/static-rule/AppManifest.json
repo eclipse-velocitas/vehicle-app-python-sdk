@@ -10,23 +10,11 @@
                     "required": [
                         {
                             "path": "Vehicle.Speed",
-                            "optional": "false",
                             "access": "read"
                         }
                     ]
                 }
             }
         },
-        {
-            "type": "grpc-interface",
-            "config": {
-                "src": "https://github.com/eclipse/kuksa.val/blob/master/kuksa_databroker/proto/sdv/databroker/v1/broker.proto",
-                "required": {
-                    "methods": [
-                        "Subscribe"
-                    ]
-                }
-            }
-        }
     ]
 }
