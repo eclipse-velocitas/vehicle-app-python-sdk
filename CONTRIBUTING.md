@@ -49,9 +49,9 @@ https://www.eclipse.org/projects/handbook/#resources-commit
 * When you make changes to existing protocol buffer files, regenerate the python descriptors with the following command:
 
    ```bash
-   python3 -m grpc_tools.protoc -I sdv/proto --grpc_python_out=./sdv/proto --python_out=./sdv/proto --mypy_out=./sdv/proto sdv/proto/*/*/*.proto
+   ./generate-grpc-stubs.sh
    ```
-   Afterwards adjust relative imports as needed.
+   or use the corresponding VSCode task.
 * Make sure you include test cases and new examples for non-trivial features.
 * Make sure test cases provide sufficient code coverage (see GitHub actions for minimal accepted coverage).
 * Install and run [pre-commit](https://pre-commit.com/) to automatically check for style guide issues.

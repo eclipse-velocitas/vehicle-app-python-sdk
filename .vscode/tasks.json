@@ -316,6 +316,15 @@
 			"group": "none",
 			"isBackground": false,
 			"problemMatcher": []
+		},
+		{
+			"label": "(Re-) generate gRPC stubs",
+			"detail": "Re-generates the gRPC stubs located in sdv/proto folder",
+			"type": "shell",
+			"command": "./generate-grpc-stubs.sh",
+			"group": "none",
+			"isBackground": false,
+			"problemMatcher": []
 		}
 	],
 	"inputs": [
