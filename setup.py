@@ -34,11 +34,9 @@ extra_requirements = {
         "grpcio>=1.56.0",
         "dapr",
         "cloudevents",
-        # because of the restriction in dapr 1.8.3, remove when it fixed in dapr
         "grpcio-tools",
         "grpc-stubs",
-        # because of the restriction in dapr 1.8.3, remove when it fixed in dapr
-        "mypy-protobuf<=3.3.0",
+        "mypy-protobuf",
         "apscheduler",
         "Deprecated",
         "types-Deprecated",
@@ -70,7 +68,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="sdv",
-    version="0.10.1",
+    version="0.11.0",
     description="A Python SDK for Vehicle app",
     long_description=long_description,
     long_description_content_type="text/markdown",
