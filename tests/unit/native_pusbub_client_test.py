@@ -14,6 +14,7 @@
 
 """ Tests for methods in PubSubClient """
 import os
+import time
 
 os.environ["SDV_MIDDLEWARE_TYPE"] = "native"
 
@@ -61,5 +62,43 @@ async def test_for_get_publish_event():
         mocked_client.assert_called_once_with("/test/native", "message")
 
 
+@pytest.mark.asyncio
+async def test_for_subscribe_mqtt_event():
+    middleware = get_middleware_instance()
+    mqtt_client = middleware.pubsub_client
+    callback = CallbackClass()
+    await middleware.start()
+    await mqtt_client.run()
+    await mqtt_client.subscribe_topic("test/test_subscribe", callback)
+    # wait a moment to really subscribe
+    time.sleep(0.5)
+    await mqtt_client.publish_event("test/test_subscribe", "test")
+
+    time.sleep(1)
+    assert callback.executed
+
+
+@pytest.mark.asyncio
+async def test_for_error_message():
+    middleware = get_middleware_instance()
+    mqtt_client = middleware.pubsub_client
+    callback = CallbackClass()
+    await middleware.start()
+    await mqtt_client.run()
+    await mqtt_client.subscribe_topic("test/test_error", callback)
+    # wait a moment to really subscribe
+    time.sleep(0.5)
+    await mqtt_client.publish_event("test/test_error", b"\xc3")
+    assert not callback.executed
+
+
 def get_middleware_instance() -> Middleware:
     return config.middleware
+
+
+class CallbackClass:
+    def __init__(self):
+        self.executed = False
+
+    def __call__(self, message):
+        self.executed = True
