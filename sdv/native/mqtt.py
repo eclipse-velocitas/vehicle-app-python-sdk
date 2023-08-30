@@ -75,7 +75,11 @@ class MqttClient(PubSubClient):
 
         @self._sub_client.topic_callback(topic)
         def handle(client, userdata, msg):
-            message = str(msg.payload.decode("utf-8"))
+            try:
+                message = str(msg.payload.decode("utf-8"))
+            except UnicodeDecodeError as err:
+                logger.error(err)
+                return
             if asyncio.iscoroutinefunction(coro):
                 # run the async callbacks on the main event loop
                 asyncio.run_coroutine_threadsafe(coro(message), loop)
