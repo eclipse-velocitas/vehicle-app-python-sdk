@@ -43,7 +43,7 @@
 |multidict|6.0.4|Apache 2.0|
 |mypy|1.5.1|MIT|
 |mypy-extensions|1.0.0|MIT|
-|mypy-protobuf|3.3.0|Apache 2.0|
+|mypy-protobuf|3.4.0|Apache 2.0|
 |nodeenv|1.8.0|BSD|
 |opentelemetry-api|1.15.0|Apache 2.0|
 |opentelemetry-distro|0.36b0|Apache 2.0|
@@ -58,7 +58,7 @@
 |pip|23.2.1|MIT|
 |pip-tools|7.3.0|BSD|
 |platformdirs|3.10.0|MIT|
-|pluggy|1.2.0|MIT|
+|pluggy|1.3.0|MIT|
 |pre-commit|3.3.3|MIT|
 |protobuf|4.21.12|Google License|
 |pycodestyle|2.11.0|MIT|
