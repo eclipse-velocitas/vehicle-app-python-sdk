@@ -17,6 +17,8 @@ echo "#######################################################"
 echo "### Generating gRPC stubs from proto files          ###"
 echo "#######################################################"
 
+set -x
+
 ROOT_DIR=$( realpath "$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )" )
 
 python3 -m grpc_tools.protoc -I ./sdv/proto --grpc_python_out=./sdv/proto --python_out=./sdv/proto --mypy_out=./sdv/proto ./sdv/proto/**/*.proto

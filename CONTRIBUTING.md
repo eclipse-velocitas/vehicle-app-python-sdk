@@ -77,19 +77,19 @@ In this project, the [pip-tools](https://github.com/jazzband/pip-tools) are used
 
 The required pip-based dependencies of this project are defined in the [setup.py](./setup.py). All runtime dependencies are listed in the `"install_requires"` while the development dependencies are listed in the `[dev]` section of the `"extras_require"`. In other words:
 * The requirements that are defined in the `"install_requires"` are only installed when using the Vehicle app SDK as a runtime dependency for vehicle app development.
-* The requirements that are defined in the `"extras_require[dev]"` are installed for the contribution of the Vehicle app SDK development within the dev-container or in a dedicated virtual environments. This list consists of all the neccessary runtime, testing and development tools packages and need to be installed before start contributing to the project.
+* The requirements that are defined in the `"extras_require[dev]"` are installed for the contribution of the Vehicle app SDK development within the dev-container or in a dedicated virtual environments. This list consists of all the necessary runtime, testing and development tools packages and need to be installed before start contributing to the project.
 
 The process for the dependency management of this project can be summarized as following:
-* The `pip-compile` tool will generate the [requirements.txt](./requirements.txt). By executing this tools, the `"requirements.txt"` file will be updated with all underlying dependencies. The command below shall be executed everytime a new python package is added to the project and/or to bump the package versions.
+* The `pip-compile` tool will generate the [requirements.txt](./requirements.txt). By executing this tools, the `"requirements.txt"` file will be updated with all underlying dependencies. The command below shall be executed every time a new python package is added to the project and/or to bump the package versions.
 
    ```bash
    pip-compile --extra=dev
    ```
-* Please run the `pip-compile` with `-U` flag in order to force update all packages with the latest versions. However, you need to make sure when force updating all packages that everyting works as expected.
+* Please run the `pip-compile` with `-U` flag in order to force update all packages with the latest versions. However, you need to make sure when force updating all packages that everything works as expected.
    ```bash
    pip-compile --extra=dev -U
    ```
-* Run `pip-sync` or `pip install` to install the required dependencies from the [requirements.txt](./requirements.txt) alternativly.
+* Run `pip-sync` or `pip install` to install the required dependencies from the [requirements.txt](./requirements.txt) alternatively.
    ```bash
    pip-sync
    ```
