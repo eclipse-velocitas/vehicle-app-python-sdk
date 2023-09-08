@@ -19,8 +19,8 @@ import signal
 
 from sdv_model import Vehicle, vehicle  # type: ignore
 
-from sdv.vdb.subscriptions import DataPointReply
-from sdv.vehicle_app import VehicleApp, subscribe_topic
+from velocitas_sdk.vdb.subscriptions import DataPointReply
+from velocitas_sdk.vehicle_app import VehicleApp, subscribe_topic
 
 logger = logging.getLogger(__name__)
 logging.getLogger().setLevel(logging.DEBUG)

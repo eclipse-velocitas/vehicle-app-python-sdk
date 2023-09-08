@@ -23,10 +23,10 @@ from unittest import mock
 
 import pytest
 
-from sdv import config
-from sdv.base import Middleware
-from sdv.config import Config
-from sdv.native.mqtt import MqttClient
+from velocitas_sdk import config
+from velocitas_sdk.base import Middleware
+from velocitas_sdk.config import Config
+from velocitas_sdk.native.mqtt import MqttClient
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 

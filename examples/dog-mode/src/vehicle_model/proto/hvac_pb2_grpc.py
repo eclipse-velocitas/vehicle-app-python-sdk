@@ -36,12 +36,12 @@ class HvacStub(object):
             channel: A grpc.Channel.
         """
         self.SetAcStatus = channel.unary_unary(
-                '/sdv.edge.comfort.hvac.v1.Hvac/SetAcStatus',
+                '/velocitas_sdk.edge.comfort.hvac.v1.Hvac/SetAcStatus',
                 request_serializer=hvac__pb2.SetAcStatusRequest.SerializeToString,
                 response_deserializer=hvac__pb2.SetAcStatusReply.FromString,
                 )
         self.SetTemperature = channel.unary_unary(
-                '/sdv.edge.comfort.hvac.v1.Hvac/SetTemperature',
+                '/velocitas_sdk.edge.comfort.hvac.v1.Hvac/SetTemperature',
                 request_serializer=hvac__pb2.SetTemperatureRequest.SerializeToString,
                 response_deserializer=hvac__pb2.SetTemperatureReply.FromString,
                 )
@@ -99,7 +99,7 @@ def add_HvacServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'sdv.edge.comfort.hvac.v1.Hvac', rpc_method_handlers)
+            'velocitas_sdk.edge.comfort.hvac.v1.Hvac', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
@@ -125,7 +125,7 @@ class Hvac(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/sdv.edge.comfort.hvac.v1.Hvac/SetAcStatus',
+        return grpc.experimental.unary_unary(request, target, '/velocitas_sdk.edge.comfort.hvac.v1.Hvac/SetAcStatus',
             hvac__pb2.SetAcStatusRequest.SerializeToString,
             hvac__pb2.SetAcStatusReply.FromString,
             options, channel_credentials,
@@ -142,7 +142,7 @@ class Hvac(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/sdv.edge.comfort.hvac.v1.Hvac/SetTemperature',
+        return grpc.experimental.unary_unary(request, target, '/velocitas_sdk.edge.comfort.hvac.v1.Hvac/SetTemperature',
             hvac__pb2.SetTemperatureRequest.SerializeToString,
             hvac__pb2.SetTemperatureReply.FromString,
             options, channel_credentials,

@@ -16,7 +16,7 @@ from unittest import mock
 
 import pytest
 
-from sdv.test.mqtt_util import MqttClient
+from velocitas_sdk.test.mqtt_util import MqttClient
 
 
 def test_create_and_connect_mqtt_client():

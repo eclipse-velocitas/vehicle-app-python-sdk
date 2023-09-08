@@ -21,9 +21,9 @@ from unittest import mock
 
 import pytest
 
-from sdv.proto.broker_pb2 import SubscribeReply
-from sdv.proto.types_pb2 import Datapoint
-from sdv.vehicle_app import VehicleApp, subscribe_data_points
+from velocitas_sdk.proto.broker_pb2 import SubscribeReply
+from velocitas_sdk.proto.types_pb2 import Datapoint
+from velocitas_sdk.vehicle_app import VehicleApp, subscribe_data_points
 
 
 @pytest.mark.asyncio

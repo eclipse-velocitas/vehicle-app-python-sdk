@@ -19,8 +19,8 @@ from unittest import TestCase, mock
 import grpc
 import pytest
 
-from sdv import config
-from sdv.model import (
+from velocitas_sdk import config
+from velocitas_sdk.model import (
     DataPoint,
     DataPointBoolean,
     DataPointBooleanArray,
@@ -51,10 +51,10 @@ from sdv.model import (
     ModelCollection,
     NamedRange,
 )
-from sdv.proto.broker_pb2 import GetDatapointsReply, SetDatapointsReply, SubscribeReply
-from sdv.proto.types_pb2 import Datapoint as BrokerDatapoint
-from sdv.proto.types_pb2 import DatapointError
-from sdv.vdb.client import VehicleDataBrokerClient
+from velocitas_sdk.proto.broker_pb2 import GetDatapointsReply, SetDatapointsReply, SubscribeReply
+from velocitas_sdk.proto.types_pb2 import Datapoint as BrokerDatapoint
+from velocitas_sdk.proto.types_pb2 import DatapointError
+from velocitas_sdk.vdb.client import VehicleDataBrokerClient
 
 
 @pytest.fixture(autouse=True)
