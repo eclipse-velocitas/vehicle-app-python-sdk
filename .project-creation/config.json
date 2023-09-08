@@ -1,0 +1,13 @@
+{
+    "files": [
+        ".gitattributes",
+        ".gitignore",
+        ".licensechecker.yml",
+        ".pre-commit-config.yaml",
+        "NOTICE-3RD-PARTY-CONTENT.md",
+        "NOTICE.md",
+        "whitelisted-licenses.txt",
+        ".project-creation/.vscode/launch.json",
+        ".project-creation/.vscode/tasks.json"
+    ]
+}
