@@ -51,7 +51,11 @@ from velocitas_sdk.model import (
     ModelCollection,
     NamedRange,
 )
-from velocitas_sdk.proto.broker_pb2 import GetDatapointsReply, SetDatapointsReply, SubscribeReply
+from velocitas_sdk.proto.broker_pb2 import (
+    GetDatapointsReply,
+    SetDatapointsReply,
+    SubscribeReply,
+)
 from velocitas_sdk.proto.types_pb2 import Datapoint as BrokerDatapoint
 from velocitas_sdk.proto.types_pb2 import DatapointError
 from velocitas_sdk.vdb.client import VehicleDataBrokerClient
