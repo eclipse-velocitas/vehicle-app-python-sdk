@@ -501,7 +501,7 @@ class DataPointUint32Array(DataPoint):
 
 
 class DataPointUint64(DataPoint):
-    """A data point with a value of type unit64."""
+    """A data point with a value of type uint64."""
 
     async def get(self) -> TypedDataPointResult[int]:
         try:
@@ -819,7 +819,7 @@ class BatchSetBuilder:
 
 class Model(Node):
     """The Model class represents a branch of the model tree, including root.
-    Leafs are typcially one of the typed DataPoint* classes.
+    Leafs are typically one of the typed DataPoint* classes.
     But also a Model class can be a leaf, if it does not contain data Points,
     just methods."""
 

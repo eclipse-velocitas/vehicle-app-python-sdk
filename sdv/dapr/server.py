@@ -60,7 +60,7 @@ def register_topic(topic: str, callback: TopicSubscribeCallable) -> None:
 
     Args:
         topic (str): MQTT topic name
-        callback (TopicSubscribeCallable): method to be be called on incoming messages
+        callback (TopicSubscribeCallable): method to be called on incoming messages
     """
     _servicer.register_topic(
         DAPR_PUB_SUB_NAME_VALUE, topic, callback, metadata={"rawPayload": "true"}
