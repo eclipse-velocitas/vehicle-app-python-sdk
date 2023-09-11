@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from sdv.databroker.v1 import broker_pb2 as sdv_dot_databroker_dot_v1_dot_broker__pb2
+from velocitas_sdk.proto import broker_pb2 as sdv_dot_databroker_dot_v1_dot_broker__pb2
 
 
 class BrokerStub(object):

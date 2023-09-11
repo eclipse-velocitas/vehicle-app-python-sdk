@@ -20,7 +20,7 @@ import collections.abc
 import google.protobuf.descriptor
 import google.protobuf.internal.containers
 import google.protobuf.message
-import sdv.databroker.v1.types_pb2
+import velocitas_sdk.proto.types_pb2
 import sys
 
 if sys.version_info >= (3, 8):
