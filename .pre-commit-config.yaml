@@ -98,7 +98,7 @@ repos:
               .*_pb2.pyi|
               .*_pb2_grpc.py
           )$
-        args: [sdv]
+        args: [velocitas_sdk]
         language: system
         pass_filenames: false
 

@@ -23,10 +23,10 @@ import pytest
 
 os.environ["SDV_MIDDLEWARE_TYPE"] = "dapr"
 
-from sdv import config
-from sdv.test.databroker_testhelper import Vehicle, vehicle
-from sdv.vdb.client import VehicleDataBrokerClient
-from sdv.vehicle_app import VehicleApp
+from velocitas_sdk import config
+from velocitas_sdk.test.databroker_testhelper import Vehicle, vehicle
+from velocitas_sdk.vdb.client import VehicleDataBrokerClient
+from velocitas_sdk.vehicle_app import VehicleApp
 
 
 @pytest.fixture(autouse=True)

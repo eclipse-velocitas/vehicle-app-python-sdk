@@ -21,7 +21,7 @@ from vehicle_model.proto.hvac_pb2 import (
 )
 from vehicle_model.proto.hvac_pb2_grpc import HvacStub
 
-from sdv.model import DataPointBoolean, DataPointFloat, Model, Service
+from velocitas_sdk.model import DataPointBoolean, DataPointFloat, Model, Service
 
 
 class HvacService(Service):

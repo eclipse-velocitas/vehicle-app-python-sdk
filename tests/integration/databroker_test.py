@@ -22,11 +22,11 @@ from unittest import mock
 import grpc
 import pytest
 
-from sdv import config
-from sdv.test.databroker_testhelper import SubscribeException, Vehicle
-from sdv.test.inttesthelper import IntTestHelper
-from sdv.vdb.client import VehicleDataBrokerClient
-from sdv.vehicle_app import VehicleApp
+from velocitas_sdk import config
+from velocitas_sdk.test.databroker_testhelper import SubscribeException, Vehicle
+from velocitas_sdk.test.inttesthelper import IntTestHelper
+from velocitas_sdk.vdb.client import VehicleDataBrokerClient
+from velocitas_sdk.vehicle_app import VehicleApp
 
 
 @pytest.fixture(autouse=True)

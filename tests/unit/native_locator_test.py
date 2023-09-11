@@ -20,10 +20,10 @@ from unittest import mock
 
 import pytest
 
-from sdv import config
-from sdv.config import Config
-from sdv.model import Service, VehicleDataBrokerClient
-from sdv.native.middleware import NativeMiddleware
+from velocitas_sdk import config
+from velocitas_sdk.config import Config
+from velocitas_sdk.model import Service, VehicleDataBrokerClient
+from velocitas_sdk.native.middleware import NativeMiddleware
 
 
 @pytest.fixture(autouse=True)

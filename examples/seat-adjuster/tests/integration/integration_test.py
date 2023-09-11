@@ -16,8 +16,8 @@ import json
 
 import pytest
 
-from sdv.test.inttesthelper import IntTestHelper
-from sdv.test.mqtt_util import MqttClient
+from velocitas_sdk.test.inttesthelper import IntTestHelper
+from velocitas_sdk.test.mqtt_util import MqttClient
 
 REQUEST_TOPIC = "seatadjuster/setPosition/request"
 RESPONSE_TOPIC = "seatadjuster/setPosition/response"
