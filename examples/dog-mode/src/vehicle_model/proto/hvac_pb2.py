@@ -29,7 +29,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nhvac.proto\x12\x18velocitas_sdk.edge.comfort.hvac.v1\"H\n\x12SetAcStatusRequest\x12\x32\n\x06status\x18\x01 \x01(\x0e\x32\".velocitas_sdk.edge.comfort.hvac.v1.AcStatus\"\x12\n\x10SetAcStatusReply\",\n\x15SetTemperatureRequest\x12\x13\n\x0btemperature\x18\x01 \x01(\x02\"\x15\n\x13SetTemperatureReply*\x1b\n\x08\x41\x63Status\x12\x07\n\x03OFF\x10\x00\x12\x06\n\x02ON\x10\x01\x32\xe1\x01\n\x04Hvac\x12g\n\x0bSetAcStatus\x12,.velocitas_sdk.edge.comfort.hvac.v1.SetAcStatusRequest\x1a*.velocitas_sdk.edge.comfort.hvac.v1.SetAcStatusReply\x12p\n\x0eSetTemperature\x12/.velocitas_sdk.edge.comfort.hvac.v1.SetTemperatureRequest\x1a-.velocitas_sdk.edge.comfort.hvac.v1.SetTemperatureReplyb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nhvac.proto\x12\x18sdv.edge.comfort.hvac.v1\"H\n\x12SetAcStatusRequest\x12\x32\n\x06status\x18\x01 \x01(\x0e\x32\".sdv.edge.comfort.hvac.v1.AcStatus\"\x12\n\x10SetAcStatusReply\",\n\x15SetTemperatureRequest\x12\x13\n\x0btemperature\x18\x01 \x01(\x02\"\x15\n\x13SetTemperatureReply*\x1b\n\x08\x41\x63Status\x12\x07\n\x03OFF\x10\x00\x12\x06\n\x02ON\x10\x01\x32\xe1\x01\n\x04Hvac\x12g\n\x0bSetAcStatus\x12,.sdv.edge.comfort.hvac.v1.SetAcStatusRequest\x1a*.sdv.edge.comfort.hvac.v1.SetAcStatusReply\x12p\n\x0eSetTemperature\x12/.sdv.edge.comfort.hvac.v1.SetTemperatureRequest\x1a-.sdv.edge.comfort.hvac.v1.SetTemperatureReplyb\x06proto3')
 
 _ACSTATUS = DESCRIPTOR.enum_types_by_name['AcStatus']
 AcStatus = enum_type_wrapper.EnumTypeWrapper(_ACSTATUS)
@@ -44,28 +44,28 @@ _SETTEMPERATUREREPLY = DESCRIPTOR.message_types_by_name['SetTemperatureReply']
 SetAcStatusRequest = _reflection.GeneratedProtocolMessageType('SetAcStatusRequest', (_message.Message,), {
   'DESCRIPTOR' : _SETACSTATUSREQUEST,
   '__module__' : 'hvac_pb2'
-  # @@protoc_insertion_point(class_scope:velocitas_sdk.edge.comfort.hvac.v1.SetAcStatusRequest)
+  # @@protoc_insertion_point(class_scope:sdv.edge.comfort.hvac.v1.SetAcStatusRequest)
   })
 _sym_db.RegisterMessage(SetAcStatusRequest)
 
 SetAcStatusReply = _reflection.GeneratedProtocolMessageType('SetAcStatusReply', (_message.Message,), {
   'DESCRIPTOR' : _SETACSTATUSREPLY,
   '__module__' : 'hvac_pb2'
-  # @@protoc_insertion_point(class_scope:velocitas_sdk.edge.comfort.hvac.v1.SetAcStatusReply)
+  # @@protoc_insertion_point(class_scope:sdv.edge.comfort.hvac.v1.SetAcStatusReply)
   })
 _sym_db.RegisterMessage(SetAcStatusReply)
 
 SetTemperatureRequest = _reflection.GeneratedProtocolMessageType('SetTemperatureRequest', (_message.Message,), {
   'DESCRIPTOR' : _SETTEMPERATUREREQUEST,
   '__module__' : 'hvac_pb2'
-  # @@protoc_insertion_point(class_scope:velocitas_sdk.edge.comfort.hvac.v1.SetTemperatureRequest)
+  # @@protoc_insertion_point(class_scope:sdv.edge.comfort.hvac.v1.SetTemperatureRequest)
   })
 _sym_db.RegisterMessage(SetTemperatureRequest)
 
 SetTemperatureReply = _reflection.GeneratedProtocolMessageType('SetTemperatureReply', (_message.Message,), {
   'DESCRIPTOR' : _SETTEMPERATUREREPLY,
   '__module__' : 'hvac_pb2'
-  # @@protoc_insertion_point(class_scope:velocitas_sdk.edge.comfort.hvac.v1.SetTemperatureReply)
+  # @@protoc_insertion_point(class_scope:sdv.edge.comfort.hvac.v1.SetTemperatureReply)
   })
 _sym_db.RegisterMessage(SetTemperatureReply)
 

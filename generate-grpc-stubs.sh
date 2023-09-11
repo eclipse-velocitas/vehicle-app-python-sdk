@@ -20,6 +20,7 @@ echo "#######################################################"
 set -x
 
 ROOT_DIR=$( realpath "$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )" )
+
 python3 -m grpc_tools.protoc -I ./velocitas_sdk/proto --grpc_python_out=./velocitas_sdk/proto --python_out=./velocitas_sdk/proto --mypy_out=./velocitas_sdk/proto ./velocitas_sdk/proto/**/*.proto
 mv -f ./velocitas_sdk/proto/**/*.py ./velocitas_sdk/proto
 mv -f ./velocitas_sdk/proto/**/*.pyi ./velocitas_sdk/proto
