@@ -319,7 +319,7 @@
 		},
 		{
 			"label": "(Re-) generate gRPC stubs",
-			"detail": "Re-generates the gRPC stubs located in sdv/proto folder",
+			"detail": "Re-generates the gRPC stubs located in velocitas_sdk/proto folder",
 			"type": "shell",
 			"command": "./generate-grpc-stubs.sh",
 			"group": "none",

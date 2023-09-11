@@ -10,15 +10,15 @@ The `Vehicle App SDK` reduces the effort required to implement Vehicle Apps by u
 
 This includes the following packages:
 
-* [sdv.vehicle_app](./sdv/vehicle_app.py) - Vehicle App abstraction
-* [sdv.model](./sdv/model.py) - Vehicle Model ontology
-* [sdv.config](./sdv/config.py) - Vehicle App configuration
-* [sdv.base](./sdv/base.py) - Base classes for middleware abstraction
-* [sdv.dapr](./sdv/dapr) - Dapr middleware integration
-* [sdv.native](./sdv/native) - Native middleware definition
-* [sdv.vdb](./sdv/vdb) - Vehicle Data Broker integration
-* [sdv.test](./sdv/test) - Integration test support
-* [sdv.util](./sdv/util) - Logging and other utilities
+* [velocitas_sdk.vehicle_app](./velocitas_sdk/vehicle_app.py) - Vehicle App abstraction
+* [velocitas_sdk.model](./velocitas_sdk/model.py) - Vehicle Model ontology
+* [velocitas_sdk.config](./velocitas_sdk/config.py) - Vehicle App configuration
+* [velocitas_sdk.base](./velocitas_sdk/base.py) - Base classes for middleware abstraction
+* [velocitas_sdk.dapr](./velocitas_sdk/dapr) - Dapr middleware integration
+* [velocitas_sdk.native](./velocitas_sdk/native) - Native middleware definition
+* [velocitas_sdk.vdb](./velocitas_sdk/vdb) - Vehicle Data Broker integration
+* [velocitas_sdk.test](./velocitas_sdk/test) - Integration test support
+* [velocitas_sdk.util](./velocitas_sdk/util) - Logging and other utilities
 
 ## Status
 

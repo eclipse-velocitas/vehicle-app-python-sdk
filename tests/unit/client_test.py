@@ -24,15 +24,15 @@ from unittest import mock
 
 import pytest
 
-from sdv import config
-from sdv.proto.broker_pb2 import (
+from velocitas_sdk import config
+from velocitas_sdk.proto.broker_pb2 import (
     GetDatapointsReply,
     GetMetadataReply,
     SetDatapointsReply,
     SubscribeReply,
 )
-from sdv.proto.types_pb2 import Datapoint, DataType, Metadata
-from sdv.vdb.client import VehicleDataBrokerClient
+from velocitas_sdk.proto.types_pb2 import Datapoint, DataType, Metadata
+from velocitas_sdk.vdb.client import VehicleDataBrokerClient
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 

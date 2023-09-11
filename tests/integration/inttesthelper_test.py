@@ -15,8 +15,8 @@
 """ Tests for methods in VehicleCollectorClient """
 import pytest
 
-from sdv.proto.types_pb2 import DataType
-from sdv.test.inttesthelper import IntTestHelper
+from velocitas_sdk.proto.types_pb2 import DataType
+from velocitas_sdk.test.inttesthelper import IntTestHelper
 
 
 @pytest.mark.asyncio

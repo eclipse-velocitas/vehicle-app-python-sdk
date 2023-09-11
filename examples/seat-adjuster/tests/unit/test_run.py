@@ -22,8 +22,8 @@ import pytest
 from google.protobuf.timestamp_pb2 import Timestamp
 from vehicle import vehicle  # type: ignore
 
-from sdv.vdb.reply import DataPointReply
-from sdv.vdb.types import TypedDataPointResult
+from velocitas_sdk.vdb.reply import DataPointReply
+from velocitas_sdk.vdb.types import TypedDataPointResult
 
 # Get the app directory path
 app_dir_path = os.path.abspath(os.path.join(__file__, "../../.."))
