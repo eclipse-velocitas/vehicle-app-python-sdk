@@ -32,8 +32,9 @@ def copy_files(root_destination: str):
                 )
 
             Path(destination).mkdir(parents=True, exist_ok=True)
-
-            shutil.copy2(file, destination)
+            shutil.copy2(
+                f"{Path(os.path.dirname(__file__)).parent}/{file}", destination
+            )
 
 
 def copy_example(example_name: str, repo_root: str):
@@ -42,7 +43,7 @@ def copy_example(example_name: str, repo_root: str):
     )
     app_path = os.path.join(repo_root, "app")
 
-    shutil.copytree(example_path, app_path)
+    shutil.copytree(example_path, app_path, dirs_exist_ok=True)
 
 
 def main():
