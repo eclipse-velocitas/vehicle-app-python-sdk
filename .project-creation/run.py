@@ -19,6 +19,10 @@ from pathlib import Path
 import shutil
 
 
+def get_repo_root() -> Path:
+    return Path(os.path.dirname(__file__)).parent
+
+
 def copy_files(root_destination: str):
     with open(f"{os.path.dirname(__file__)}/config.json") as f:
         files = json.load(f)["files"]
@@ -32,16 +36,12 @@ def copy_files(root_destination: str):
                 )
 
             Path(destination).mkdir(parents=True, exist_ok=True)
-            shutil.copy2(
-                f"{Path(os.path.dirname(__file__)).parent}/{file}", destination
-            )
+            shutil.copy2(f"{get_repo_root()}/{file}", destination)
 
 
-def copy_example(example_name: str, repo_root: str):
-    example_path = os.path.join(
-        Path(os.path.dirname(__file__)).parent, "examples", example_name
-    )
-    app_path = os.path.join(repo_root, "app")
+def copy_example(example_name: str, destination_repo: str):
+    example_path = os.path.join(get_repo_root(), "examples", example_name)
+    app_path = os.path.join(destination_repo, "app")
 
     shutil.copytree(example_path, app_path, dirs_exist_ok=True)
 
