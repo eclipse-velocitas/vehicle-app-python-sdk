@@ -17,6 +17,7 @@ from setuptools import setup
 requirements = [
     "grpcio>=1.56.0",
     "protobuf>=3.19.4",
+    "cloudevents",
     "dapr",
     "paho-mqtt>=1.6.1",
     "opentelemetry-distro<=0.36b0",
@@ -33,7 +34,6 @@ extra_requirements = {
         "protobuf",
         "grpcio>=1.56.0",
         "dapr",
-        "cloudevents",
         "grpcio-tools",
         "grpc-stubs",
         "mypy-protobuf",
