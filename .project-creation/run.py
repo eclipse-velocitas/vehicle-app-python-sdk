@@ -15,15 +15,22 @@
 import argparse
 import json
 import os
-from pathlib import Path
 import shutil
+import subprocess  # nosec B404
+from pathlib import Path
+from typing import Iterable, List
 
 
 def get_repo_root() -> Path:
     return Path(os.path.dirname(__file__)).parent
 
 
-def copy_files(root_destination: str):
+def verbose_copy(src, dst) -> object:
+    print(f"Copying {src!r} to {dst!r}")
+    return shutil.copy2(src, dst)
+
+
+def copy_files(root_destination: str) -> None:
     with open(f"{os.path.dirname(__file__)}/config.json") as f:
         files = json.load(f)["files"]
         for file in files:
@@ -32,18 +39,61 @@ def copy_files(root_destination: str):
             if ".project-creation" in file:
                 destination = os.path.join(
                     root_destination,
-                    os.path.dirname(file.removeprefix(".project-creation/")),
+                    os.path.dirname(file.removeprefix(".project-creation/templates/")),
                 )
 
             Path(destination).mkdir(parents=True, exist_ok=True)
-            shutil.copy2(f"{get_repo_root()}/{file}", destination)
+            source = f"{get_repo_root()}/{file}"
+            verbose_copy(source, destination)
 
 
-def copy_example(example_name: str, destination_repo: str):
+def _filter_hidden_files(_: str, dir_contents: List[str]) -> Iterable[str]:
+    hidden_files = [".git"]
+    return filter(lambda file: file in hidden_files, dir_contents)
+
+
+def copy_example(example_name: str, destination_repo: str) -> None:
     example_path = os.path.join(get_repo_root(), "examples", example_name)
     app_path = os.path.join(destination_repo, "app")
 
-    shutil.copytree(example_path, app_path, dirs_exist_ok=True)
+    shutil.copytree(
+        example_path,
+        app_path,
+        copy_function=verbose_copy,
+        dirs_exist_ok=True,
+        ignore=_filter_hidden_files,
+    )
+
+    readme_path = os.path.join(app_path, "README.md")
+    if os.path.exists(readme_path):
+        existing_readme_path = os.path.join(destination_repo, "README.md")
+        if os.path.exists(existing_readme_path):
+            os.remove(existing_readme_path)
+        shutil.move(readme_path, destination_repo, copy_function=verbose_copy)
+
+
+def init_git_repo(destination_repo: str) -> None:
+    git_dir = os.path.join(destination_repo, ".git")
+    if os.path.exists(git_dir):
+        shutil.rmtree(git_dir)
+
+    subprocess.check_call(["git", "init"], cwd=destination_repo)  # nosec B603, B607
+    subprocess.check_call(["git", "add", "."], cwd=destination_repo)  # nosec B603, B607
+    subprocess.check_call(  # nosec B603, B607
+        ["git", "commit", "-m", '"Initial commit"'], cwd=destination_repo
+    )
+
+
+def compile_requirements(destination_repo: str) -> None:
+    subprocess.check_call(  # nosec B603, B607
+        ["pip-compile"], cwd=os.path.join(destination_repo, "app")
+    )
+
+    subprocess.check_call(  # nosec B603, B607
+        ["pip-compile"], cwd=os.path.join(destination_repo, "app", "tests")
+    )
+
+    subprocess.check_call(["pip-compile"], cwd=destination_repo)  # nosec B603, B607
 
 
 def main():
@@ -64,8 +114,13 @@ def main():
     )
     args = parser.parse_args()
     copy_files(args.destination)
-    if args.example:
-        copy_example(args.example, args.destination)
+
+    example_app = args.example if args.example else ".skeleton"
+    copy_example(example_app, args.destination)
+
+    # compile_requirements(args.destination)
+
+    init_git_repo(args.destination)
 
 
 if __name__ == "__main__":

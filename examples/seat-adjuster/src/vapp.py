@@ -66,6 +66,7 @@ class SeatAdjusterApp(VehicleApp):
 
     @subscribe_topic("seatadjuster/setPosition/request")
     async def on_set_position_request_received(self, data_str: str) -> None:
+        logger.error(f"Got message: {data_str!r}")
         data = json.loads(data_str)
         response_topic = "seatadjuster/setPosition/response"
         response_data = {"requestId": data["requestId"], "result": {}}

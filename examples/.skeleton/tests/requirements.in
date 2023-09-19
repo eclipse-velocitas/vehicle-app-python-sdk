@@ -1,0 +1,6 @@
+pytest
+pytest-ordering
+pytest-asyncio
+pytest-cov
+types-mock
+tox
