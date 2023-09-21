@@ -62,6 +62,7 @@ class MqttClient(PubSubClient):
 
     async def run(self):
         self._sub_client.loop_start()
+        self._pub_client.loop_start()
 
     async def init(self):
         """Do nothing"""
