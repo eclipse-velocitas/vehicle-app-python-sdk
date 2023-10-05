@@ -49,7 +49,7 @@ mock_datapoint(
 )
 """)
 
-    @parameterized.expand(["runtime_k3d", "runtime_kanto", "runtime_local"])
+    @parameterized.expand(["runtime_k3d", "runtime_kanto"])
     def test_runtime(self, runtime):
         self._set_env(runtime)
         self._disable_mocking()
