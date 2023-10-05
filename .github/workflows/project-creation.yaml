@@ -101,9 +101,9 @@ jobs:
         with:
           subFolder: ./app
           runCmd: |
-            pip3 install -r .devcontainer/tests/automated_tests/requirements.txt && \
-              pytest -sx .devcontainer/tests/automated_tests && \
-              pre-commit run --all-files
+            pre-commit run --all-files && \
+              pip3 install -r .devcontainer/tests/automated_tests/requirements.txt && \
+              pytest -sx .devcontainer/tests/automated_tests
 
       - name: Upload logs
         uses: actions/upload-artifact@v3
