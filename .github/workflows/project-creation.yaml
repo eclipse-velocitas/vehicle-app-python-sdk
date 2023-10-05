@@ -109,6 +109,6 @@ jobs:
         uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: logs
+          name: logs-${{ matrix.example }}
           path: ./app/logs
           retention-days: 1
