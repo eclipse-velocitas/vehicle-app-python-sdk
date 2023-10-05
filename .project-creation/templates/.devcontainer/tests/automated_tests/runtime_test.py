@@ -40,14 +40,18 @@ class RuntimeTest(unittest.TestCase):
 
     def _disable_mocking(self) -> None:
         with open("./mock.py", mode="w", encoding="utf-8") as file:
-            file.write("""
+            file.write(
+                """
+from lib.dsl import mock_datapoint
+
 # No mock configuration for integration tests.
 mock_datapoint(
     path="Vehicle.VehicleIdentification.Model",
     initial_value="mock",
     behaviors=[]
 )
-""")
+"""
+            )
 
     @parameterized.expand(["runtime_k3d", "runtime_kanto"])
     def test_runtime(self, runtime):

@@ -77,7 +77,9 @@ def init_git_repo(destination_repo: str) -> None:
     if os.path.exists(git_dir):
         shutil.rmtree(git_dir)
 
-    subprocess.check_call(["git", "init"], cwd=destination_repo)  # nosec B603, B607
+    subprocess.check_call(
+        ["git", "init", "--initial-branch=main"], cwd=destination_repo
+    )  # nosec B603, B607
     subprocess.check_call(["git", "add", "."], cwd=destination_repo)  # nosec B603, B607
     subprocess.check_call(  # nosec B603, B607
         ["git", "commit", "-m", '"Initial commit"'], cwd=destination_repo

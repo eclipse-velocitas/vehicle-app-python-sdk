@@ -20,7 +20,6 @@ import signal
 
 from vapp import SeatAdjusterApp  # type: ignore # noqa: E402
 from vehicle import vehicle  # type: ignore
-
 from velocitas_sdk.util.log import (  # type: ignore
     get_opentelemetry_log_factory,
     get_opentelemetry_log_format,

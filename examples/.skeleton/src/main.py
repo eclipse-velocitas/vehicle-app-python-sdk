@@ -19,7 +19,6 @@ import logging
 import signal
 
 from vapp import AppName  # type: ignore # noqa: E402
-
 from velocitas_sdk.util.log import (  # type: ignore
     get_opentelemetry_log_factory,
     get_opentelemetry_log_format,

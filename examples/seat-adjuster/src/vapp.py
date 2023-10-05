@@ -18,7 +18,6 @@ import json
 import logging
 
 from vehicle import Vehicle  # type: ignore
-
 from velocitas_sdk.util.log import (  # type: ignore
     get_opentelemetry_log_factory,
     get_opentelemetry_log_format,
