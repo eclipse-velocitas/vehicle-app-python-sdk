@@ -24,7 +24,7 @@
 |deprecation|2.1.0|Apache 2.0|
 |distlib|0.3.7|Python Software Foundation License|
 |exceptiongroup|1.1.3|MIT|
-|filelock|3.12.2|The Unlicense (Unlicense)|
+|filelock|3.12.3|The Unlicense (Unlicense)|
 |flake8|6.1.0|MIT|
 |flake8-bugbear|23.7.10|MIT|
 |frozenlist|1.4.0|Apache 2.0|
@@ -86,7 +86,7 @@
 |types-protobuf|4.24.0.1|Apache 2.0|
 |typing-extensions|4.7.1|Python Software Foundation License|
 |tzlocal|5.0.1|MIT|
-|virtualenv|20.24.3|MIT|
+|virtualenv|20.24.4|MIT|
 |wheel|0.41.2|MIT|
 |wrapt|1.15.0|BSD|
 |yarl|1.9.2|Apache 2.0|
