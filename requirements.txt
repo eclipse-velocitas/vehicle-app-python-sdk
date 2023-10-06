@@ -52,7 +52,7 @@ distlib==0.3.7
     # via virtualenv
 exceptiongroup==1.1.3
     # via pytest
-filelock==3.12.2
+filelock==3.12.3
     # via
     #   tox
     #   virtualenv
@@ -229,7 +229,7 @@ typing-extensions==4.7.1
     #   opentelemetry-sdk
 tzlocal==5.0.1
     # via apscheduler
-virtualenv==20.24.3
+virtualenv==20.24.4
     # via
     #   pre-commit
     #   tox
