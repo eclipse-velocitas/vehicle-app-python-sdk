@@ -75,3 +75,7 @@ mock_datapoint(
         subprocess.check_call(  # nosec
             ["pytest", "-s", "-x", "./app/tests/integration/integration_test.py"]
         )
+
+        subprocess.check_call(  # nosec
+            ["velocitas", "exec", runtime.replace("_", "-"), "down"]
+        )
