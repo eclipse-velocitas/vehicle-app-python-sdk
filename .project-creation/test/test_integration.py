@@ -54,7 +54,6 @@ def test_files_in_place():
     # vscode project
     is_dir(".vscode")
     is_file(".vscode/launch.json")
-    # is_file(".vscode/settings.json")
     is_file(".vscode/tasks.json")
 
     # app
