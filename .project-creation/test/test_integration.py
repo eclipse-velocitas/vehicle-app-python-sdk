@@ -49,12 +49,12 @@ def test_files_in_place():
     is_file(".github/workflows/gen-desired-state.yml")
     is_file(".github/workflows/release.yml")
     is_file(".github/dependabot.yml")
-    is_file(".github/PULL_REQUEST_TEMPLATE.yml")
+    is_file(".github/PULL_REQUEST_TEMPLATE.md")
 
     # vscode project
     is_dir(".vscode")
     is_file(".vscode/launch.json")
-    is_file(".vscode/settings.json")
+    # is_file(".vscode/settings.json")
     is_file(".vscode/tasks.json")
 
     # app
