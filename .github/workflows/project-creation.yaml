@@ -93,7 +93,7 @@ jobs:
           # debug print contents
           ls -al $VELOCITAS_APP_ROOT
 
-          pytest --ignore-glob=**/.devcontainer/* ./sdk/.project-creation
+          pytest --ignore-glob=**/.devcontainer/* --ignore-glob=**/.skeleton/* ./sdk/.project-creation
 
       - name: Check if devContainer starts up properly and app is usable
         uses: devcontainers/ci@v0.3
