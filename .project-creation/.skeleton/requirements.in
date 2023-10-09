@@ -1,4 +1,4 @@
-grpcio
+grpcio==1.59.0
 protobuf
 dapr
 cloudevents

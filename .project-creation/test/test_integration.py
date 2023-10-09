@@ -49,12 +49,12 @@ def test_files_in_place():
     is_file(".github/workflows/gen-desired-state.yml")
     is_file(".github/workflows/release.yml")
     is_file(".github/dependabot.yml")
-    # is_file('.github/PULL_REQUEST_TEMPLATE.yml')
+    is_file(".github/PULL_REQUEST_TEMPLATE.yml")
 
     # vscode project
     is_dir(".vscode")
     is_file(".vscode/launch.json")
-    # is_file('.vscode/settings.json')
+    is_file(".vscode/settings.json")
     is_file(".vscode/tasks.json")
 
     # app
@@ -72,18 +72,14 @@ def test_files_in_place():
     is_file(".gitattributes")
     is_file(".gitignore")
     is_file(".licensechecker.yml")
-    # is_file('.ort.yml')
     is_file(".pre-commit-config.yaml")
     is_file(".velocitas.json")
-    # is_file('CODE_OF_CONDUCT.md')  # probably not needed
-    # is_file('CONTRIBUTING.md')  # probably not needed
-    is_file("LICENSE")  # probably not needed
-    is_file("license_header.txt")  # probably not needed
+    is_file("LICENSE")
+    is_file("license_header.txt")
     is_file("NOTICE-3RD-PARTY-CONTENT.md")
     is_file("NOTICE.md")
     is_file("README.md")
-    # is_file('requirements.in')
-    # is_file('requirements.txt')
-    # is_file('SECURITY.md')
+    is_file("requirements.in")
+    is_file("requirements.txt")
     is_file("setup.cfg")
     is_file("whitelisted-licenses.txt")
