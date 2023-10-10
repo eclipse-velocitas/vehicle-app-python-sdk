@@ -77,14 +77,18 @@ def compile_requirements(destination_repo: str) -> None:
     )
 
     subprocess.check_call(  # nosec B603, B607
-        ["pip-compile"], cwd=os.path.join(destination_repo, "app")
+        ["python", "-m", "piptools", "compile"],
+        cwd=os.path.join(destination_repo, "app"),
     )
 
     subprocess.check_call(  # nosec B603, B607
-        ["pip-compile"], cwd=os.path.join(destination_repo, "app", "tests")
+        ["python", "-m", "piptools", "compile"],
+        cwd=os.path.join(destination_repo, "app", "tests"),
     )
 
-    subprocess.check_call(["pip-compile"], cwd=destination_repo)  # nosec B603, B607
+    subprocess.check_call(  # nosec B603, B607
+        ["python", "-m", "piptools", "compile"], cwd=destination_repo
+    )
 
 
 def main():
