@@ -73,6 +73,10 @@ def copy_project(source_path: str, destination_repo: str) -> None:
 
 def compile_requirements(destination_repo: str) -> None:
     subprocess.check_call(  # nosec B603, B607
+        ["pip", "install", "pip-tools"], cwd=os.path.join(destination_repo, "app")
+    )
+
+    subprocess.check_call(  # nosec B603, B607
         ["pip-compile"], cwd=os.path.join(destination_repo, "app")
     )
 
