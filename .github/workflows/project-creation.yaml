@@ -101,7 +101,8 @@ jobs:
         with:
           subFolder: ./app
           runCmd: |
-            pre-commit run --all-files && \
+            git init && \
+              pre-commit run --all-files && \
               pip3 install -r .devcontainer/tests/automated_tests/requirements.txt && \
               pytest -sx .devcontainer/tests/automated_tests
 
