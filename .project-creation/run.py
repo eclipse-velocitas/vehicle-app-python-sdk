@@ -74,13 +74,28 @@ def copy_project(source_path: str, destination_repo: str) -> None:
 
 def init_git_repo(destination_repo: str) -> None:
     git_dir = os.path.join(destination_repo, ".git")
-    if os.path.exists(git_dir):
-        print("ERROR: Directory is already a git repository!")
-        sys.exit(1)
+    if not os.path.exists(git_dir):
+        subprocess.check_call(
+            ["git", "init", "--initial-branch=main"], cwd=destination_repo
+        )  # nosec B603, B607
+    else:
+        print("WARN: Directory is already a git repository.\n")
 
-    subprocess.check_call(
-        ["git", "init", "--initial-branch=main"], cwd=destination_repo
-    )  # nosec B603, B607
+        is_repo_dirty = (
+            subprocess.run(
+                ["git", "diff", "--quiet"], cwd=destination_repo
+            ).returncode  # nosec B603, B607
+            == 1
+        )
+
+        if is_repo_dirty:
+            print(
+                "ERROR: Git repo is dirty, aborting creating process. "
+                "Consider commiting first!"
+            )
+            sys.exit(1)
+
+        print("A new commit will be created on top of your existing branch!")
 
 
 def create_git_commit(destination_repo: str) -> None:
