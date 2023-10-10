@@ -17,7 +17,6 @@ import json
 import os
 import shutil
 import subprocess  # nosec B404
-import sys
 from pathlib import Path
 from typing import Iterable, List
 
@@ -72,39 +71,6 @@ def copy_project(source_path: str, destination_repo: str) -> None:
         shutil.move(readme_path, destination_repo, copy_function=verbose_copy)
 
 
-def init_git_repo(destination_repo: str) -> None:
-    git_dir = os.path.join(destination_repo, ".git")
-    if not os.path.exists(git_dir):
-        subprocess.check_call(
-            ["git", "init", "--initial-branch=main"], cwd=destination_repo
-        )  # nosec B603, B607
-    else:
-        print("WARN: Directory is already a git repository.\n")
-
-        is_repo_dirty = (
-            subprocess.run(
-                ["git", "diff", "--quiet"], cwd=destination_repo
-            ).returncode  # nosec B603, B607
-            == 1
-        )
-
-        if is_repo_dirty:
-            print(
-                "ERROR: Git repo is dirty, aborting creating process. "
-                "Consider commiting first!"
-            )
-            sys.exit(1)
-
-        print("A new commit will be created on top of your existing branch!")
-
-
-def create_git_commit(destination_repo: str) -> None:
-    subprocess.check_call(["git", "add", "."], cwd=destination_repo)  # nosec B603, B607
-    subprocess.check_call(  # nosec B603, B607
-        ["git", "commit", "-m", '"Initial commit"'], cwd=destination_repo
-    )
-
-
 def compile_requirements(destination_repo: str) -> None:
     subprocess.check_call(  # nosec B603, B607
         ["pip-compile"], cwd=os.path.join(destination_repo, "app")
@@ -135,8 +101,6 @@ def main():
     )
     args = parser.parse_args()
 
-    init_git_repo(args.destination)
-
     copy_files(args.destination)
 
     examples_directory_path = os.path.join(get_repo_root(), "examples")
@@ -147,11 +111,7 @@ def main():
     )
     copy_project(example_app, args.destination)
 
-    # TODO: There are conflicting requirements for examples which need to be
-    # resolved fo the following line to work!
-    # compile_requirements(args.destination)
-
-    create_git_commit(args.destination)
+    compile_requirements(args.destination)
 
 
 if __name__ == "__main__":
