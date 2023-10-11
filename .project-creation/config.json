@@ -16,7 +16,6 @@
         ".project-creation/templates/.vscode/launch.json",
         ".project-creation/templates/.vscode/tasks.json",
         ".project-creation/templates/setup.cfg",
-        ".project-creation/templates/requirements.in",
-        ".project-creation/templates/requirements.txt"
+        ".project-creation/templates/requirements.in"
     ]
 }
