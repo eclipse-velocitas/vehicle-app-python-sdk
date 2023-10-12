@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        example: ["", "-e seat-adjuster"]
+        example: ["no-example", "seat-adjuster"]
       fail-fast: false
 
     steps:
@@ -77,8 +77,11 @@ jobs:
 
           # copy "full" package-index.json from CLI repo
           cp ../cli/testbench/test-create/vehicle-app-template/package-index.json ./package-index.json
-
-          velocitas create -n MyApp -l python ${{ matrix.example }}
+          EXAMPLE=
+          if ["${{ matrix.example }}"" -ne "no-example"]; then
+            EXAMPLE=-e ${{ matrix.example }}
+          fi
+          velocitas create -n MyApp -l python $EXAMPLE
 
       - name: Install dependencies
         shell: bash
@@ -110,6 +113,6 @@ jobs:
         uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: logs-${{ matrix.example }}
+          name: logs_${{ matrix.example }}
           path: ./app/logs
           retention-days: 1
