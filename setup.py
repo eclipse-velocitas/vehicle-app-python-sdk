@@ -15,7 +15,7 @@
 from setuptools import setup
 
 requirements = [
-    "grpcio>=1.56.0",
+    "grpcio>=1.59.0",
     "protobuf>=3.19.4",
     "cloudevents",
     "dapr",
@@ -32,7 +32,7 @@ extra_requirements = {
         # Runtime Packages
         ##########################################
         "protobuf",
-        "grpcio>=1.56.0",
+        "grpcio>=1.59.0",
         "dapr",
         "grpcio-tools",
         "grpc-stubs",
