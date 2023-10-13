@@ -77,11 +77,11 @@ jobs:
 
           # copy "full" package-index.json from CLI repo
           cp ../cli/testbench/test-create/vehicle-app-template/package-index.json ./package-index.json
-          EXAMPLE=""
+          CREATE_ARGS="-n MyApp"
           if [ "${{ matrix.example }}" != "no-example" ]; then
-            EXAMPLE="-e ${{ matrix.example }}"
+            CREATE_ARGS="-e ${{ matrix.example }}"
           fi
-          velocitas create -n MyApp -l python $EXAMPLE
+          velocitas create -l python $CREATE_ARGS
 
       - name: Install dependencies
         shell: bash
