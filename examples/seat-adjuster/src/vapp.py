@@ -18,7 +18,6 @@ import json
 import logging
 
 from vehicle import Vehicle  # type: ignore
-
 from velocitas_sdk.util.log import (  # type: ignore
     get_opentelemetry_log_factory,
     get_opentelemetry_log_format,
@@ -66,6 +65,7 @@ class SeatAdjusterApp(VehicleApp):
 
     @subscribe_topic("seatadjuster/setPosition/request")
     async def on_set_position_request_received(self, data_str: str) -> None:
+        logger.info(f"Got message: {data_str!r}")
         data = json.loads(data_str)
         response_topic = "seatadjuster/setPosition/response"
         response_data = {"requestId": data["requestId"], "result": {}}

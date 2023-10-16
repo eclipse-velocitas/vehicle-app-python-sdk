@@ -1,0 +1,25 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "compounds": [],
+    "configurations": [
+        {
+            "type": "python",
+            "justMyCode": false,
+            "request": "launch",
+            "name": "VehicleApp",
+            "program": "${workspaceFolder}/app/src/main.py",
+            "console": "integratedTerminal",
+            "preLaunchTask": "dapr-sidecar-start",
+            "postDebugTask": "dapr-sidecar-stop",
+            "env": {
+                "APP_PORT": "50008",
+                "DAPR_HTTP_PORT": "3500",
+                "DAPR_GRPC_PORT": "50001",
+                "VEHICLEDATABROKER_DAPR_APP_ID": "vehicledatabroker"
+            }
+        }
+    ]
+}

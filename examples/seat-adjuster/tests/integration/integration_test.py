@@ -15,7 +15,6 @@
 import json
 
 import pytest
-
 from velocitas_sdk.test.inttesthelper import IntTestHelper
 from velocitas_sdk.test.mqtt_util import MqttClient
 
@@ -38,9 +37,7 @@ async def test_set_position_not_allowed():
     assert len(response.errors) == 0
 
     response = mqtt_client.publish_and_wait_for_response(
-        request_topic=REQUEST_TOPIC,
-        response_topic=RESPONSE_TOPIC,
-        payload=payload,
+        request_topic=REQUEST_TOPIC, response_topic=RESPONSE_TOPIC, payload=payload
     )
 
     assert response != ""

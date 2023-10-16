@@ -15,7 +15,7 @@
 from setuptools import setup
 
 requirements = [
-    "grpcio>=1.56.0",
+    "grpcio>=1.59.0",
     "protobuf>=3.19.4",
     "cloudevents",
     "dapr",
@@ -32,7 +32,7 @@ extra_requirements = {
         # Runtime Packages
         ##########################################
         "protobuf",
-        "grpcio>=1.56.0",
+        "grpcio>=1.59.0",
         "dapr",
         "grpcio-tools",
         "grpc-stubs",
@@ -68,7 +68,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="velocitas_sdk",
-    version="0.12.2",
+    version="0.13.0",
     description="A Python SDK for Vehicle app",
     long_description=long_description,
     long_description_content_type="text/markdown",

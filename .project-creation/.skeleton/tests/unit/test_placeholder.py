@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2023 Robert Bosch GmbH and Microsoft Corporation
+# Copyright (c) 2023 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -12,16 +12,22 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM ghcr.io/eclipse-velocitas/devcontainer-base-images/python:v0.2
+import os
+import sys
 
-# Force dapr to use localhost traffic
-ENV DAPR_HOST_IP="127.0.0.1"
-# Add daprd to the path for the VS Code Dapr extension.
-ENV PATH=$PATH:/home/vscode/.dapr/bin
+# Get the app directory path
+app_dir_path = os.path.abspath(os.path.join(__file__, "../../.."))
 
-ENV DOCKER_BUILDKIT=1
+# Add the src directory to the sys.path
+src_dir = os.path.join(app_dir_path, "src")
+sys.path.insert(0, src_dir)
 
-COPY scripts/*.sh /tmp/scripts/
-RUN find /tmp/scripts/ -type f -iname "*.sh" -exec chmod +x {} \;
-RUN /bin/bash /tmp/scripts/container-set.sh
-RUN /bin/bash /tmp/scripts/configure-proxies.sh
+# Import the AppName class from vapp.py
+from vapp import AppName  # type: ignore # noqa: E402
+
+
+async def test_instantiation():
+    my_app = AppName()
+
+    assert my_app is not None
+    print("MyApp instantiated!")

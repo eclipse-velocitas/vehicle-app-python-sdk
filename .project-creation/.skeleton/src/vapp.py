@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2023 Robert Bosch GmbH and Microsoft Corporation
+# Copyright (c) 2023 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -12,18 +12,15 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-"""The launcher for starting a Vehicle App."""
+"""A skeleton Velocitas vehicle app."""
 
-import asyncio
 import logging
-import signal
 
-from vapp import SeatAdjusterApp  # type: ignore # noqa: E402
-from vehicle import vehicle  # type: ignore
 from velocitas_sdk.util.log import (  # type: ignore
     get_opentelemetry_log_factory,
     get_opentelemetry_log_format,
 )
+from velocitas_sdk.vehicle_app import VehicleApp
 
 logging.setLogRecordFactory(get_opentelemetry_log_factory())
 logging.basicConfig(format=get_opentelemetry_log_format())
@@ -31,14 +28,13 @@ logging.getLogger().setLevel("DEBUG")
 logger = logging.getLogger(__name__)
 
 
-async def main():
-    """Main function"""
-    logger.info("Starting seat adjuster app...")
-    seat_adjuster_app = SeatAdjusterApp(vehicle)
-    await seat_adjuster_app.run()
+class AppName(VehicleApp):
+    """
+    AppName Vehicle App.
+    """
 
+    def __init__(self):
+        super().__init__()
 
-LOOP = asyncio.get_event_loop()
-LOOP.add_signal_handler(signal.SIGTERM, LOOP.stop)
-LOOP.run_until_complete(main())
-LOOP.close()
+    async def on_start(self):
+        pass

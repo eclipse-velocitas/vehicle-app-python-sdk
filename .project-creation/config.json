@@ -1,0 +1,21 @@
+{
+    "files": [
+        ".gitattributes",
+        ".gitignore",
+        ".editorconfig",
+        ".licensechecker.yml",
+        ".pre-commit-config.yaml",
+        "LICENSE",
+        "license_header.txt",
+        "NOTICE-3RD-PARTY-CONTENT.md",
+        "NOTICE.md",
+        "whitelisted-licenses.txt",
+        ".project-creation/templates/.devcontainer/tests/automated_tests/requirements_test.py",
+        ".project-creation/templates/.devcontainer/tests/automated_tests/requirements.txt",
+        ".project-creation/templates/.devcontainer/tests/automated_tests/runtime_test.py",
+        ".project-creation/templates/.vscode/launch.json",
+        ".project-creation/templates/.vscode/tasks.json",
+        ".project-creation/templates/setup.cfg",
+        ".project-creation/templates/requirements.in"
+    ]
+}

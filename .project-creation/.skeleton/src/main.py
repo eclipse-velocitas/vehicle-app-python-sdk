@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2023 Robert Bosch GmbH and Microsoft Corporation
+# Copyright (c) 2022-2023 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -18,8 +18,7 @@ import asyncio
 import logging
 import signal
 
-from vapp import SeatAdjusterApp  # type: ignore # noqa: E402
-from vehicle import vehicle  # type: ignore
+from vapp import AppName  # type: ignore # noqa: E402
 from velocitas_sdk.util.log import (  # type: ignore
     get_opentelemetry_log_factory,
     get_opentelemetry_log_format,
@@ -33,9 +32,9 @@ logger = logging.getLogger(__name__)
 
 async def main():
     """Main function"""
-    logger.info("Starting seat adjuster app...")
-    seat_adjuster_app = SeatAdjusterApp(vehicle)
-    await seat_adjuster_app.run()
+    logger.info("Starting AppName app...")
+    app = AppName()
+    await app.run()
 
 
 LOOP = asyncio.get_event_loop()

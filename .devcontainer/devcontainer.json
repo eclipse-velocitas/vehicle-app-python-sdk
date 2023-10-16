@@ -20,6 +20,7 @@
 				"python.formatting.provider": "black",
 				"python.linting.banditEnabled": true,
 				"python.linting.flake8Enabled": true,
+				"editor.defaultFormatter": "ms-python.black-formatter",
 				"terminal.integrated.defaultProfile.linux": "zsh",
 				"terminal.integrated.profiles.linux": {
 					"zsh": {
@@ -38,6 +39,7 @@
 				"ms-kubernetes-tools.vscode-kubernetes-tools",
 				"matangover.mypy",
 				"anweber.vscode-httpyac",
+				"ms-python.black-formatter",
 				"ms-python.isort",
 				"ms-python.flake8"
 			]

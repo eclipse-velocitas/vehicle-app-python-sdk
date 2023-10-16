@@ -21,7 +21,6 @@ from unittest.mock import AsyncMock, MagicMock
 import pytest
 from google.protobuf.timestamp_pb2 import Timestamp
 from vehicle import vehicle  # type: ignore
-
 from velocitas_sdk.vdb.reply import DataPointReply
 from velocitas_sdk.vdb.types import TypedDataPointResult
 

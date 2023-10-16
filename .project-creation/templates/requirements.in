@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2023 Robert Bosch GmbH and Microsoft Corporation
+# Copyright (c) 2022 Robert Bosch GmbH and Microsoft Corporation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -12,16 +12,20 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM ghcr.io/eclipse-velocitas/devcontainer-base-images/python:v0.2
-
-# Force dapr to use localhost traffic
-ENV DAPR_HOST_IP="127.0.0.1"
-# Add daprd to the path for the VS Code Dapr extension.
-ENV PATH=$PATH:/home/vscode/.dapr/bin
-
-ENV DOCKER_BUILDKIT=1
-
-COPY scripts/*.sh /tmp/scripts/
-RUN find /tmp/scripts/ -type f -iname "*.sh" -exec chmod +x {} \;
-RUN /bin/bash /tmp/scripts/container-set.sh
-RUN /bin/bash /tmp/scripts/configure-proxies.sh
+##########################################
+# Import src and test requirements
+##########################################
+-c app/requirements.txt
+-c app/tests/requirements.txt
+##########################################
+# Development Tools Packages
+##########################################
+grpcio-tools==1.59.0
+grpc-stubs==1.53.0.2
+mypy-protobuf==3.5.0
+pre-commit==3.3.3
+black==23.7.0
+mypy==1.5.1
+bandit==1.7.5
+flake8==6.1.0
+pip-tools==7.3.0
