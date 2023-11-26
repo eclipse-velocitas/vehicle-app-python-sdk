@@ -88,6 +88,12 @@ repos:
     rev: 1.7.5
     hooks:
       - id: bandit
+        exclude: >
+            (?x)^(
+                .*_pb2.py|
+                .*_pb2.pyi|
+                .*_pb2_grpc.py
+            )$
         args: ["--skip=B101"]
         types_or: [python]
 
@@ -120,8 +126,13 @@ repos:
     rev: v1.5.4
     hooks:
       - id: insert-license
-        files: '.*\.(py|pyi|yaml|yml|sh|helmignore|dockerignore|gitignore)$'
-        exclude: .devcontainer/tests
+        files: '.*\.(py|pyi|yaml|yml|sh|helmignore|dockerignore|gitignore|in)$'
+        exclude: >
+          (?x)^(
+              .*_pb2.py|
+              .*_pb2.pyi|
+              .*_pb2_grpc.py
+          )$
         args:
           - --license-filepath
           - license_header.txt
