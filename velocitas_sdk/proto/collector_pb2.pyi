@@ -49,32 +49,18 @@ class UpdateDatapointsRequest(google.protobuf.message.Message):
             key: builtins.int = ...,
             value: sdv.databroker.v1.types_pb2.Datapoint | None = ...,
         ) -> None: ...
-        def HasField(
-            self, field_name: typing_extensions.Literal["value", b"value"]
-        ) -> builtins.bool: ...
-        def ClearField(
-            self,
-            field_name: typing_extensions.Literal["key", b"key", "value", b"value"],
-        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["value", b"value"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     DATAPOINTS_FIELD_NUMBER: builtins.int
     @property
-    def datapoints(
-        self,
-    ) -> google.protobuf.internal.containers.MessageMap[
-        builtins.int, sdv.databroker.v1.types_pb2.Datapoint
-    ]: ...
+    def datapoints(self) -> google.protobuf.internal.containers.MessageMap[builtins.int, sdv.databroker.v1.types_pb2.Datapoint]: ...
     def __init__(
         self,
         *,
-        datapoints: collections.abc.Mapping[
-            builtins.int, sdv.databroker.v1.types_pb2.Datapoint
-        ]
-        | None = ...,
+        datapoints: collections.abc.Mapping[builtins.int, sdv.databroker.v1.types_pb2.Datapoint] | None = ...,
     ) -> None: ...
-    def ClearField(
-        self, field_name: typing_extensions.Literal["datapoints", b"datapoints"]
-    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["datapoints", b"datapoints"]) -> None: ...
 
 global___UpdateDatapointsRequest = UpdateDatapointsRequest
 
@@ -96,30 +82,18 @@ class UpdateDatapointsReply(google.protobuf.message.Message):
             key: builtins.int = ...,
             value: sdv.databroker.v1.types_pb2.DatapointError.ValueType = ...,
         ) -> None: ...
-        def ClearField(
-            self,
-            field_name: typing_extensions.Literal["key", b"key", "value", b"value"],
-        ) -> None: ...
+        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     ERRORS_FIELD_NUMBER: builtins.int
     @property
-    def errors(
-        self,
-    ) -> google.protobuf.internal.containers.ScalarMap[
-        builtins.int, sdv.databroker.v1.types_pb2.DatapointError.ValueType
-    ]:
+    def errors(self) -> google.protobuf.internal.containers.ScalarMap[builtins.int, sdv.databroker.v1.types_pb2.DatapointError.ValueType]:
         """If empty, everything went well"""
     def __init__(
         self,
         *,
-        errors: collections.abc.Mapping[
-            builtins.int, sdv.databroker.v1.types_pb2.DatapointError.ValueType
-        ]
-        | None = ...,
+        errors: collections.abc.Mapping[builtins.int, sdv.databroker.v1.types_pb2.DatapointError.ValueType] | None = ...,
     ) -> None: ...
-    def ClearField(
-        self, field_name: typing_extensions.Literal["errors", b"errors"]
-    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["errors", b"errors"]) -> None: ...
 
 global___UpdateDatapointsReply = UpdateDatapointsReply
 
@@ -142,32 +116,18 @@ class StreamDatapointsRequest(google.protobuf.message.Message):
             key: builtins.int = ...,
             value: sdv.databroker.v1.types_pb2.Datapoint | None = ...,
         ) -> None: ...
-        def HasField(
-            self, field_name: typing_extensions.Literal["value", b"value"]
-        ) -> builtins.bool: ...
-        def ClearField(
-            self,
-            field_name: typing_extensions.Literal["key", b"key", "value", b"value"],
-        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["value", b"value"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     DATAPOINTS_FIELD_NUMBER: builtins.int
     @property
-    def datapoints(
-        self,
-    ) -> google.protobuf.internal.containers.MessageMap[
-        builtins.int, sdv.databroker.v1.types_pb2.Datapoint
-    ]: ...
+    def datapoints(self) -> google.protobuf.internal.containers.MessageMap[builtins.int, sdv.databroker.v1.types_pb2.Datapoint]: ...
     def __init__(
         self,
         *,
-        datapoints: collections.abc.Mapping[
-            builtins.int, sdv.databroker.v1.types_pb2.Datapoint
-        ]
-        | None = ...,
+        datapoints: collections.abc.Mapping[builtins.int, sdv.databroker.v1.types_pb2.Datapoint] | None = ...,
     ) -> None: ...
-    def ClearField(
-        self, field_name: typing_extensions.Literal["datapoints", b"datapoints"]
-    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["datapoints", b"datapoints"]) -> None: ...
 
 global___StreamDatapointsRequest = StreamDatapointsRequest
 
@@ -189,30 +149,18 @@ class StreamDatapointsReply(google.protobuf.message.Message):
             key: builtins.int = ...,
             value: sdv.databroker.v1.types_pb2.DatapointError.ValueType = ...,
         ) -> None: ...
-        def ClearField(
-            self,
-            field_name: typing_extensions.Literal["key", b"key", "value", b"value"],
-        ) -> None: ...
+        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     ERRORS_FIELD_NUMBER: builtins.int
     @property
-    def errors(
-        self,
-    ) -> google.protobuf.internal.containers.ScalarMap[
-        builtins.int, sdv.databroker.v1.types_pb2.DatapointError.ValueType
-    ]:
+    def errors(self) -> google.protobuf.internal.containers.ScalarMap[builtins.int, sdv.databroker.v1.types_pb2.DatapointError.ValueType]:
         """If empty, everything went well"""
     def __init__(
         self,
         *,
-        errors: collections.abc.Mapping[
-            builtins.int, sdv.databroker.v1.types_pb2.DatapointError.ValueType
-        ]
-        | None = ...,
+        errors: collections.abc.Mapping[builtins.int, sdv.databroker.v1.types_pb2.DatapointError.ValueType] | None = ...,
     ) -> None: ...
-    def ClearField(
-        self, field_name: typing_extensions.Literal["errors", b"errors"]
-    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["errors", b"errors"]) -> None: ...
 
 global___StreamDatapointsReply = StreamDatapointsReply
 
@@ -222,19 +170,13 @@ class RegisterDatapointsRequest(google.protobuf.message.Message):
 
     LIST_FIELD_NUMBER: builtins.int
     @property
-    def list(
-        self,
-    ) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[
-        global___RegistrationMetadata
-    ]: ...
+    def list(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___RegistrationMetadata]: ...
     def __init__(
         self,
         *,
         list: collections.abc.Iterable[global___RegistrationMetadata] | None = ...,
     ) -> None: ...
-    def ClearField(
-        self, field_name: typing_extensions.Literal["list", b"list"]
-    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["list", b"list"]) -> None: ...
 
 global___RegisterDatapointsRequest = RegisterDatapointsRequest
 
@@ -261,19 +203,7 @@ class RegistrationMetadata(google.protobuf.message.Message):
         description: builtins.str = ...,
         change_type: sdv.databroker.v1.types_pb2.ChangeType.ValueType = ...,
     ) -> None: ...
-    def ClearField(
-        self,
-        field_name: typing_extensions.Literal[
-            "change_type",
-            b"change_type",
-            "data_type",
-            b"data_type",
-            "description",
-            b"description",
-            "name",
-            b"name",
-        ],
-    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["change_type", b"change_type", "data_type", b"data_type", "description", b"description", "name", b"name"]) -> None: ...
 
 global___RegistrationMetadata = RegistrationMetadata
 
@@ -295,24 +225,17 @@ class RegisterDatapointsReply(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.int = ...,
         ) -> None: ...
-        def ClearField(
-            self,
-            field_name: typing_extensions.Literal["key", b"key", "value", b"value"],
-        ) -> None: ...
+        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     RESULTS_FIELD_NUMBER: builtins.int
     @property
-    def results(
-        self,
-    ) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.int]:
+    def results(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.int]:
         """Maps each data point name passed in RegisterDatapointsRequest to a data point id"""
     def __init__(
         self,
         *,
         results: collections.abc.Mapping[builtins.str, builtins.int] | None = ...,
     ) -> None: ...
-    def ClearField(
-        self, field_name: typing_extensions.Literal["results", b"results"]
-    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["results", b"results"]) -> None: ...
 
 global___RegisterDatapointsReply = RegisterDatapointsReply
