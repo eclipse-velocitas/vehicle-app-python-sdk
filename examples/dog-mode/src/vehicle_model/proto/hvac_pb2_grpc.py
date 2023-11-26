@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Robert Bosch GmbH and Microsoft Corporation
+# Copyright (c) 2022-2023 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -36,15 +36,15 @@ class HvacStub(object):
             channel: A grpc.Channel.
         """
         self.SetAcStatus = channel.unary_unary(
-                '/sdv.edge.comfort.hvac.v1.Hvac/SetAcStatus',
-                request_serializer=hvac__pb2.SetAcStatusRequest.SerializeToString,
-                response_deserializer=hvac__pb2.SetAcStatusReply.FromString,
-                )
+            "/sdv.edge.comfort.hvac.v1.Hvac/SetAcStatus",
+            request_serializer=hvac__pb2.SetAcStatusRequest.SerializeToString,
+            response_deserializer=hvac__pb2.SetAcStatusReply.FromString,
+        )
         self.SetTemperature = channel.unary_unary(
-                '/sdv.edge.comfort.hvac.v1.Hvac/SetTemperature',
-                request_serializer=hvac__pb2.SetTemperatureRequest.SerializeToString,
-                response_deserializer=hvac__pb2.SetTemperatureReply.FromString,
-                )
+            "/sdv.edge.comfort.hvac.v1.Hvac/SetTemperature",
+            request_serializer=hvac__pb2.SetTemperatureRequest.SerializeToString,
+            response_deserializer=hvac__pb2.SetTemperatureReply.FromString,
+        )
 
 
 class HvacServicer(object):
@@ -67,8 +67,8 @@ class HvacServicer(object):
         * INTERNAL - A HVAC service internal error happened - see error message for details
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def SetTemperature(self, request, context):
         """* Set the desired cabin temparature
@@ -81,29 +81,30 @@ class HvacServicer(object):
         * INTERNAL - A seat service internal error happened - see error message for details
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
 
 def add_HvacServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'SetAcStatus': grpc.unary_unary_rpc_method_handler(
-                    servicer.SetAcStatus,
-                    request_deserializer=hvac__pb2.SetAcStatusRequest.FromString,
-                    response_serializer=hvac__pb2.SetAcStatusReply.SerializeToString,
-            ),
-            'SetTemperature': grpc.unary_unary_rpc_method_handler(
-                    servicer.SetTemperature,
-                    request_deserializer=hvac__pb2.SetTemperatureRequest.FromString,
-                    response_serializer=hvac__pb2.SetTemperatureReply.SerializeToString,
-            ),
+        "SetAcStatus": grpc.unary_unary_rpc_method_handler(
+            servicer.SetAcStatus,
+            request_deserializer=hvac__pb2.SetAcStatusRequest.FromString,
+            response_serializer=hvac__pb2.SetAcStatusReply.SerializeToString,
+        ),
+        "SetTemperature": grpc.unary_unary_rpc_method_handler(
+            servicer.SetTemperature,
+            request_deserializer=hvac__pb2.SetTemperatureRequest.FromString,
+            response_serializer=hvac__pb2.SetTemperatureReply.SerializeToString,
+        ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'sdv.edge.comfort.hvac.v1.Hvac', rpc_method_handlers)
+        "sdv.edge.comfort.hvac.v1.Hvac", rpc_method_handlers
+    )
     server.add_generic_rpc_handlers((generic_handler,))
 
 
- # This class is part of an EXPERIMENTAL API.
+# This class is part of an EXPERIMENTAL API.
 class Hvac(object):
     """*
     @brief Example HVAC service for controlling the heating, ventilation, and air
@@ -115,35 +116,59 @@ class Hvac(object):
     """
 
     @staticmethod
-    def SetAcStatus(request,
+    def SetAcStatus(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/sdv.edge.comfort.hvac.v1.Hvac/SetAcStatus',
+            "/sdv.edge.comfort.hvac.v1.Hvac/SetAcStatus",
             hvac__pb2.SetAcStatusRequest.SerializeToString,
             hvac__pb2.SetAcStatusReply.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def SetTemperature(request,
+    def SetTemperature(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/sdv.edge.comfort.hvac.v1.Hvac/SetTemperature',
+            "/sdv.edge.comfort.hvac.v1.Hvac/SetTemperature",
             hvac__pb2.SetTemperatureRequest.SerializeToString,
             hvac__pb2.SetTemperatureReply.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
