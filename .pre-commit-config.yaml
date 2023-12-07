@@ -126,7 +126,7 @@ repos:
     rev: v1.5.4
     hooks:
       - id: insert-license
-        files: '.*\.(py|pyi|yaml|yml|sh|helmignore|dockerignore|gitignore|in)$'
+        files: '.*\.(py|pyi|yaml|yml|sh|in)$'
         exclude: >
           (?x)^(
               .*_pb2.py|

@@ -39,10 +39,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Initialize python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
           cache: "pip"
@@ -57,7 +57,7 @@ jobs:
           python3 -m pip install tox-gh-actions
 
       - name: Run Linters
-        uses: ./.github/actions/pre-commit-action
+        uses: pre-commit/action@v3.0.0
 
       - name: Run the daparized databroker binary
         run: |
@@ -70,7 +70,7 @@ jobs:
         run: tox
 
       - name: Publish Unit Test Results
-        uses: mikepenz/action-junit-report@v3
+        uses: mikepenz/action-junit-report@v4
         if: always()
         with:
           report_paths: ./results/UnitTest/junit.xml
@@ -79,7 +79,7 @@ jobs:
           annotate_only: true
 
       - name: ReportGenerator
-        uses: danielpalme/ReportGenerator-GitHub-Action@5.1.23
+        uses: danielpalme/ReportGenerator-GitHub-Action@5.2.0
         with:
           reports: "./results/CodeCoverage/cobertura-coverage.xml" # REQUIRED # The coverage reports that should be parsed (separated by semicolon). Globbing is supported.
           targetdir: "." # REQUIRED # The directory where the generated report should be saved.

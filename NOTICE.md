@@ -5,8 +5,8 @@ This program and the accompanying materials are made available under the terms o
 SPDX-License-Identifier: Apache-2.0
 
 ## Contributors:
-*   Robert Bosch GmbH - initial API and implementation
-*   Microsoft Corporation - initial API and implementation
+*   Robert Bosch GmbH
+*   Microsoft Corporation
 
 ## Third-party Content
 
