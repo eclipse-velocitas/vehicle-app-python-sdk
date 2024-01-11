@@ -102,5 +102,4 @@
 |devcontainers/ci|v0.3|MIT License|
 |github/codeql-action|v2|MIT License|
 |mikepenz/action-junit-report|v4|Apache License 2.0|
-|pre-commit/action|v3.0.0|MIT License|
 |softprops/action-gh-release|v1|MIT License|
