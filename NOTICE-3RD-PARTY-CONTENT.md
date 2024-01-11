@@ -55,7 +55,7 @@
 |paho-mqtt|1.6.1|OSI Approved|
 |pathspec|0.11.2|Mozilla Public License 2.0 (MPL 2.0)|
 |pbr|5.11.1|Apache 2.0|
-|pip|23.3.1|MIT|
+|pip|23.3.2|MIT|
 |pip-tools|7.3.0|BSD|
 |platformdirs|3.11.0|MIT|
 |pluggy|1.3.0|MIT|
@@ -93,14 +93,13 @@
 ## Workflows
 | Dependency | Version | License |
 |:-----------|:-------:|--------:|
-|actions/checkout|v3|MIT License|
 |actions/checkout|v4|MIT License|
 |actions/setup-java|v1.4.4|MIT License|
-|actions/setup-node|v3|MIT License|
-|actions/setup-python|v4|MIT License|
+|actions/setup-node|v4|MIT License|
+|actions/setup-python|v5|MIT License|
 |actions/upload-artifact|v3|MIT License|
-|danielpalme/ReportGenerator-GitHub-Action|5.1.23|Apache License 2.0|
+|danielpalme/ReportGenerator-GitHub-Action|5.2.0|Apache License 2.0|
 |devcontainers/ci|v0.3|MIT License|
 |github/codeql-action|v2|MIT License|
-|mikepenz/action-junit-report|v3|Apache License 2.0|
+|mikepenz/action-junit-report|v4|Apache License 2.0|
 |softprops/action-gh-release|v1|MIT License|
