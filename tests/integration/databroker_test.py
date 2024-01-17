@@ -15,8 +15,6 @@
 """ Tests for methods in VehicleDataBrokerClient """
 
 import os
-
-os.environ["SDV_MIDDLEWARE_TYPE"] = "native"
 from unittest import mock
 
 import grpc
@@ -27,6 +25,8 @@ from velocitas_sdk.test.databroker_testhelper import SubscribeException, Vehicle
 from velocitas_sdk.test.inttesthelper import IntTestHelper
 from velocitas_sdk.vdb.client import VehicleDataBrokerClient
 from velocitas_sdk.vehicle_app import VehicleApp
+
+os.environ["SDV_MIDDLEWARE_TYPE"] = "native"
 
 
 @pytest.fixture(autouse=True)
@@ -210,9 +210,11 @@ async def test_for_fluent_where_join():
     await change_datapoint(vehicle.Speed.get_path(), 0.0)
     await change_datapoint(vehicle.ThisIsAFloat.get_path(), 50.0)
     try:
-        await vehicle.Speed.join(vehicle.ThisIsAFloat).where(
-            "Vehicle.Speed < 60.0"
-        ).subscribe(callback_fluent)
+        await (
+            vehicle.Speed.join(vehicle.ThisIsAFloat)
+            .where("Vehicle.Speed < 60.0")
+            .subscribe(callback_fluent)
+        )
         # await vehicle.start()
     except SubscribeException as e:
         assert e.datapoint.fields["Vehicle.Speed"].float_value == 50.0

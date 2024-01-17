@@ -15,9 +15,6 @@
 """ Tests for methods in VehicleClient """
 
 import os
-
-os.environ["SDV_MIDDLEWARE_TYPE"] = "dapr"
-
 import sys
 from typing import Mapping, Text
 from unittest import mock
@@ -33,6 +30,8 @@ from velocitas_sdk.proto.broker_pb2 import (
 )
 from velocitas_sdk.proto.types_pb2 import Datapoint, DataType, Metadata
 from velocitas_sdk.vdb.client import VehicleDataBrokerClient
+
+os.environ["SDV_MIDDLEWARE_TYPE"] = "dapr"
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 

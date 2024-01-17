@@ -34,7 +34,6 @@ repos:
               .*_pb2_grpc.py
           )$
       - id: check-yaml
-      - id: check-toml
       - id: check-added-large-files
         exclude: >
           (?x)^(
@@ -45,60 +44,16 @@ repos:
           )$
       - id: check-merge-conflict
 
-  - repo: https://github.com/PyCQA/isort
-    rev: 5.12.0
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.13
     hooks:
-      - id: isort
-        exclude: >
-          (?x)^(
-              .*_pb2.py|
-              .*_pb2.pyi|
-              .*_pb2_grpc.py|
-              examples/.*|
-              .project-creation/.skeleton/.*
-          )$
-
-  - repo: https://github.com/psf/black
-    rev: 23.9.1
-    hooks:
-      - id: black
-        exclude: >
-          (?x)^(
-              .*_pb2.py|
-              .*_pb2.pyi|
-              .*_pb2_grpc.py|
-              examples/.*
-          )$
-
-  - repo: https://github.com/PyCQA/flake8
-    rev: 6.1.0
-    hooks:
-      - id: flake8
-        exclude: >
-          (?x)^(
-              .*_pb2.py|
-              .*_pb2.pyi|
-              .*_pb2_grpc.py
-          )$
-        additional_dependencies:
-          - flake8-bugbear
-          - flake8-unused-arguments
-
-  - repo: https://github.com/PyCQA/bandit
-    rev: 1.7.5
-    hooks:
-      - id: bandit
-        exclude: >
-            (?x)^(
-                .*_pb2.py|
-                .*_pb2.pyi|
-                .*_pb2_grpc.py
-            )$
-        args: ["--skip=B101"]
-        types_or: [python]
+      - id: ruff
+        args: [--fix, --exclude, "*_pb2.py,*_pb2.pyi,*_pb2_grpc.py,*.log"]
+      - id: ruff-format
+        args: [--exclude, "*_pb2.py,*_pb2.pyi,*_pb2_grpc.py,*.log"]
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.5.1
+    rev: v1.8.0
     hooks:
       - id: mypy
         exclude: >
@@ -110,17 +65,6 @@ repos:
         args: [.]
         language: system
         pass_filenames: false
-
-  - repo: https://github.com/pycqa/pydocstyle
-    rev: 6.3.0
-    hooks:
-      - id: pydocstyle
-        exclude: >
-          (?x)^(
-              .*_pb2.py|
-              .*_pb2.pyi|
-              .*_pb2_grpc.py
-          )$
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks
     rev: v1.5.4

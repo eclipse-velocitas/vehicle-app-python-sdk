@@ -14,11 +14,8 @@
 
 """ Tests for methods in PubSubClient """
 import os
-import time
-
-os.environ["SDV_MIDDLEWARE_TYPE"] = "native"
-
 import sys
+import time
 from unittest import mock
 
 import pytest
@@ -27,6 +24,8 @@ from velocitas_sdk import config
 from velocitas_sdk.base import Middleware
 from velocitas_sdk.config import Config
 from velocitas_sdk.native.mqtt import MqttClient
+
+os.environ["SDV_MIDDLEWARE_TYPE"] = "native"
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 

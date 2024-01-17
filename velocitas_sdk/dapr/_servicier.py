@@ -120,9 +120,10 @@ class _CallbackServicer(appcallback_service_v1.AppCallbackServicer):
 
         method: TopicSubscribeCallable = self._topic_map[pubsub_topic]
         if asyncio.iscoroutinefunction(method):
-            asyncio.run_coroutine_threadsafe(  # type: ignore
-                coro=method(request.data), loop=self._main_event_loop  # type: ignore
-            )  # type: ignore
+            asyncio.run_coroutine_threadsafe(
+                coro=method(request.data),  # type: ignore
+                loop=self._main_event_loop,
+            )
         else:
             # This calls the method on the worker_thread rather than the main thread
             method(request.data)  # type: ignore

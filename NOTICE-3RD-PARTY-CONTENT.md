@@ -36,7 +36,6 @@
 |identify|2.5.30|MIT|
 |idna|3.4|BSD|
 |iniconfig|2.0.0|MIT|
-|isort|5.12.0|MIT|
 |markdown-it-py|3.0.0|MIT|
 |mccabe|0.7.0|MIT|
 |mdurl|0.1.2|MIT|
