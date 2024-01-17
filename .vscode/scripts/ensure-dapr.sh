@@ -12,6 +12,7 @@
 # under the License.
 #
 # SPDX-License-Identifier: Apache-2.0
+set -e
 
 if [ $1 != "DAPR" ]; then
       echo "Don't install dapr ..."

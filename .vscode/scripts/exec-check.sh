@@ -12,6 +12,7 @@
 # under the License.
 #
 # SPDX-License-Identifier: Apache-2.0
+set -e
 
 if [[ "$#" -eq 1 ]]; then
     tput setaf 1; echo "ERROR: To execute script, use VSCODE Tasks: [CTRL+SHIFT+P -> Tasks: Run Tasks -> $1]."
