@@ -12,16 +12,19 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+# ruff: noqa: E402
+
 """ Tests for methods in VehicleDataBrokerClient """
 
 import os
+
+os.environ["SDV_MIDDLEWARE_TYPE"] = "native"
 from unittest import mock
 
 import grpc
 import pytest
 
 from velocitas_sdk import config
-from velocitas_sdk.config import Config
 from velocitas_sdk.test.databroker_testhelper import SubscribeException, Vehicle
 from velocitas_sdk.test.inttesthelper import IntTestHelper
 from velocitas_sdk.vdb.client import VehicleDataBrokerClient
@@ -30,10 +33,8 @@ from velocitas_sdk.vehicle_app import VehicleApp
 
 @pytest.fixture(autouse=True)
 def reset():
-    os.environ["SDV_MIDDLEWARE_TYPE"] = "native"
-    config._config = Config("native")
-    config.middleware = config._config.middleware
     VehicleDataBrokerClient._instance = None
+    config._config = None
 
 
 @pytest.mark.asyncio

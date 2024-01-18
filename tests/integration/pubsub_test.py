@@ -12,9 +12,13 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+# ruff: noqa: E402
+
 """ Tests for methods in VehicleDataBrokerClient """
 
 import os
+
+os.environ["SDV_MIDDLEWARE_TYPE"] = "dapr"
 
 import pytest
 
@@ -26,9 +30,8 @@ from velocitas_sdk.vehicle_app import VehicleApp
 
 @pytest.fixture(autouse=True)
 def reset():
-    os.environ["SDV_MIDDLEWARE_TYPE"] = "dapr"
-    config._config = config.Config("dapr")
     VehicleDataBrokerClient._instance = None
+    config._config = None
 
 
 @pytest.mark.asyncio
