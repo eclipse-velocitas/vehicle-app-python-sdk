@@ -25,8 +25,6 @@ from velocitas_sdk.config import Config
 from velocitas_sdk.dapr.middleware import DaprMiddleware
 from velocitas_sdk.model import Service, VehicleDataBrokerClient
 
-os.environ["SDV_MIDDLEWARE_TYPE"] = "dapr"
-
 
 @pytest.fixture(autouse=True)
 def reset():

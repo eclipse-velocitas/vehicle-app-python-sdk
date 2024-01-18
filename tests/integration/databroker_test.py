@@ -21,18 +21,18 @@ import grpc
 import pytest
 
 from velocitas_sdk import config
+from velocitas_sdk.config import Config
 from velocitas_sdk.test.databroker_testhelper import SubscribeException, Vehicle
 from velocitas_sdk.test.inttesthelper import IntTestHelper
 from velocitas_sdk.vdb.client import VehicleDataBrokerClient
 from velocitas_sdk.vehicle_app import VehicleApp
 
-os.environ["SDV_MIDDLEWARE_TYPE"] = "native"
-
 
 @pytest.fixture(autouse=True)
 def reset():
+    config._config = Config("native")
+    config.middleware = config._config.middleware
     VehicleDataBrokerClient._instance = None
-    config._config = None
 
 
 @pytest.mark.asyncio

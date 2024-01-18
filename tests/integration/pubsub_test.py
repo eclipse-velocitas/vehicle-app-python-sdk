@@ -12,12 +12,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# Disable name checks due to proto generated classes
-# pylint: disable=C0103,W0631
-
 """ Tests for methods in VehicleDataBrokerClient """
-
-import os
 
 import pytest
 
@@ -26,13 +21,11 @@ from velocitas_sdk.test.databroker_testhelper import Vehicle, vehicle
 from velocitas_sdk.vdb.client import VehicleDataBrokerClient
 from velocitas_sdk.vehicle_app import VehicleApp
 
-os.environ["SDV_MIDDLEWARE_TYPE"] = "dapr"
-
 
 @pytest.fixture(autouse=True)
 def reset():
-    VehicleDataBrokerClient._instance = None
     config._config = None
+    VehicleDataBrokerClient._instance = None
 
 
 @pytest.mark.asyncio

@@ -24,8 +24,6 @@ from velocitas_sdk.base import Middleware
 from velocitas_sdk.config import Config
 from velocitas_sdk.dapr.pubsub import DaprClient
 
-os.environ["SDV_MIDDLEWARE_TYPE"] = "dapr"
-
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 
 
