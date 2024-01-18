@@ -63,7 +63,6 @@ jobs:
         run: |
           ./.vscode/scripts/ensure-dapr.sh DAPR
           ./.vscode/scripts/run-mosquitto.sh &
-          sleep 3s
           ./.vscode/scripts/run-vehicledatabroker.sh DAPR &
           sleep 10s
 

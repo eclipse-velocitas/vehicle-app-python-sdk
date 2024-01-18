@@ -14,6 +14,8 @@
 
 """ Tests for methods in VehicleDataBrokerClient """
 
+import os
+
 import pytest
 
 from velocitas_sdk import config
@@ -24,7 +26,8 @@ from velocitas_sdk.vehicle_app import VehicleApp
 
 @pytest.fixture(autouse=True)
 def reset():
-    config._config = None
+    os.environ["SDV_MIDDLEWARE_TYPE"] = "dapr"
+    config._config = config.Config("dapr")
     VehicleDataBrokerClient._instance = None
 
 

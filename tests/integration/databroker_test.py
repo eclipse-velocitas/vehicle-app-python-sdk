@@ -30,6 +30,7 @@ from velocitas_sdk.vehicle_app import VehicleApp
 
 @pytest.fixture(autouse=True)
 def reset():
+    os.environ["SDV_MIDDLEWARE_TYPE"] = "native"
     config._config = Config("native")
     config.middleware = config._config.middleware
     VehicleDataBrokerClient._instance = None
