@@ -12,6 +12,7 @@
 # under the License.
 #
 # SPDX-License-Identifier: Apache-2.0
+set -e
 
 echo "#######################################################"
 echo "### Running Databroker                              ###"
@@ -42,9 +43,12 @@ if [ $1 == "DAPR" ]; then
     --resources-path $ROOT_DIRECTORY/.dapr/components \
     --config $ROOT_DIRECTORY/.dapr/config.yaml \
   -- docker run \
+    --rm \
+    --init \
+    --name vehicledatabroker \
     -v $VSPEC_FILE_PATH:$VSPEC_FILE_PATH \
     -e KUKSA_DATA_BROKER_METADATA_FILE=$VSPEC_FILE_PATH \
-    -e KUKSA_DATA_BROKER_PORT \
+    -e KUKSA_DATA_BROKER_PORT=$KUKSA_DATA_BROKER_PORT \
     -e DAPR_GRPC_PORT \
     -e DAPR_HTTP_PORT \
     -e RUST_LOG \

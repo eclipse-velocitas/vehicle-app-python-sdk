@@ -14,11 +14,8 @@
 
 """ Tests for methods in PubSubClient """
 import os
-import time
-
-os.environ["SDV_MIDDLEWARE_TYPE"] = "native"
-
 import sys
+import time
 from unittest import mock
 
 import pytest

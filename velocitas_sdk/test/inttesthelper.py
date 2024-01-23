@@ -113,7 +113,8 @@ class IntTestHelper:
         datapoint = Datapoint()
         datapoint.bool_value = value
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.BOOL  # type: ignore
+            name,
+            DataType.BOOL,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -122,7 +123,8 @@ class IntTestHelper:
         for val in value:
             datapoint.bool_array.values.append(val)
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.BOOL_ARRAY  # type: ignore
+            name,
+            DataType.BOOL_ARRAY,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -130,7 +132,8 @@ class IntTestHelper:
         datapoint = Datapoint()
         datapoint.double_value = value
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.DOUBLE  # type: ignore
+            name,
+            DataType.DOUBLE,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -139,7 +142,8 @@ class IntTestHelper:
         for val in value:
             datapoint.double_array.values.append(val)
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.DOUBLE_ARRAY  # type: ignore
+            name,
+            DataType.DOUBLE_ARRAY,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -147,7 +151,8 @@ class IntTestHelper:
         datapoint = Datapoint()
         datapoint.float_value = value
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.FLOAT  # type: ignore
+            name,
+            DataType.FLOAT,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -156,7 +161,8 @@ class IntTestHelper:
         for val in value:
             datapoint.float_array.values.append(val)
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.FLOAT_ARRAY  # type: ignore
+            name,
+            DataType.FLOAT_ARRAY,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -164,7 +170,8 @@ class IntTestHelper:
         datapoint = Datapoint()
         datapoint.int32_value = value
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.INT32  # type: ignore
+            name,
+            DataType.INT32,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -173,7 +180,8 @@ class IntTestHelper:
         for val in value:
             datapoint.int32_array.values.append(val)
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.INT32_ARRAY  # type: ignore
+            name,
+            DataType.INT32_ARRAY,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -181,7 +189,8 @@ class IntTestHelper:
         datapoint = Datapoint()
         datapoint.int32_value = value
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.INT32  # type: ignore
+            name,
+            DataType.INT32,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -190,7 +199,8 @@ class IntTestHelper:
         for val in value:
             datapoint.int32_array.values.append(val)
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.INT32_ARRAY  # type: ignore
+            name,
+            DataType.INT32_ARRAY,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -198,7 +208,8 @@ class IntTestHelper:
         datapoint = Datapoint()
         datapoint.int32_value = value
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.INT32  # type: ignore
+            name,
+            DataType.INT32,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -207,7 +218,8 @@ class IntTestHelper:
         for val in value:
             datapoint.int32_array.values.append(val)
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.INT32_ARRAY  # type: ignore
+            name,
+            DataType.INT32_ARRAY,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -215,7 +227,8 @@ class IntTestHelper:
         datapoint = Datapoint()
         datapoint.int64_value = value
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.INT64  # type: ignore
+            name,
+            DataType.INT64,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -224,7 +237,8 @@ class IntTestHelper:
         for val in value:
             datapoint.int64_array.values.append(val)
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.INT64_ARRAY  # type: ignore
+            name,
+            DataType.INT64_ARRAY,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -232,7 +246,8 @@ class IntTestHelper:
         datapoint = Datapoint()
         datapoint.string_value = value
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.STRING  # type: ignore
+            name,
+            DataType.STRING,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -241,7 +256,8 @@ class IntTestHelper:
         for val in value:
             datapoint.string_array.values.append(val)
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.STRING_ARRAY  # type: ignore
+            name,
+            DataType.STRING_ARRAY,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -249,7 +265,8 @@ class IntTestHelper:
         datapoint = Datapoint()
         datapoint.uint32_value = value
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.UINT32  # type: ignore
+            name,
+            DataType.UINT32,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -258,7 +275,8 @@ class IntTestHelper:
         for val in value:
             datapoint.uint32_array.values.append(val)
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.UINT32_ARRAY  # type: ignore
+            name,
+            DataType.UINT32_ARRAY,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -266,7 +284,8 @@ class IntTestHelper:
         datapoint = Datapoint()
         datapoint.uint32_value = value
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.UINT32  # type: ignore
+            name,
+            DataType.UINT32,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -275,7 +294,8 @@ class IntTestHelper:
         for val in value:
             datapoint.uint32_array.values.append(val)
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.UINT32_ARRAY  # type: ignore
+            name,
+            DataType.UINT32_ARRAY,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -283,7 +303,8 @@ class IntTestHelper:
         datapoint = Datapoint()
         datapoint.uint32_value = value
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.UINT32  # type: ignore
+            name,
+            DataType.UINT32,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -292,7 +313,8 @@ class IntTestHelper:
         for val in value:
             datapoint.uint32_array.values.append(val)
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.UINT32_ARRAY  # type: ignore
+            name,
+            DataType.UINT32_ARRAY,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -300,7 +322,8 @@ class IntTestHelper:
         datapoint = Datapoint()
         datapoint.uint64_value = value
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.UINT64  # type: ignore
+            name,
+            DataType.UINT64,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})
 
@@ -309,6 +332,7 @@ class IntTestHelper:
         for val in value:
             datapoint.uint64_array.values.append(val)
         datapoint_id = await self.__get_or_create_datapoint_id_by_name(
-            name, DataType.UINT64_ARRAY  # type: ignore
+            name,
+            DataType.UINT64_ARRAY,  # type: ignore
         )
         return await self.__update_datapoints({datapoint_id: datapoint})

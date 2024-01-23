@@ -12,6 +12,7 @@
 # under the License.
 #
 # SPDX-License-Identifier: Apache-2.0
+set -e
 
 echo "#######################################################"
 echo "### Running MQTT Broker                             ###"
@@ -30,4 +31,4 @@ then
     docker container stop $RUNNING_CONTAINER
 fi
 
-docker run -p 1883:1883 -p 9001:9001 $MOSQUITTO_IMAGE:$MOSQUITTO_TAG mosquitto -c /mosquitto-no-auth.conf
+docker run --rm --init --name mqtt-broker -p 1883:1883 -p 9001:9001 --network host $MOSQUITTO_IMAGE:$MOSQUITTO_TAG mosquitto -c /mosquitto-no-auth.conf

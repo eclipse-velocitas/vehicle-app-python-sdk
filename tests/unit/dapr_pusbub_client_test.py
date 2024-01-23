@@ -14,9 +14,6 @@
 
 """ Tests for methods in PubSubClient """
 import os
-
-os.environ["SDV_MIDDLEWARE_TYPE"] = "dapr"
-
 import sys
 from unittest import mock
 

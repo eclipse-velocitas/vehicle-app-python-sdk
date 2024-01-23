@@ -16,9 +16,6 @@
 
 
 import os
-
-os.environ["SDV_MIDDLEWARE_TYPE"] = "dapr"
-
 from unittest import mock
 
 import pytest

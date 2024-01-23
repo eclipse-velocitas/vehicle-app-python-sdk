@@ -52,13 +52,7 @@ extra_requirements = {
         # Development Tools Packages
         ##########################################
         "pre-commit",
-        "pydocstyle",
-        "black",
-        "isort",
         "mypy",
-        "bandit",
-        "flake8",
-        "flake8-bugbear",
         "pip-tools",
     ]
 }

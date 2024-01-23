@@ -96,9 +96,7 @@ async def test_for_update_int8array_datapoint():
 @pytest.mark.asyncio
 async def test_for_update_int16_datapoint():
     client = get_inttesthelper_instance()
-    response = await client.set_int16_datapoint(
-        "Vehicle.ThisIsAnInteger16", 2**31 - 1
-    )
+    response = await client.set_int16_datapoint("Vehicle.ThisIsAnInteger16", 2**31 - 1)
     assert len(response.errors) == 0
 
 
@@ -114,9 +112,7 @@ async def test_for_update_int16array_datapoint():
 @pytest.mark.asyncio
 async def test_for_update_int32_datapoint():
     client = get_inttesthelper_instance()
-    response = await client.set_int32_datapoint(
-        "Vehicle.ThisIsAnInteger32", 2**31 - 1
-    )
+    response = await client.set_int32_datapoint("Vehicle.ThisIsAnInteger32", 2**31 - 1)
     assert len(response.errors) == 0
 
 
@@ -132,9 +128,7 @@ async def test_for_update_int32array_datapoint():
 @pytest.mark.asyncio
 async def test_for_update_int64_datapoint():
     client = get_inttesthelper_instance()
-    response = await client.set_int64_datapoint(
-        "Vehicle.ThisIsAnInteger64", 2**63 - 1
-    )
+    response = await client.set_int64_datapoint("Vehicle.ThisIsAnInteger64", 2**63 - 1)
     assert len(response.errors) == 0
 
 

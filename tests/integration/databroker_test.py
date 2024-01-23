@@ -12,6 +12,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+# ruff: noqa: E402
+
 """ Tests for methods in VehicleDataBrokerClient """
 
 import os
@@ -210,9 +212,11 @@ async def test_for_fluent_where_join():
     await change_datapoint(vehicle.Speed.get_path(), 0.0)
     await change_datapoint(vehicle.ThisIsAFloat.get_path(), 50.0)
     try:
-        await vehicle.Speed.join(vehicle.ThisIsAFloat).where(
-            "Vehicle.Speed < 60.0"
-        ).subscribe(callback_fluent)
+        await (
+            vehicle.Speed.join(vehicle.ThisIsAFloat)
+            .where("Vehicle.Speed < 60.0")
+            .subscribe(callback_fluent)
+        )
         # await vehicle.start()
     except SubscribeException as e:
         assert e.datapoint.fields["Vehicle.Speed"].float_value == 50.0

@@ -12,12 +12,10 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+
 """ Tests for methods in VehicleClient """
 
 import os
-
-os.environ["SDV_MIDDLEWARE_TYPE"] = "dapr"
-
 import sys
 from typing import Mapping, Text
 from unittest import mock
@@ -25,6 +23,7 @@ from unittest import mock
 import pytest
 
 from velocitas_sdk import config
+from velocitas_sdk.config import Config
 from velocitas_sdk.proto.broker_pb2 import (
     GetDatapointsReply,
     GetMetadataReply,
@@ -39,7 +38,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 
 @pytest.fixture(autouse=True)
 def reset():
-    config._config = None
+    config._config = Config("dapr")
+    config.middleware = config._config.middleware
 
 
 @pytest.mark.asyncio

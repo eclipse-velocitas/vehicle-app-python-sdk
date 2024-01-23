@@ -12,16 +12,15 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# Disable name checks due to proto generated classes
-# pylint: disable=C0103,W0631
+# ruff: noqa: E402
 
 """ Tests for methods in VehicleDataBrokerClient """
 
 import os
 
-import pytest
-
 os.environ["SDV_MIDDLEWARE_TYPE"] = "dapr"
+
+import pytest
 
 from velocitas_sdk import config
 from velocitas_sdk.test.databroker_testhelper import Vehicle, vehicle
