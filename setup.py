@@ -19,6 +19,7 @@ requirements = [
     "protobuf>=3.19.4",
     "cloudevents",
     "dapr",
+    "aiohttp>=3.9.0",
     "paho-mqtt>=1.6.1",
     "opentelemetry-distro<=0.36b0",
     "opentelemetry-instrumentation-logging<=0.36b0",
