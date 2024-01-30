@@ -80,8 +80,8 @@ def compile_requirements(destination_repo: str) -> None:
     )
 
     subprocess.check_call(  # nosec B603, B607
-        ["python", "-m", "pip-compile", "compile"],
-        cwd=destination_repo,
+        ["python", "-m", "piptools", "compile"],
+        cwd=os.path.join(destination_repo),
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
     )
