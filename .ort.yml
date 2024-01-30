@@ -52,5 +52,5 @@ curations:
       concluded_license: "Unlicense"
   - id : "PIP::sdv-requirements:0.8.0"
     curations:
-      comment: "Bosch maintained component"
+      comment: "Bosch maintained components"
       concluded_license: "Apache-2.0"
