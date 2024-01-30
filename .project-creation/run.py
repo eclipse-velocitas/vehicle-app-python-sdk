@@ -116,6 +116,8 @@ def main():
 
     copy_project(example_app, args.destination)
 
+    print(args.destination)
+
     compile_requirements(args.destination)
 
 
