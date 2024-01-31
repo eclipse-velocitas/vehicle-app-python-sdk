@@ -21,11 +21,8 @@
 # Development Tools Packages
 ##########################################
 grpcio-tools==1.59.0
-grpc-stubs==1.53.0.2
+grpc-stubs==1.53.0.5
 mypy-protobuf==3.5.0
-pre-commit==3.3.3
-black==23.7.0
-mypy==1.5.1
-bandit==1.7.5
-flake8==6.1.0
+pre-commit==3.6.0
+mypy==1.8.0
 pip-tools==7.3.0

@@ -60,7 +60,7 @@ class VehicleDataBrokerClient:
     async def close(self):
         """Closes runtime gRPC channel."""
         if self._channel:
-            await self._channel.close()
+            await self._channel.close()  # type: ignore
 
     def __enter__(self) -> "VehicleDataBrokerClient":
         return self

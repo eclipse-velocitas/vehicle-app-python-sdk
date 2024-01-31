@@ -81,7 +81,7 @@ def compile_requirements(destination_repo: str) -> None:
 
     subprocess.check_call(  # nosec B603, B607
         ["python", "-m", "piptools", "compile"],
-        cwd=destination_repo,
+        cwd=os.path.join(destination_repo),
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
     )
@@ -113,6 +113,7 @@ def main():
         if args.example
         else os.path.join(get_repo_root(), ".project-creation", ".skeleton")
     )
+
     copy_project(example_app, args.destination)
 
     compile_requirements(args.destination)
