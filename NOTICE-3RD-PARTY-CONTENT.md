@@ -3,7 +3,7 @@
 ## Python
 | Dependency | Version | License |
 |:-----------|:-------:|--------:|
-|aiohttp|3.9.2|Apache 2.0|
+|aiohttp|3.9.3|Apache 2.0|
 |aiosignal|1.3.1|Apache 2.0|
 |APScheduler|3.10.4|MIT|
 |async-timeout|4.0.3|Apache 2.0|
@@ -13,7 +13,7 @@
 |cfgv|3.4.0|MIT|
 |chardet|5.2.0|LGPL|
 |click|8.1.7|New BSD|
-|cloudevents|1.9.0|Apache 2.0|
+|cloudevents|1.10.1|Apache 2.0|
 |colorama|0.4.6|BSD|
 |coverage|7.4.1|Apache 2.0|
 |dapr|1.10.0|Apache 2.0|
@@ -28,23 +28,24 @@
 |grpcio-tools|1.59.0|Apache 2.0|
 |identify|2.5.33|MIT|
 |idna|3.4|BSD|
+|importlib-metadata|6.11.0|Apache 2.0|
 |iniconfig|2.0.0|MIT|
 |multidict|6.0.4|Apache 2.0|
 |mypy|1.8.0|MIT|
 |mypy-extensions|1.0.0|MIT|
 |mypy-protobuf|3.4.0|Apache 2.0|
 |nodeenv|1.8.0|BSD|
-|opentelemetry-api|1.15.0|Apache 2.0|
-|opentelemetry-distro|0.36b0|Apache 2.0|
-|opentelemetry-instrumentation|0.36b0|Apache 2.0|
-|opentelemetry-instrumentation-logging|0.36b0|Apache 2.0|
-|opentelemetry-sdk|1.15.0|Apache 2.0|
-|opentelemetry-semantic-conventions|0.36b0|Apache 2.0|
+|opentelemetry-api|1.22.0|Apache 2.0|
+|opentelemetry-distro|0.43b0|Apache 2.0|
+|opentelemetry-instrumentation|0.43b0|Apache 2.0|
+|opentelemetry-instrumentation-logging|0.43b0|Apache 2.0|
+|opentelemetry-sdk|1.22.0|Apache 2.0|
+|opentelemetry-semantic-conventions|0.43b0|Apache 2.0|
 |packaging|23.1|Apache 2.0<br/>BSD|
 |paho-mqtt|1.6.1|OSI Approved|
-|pip|23.3.2|MIT|
+|pip|24.0|MIT|
 |pip-tools|7.3.0|BSD|
-|platformdirs|4.1.0|MIT|
+|platformdirs|4.2.0|MIT|
 |pluggy|1.4.0|MIT|
 |pre-commit|3.6.0|MIT|
 |protobuf|4.21.12|Google License|
@@ -54,7 +55,7 @@
 |pytest-asyncio|0.23.4|Apache 2.0|
 |pytest-cov|4.1.0|MIT|
 |python-dateutil|2.8.2|Apache 2.0<br/>BSD|
-|pytz|2023.4|MIT|
+|pytz|2024.1|MIT|
 |PyYAML|6.0.1|MIT|
 |setuptools|58.1.0|MIT|
 |six|1.16.0|MIT|
@@ -62,13 +63,14 @@
 |tox|4.11.4|MIT|
 |types-Deprecated|1.2.9.20240106|Apache 2.0|
 |types-mock|5.1.0.20240106|Apache 2.0|
-|types-protobuf|4.24.0.20240106|Apache 2.0|
+|types-protobuf|4.24.0.20240129|Apache 2.0|
 |typing-extensions|4.7.1|Python Software Foundation License|
 |tzlocal|5.2|MIT|
 |virtualenv|20.25.0|MIT|
 |wheel|0.42.0|MIT|
 |wrapt|1.15.0|BSD|
 |yarl|1.9.2|Apache 2.0|
+|zipp|3.17.0|MIT|
 ## Workflows
 | Dependency | Version | License |
 |:-----------|:-------:|--------:|
