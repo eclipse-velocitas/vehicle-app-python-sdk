@@ -20,7 +20,7 @@ requirements = [
     "cloudevents>=1.10.0",
     "dapr",
     "aiohttp==3.9.3",
-    "paho-mqtt>=1.6.1",
+    "paho-mqtt>=1.6.1,<2",
     "opentelemetry-distro>=0.43b0",
     "opentelemetry-instrumentation-logging>=0.43b0",
     "opentelemetry-sdk>=1.22.0",
