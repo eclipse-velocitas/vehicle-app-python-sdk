@@ -21,10 +21,10 @@ requirements = [
     "dapr",
     "aiohttp==3.9.3",
     "paho-mqtt>=1.6.1,<2",
-    "opentelemetry-distro>=0.43b0",
-    "opentelemetry-instrumentation-logging>=0.43b0",
-    "opentelemetry-sdk>=1.22.0",
-    "opentelemetry-api>=1.22.0",
+    "opentelemetry-distro<=0.36b0",
+    "opentelemetry-instrumentation-logging<=0.36b0",
+    "opentelemetry-sdk<=1.15.0",
+    "opentelemetry-api<=1.15.0",
 ]
 
 extra_requirements = {
