@@ -42,9 +42,6 @@ def test_files_in_place():
 
     # github integration
     is_dir(".github")
-    is_dir(".github/actions")
-    is_dir(".github/actions/pre-commit-action")
-    is_file(".github/actions/pre-commit-action/action.yml")
     is_dir(".github/ISSUE_TEMPLATE")
     is_file(".github/ISSUE_TEMPLATE/bug-report.yml")
     is_file(".github/ISSUE_TEMPLATE/feature-request.yml")

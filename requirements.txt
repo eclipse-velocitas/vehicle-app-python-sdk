@@ -68,8 +68,6 @@ identify==2.5.33
     # via pre-commit
 idna==3.4
     # via yarl
-importlib-metadata==6.11.0
-    # via opentelemetry-api
 iniconfig==2.0.0
     # via pytest
 multidict==6.0.4
@@ -84,26 +82,26 @@ mypy-protobuf==3.4.0
     # via velocitas_sdk (setup.py)
 nodeenv==1.8.0
     # via pre-commit
-opentelemetry-api==1.22.0
+opentelemetry-api==1.15.0
     # via
     #   opentelemetry-distro
     #   opentelemetry-instrumentation
     #   opentelemetry-instrumentation-logging
     #   opentelemetry-sdk
     #   velocitas_sdk (setup.py)
-opentelemetry-distro==0.43b0
+opentelemetry-distro==0.36b0
     # via velocitas_sdk (setup.py)
-opentelemetry-instrumentation==0.43b0
+opentelemetry-instrumentation==0.36b0
     # via
     #   opentelemetry-distro
     #   opentelemetry-instrumentation-logging
-opentelemetry-instrumentation-logging==0.43b0
+opentelemetry-instrumentation-logging==0.36b0
     # via velocitas_sdk (setup.py)
-opentelemetry-sdk==1.22.0
+opentelemetry-sdk==1.15.0
     # via
     #   opentelemetry-distro
     #   velocitas_sdk (setup.py)
-opentelemetry-semantic-conventions==0.43b0
+opentelemetry-semantic-conventions==0.36b0
     # via opentelemetry-sdk
 packaging==23.1
     # via
@@ -192,8 +190,6 @@ wrapt==1.15.0
     #   opentelemetry-instrumentation
 yarl==1.9.2
     # via aiohttp
-zipp==3.17.0
-    # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip

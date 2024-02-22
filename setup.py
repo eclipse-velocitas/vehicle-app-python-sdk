@@ -20,11 +20,11 @@ requirements = [
     "cloudevents>=1.10.0",
     "dapr",
     "aiohttp==3.9.3",
-    "paho-mqtt>=1.6.1",
-    "opentelemetry-distro>=0.43b0",
-    "opentelemetry-instrumentation-logging>=0.43b0",
-    "opentelemetry-sdk>=1.22.0",
-    "opentelemetry-api>=1.22.0",
+    "paho-mqtt>=1.6.1,<2",
+    "opentelemetry-distro<=0.36b0",
+    "opentelemetry-instrumentation-logging<=0.36b0",
+    "opentelemetry-sdk<=1.15.0",
+    "opentelemetry-api<=1.15.0",
 ]
 
 extra_requirements = {
@@ -63,7 +63,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="velocitas_sdk",
-    version="0.13.0",
+    version="0.13.1",
     description="A Python SDK for Vehicle app",
     long_description=long_description,
     long_description_content_type="text/markdown",
