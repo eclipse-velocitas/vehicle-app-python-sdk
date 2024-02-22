@@ -28,19 +28,18 @@
 |grpcio-tools|1.59.0|Apache 2.0|
 |identify|2.5.33|MIT|
 |idna|3.4|BSD|
-|importlib-metadata|6.11.0|Apache 2.0|
 |iniconfig|2.0.0|MIT|
 |multidict|6.0.4|Apache 2.0|
 |mypy|1.8.0|MIT|
 |mypy-extensions|1.0.0|MIT|
 |mypy-protobuf|3.4.0|Apache 2.0|
 |nodeenv|1.8.0|BSD|
-|opentelemetry-api|1.22.0|Apache 2.0|
-|opentelemetry-distro|0.43b0|Apache 2.0|
-|opentelemetry-instrumentation|0.43b0|Apache 2.0|
-|opentelemetry-instrumentation-logging|0.43b0|Apache 2.0|
-|opentelemetry-sdk|1.22.0|Apache 2.0|
-|opentelemetry-semantic-conventions|0.43b0|Apache 2.0|
+|opentelemetry-api|1.15.0|Apache 2.0|
+|opentelemetry-distro|0.36b0|Apache 2.0|
+|opentelemetry-instrumentation|0.36b0|Apache 2.0|
+|opentelemetry-instrumentation-logging|0.36b0|Apache 2.0|
+|opentelemetry-sdk|1.15.0|Apache 2.0|
+|opentelemetry-semantic-conventions|0.36b0|Apache 2.0|
 |packaging|23.1|Apache 2.0<br/>BSD|
 |paho-mqtt|1.6.1|OSI Approved|
 |pip|24.0|MIT|
@@ -70,7 +69,6 @@
 |wheel|0.42.0|MIT|
 |wrapt|1.15.0|BSD|
 |yarl|1.9.2|Apache 2.0|
-|zipp|3.17.0|MIT|
 ## Workflows
 | Dependency | Version | License |
 |:-----------|:-------:|--------:|
