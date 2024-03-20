@@ -17,7 +17,7 @@ It is possible to import and run this example from your app development reposito
 
    Use the VS Code tasks `Local Runtime - Up` and `Local Runtime - Run VehicleApp` to start the necessary runtime components and this app itself.
 
-   Alternatively, the app can also be deployed in a k3d runtime - use task `K3D Runtime - Deploy VehicleApp`.
+   Alternatively, the app can also be deployed in a [Eclipse Kanto](https://eclipse.dev/kanto) runtime - use task `Kanto Runtime - Deploy VehicleApp`.
 
 
 ## Executing with "native" middleware (without Dapr runtime)
