@@ -47,7 +47,7 @@ jobs:
         with:
           repository: eclipse-velocitas/cli
           path: cli
-          ref: v0.6.3
+          ref: v0.7.0
 
       - name: Checkout SDK repo
         uses: actions/checkout@v4

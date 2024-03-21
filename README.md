@@ -11,7 +11,6 @@ This includes the following packages:
 * [velocitas_sdk.model](./velocitas_sdk/model.py) - Vehicle Model ontology
 * [velocitas_sdk.config](./velocitas_sdk/config.py) - Vehicle App configuration
 * [velocitas_sdk.base](./velocitas_sdk/base.py) - Base classes for middleware abstraction
-* [velocitas_sdk.dapr](./velocitas_sdk/dapr) - Dapr middleware integration
 * [velocitas_sdk.native](./velocitas_sdk/native) - Native middleware definition
 * [velocitas_sdk.vdb](./velocitas_sdk/vdb) - Vehicle Data Broker integration
 * [velocitas_sdk.test](./velocitas_sdk/test) - Integration test support
@@ -58,7 +57,7 @@ All examples (except the Seat Adjuster) can be run via
 cd examples
 ./run-app.sh -a <example-folder-name>
 ```
-By default the examples are started using the Dapr middleware. If specifying the `-n` flag they are started with native middleware, instead.
+By default the examples are started using the native middleware. Dapr middleware support was recently removed.
 
 ## Contribution
 - [GitHub Issues](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/issues)

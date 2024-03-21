@@ -30,16 +30,6 @@
 			"hide": true
 		},
 		{
-			"label": "ensure-dapr",
-			"type": "shell",
-			"command": "./.vscode/scripts/ensure-dapr.sh ${input:middleware} --task",
-			"group": "none",
-			"presentation": {
-				"close": true
-			},
-			"problemMatcher": []
-		},
-		{
 			"label": "run-mosquitto",
 			"type": "shell",
 			"command": "./.vscode/scripts/run-mosquitto.sh --task",
@@ -239,7 +229,6 @@
 		{
 			"label": "Start VehicleApp runtime",
 			"dependsOn": [
-				"ensure-dapr",
 				"run-mosquitto",
 				"run-vehicledatabroker",
 				"run-seatservice",

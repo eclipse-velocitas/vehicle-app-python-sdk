@@ -27,10 +27,10 @@
 		},
 		{
 			"label": "Local Runtime - Run VehicleApp",
-			"detail": "Starts the VehicleApp under development (including Dapr sidecar if middleware type is Dapr)",
+			"detail": "Starts the VehicleApp under development",
 			"type": "shell",
 			"command": [
-				"velocitas exec runtime-local run-vehicle-app --dapr-app-id vehicleapp --dapr-app-port 50008 python3 ${workspaceFolder}/app/src/main.py"
+				"velocitas exec runtime-local run-vehicle-app python3 ${workspaceFolder}/app/src/main.py"
 			],
 			"presentation": {
 				"panel": "dedicated",

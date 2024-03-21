@@ -38,11 +38,9 @@
 			// Add the IDs of extensions you want installed when the container is created.
 			"extensions": [
 				"ms-python.python",
-				"ms-azuretools.vscode-dapr",
 				"ms-azuretools.vscode-docker",
 				"rpdswtk.vsmqtt",
 				"dotjoshjohnson.xml",
-				"ms-kubernetes-tools.vscode-kubernetes-tools",
 				"matangover.mypy",
 				"anweber.vscode-httpyac",
 				"ms-python.mypy-type-checker",

@@ -16,7 +16,6 @@
 |cloudevents|1.10.1|Apache 2.0|
 |colorama|0.4.6|BSD|
 |coverage|7.4.1|Apache 2.0|
-|dapr|1.10.0|Apache 2.0|
 |Deprecated|1.2.14|MIT|
 |deprecation|2.1.0|Apache 2.0|
 |distlib|0.3.8|Python Software Foundation License|

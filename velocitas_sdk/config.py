@@ -15,7 +15,6 @@
 import os
 
 from velocitas_sdk.base import Middleware, MiddlewareType
-from velocitas_sdk.dapr.middleware import DaprMiddleware
 from velocitas_sdk.native.middleware import NativeMiddleware
 
 
@@ -39,13 +38,11 @@ class Config:
         _middleware: Middleware
         if middleware_type == MiddlewareType.NATIVE.value:
             _middleware = NativeMiddleware()
-        if middleware_type == MiddlewareType.DAPR.value:
-            _middleware = DaprMiddleware()
 
         return _middleware
 
 
-__middleware_type = os.getenv("SDV_MIDDLEWARE_TYPE", MiddlewareType.DAPR.value)
+__middleware_type = os.getenv("SDV_MIDDLEWARE_TYPE", MiddlewareType.NATIVE.value)
 _config = Config(__middleware_type)
 
 middleware = _config.middleware

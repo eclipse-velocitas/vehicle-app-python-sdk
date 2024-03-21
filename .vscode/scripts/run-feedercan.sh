@@ -49,26 +49,7 @@ else
   export CANDUMP_FILE="/data/candump.log"
 fi
 
-if [ $1 == "DAPR" ]; then
-  echo "Run with Dapr ...!"
-  dapr run \
-    --app-id feedercan \
-    --app-protocol grpc \
-    --resources-path $ROOT_DIRECTORY/.dapr/components \
-    --config $ROOT_DIRECTORY/.dapr/config.yaml \
-  -- docker run \
-    -v ${CONFIG_DIR}:/data \
-    -e VEHICLEDATABROKER_DAPR_APP_ID \
-    -e DAPR_GRPC_PORT \
-    -e DAPR_HTTP_PORT \
-    -e LOG_LEVEL \
-    -e USECASE \
-    -e CANDUMP_FILE \
-    -e DBC_FILE \
-    -e MAPPING_FILE \
-    --network host \
-    $FEEDERCAN_IMAGE:$FEEDERCAN_TAG
-elif [ $1 == "NATIVE" ]; then
+if [ $1 == "NATIVE" ]; then
   echo "Run native ...!"
   docker run \
     -v ${CONFIG_DIR}:/data \
