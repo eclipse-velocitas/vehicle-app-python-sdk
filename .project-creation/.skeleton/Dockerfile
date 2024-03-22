@@ -20,12 +20,8 @@ ARG TARGETARCH
 
 RUN apt-get update && apt-get install -y python3-dev
 
-COPY ./.velocitas.json /workspace/.velocitas_org.json
+COPY ./.velocitas.json /workspace/.velocitas.json
 COPY ./app /workspace/app
-
-# FIXME: For build tooling we only need "devenv-devcontainer-setup", we should be able to
-# filter this without manual jq intervention...
-RUN cat ./workspace/.velocitas_org.json | jq 'del(.packages[] | select(.repo|test(".*devenv-devcontainer-setup.*")|not))' | jq 'del(.components[])'> ./workspace/.velocitas.json
 
 # Remove this installation for Arm64 once staticx has a prebuilt wheel for Arm64
 RUN /bin/bash -c 'set -ex && \
