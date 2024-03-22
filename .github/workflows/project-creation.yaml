@@ -60,6 +60,13 @@ jobs:
           cd cli
           npm i && npm run build && npx oclif manifest && npm i -g .
 
+      - name: Checkout vehicle-app-template
+        uses: actions/checkout@v4
+        with:
+          repository: eclipse-velocitas/vehicle-app-template
+          path: vehicle-app-template
+          ref: remove_k3d_and_dapr
+
       - name: Create project
         shell: bash
         run: |
@@ -76,7 +83,7 @@ jobs:
           velocitas
 
           # copy "full" package-index.json from CLI repo
-          cp ../cli/testbench/test-create/vehicle-app-template/package-index.json ./package-index.json
+          cp ../vehicle-app-template/package-index.json ./package-index.json
           CREATE_ARGS="-n MyApp"
           if [ "${{ matrix.example }}" != "no-example" ]; then
             CREATE_ARGS="-e ${{ matrix.example }}"
