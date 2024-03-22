@@ -25,7 +25,7 @@ COPY ./app /workspace/app
 
 # FIXME: For build tooling we only need "devenv-devcontainer-setup", we should be able to
 # filter this without manual jq intervention...
-RUN cat ./workspace/.velocitas_org.json | jq 'del(.packages[] | select(.repo|test(".*devenv-devcontainer-setup.*")|not))' > ./workspace/.velocitas.json
+RUN cat ./workspace/.velocitas_org.json | jq 'del(.packages[] | select(.repo|test(".*devenv-devcontainer-setup.*")|not))' | jq 'del(.components[])'> ./workspace/.velocitas.json
 
 # Remove this installation for Arm64 once staticx has a prebuilt wheel for Arm64
 RUN /bin/bash -c 'set -ex && \
