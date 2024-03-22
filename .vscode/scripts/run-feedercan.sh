@@ -34,7 +34,7 @@ export DATABROKER_NATIVE_PORT=55555
 export LOG_LEVEL=info,databroker=info,dbcfeeder.broker_client=debug,dbcfeeder=debug
 export USECASE="databroker"
 
-if [ $2 == "DOGMODE" ]; then
+if [ $1 == "DOGMODE" ]; then
   echo "Use DogMode feeder config ...!"
   CONFIG_DIR="$ROOT_DIRECTORY/.vscode/scripts/feeder_config/dogmode"
   export DBC_FILE="/data/DogMode.dbc"
@@ -48,19 +48,14 @@ else
   export CANDUMP_FILE="/data/candump.log"
 fi
 
-if [ $1 == "NATIVE" ]; then
-  echo "Run native ...!"
-  docker run \
-    -v ${CONFIG_DIR}:/data \
-    -e VDB_ADDRESS="127.0.0.1:$DATABROKER_NATIVE_PORT" \
-    -e LOG_LEVEL \
-    -e USECASE \
-    -e CANDUMP_FILE \
-    -e DBC_FILE \
-    -e MAPPING_FILE \
-    --network host \
-    $FEEDERCAN_IMAGE:$FEEDERCAN_TAG
-else
-  echo "Error: Unsupported middleware type ($1)!"
-  exit 1
-fi
+echo "Run native ...!"
+docker run \
+  -v ${CONFIG_DIR}:/data \
+  -e VDB_ADDRESS="127.0.0.1:$DATABROKER_NATIVE_PORT" \
+  -e LOG_LEVEL \
+  -e USECASE \
+  -e CANDUMP_FILE \
+  -e DBC_FILE \
+  -e MAPPING_FILE \
+  --network host \
+  $FEEDERCAN_IMAGE:$FEEDERCAN_TAG

@@ -33,14 +33,9 @@ fi
 export VEHICLEDATABROKER_NATIVE_PORT=55555
 export SERVICE_PORT=50052
 
-if [ $1 == "NATIVE" ]; then
-  echo "Run native ...!"
-  docker run \
-    -e VDB_ADDRESS="127.0.0.1:$VEHICLEDATABROKER_NATIVE_PORT" \
-    -e HVAC_ADDR="0.0.0.0:${SERVICE_PORT}" \
-    --network host \
-    $HVACSERVICE_IMAGE:$HVACSERVICE_TAG
-else
-  echo "Error: Unsupported middleware type ($1)!"
-  exit 1
-fi
+echo "Run native ...!"
+docker run \
+  -e VDB_ADDRESS="127.0.0.1:$VEHICLEDATABROKER_NATIVE_PORT" \
+  -e HVAC_ADDR="0.0.0.0:${SERVICE_PORT}" \
+  --network host \
+  $HVACSERVICE_IMAGE:$HVACSERVICE_TAG

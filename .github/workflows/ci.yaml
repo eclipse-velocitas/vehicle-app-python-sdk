@@ -62,7 +62,7 @@ jobs:
       - name: Run the databroker binary
         run: |
           ./.vscode/scripts/run-mosquitto.sh --task &
-          ./.vscode/scripts/run-vehicledatabroker.sh NATIVE --task &
+          ./.vscode/scripts/run-vehicledatabroker.sh --task &
           sleep 10s
 
       - name: Run unit and integration tests

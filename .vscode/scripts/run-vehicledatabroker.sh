@@ -34,16 +34,11 @@ VSPEC_FILE_PATH=$ROOT_DIRECTORY/.vscode/scripts/broker_config/vss_rel_3.0.json
 KUKSA_DATA_BROKER_PORT='55555'
 #export RUST_LOG="info,databroker=debug,vehicle_data_broker=debug"
 
-if [ $1 == "NATIVE" ]; then
-  echo "Run native ...!"
-  docker run \
-    -v $VSPEC_FILE_PATH:$VSPEC_FILE_PATH \
-    -e KUKSA_DATA_BROKER_METADATA_FILE=$VSPEC_FILE_PATH \
-    -e KUKSA_DATA_BROKER_PORT \
-    -e RUST_LOG \
-    --network host \
-    $DATABROKER_IMAGE:$DATABROKER_TAG
-else
-  echo "Error: Unsupported middleware type ($1)!"
-  exit 1
-fi
+echo "Run native ...!"
+docker run \
+  -v $VSPEC_FILE_PATH:$VSPEC_FILE_PATH \
+  -e KUKSA_DATA_BROKER_METADATA_FILE=$VSPEC_FILE_PATH \
+  -e KUKSA_DATA_BROKER_PORT \
+  -e RUST_LOG \
+  --network host \
+  $DATABROKER_IMAGE:$DATABROKER_TAG

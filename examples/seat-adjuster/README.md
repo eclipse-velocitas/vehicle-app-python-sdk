@@ -20,9 +20,9 @@ It is possible to import and run this example from your app development reposito
    Alternatively, the app can also be deployed in a [Eclipse Kanto](https://eclipse.dev/kanto) runtime - use task `Kanto Runtime - Deploy VehicleApp`.
 
 
-## Executing with "native" middleware (without Dapr runtime)
+## Executing with "native" middleware
 
-If you like to run this example without using Dapr as middleware, you may need to provide some environment variables to the seat-adjuster process, which define the middleware type being _native_ and where to find the required runtime components:
+If you like to run this example using services located at other addresses than the pre-configured default, you need to provide the following environment variables:
 
 | Variable name                   | Default value              | Description
 |---------------------------------|----------------------------|-------------

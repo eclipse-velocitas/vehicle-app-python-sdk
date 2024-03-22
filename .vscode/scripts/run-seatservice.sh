@@ -34,15 +34,10 @@ export VEHICLEDATABROKER_NATIVE_PORT=55555
 export SERVICE_PORT=50051
 export CAN=cansim
 
-if [ $1 == "NATIVE" ]; then
-  echo "Run native ...!"
-  docker run \
-    -e VDB_ADDRESS="127.0.0.1:$VEHICLEDATABROKER_NATIVE_PORT" \
-    -e SERVICE_PORT \
-    -e CAN \
-    --network host \
-    $SEATSERVICE_IMAGE:$SEATSERVICE_TAG
-else
-  echo "Error: Unsupported middleware type ($1)!"
-  exit 1
-fi
+echo "Run native ...!"
+docker run \
+  -e VDB_ADDRESS="127.0.0.1:$VEHICLEDATABROKER_NATIVE_PORT" \
+  -e SERVICE_PORT \
+  -e CAN \
+  --network host \
+  $SEATSERVICE_IMAGE:$SEATSERVICE_TAG

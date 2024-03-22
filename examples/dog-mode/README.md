@@ -23,18 +23,7 @@ In order to launch the Heating, Ventilation, and Air Conditioning (HVAC) Service
 
 * Run the dog mode sample app
 
-Please use the script below to launch the dog mode sample app.
-
-```bash
-    dapr run \
-    --app-id dogmode \
-    --app-protocol grpc \
-    --app-port 50008 \
-    --config ../.dapr/config.yaml  \
-    --resources-path ../.dapr/components python3 dog-mode/src/main.py
-```
-
-Alternative, run the Visual Studio Code task `"DogMode (Dapr run)"` or use the script [run-app.sh](./../run-app.sh) as below:
+Use the Visual Studio Code task `"Run DogMode example"` or use the script [run-app.sh](./../run-app.sh) as below:
 ```bash
 ./run-app.sh -a dog-mode
 ```

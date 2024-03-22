@@ -52,7 +52,6 @@
 |pytest|7.4.4|MIT|
 |pytest-asyncio|0.23.4|Apache 2.0|
 |pytest-cov|4.1.0|MIT|
-|python-dateutil|2.8.2|Apache 2.0<br/>BSD|
 |pytz|2024.1|MIT|
 |PyYAML|6.0.1|MIT|
 |setuptools|58.1.0|MIT|
