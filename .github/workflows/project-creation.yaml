@@ -81,7 +81,7 @@ jobs:
           if [ "${{ matrix.example }}" != "no-example" ]; then
             CREATE_ARGS="-e ${{ matrix.example }}"
           fi
-          velocitas create -l python $CREATE_ARGS
+          velocitas create -c vapp-core-python $CREATE_ARGS
 
       - name: Install dependencies
         shell: bash
