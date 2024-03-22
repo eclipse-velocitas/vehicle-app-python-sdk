@@ -44,7 +44,7 @@ RUN pip3 install --no-cache-dir pyinstaller==5.9.0 \
 
 WORKDIR /workspace
 
-RUN velocitas init
+RUN velocitas init -v
 
 WORKDIR /workspace/app
 
