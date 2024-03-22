@@ -65,7 +65,7 @@ jobs:
         with:
           repository: eclipse-velocitas/vehicle-app-template
           path: vehicle-app-template
-          ref: remove_k3d_and_dapr
+          ref: main
 
       - name: Create project
         shell: bash
