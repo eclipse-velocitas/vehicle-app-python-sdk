@@ -30,33 +30,12 @@ then
     docker container stop $RUNNING_CONTAINER
 fi
 
-export VEHICLEDATABROKER_DAPR_APP_ID=vehicledatabroker
 export VEHICLEDATABROKER_NATIVE_PORT=55555
 export SERVICE_PORT=50052
 
-if [ $1 == "DAPR" ]; then
-  echo "Run with Dapr ...!"
-  dapr run \
-    --app-id hvacservice \
-    --app-protocol grpc \
-    --app-port $SERVICE_PORT \
-    --resources-path $ROOT_DIRECTORY/.dapr/components \
-    --config $ROOT_DIRECTORY/.dapr/config.yaml \
-  -- docker run \
-    -e VEHICLEDATABROKER_DAPR_APP_ID \
-    -e DAPR_GRPC_PORT \
-    -e DAPR_HTTP_PORT \
-    -e HVAC_ADDR="0.0.0.0:${SERVICE_PORT}" \
-    --network host \
-    $HVACSERVICE_IMAGE:$HVACSERVICE_TAG
-elif [ $1 == "NATIVE" ]; then
-  echo "Run native ...!"
-  docker run \
-    -e DAPR_GRPC_PORT=$VEHICLEDATABROKER_NATIVE_PORT \
-    -e HVAC_ADDR="0.0.0.0:${SERVICE_PORT}" \
-    --network host \
-    $HVACSERVICE_IMAGE:$HVACSERVICE_TAG
-else
-  echo "Error: Unsupported middleware type ($1)!"
-  exit 1
-fi
+echo "Run native ...!"
+docker run \
+  -e VDB_ADDRESS="127.0.0.1:$VEHICLEDATABROKER_NATIVE_PORT" \
+  -e HVAC_ADDR="0.0.0.0:${SERVICE_PORT}" \
+  --network host \
+  $HVACSERVICE_IMAGE:$HVACSERVICE_TAG

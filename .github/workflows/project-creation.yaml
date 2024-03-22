@@ -47,7 +47,7 @@ jobs:
         with:
           repository: eclipse-velocitas/cli
           path: cli
-          ref: v0.6.3
+          ref: v0.7.0
 
       - name: Checkout SDK repo
         uses: actions/checkout@v4
@@ -59,6 +59,13 @@ jobs:
         run: |
           cd cli
           npm i && npm run build && npx oclif manifest && npm i -g .
+
+      - name: Checkout vehicle-app-template
+        uses: actions/checkout@v4
+        with:
+          repository: eclipse-velocitas/vehicle-app-template
+          path: vehicle-app-template
+          ref: main
 
       - name: Create project
         shell: bash
@@ -76,12 +83,12 @@ jobs:
           velocitas
 
           # copy "full" package-index.json from CLI repo
-          cp ../cli/testbench/test-create/vehicle-app-template/package-index.json ./package-index.json
+          cp ../vehicle-app-template/package-index.json ./package-index.json
           CREATE_ARGS="-n MyApp"
           if [ "${{ matrix.example }}" != "no-example" ]; then
             CREATE_ARGS="-e ${{ matrix.example }}"
           fi
-          velocitas create -l python $CREATE_ARGS
+          velocitas create -c vapp-core-python $CREATE_ARGS
 
       - name: Install dependencies
         shell: bash
@@ -108,7 +115,6 @@ jobs:
               pre-commit run --all-files && \
               pip3 install -r .devcontainer/tests/automated_tests/requirements.txt && \
               cat app/AppManifest.json && \
-              velocitas exec grpc-interface-support generate-sdk && \
               pytest -sx .devcontainer/tests/automated_tests
 
       - name: Upload logs

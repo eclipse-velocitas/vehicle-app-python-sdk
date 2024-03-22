@@ -18,7 +18,6 @@ requirements = [
     "grpcio>=1.59.0",
     "protobuf>=3.19.4",
     "cloudevents>=1.10.0",
-    "dapr",
     "aiohttp==3.9.3",
     "paho-mqtt>=1.6.1,<2",
     "opentelemetry-distro<=0.36b0",
@@ -34,7 +33,6 @@ extra_requirements = {
         ##########################################
         "protobuf",
         "grpcio>=1.59.0",
-        "dapr",
         "grpcio-tools",
         "grpc-stubs",
         "mypy-protobuf",
@@ -63,7 +61,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="velocitas_sdk",
-    version="0.13.1",
+    version="0.14.0",
     description="A Python SDK for Vehicle app",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -71,7 +69,6 @@ setup(
     packages=[
         "velocitas_sdk",
         "velocitas_sdk.util",
-        "velocitas_sdk.dapr",
         "velocitas_sdk.native",
         "velocitas_sdk.proto",
         "velocitas_sdk.vdb",

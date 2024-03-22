@@ -13,7 +13,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 
-""" Tests for methods in VehicleClient """
+"""Tests for methods in VehicleClient"""
 
 import os
 import sys
@@ -38,7 +38,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 
 @pytest.fixture(autouse=True)
 def reset():
-    config._config = Config("dapr")
+    config._config = Config("native")
     config.middleware = config._config.middleware
 
 

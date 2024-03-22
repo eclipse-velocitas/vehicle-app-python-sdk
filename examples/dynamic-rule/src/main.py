@@ -78,12 +78,8 @@ async def main():
     """Main function"""
     logging.basicConfig()
     args = parser.parse_args()
-    if not args.enable_dapr:
-        logger.debug("Init native middleware")
-        config._config = Config(MiddlewareType.NATIVE)
-    else:
-        logger.debug("Init dapr middleware")
-        config._config = Config(MiddlewareType.DAPR)
+    logger.debug("Init native middleware")
+    config._config = Config(MiddlewareType.NATIVE)
 
     print("Starting speed limit warner...", flush=True)
 
@@ -93,7 +89,6 @@ async def main():
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-l", "--limit", help="Speed limit", default=130.0)
-parser.add_argument("-e", "--enable-dapr", help="Enable dapr", action="store_true")
 
 LOOP = asyncio.get_event_loop()
 LOOP.add_signal_handler(signal.SIGTERM, LOOP.stop)

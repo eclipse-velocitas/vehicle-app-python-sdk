@@ -13,20 +13,20 @@ It is possible to import and run this example from your app development reposito
 
    :warning: Make sure you have commited or stash all your possible changes within the `app` folder, because the files of that folder will be overwritten by the files of this example.
 
-2. Running this example with Dapr middleware
+2. Running this example with default middleware
 
    Use the VS Code tasks `Local Runtime - Up` and `Local Runtime - Run VehicleApp` to start the necessary runtime components and this app itself.
 
-   Alternatively, the app can also be deployed in a k3d runtime - use task `K3D Runtime - Deploy VehicleApp`.
+   Alternatively, the app can also be deployed in a [Eclipse Kanto](https://eclipse.dev/kanto) runtime - use task `Kanto Runtime - Deploy VehicleApp`.
 
 
-## Executing with "native" middleware (without Dapr runtime)
+## Executing with "native" middleware
 
-If you like to run this example without using Dapr as middleware, you may need to provide some environment variables to the seat-adjuster process, which define the middleware type being _native_ and where to find the required runtime components:
+If you like to run this example using services located at other addresses than the pre-configured default, you need to provide the following environment variables:
 
 | Variable name                   | Default value              | Description
 |---------------------------------|----------------------------|-------------
-| `SDV_MIDDLEWARE_TYPE`           | `"dapr"`                   | Defines the middleware type -> set to `"native"`
+| `SDV_MIDDLEWARE_TYPE`           | `"native"`                 | Defines the middleware type
 | `SDV_MQTT_ADDRESS`              | `"mqtt://localhost:1883"`  | Address (and port) of the MQTT broker
 | `SDV_VEHICLEDATABROKER_ADDRESS` | `"grpc://localhost:55555"` | Address (and port) of the KUKSA Data Broker
 

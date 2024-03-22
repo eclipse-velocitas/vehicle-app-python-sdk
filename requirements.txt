@@ -5,9 +5,7 @@
 #    pip-compile --extra=dev
 #
 aiohttp==3.9.3
-    # via
-    #   dapr
-    #   velocitas_sdk (setup.py)
+    # via velocitas_sdk (setup.py)
 aiosignal==1.3.1
     # via aiohttp
 apscheduler==3.10.4
@@ -34,8 +32,6 @@ coverage[toml]==7.4.1
     # via
     #   coverage
     #   pytest-cov
-dapr==1.10.0
-    # via velocitas_sdk (setup.py)
 deprecated==1.2.14
     # via
     #   opentelemetry-api
@@ -58,7 +54,6 @@ grpc-stubs==1.53.0.5
     # via velocitas_sdk (setup.py)
 grpcio==1.59.0
     # via
-    #   dapr
     #   grpc-stubs
     #   grpcio-tools
     #   velocitas_sdk (setup.py)
@@ -126,7 +121,6 @@ pre-commit==3.6.0
     # via velocitas_sdk (setup.py)
 protobuf==4.21.12
     # via
-    #   dapr
     #   grpcio-tools
     #   mypy-protobuf
     #   velocitas_sdk (setup.py)
@@ -143,8 +137,6 @@ pytest-asyncio==0.23.4
     # via velocitas_sdk (setup.py)
 pytest-cov==4.1.0
     # via velocitas_sdk (setup.py)
-python-dateutil==2.8.2
-    # via dapr
 pytz==2024.1
     # via apscheduler
 pyyaml==6.0.1
@@ -152,7 +144,6 @@ pyyaml==6.0.1
 six==1.16.0
     # via
     #   apscheduler
-    #   python-dateutil
 tomli==2.0.1
     # via
     #   build
@@ -173,7 +164,6 @@ types-protobuf==4.24.0.20240129
     # via mypy-protobuf
 typing-extensions==4.7.1
     # via
-    #   dapr
     #   mypy
     #   opentelemetry-sdk
 tzlocal==5.2

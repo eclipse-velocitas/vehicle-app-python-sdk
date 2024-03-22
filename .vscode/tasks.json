@@ -2,44 +2,6 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "dapr-VehicleApp-run",
-			"appId": "vehicleapp",
-			"appPort": 50008,
-			"componentsPath": "./.dapr/components",
-			"config": "./.dapr/config.yaml",
-			"appProtocol": "grpc",
-			"grpcPort": 50001,
-			"httpPort": 3500,
-			"type": "dapr",
-			"presentation": {
-				"close": true,
-				"reveal": "never"
-			},
-			"hide": true
-		},
-		{
-			"label": "dapr-VehicleApp-stop",
-			"type": "shell",
-			"command": [
-				"dapr stop --app-id vehicleapp"
-			],
-			"presentation": {
-				"close": true,
-				"reveal": "never"
-			},
-			"hide": true
-		},
-		{
-			"label": "ensure-dapr",
-			"type": "shell",
-			"command": "./.vscode/scripts/ensure-dapr.sh ${input:middleware} --task",
-			"group": "none",
-			"presentation": {
-				"close": true
-			},
-			"problemMatcher": []
-		},
-		{
 			"label": "run-mosquitto",
 			"type": "shell",
 			"command": "./.vscode/scripts/run-mosquitto.sh --task",
@@ -68,7 +30,7 @@
 		{
 			"label": "run-vehicledatabroker",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-vehicledatabroker.sh ${input:middleware} --task",
+			"command": "./.vscode/scripts/run-vehicledatabroker.sh --task",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
@@ -86,7 +48,7 @@
 				],
 				"background": {
 					"activeOnStart": true,
-					"beginsPattern": "^You're up and running! Dapr logs will appear here.",
+					"beginsPattern": "Listening on",
 					"endsPattern": "."
 				}
 			}
@@ -102,7 +64,7 @@
 		{
 			"label": "run-seatservice",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-seatservice.sh ${input:middleware} --task",
+			"command": "./.vscode/scripts/run-seatservice.sh --task",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
@@ -120,7 +82,7 @@
 				],
 				"background": {
 					"activeOnStart": true,
-					"beginsPattern": "^You're up and running! Dapr logs will appear here.",
+					"beginsPattern": "connected to data broker.",
 					"endsPattern": "."
 				}
 			}
@@ -128,7 +90,7 @@
 		{
 			"label": "run-hvacservice",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-hvacservice.sh ${input:middleware} --task",
+			"command": "./.vscode/scripts/run-hvacservice.sh --task",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
@@ -146,7 +108,7 @@
 				],
 				"background": {
 					"activeOnStart": true,
-					"beginsPattern": "^You're up and running! Dapr logs will appear here.",
+					"beginsPattern": "datapoints are registered.",
 					"endsPattern": "."
 				}
 			}
@@ -154,14 +116,13 @@
 		{
 			"label": "run-hvacservice (Runtime)",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-hvacservice.sh ${input:middleware} --task",
+			"command": "./.vscode/scripts/run-hvacservice.sh --task",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
 				"panel": "dedicated"
 			},
 			"dependsOn": [
-				"ensure-dapr",
 				"run-mosquitto",
 				"run-vehicledatabroker",
 				"run-feedercan (DogMode)"
@@ -179,7 +140,7 @@
 				],
 				"background": {
 					"activeOnStart": true,
-					"beginsPattern": "^You're up and running! Dapr logs will appear here.",
+					"beginsPattern": "datapoints are registered.",
 					"endsPattern": "."
 				}
 			}
@@ -187,7 +148,7 @@
 		{
 			"label": "run-feedercan",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-feedercan.sh ${input:middleware} --task",
+			"command": "./.vscode/scripts/run-feedercan.sh --task",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
@@ -205,7 +166,7 @@
 				],
 				"background": {
 					"activeOnStart": true,
-					"beginsPattern": "^You're up and running! Dapr logs will appear here.",
+					"beginsPattern": "Connected to data broker",
 					"endsPattern": "."
 				}
 			}
@@ -213,7 +174,7 @@
 		{
 			"label": "run-feedercan (DogMode)",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-feedercan.sh ${input:middleware} DOGMODE --task",
+			"command": "./.vscode/scripts/run-feedercan.sh DOGMODE --task",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
@@ -231,7 +192,7 @@
 				],
 				"background": {
 					"activeOnStart": true,
-					"beginsPattern": "^You're up and running! Dapr logs will appear here.",
+					"beginsPattern": "Connected to data broker",
 					"endsPattern": "."
 				}
 			}
@@ -239,7 +200,6 @@
 		{
 			"label": "Start VehicleApp runtime",
 			"dependsOn": [
-				"ensure-dapr",
 				"run-mosquitto",
 				"run-vehicledatabroker",
 				"run-seatservice",
@@ -249,17 +209,9 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "SeatAdjuster (Dapr run)",
+			"label": "Run SeatAdjuster example",
 			"type": "shell",
-			"command": [
-				"dapr run",
-				"--app-id seatadjuster",
-				"--app-protocol grpc",
-				"--app-port 50008",
-				"--config ./.dapr/config.yaml",
-				"--resources-path ./.dapr/components",
-				"python3 ./examples/seat-adjuster/src/main.py"
-			],
+			"command": ["python3 ./examples/seat-adjuster/src/main.py"],
 			"group": "none",
 			"isBackground": true,
 			"problemMatcher": {
@@ -273,23 +225,20 @@
 				],
 				"background": {
 					"activeOnStart": true,
-					"beginsPattern": "^You're up and running! Both Dapr and your app logs will appear here.",
+					"beginsPattern": "Starting seat adjuster app...",
 					"endsPattern": "."
 				}
 			}
 		},
 		{
-			"label": "DogMode (Dapr run)",
+			"label": "Run DogMode example",
 			"type": "shell",
-			"command": [
-				"dapr run",
-				"--app-id dogmode",
-				"--app-protocol grpc",
-				"--app-port 50008",
-				"--config ./.dapr/config.yaml",
-				"--resources-path ./.dapr/components",
-				"python3 ./examples/dog-mode/src/main.py"
-			],
+			"command": ["python3 ./examples/dog-mode/src/main.py"],
+			"options": {
+				"env": {
+					"SDV_HVACSERVICE_ADDRESS": "grpc://127.0.0.1:50052"
+				}
+			},
 			"group": "none",
 			"isBackground": true,
 			"problemMatcher": {
@@ -303,7 +252,7 @@
 				],
 				"background": {
 					"activeOnStart": true,
-					"beginsPattern": "^You're up and running! Both Dapr and your app logs will appear here.",
+					"beginsPattern": "VehicleApp Started ...",
 					"endsPattern": "."
 				}
 			}
@@ -325,17 +274,6 @@
 			"group": "none",
 			"isBackground": false,
 			"problemMatcher": []
-		}
-	],
-	"inputs": [
-		{
-			"description": "Options for selecting the type middleware",
-			"id": "middleware",
-			"type": "pickString",
-			"options": [
-				"DAPR",
-				"NATIVE"
-			],
 		}
 	]
 }

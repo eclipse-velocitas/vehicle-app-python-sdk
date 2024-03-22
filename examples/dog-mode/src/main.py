@@ -17,7 +17,6 @@
 import asyncio
 import json
 import logging
-import os
 import signal
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -26,8 +25,6 @@ from vehicle_model.sample import Vehicle, vehicle
 from velocitas_sdk.util.log import get_default_date_format, get_default_log_format
 from velocitas_sdk.vdb.subscriptions import DataPointReply
 from velocitas_sdk.vehicle_app import VehicleApp, subscribe_data_points
-
-os.environ["HVACSERVICE_DAPR_APP_ID"] = "hvacservice"
 
 logging.basicConfig(format=get_default_log_format(), datefmt=get_default_date_format())
 logging.getLogger().setLevel("INFO")

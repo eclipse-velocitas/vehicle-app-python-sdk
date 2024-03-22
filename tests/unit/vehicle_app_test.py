@@ -12,10 +12,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-""" Tests for methods in VehicleClient """
+"""Tests for methods in VehicleClient"""
 
 import inspect
-import os
 from typing import Mapping, Text
 from unittest import mock
 
@@ -72,7 +71,6 @@ def test_subscribe_to_data_points_decorator():
     assert "SELECT Vehicle.ADAS.CruiseControl.SpeedSet WHERE Vehicle.Speed > 0" in query
 
 
-@mock.patch.dict(os.environ, {"DAPR_GRPC_PORT": "50051"}, clear=True)
 def get_vehicle_app_instance() -> VehicleApp:
     vehicle_app = VehicleApp()
     return vehicle_app

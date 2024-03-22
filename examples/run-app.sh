@@ -22,27 +22,22 @@ Help()
    # Display Help
    echo "Simple script that run the example applications."
    echo
-   echo "Syntax: ./run-app.sh -a APP_NAME [-d|-n] [-p APP_PORT=50008]"
+   echo "Syntax: ./run-app.sh -a APP_NAME [-n]"
    echo "options:"
    echo "-a             Option to set the application name from the list of examples directory, the name must match the directory name."
-   echo "-d             Run with Dapr middleware (default)."
-   echo "-n             Run with native middleware."
-   echo "-p             Option to set the application's gRPC port. Default is 50008"
+   echo "-n             Run with native middleware (default)."
    echo "-h/--help      Help."
    echo
 }
 ROOT_DIRECTORY=$( realpath "$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/.." )
 
 # Get App attributes (Name and Port Number)
-APP_PORT=50008
-export SDV_MIDDLEWARE_TYPE=dapr
+export SDV_MIDDLEWARE_TYPE=native
 while getopts a:dnp:h flag
 do
     case "${flag}" in
         a) APP_NAME=${OPTARG};;
-        d) export SDV_MIDDLEWARE_TYPE=dapr;;
         n) export SDV_MIDDLEWARE_TYPE=native;;
-        p) APP_PORT=${OPTARG};;
         h) Help
         exit;;
     esac
@@ -54,17 +49,7 @@ if [ ! -d "$APP_NAME" ]; then
     exit 0;
 fi
 
-if [ $SDV_MIDDLEWARE_TYPE == "dapr" ]; then
-    echo "Run with Dapr ...!"
-    DAPR_APP_ID="${APP_NAME//[.,\-,_,' ']/}"
-    dapr run \
-      --app-id $DAPR_APP_ID \
-      --app-protocol grpc \
-      --app-port $APP_PORT \
-      --config $ROOT_DIRECTORY/.dapr/config.yaml  \
-      --resources-path $ROOT_DIRECTORY/.dapr/components \
-    -- python3 $APP_NAME/src/main.py
-elif [ $SDV_MIDDLEWARE_TYPE == "native" ]; then
+if [ $SDV_MIDDLEWARE_TYPE == "native" ]; then
     echo "Run native ...!"
     export SDV_MQTT_ADDRESS="mqtt://localhost:1883"
     export SDV_VEHICLEDATABROKER_ADDRESS="grpc://localhost:55555"

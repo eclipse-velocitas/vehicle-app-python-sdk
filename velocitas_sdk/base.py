@@ -22,7 +22,6 @@ class MiddlewareType(str, Enum):
     """Enumerator for the supported Velocitas Middlewares."""
 
     NATIVE = "native"
-    DAPR = "dapr"
 
 
 class ServiceLocator(ABC):

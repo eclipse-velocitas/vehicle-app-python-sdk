@@ -59,11 +59,10 @@ jobs:
       - name: Run Linters
         uses: pre-commit/action@v3.0.0
 
-      - name: Run the daparized databroker binary
+      - name: Run the databroker binary
         run: |
-          ./.vscode/scripts/ensure-dapr.sh DAPR --task
           ./.vscode/scripts/run-mosquitto.sh --task &
-          ./.vscode/scripts/run-vehicledatabroker.sh DAPR --task &
+          ./.vscode/scripts/run-vehicledatabroker.sh --task &
           sleep 10s
 
       - name: Run unit and integration tests
