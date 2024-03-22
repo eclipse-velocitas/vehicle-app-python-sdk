@@ -48,7 +48,7 @@
 				],
 				"background": {
 					"activeOnStart": true,
-					"beginsPattern": "^You're up and running! Dapr logs will appear here.",
+					"beginsPattern": "Listening on",
 					"endsPattern": "."
 				}
 			}
@@ -108,7 +108,7 @@
 				],
 				"background": {
 					"activeOnStart": true,
-					"beginsPattern": "^You're up and running! Dapr logs will appear here.",
+					"beginsPattern": "datapoints are registered.",
 					"endsPattern": "."
 				}
 			}
