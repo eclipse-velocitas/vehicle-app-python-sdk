@@ -115,7 +115,6 @@ jobs:
               pre-commit run --all-files && \
               pip3 install -r .devcontainer/tests/automated_tests/requirements.txt && \
               cat app/AppManifest.json && \
-              velocitas exec grpc-interface-support generate-sdk && \
               pytest -sx .devcontainer/tests/automated_tests
 
       - name: Upload logs
