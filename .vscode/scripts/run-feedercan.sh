@@ -30,7 +30,6 @@ then
     docker container stop $RUNNING_CONTAINER
 fi
 
-export VEHICLEDATABROKER_DAPR_APP_ID=vehicledatabroker
 export DATABROKER_NATIVE_PORT=55555
 export LOG_LEVEL=info,databroker=info,dbcfeeder.broker_client=debug,dbcfeeder=debug
 export USECASE="databroker"
@@ -53,7 +52,7 @@ if [ $1 == "NATIVE" ]; then
   echo "Run native ...!"
   docker run \
     -v ${CONFIG_DIR}:/data \
-    -e DAPR_GRPC_PORT=$DATABROKER_NATIVE_PORT \
+    -e VDB_ADDRESS="127.0.0.1:$DATABROKER_NATIVE_PORT" \
     -e LOG_LEVEL \
     -e USECASE \
     -e CANDUMP_FILE \

@@ -2,34 +2,6 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "dapr-VehicleApp-run",
-			"appId": "vehicleapp",
-			"appPort": 50008,
-			"componentsPath": "./.dapr/components",
-			"config": "./.dapr/config.yaml",
-			"appProtocol": "grpc",
-			"grpcPort": 50001,
-			"httpPort": 3500,
-			"type": "dapr",
-			"presentation": {
-				"close": true,
-				"reveal": "never"
-			},
-			"hide": true
-		},
-		{
-			"label": "dapr-VehicleApp-stop",
-			"type": "shell",
-			"command": [
-				"dapr stop --app-id vehicleapp"
-			],
-			"presentation": {
-				"close": true,
-				"reveal": "never"
-			},
-			"hide": true
-		},
-		{
 			"label": "run-mosquitto",
 			"type": "shell",
 			"command": "./.vscode/scripts/run-mosquitto.sh --task",
@@ -58,7 +30,7 @@
 		{
 			"label": "run-vehicledatabroker",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-vehicledatabroker.sh ${input:middleware} --task",
+			"command": "./.vscode/scripts/run-vehicledatabroker.sh NATIVE --task",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
@@ -92,7 +64,7 @@
 		{
 			"label": "run-seatservice",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-seatservice.sh ${input:middleware} --task",
+			"command": "./.vscode/scripts/run-seatservice.sh NATIVE --task",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
@@ -118,7 +90,7 @@
 		{
 			"label": "run-hvacservice",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-hvacservice.sh ${input:middleware} --task",
+			"command": "./.vscode/scripts/run-hvacservice.sh NATIVE --task",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
@@ -144,14 +116,13 @@
 		{
 			"label": "run-hvacservice (Runtime)",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-hvacservice.sh ${input:middleware} --task",
+			"command": "./.vscode/scripts/run-hvacservice.sh NATIVE --task",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
 				"panel": "dedicated"
 			},
 			"dependsOn": [
-				"ensure-dapr",
 				"run-mosquitto",
 				"run-vehicledatabroker",
 				"run-feedercan (DogMode)"
@@ -177,7 +148,7 @@
 		{
 			"label": "run-feedercan",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-feedercan.sh ${input:middleware} --task",
+			"command": "./.vscode/scripts/run-feedercan.sh NATIVE --task",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
@@ -203,7 +174,7 @@
 		{
 			"label": "run-feedercan (DogMode)",
 			"type": "shell",
-			"command": "./.vscode/scripts/run-feedercan.sh ${input:middleware} DOGMODE --task",
+			"command": "./.vscode/scripts/run-feedercan.sh NATIVE DOGMODE --task",
 			"group": "none",
 			"presentation": {
 				"reveal": "always",
@@ -238,17 +209,9 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "SeatAdjuster (Dapr run)",
+			"label": "Run SeatAdjuster example",
 			"type": "shell",
-			"command": [
-				"dapr run",
-				"--app-id seatadjuster",
-				"--app-protocol grpc",
-				"--app-port 50008",
-				"--config ./.dapr/config.yaml",
-				"--resources-path ./.dapr/components",
-				"python3 ./examples/seat-adjuster/src/main.py"
-			],
+			"command": ["python3 ./examples/seat-adjuster/src/main.py"],
 			"group": "none",
 			"isBackground": true,
 			"problemMatcher": {
@@ -268,17 +231,9 @@
 			}
 		},
 		{
-			"label": "DogMode (Dapr run)",
+			"label": "Run DogMode example",
 			"type": "shell",
-			"command": [
-				"dapr run",
-				"--app-id dogmode",
-				"--app-protocol grpc",
-				"--app-port 50008",
-				"--config ./.dapr/config.yaml",
-				"--resources-path ./.dapr/components",
-				"python3 ./examples/dog-mode/src/main.py"
-			],
+			"command": ["python3 ./examples/dog-mode/src/main.py"],
 			"group": "none",
 			"isBackground": true,
 			"problemMatcher": {
@@ -314,17 +269,6 @@
 			"group": "none",
 			"isBackground": false,
 			"problemMatcher": []
-		}
-	],
-	"inputs": [
-		{
-			"description": "Options for selecting the type middleware",
-			"id": "middleware",
-			"type": "pickString",
-			"options": [
-				"DAPR",
-				"NATIVE"
-			],
 		}
 	]
 }

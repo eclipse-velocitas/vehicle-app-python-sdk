@@ -30,31 +30,14 @@ then
     docker container stop $RUNNING_CONTAINER
 fi
 
-export VEHICLEDATABROKER_DAPR_APP_ID=vehicledatabroker
 export VEHICLEDATABROKER_NATIVE_PORT=55555
 export SERVICE_PORT=50051
 export CAN=cansim
 
-if [ $1 == "DAPR" ]; then
-  echo "Run with Dapr ...!"
-  dapr run \
-    --app-id seatservice \
-    --app-protocol grpc \
-    --app-port $SERVICE_PORT \
-    --resources-path $ROOT_DIRECTORY/.dapr/components \
-    --config $ROOT_DIRECTORY/.dapr/config.yaml \
-  -- docker run \
-    -e VEHICLEDATABROKER_DAPR_APP_ID \
-    -e DAPR_GRPC_PORT \
-    -e DAPR_HTTP_PORT \
-    -e SERVICE_PORT \
-    -e CAN \
-    --network host \
-    $SEATSERVICE_IMAGE:$SEATSERVICE_TAG
-elif [ $1 == "NATIVE" ]; then
+if [ $1 == "NATIVE" ]; then
   echo "Run native ...!"
   docker run \
-    -e DAPR_GRPC_PORT=$VEHICLEDATABROKER_NATIVE_PORT \
+    -e VDB_ADDRESS="127.0.0.1:$VEHICLEDATABROKER_NATIVE_PORT" \
     -e SERVICE_PORT \
     -e CAN \
     --network host \

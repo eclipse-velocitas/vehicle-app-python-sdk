@@ -14,11 +14,11 @@
 
 # ruff: noqa: E402
 
-""" Tests for methods in VehicleDataBrokerClient """
+"""Tests for methods in VehicleDataBrokerClient"""
 
 import os
 
-os.environ["SDV_MIDDLEWARE_TYPE"] = "dapr"
+os.environ["SDV_MIDDLEWARE_TYPE"] = "native"
 
 import pytest
 

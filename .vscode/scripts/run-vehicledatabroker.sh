@@ -34,27 +34,7 @@ VSPEC_FILE_PATH=$ROOT_DIRECTORY/.vscode/scripts/broker_config/vss_rel_3.0.json
 KUKSA_DATA_BROKER_PORT='55555'
 #export RUST_LOG="info,databroker=debug,vehicle_data_broker=debug"
 
-if [ $1 == "DAPR" ]; then
-  echo "Run with Dapr ...!"
-  dapr run \
-    --app-id vehicledatabroker \
-    --app-protocol grpc \
-    --app-port $KUKSA_DATA_BROKER_PORT \
-    --resources-path $ROOT_DIRECTORY/.dapr/components \
-    --config $ROOT_DIRECTORY/.dapr/config.yaml \
-  -- docker run \
-    --rm \
-    --init \
-    --name vehicledatabroker \
-    -v $VSPEC_FILE_PATH:$VSPEC_FILE_PATH \
-    -e KUKSA_DATA_BROKER_METADATA_FILE=$VSPEC_FILE_PATH \
-    -e KUKSA_DATA_BROKER_PORT=$KUKSA_DATA_BROKER_PORT \
-    -e DAPR_GRPC_PORT \
-    -e DAPR_HTTP_PORT \
-    -e RUST_LOG \
-    --network host \
-    $DATABROKER_IMAGE:$DATABROKER_TAG
-elif [ $1 == "NATIVE" ]; then
+if [ $1 == "NATIVE" ]; then
   echo "Run native ...!"
   docker run \
     -v $VSPEC_FILE_PATH:$VSPEC_FILE_PATH \
