@@ -137,7 +137,6 @@ async def test_for_fluent_get():
 
 @pytest.mark.asyncio
 async def test_for_fluent_unsubscribe():
-    # with mock.patch.dict(os.environ, {"DAPR_GRPC_PORT": "55555"}):
     vehicle = get_vehicle_instance()
     await change_datapoint(vehicle.Speed.get_path(), 0.0)
     rule = await vehicle.Speed.subscribe(callback_fluent)
@@ -147,7 +146,6 @@ async def test_for_fluent_unsubscribe():
 
 @pytest.mark.asyncio
 async def test_for_fluent_resubscribe():
-    # with mock.patch.dict(os.environ, {"DAPR_GRPC_PORT": "55555"}):
     vehicle = get_vehicle_instance()
     await change_datapoint(vehicle.Speed.get_path(), 0.0)
     task = None
@@ -163,7 +161,6 @@ async def test_for_fluent_resubscribe():
 
 @pytest.mark.asyncio
 async def test_for_fluent_subscribe():
-    # with mock.patch.dict(os.environ, {"DAPR_GRPC_PORT": "55555"}):
     vehicle = get_vehicle_instance()
     await change_datapoint(vehicle.Speed.get_path(), 0.0)
     try:
@@ -179,7 +176,6 @@ def callback_fluent(data):
 
 @pytest.mark.asyncio
 async def test_for_fluent_join():
-    # with mock.patch.dict(os.environ, {"DAPR_GRPC_PORT": "55555"}):
     vehicle = get_vehicle_instance()
     await change_datapoint(vehicle.Speed.get_path(), 0.0)
     await change_datapoint(vehicle.ThisIsAFloat.get_path(), 50.0)
@@ -193,7 +189,6 @@ async def test_for_fluent_join():
 
 @pytest.mark.asyncio
 async def test_for_fluent_where():
-    # with mock.patch.dict(os.environ, {"DAPR_GRPC_PORT": "55555"}):
     vehicle = get_vehicle_instance()
     await change_datapoint(vehicle.Speed.get_path(), 0.0)
     try:
@@ -222,7 +217,6 @@ async def test_for_fluent_where_join():
 
 @pytest.mark.asyncio
 async def test_for_subscribe_exception():
-    # with mock.patch.dict(os.environ, {"DAPR_GRPC_PORT": "55555"}):
     vehicle = get_vehicle_instance()
     await change_datapoint(vehicle.Speed.get_path(), 0.0)
     try:
