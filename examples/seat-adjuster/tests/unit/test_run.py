@@ -21,6 +21,7 @@ from unittest.mock import AsyncMock, MagicMock
 import pytest
 from google.protobuf.timestamp_pb2 import Timestamp
 from vehicle import vehicle  # type: ignore
+
 from velocitas_sdk.vdb.reply import DataPointReply
 from velocitas_sdk.vdb.types import TypedDataPointResult
 
@@ -88,7 +89,9 @@ async def test_on_set_position_request_received_vehicle_not_moving():
         new_callable=mock.AsyncMock,
         return_value=vehicle_speed_data_point,
     ):
-        called_data_point = seat_adjuster_app.Vehicle.Cabin.Seat.Row1.Pos1.Position
+        called_data_point = (
+            seat_adjuster_app.Vehicle.Cabin.Seat.Row1.DriverSide.Position
+        )
         called_data_point.set = AsyncMock()
         seat_adjuster_app.publish_event = AsyncMock()
 
@@ -162,7 +165,9 @@ async def test_on_set_position_request_received_error_path():
         new_callable=mock.AsyncMock,
         return_value=vehicle_speed_data_point,
     ):
-        called_data_point = seat_adjuster_app.Vehicle.Cabin.Seat.Row1.Pos1.Position
+        called_data_point = (
+            seat_adjuster_app.Vehicle.Cabin.Seat.Row1.DriverSide.Position
+        )
         called_data_point.set = AsyncMock(side_effect=async_raise_exception)
         seat_adjuster_app.publish_event = AsyncMock()
 
@@ -203,7 +208,9 @@ async def test_on_set_position_request_received_high_position():
         new_callable=mock.AsyncMock,
         return_value=vehicle_speed_data_point,
     ):
-        called_data_point = seat_adjuster_app.Vehicle.Cabin.Seat.Row1.Pos1.Position
+        called_data_point = (
+            seat_adjuster_app.Vehicle.Cabin.Seat.Row1.DriverSide.Position
+        )
         called_data_point.set = AsyncMock(side_effect=async_raise_value_error)
         seat_adjuster_app.publish_event = AsyncMock()
 
