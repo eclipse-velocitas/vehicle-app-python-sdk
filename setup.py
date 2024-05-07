@@ -61,7 +61,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="velocitas_sdk",
-    version="0.14.0",
+    version="0.14.1",
     description="A Python SDK for Vehicle app",
     long_description=long_description,
     long_description_content_type="text/markdown",
