@@ -1,6 +1,6 @@
 {
     "manifestVersion": "v1",
-    "name": "dynamic-rule",
+    "name": "performance-subscribe",
     "interfaces": [
         {
             "type": "vehicle-signal-interface",

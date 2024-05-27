@@ -34,9 +34,8 @@ logging.basicConfig(format=get_opentelemetry_log_format())
 logging.getLogger().setLevel("DEBUG")
 logger = logging.getLogger(__name__)
 
-GET_SPEED_REQUEST_TOPIC = "sampleapp/getSpeed"
-GET_SPEED_RESPONSE_TOPIC = "sampleapp/getSpeed/response"
-DATABROKER_SUBSCRIPTION_TOPIC = "sampleapp/currentSpeed"
+# The file path may need to be updated based on the location of the file.
+SIGNALS_JSON = "subscription_signals.json"
 
 
 class PerformanceTestApp(VehicleApp):
@@ -50,15 +49,22 @@ class PerformanceTestApp(VehicleApp):
         self.Vehicle = vehicle_client
 
     async def on_start(self):
-        # The file path may need to be updated based on the location of the file.
-        test_signals_json = self.read_json("subscription_signals.json")
-        signals_json = test_signals_json["signals"]
-
-        for signal_json in signals_json:
-            signal_str = signal_json["path"]
+        signals_paths = self.read_signals_paths()
+        for signal_str in signals_paths:
             await self.subscribe(signal_str)
 
-    def read_json(self, file_path: str):
+    def read_signals_paths(self) -> list[str]:
+        test_signals_json = self.read_json(SIGNALS_JSON)
+        signals_json = test_signals_json["signals"]
+
+        signal_paths: list[str] = []
+        for signal_json in signals_json:
+            signal_path = signal_json["path"]
+            signal_paths.append(signal_path)
+
+        return signal_paths
+
+    def read_json(self, file_path: str) -> dict:
         with open(file_path, "r") as file:
             return json.load(file)
 
@@ -72,17 +78,19 @@ class PerformanceTestApp(VehicleApp):
     async def on_node_change(self, data: DataPointReply):
         current_timestamp = datetime.now()
 
-        datapoint_str = data.reply.fields.popitem()[0]
-        node = self.Vehicle.getNode(datapoint_str=datapoint_str)
-        data_point_value = data.get(node).value  # type: ignore
+        datapoint_str = data.reply.fields.popitem()[
+            0
+        ]  # The key of the first field is the datapoint path
+        node = self.Vehicle.getNode(datapoint_str)
+        data_point = data.get(node)  # type: ignore
+        data_point_value = data_point.value
 
         print(f"{current_timestamp.time()} - {node.name} - {data_point_value}")
 
 
 async def main():
     """Main function"""
-    logger.info("Starting SampleApp...")
-    # Constructing SampleApp and running it.
+    logger.info("Starting the subscribe-performance test app")
     vehicle_app = PerformanceTestApp(vehicle)
     await vehicle_app.run()
 
