@@ -26,4 +26,4 @@ The following format is mandatory for the input file:
 }
 ```
 
-Signals which are not available will be printed in the console as a warning. 
+Signals which are not available will be printed in the console as a warning.
