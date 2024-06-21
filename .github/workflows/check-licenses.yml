@@ -57,7 +57,7 @@ jobs:
           java -jar dash.jar clearlydefined.input -summary DEPENDENCIES
 
       - name: Upload dash input/output as artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: "dash-artifacts"
