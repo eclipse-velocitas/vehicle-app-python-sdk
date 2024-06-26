@@ -41,7 +41,7 @@
 |opentelemetry-semantic-conventions|0.36b0|Apache 2.0|
 |packaging|23.1|Apache 2.0<br/>BSD|
 |paho-mqtt|1.6.1|OSI Approved|
-|pip|24.0|MIT|
+|pip|23.0.1|MIT|
 |pip-tools|7.3.0|BSD|
 |platformdirs|4.2.0|MIT|
 |pluggy|1.4.0|MIT|
@@ -54,7 +54,7 @@
 |pytest-cov|4.1.0|MIT|
 |pytz|2024.1|MIT|
 |PyYAML|6.0.1|MIT|
-|setuptools|58.1.0|MIT|
+|setuptools|65.5.1|MIT|
 |six|1.16.0|MIT|
 |tomli|2.0.1|MIT|
 |tox|4.11.4|MIT|
@@ -71,7 +71,7 @@
 | Dependency | Version | License |
 |:-----------|:-------:|--------:|
 |actions/checkout|v4|MIT License|
-|actions/setup-java|v1.4.4|MIT License|
+|actions/setup-java|v4|MIT License|
 |actions/setup-node|v4|MIT License|
 |actions/setup-python|v5|MIT License|
 |actions/upload-artifact|v4|MIT License|
