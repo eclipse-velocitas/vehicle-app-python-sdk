@@ -33,7 +33,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: eclipse-velocitas/license-check
-          ref: v1.2.3
+          ref: v1.2
           path: .github/actions/license-check
 
       - name: Run License Checker
@@ -45,9 +45,10 @@ jobs:
           generate-dash: true
 
       - name: Setup Java JDK
-        uses: actions/setup-java@v1.4.4
+      - uses: actions/setup-java@v4
         with:
-          java-version: 11.0.19
+          distribution: 'temurin'
+          java-version: '11.0.19'
 
       - name: Run dash
         shell: bash
@@ -57,7 +58,7 @@ jobs:
           java -jar dash.jar clearlydefined.input -summary DEPENDENCIES
 
       - name: Upload dash input/output as artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: "dash-artifacts"
