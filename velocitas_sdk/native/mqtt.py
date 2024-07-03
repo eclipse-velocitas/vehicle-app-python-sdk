@@ -34,7 +34,7 @@ class MqttTopicSubscription:
 class MqttClient(PubSubClient):
     """This class is a wrapper for the on_message callback of the MQTT broker."""
 
-    def __init__(self, port: Optional[int] = None, hostname: Optional[str] = None):
+    def __init__(self, hostname: str, port: Optional[int] = None):
         self._port = port
         self._hostname = hostname
         self._topics_to_subscribe: list[MqttTopicSubscription] = []
@@ -44,8 +44,12 @@ class MqttClient(PubSubClient):
         self._sub_client.on_connect = self.on_connect
         self._sub_client.on_disconnect = self.on_disconnect
 
-        self._sub_client.connect(self._hostname, self._port)
-        self._pub_client.connect(self._hostname, self._port)
+        if self._port is None:
+            self._sub_client.connect(self._hostname)
+            self._pub_client.connect(self._hostname)
+        else:
+            self._sub_client.connect(self._hostname, self._port)
+            self._pub_client.connect(self._hostname, self._port)
 
     def on_connect(self, client, userdata, flags, rc):
         if rc == 0:

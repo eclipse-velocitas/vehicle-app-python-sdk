@@ -18,12 +18,12 @@ requirements = [
     "grpcio>=1.59.0",
     "protobuf>=3.19.4",
     "cloudevents>=1.10.0",
-    "aiohttp==3.9.3",
-    "paho-mqtt>=1.6.1,<2",
-    "opentelemetry-distro<=0.36b0",
-    "opentelemetry-instrumentation-logging<=0.36b0",
-    "opentelemetry-sdk<=1.15.0",
-    "opentelemetry-api<=1.15.0",
+    "aiohttp>=3.9.5",
+    "paho-mqtt>=2.1.0",
+    "opentelemetry-distro>=0.46b0",
+    "opentelemetry-instrumentation-logging>=0.46b0",
+    "opentelemetry-sdk>=1.25.0",
+    "opentelemetry-api>=1.25.0",
 ]
 
 extra_requirements = {

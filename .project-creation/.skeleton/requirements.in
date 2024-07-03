@@ -15,4 +15,4 @@
 grpcio==1.59.0
 protobuf==4.24.4
 cloudevents==1.10.0
-aiohttp==3.9.3
+aiohttp==3.9.5
