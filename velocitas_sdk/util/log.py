@@ -71,6 +71,7 @@ def set_opentelemetry_factory_span(span):
 
         record.otelSpanID = "0"
         record.otelTraceID = "0"
+        record.otelTraceSampled = True
         ctx = span.get_span_context()
         if ctx != INVALID_SPAN_CONTEXT:
             record.otelSpanID = format(ctx.span_id, "016x")
