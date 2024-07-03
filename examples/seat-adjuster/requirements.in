@@ -12,8 +12,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-grpcio==1.59.0
-protobuf==4.24.4
-cloudevents==1.10.0
-aiohttp==3.9.3
-packaging==23.0
+grpcio==1.64.1
+protobuf==5.27.2
+cloudevents==1.11.0
+aiohttp==3.9.5
+packaging==24.1
