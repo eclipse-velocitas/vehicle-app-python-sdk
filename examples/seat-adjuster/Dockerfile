@@ -32,7 +32,7 @@ RUN /bin/bash -c 'set -ex && \
     pip3 install --no-cache-dir scons; \
     fi'
 
-RUN pip3 install --no-cache-dir pyinstaller==5.9.0 \
+RUN pip3 install --no-cache-dir pyinstaller \
     && pip3 install --no-cache-dir patchelf==0.17.0.0 \
     && pip3 install --no-cache-dir staticx \
     && pip3 install --no-cache-dir -r ./workspace/app/requirements.txt \
@@ -44,7 +44,7 @@ RUN velocitas init -v
 
 WORKDIR /workspace/app
 
-RUN pyinstaller --hiddenimport=pkg_resources.extern --clean -F -s -p src src/main.py
+RUN pyinstaller --clean -F -s -p src src/main.py
 
 WORKDIR /workspace/app/dist
 
