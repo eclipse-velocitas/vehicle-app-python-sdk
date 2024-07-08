@@ -92,7 +92,8 @@ jobs:
             CREATE_ARGS="-e ${{ matrix.example }}"
           fi
           velocitas create -c vapp-core-python $CREATE_ARGS
-          # Make sure that we do not use old shit, we do not want circular dependency to old code
+          # Velocitas CLI fetches an older merged/released version of the example
+          # But we want to check the one in this repository so lets copy it
           if [ "${{ matrix.example }}" != "no-example" ]; then
             cp -r ../sdk/examples/${{ matrix.example }}/* ../app/app
           fi

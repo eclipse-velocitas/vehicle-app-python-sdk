@@ -52,10 +52,12 @@ jobs:
 
       - name: Run dash
         shell: bash
-        continue-on-error: true
         run: |
           wget -O dash.jar "https://repo.eclipse.org/content/repositories/dash-licenses/org/eclipse/dash/org.eclipse.dash.licenses/1.0.2/org.eclipse.dash.licenses-1.0.2.jar"
-          java -jar dash.jar clearlydefined.input -summary DEPENDENCIES
+          java -jar dash.jar clearlydefined.input -summary DEPENDENCIES > dash.out 2>&1 || true
+          echo -e "Dash output: \n\`\`\` " >> $GITHUB_STEP_SUMMARY
+          cat dash.out >> $GITHUB_STEP_SUMMARY
+          echo -e "\n\`\`\`"
 
       - name: Upload dash input/output as artifacts
         uses: actions/upload-artifact@v4
