@@ -92,10 +92,6 @@ jobs:
             CREATE_ARGS="-e ${{ matrix.example }}"
           fi
           velocitas create -c vapp-core-python $CREATE_ARGS
-          # Make sure that we do not use old shit, we do not want circular dependency to old code
-          if [ "${{ matrix.example }}" != "no-example" ]; then
-            cp -r ../sdk/examples/${{ matrix.example }}/* ../app/app
-          fi
 
       - name: Install dependencies
         shell: bash
