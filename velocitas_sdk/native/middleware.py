@@ -28,10 +28,10 @@ class NativeMiddleware(Middleware):
         self.type = MiddlewareType.NATIVE
         self.service_locator = NativeServiceLocator()
 
-        _address = self.service_locator.get_service_location("mqtt")
-        _port = urlparse(_address).port
-        _hostname = urlparse(_address).hostname
-        self.pubsub_client = MqttClient(_port, _hostname)
+        # _address = self.service_locator.get_service_location("mqtt")
+        # _port = urlparse(_address).port
+        # _hostname = urlparse(_address).hostname
+        # self.pubsub_client = MqttClient(_port, _hostname)
 
     async def start(self):
         pass
