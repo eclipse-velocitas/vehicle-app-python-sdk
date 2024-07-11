@@ -68,7 +68,7 @@ class VehicleApp:
     def __init__(self):
         self.middleware = config.middleware
         self._vdb_client = VehicleDataBrokerClient()
-        self.pubsub_client = self.middleware.pubsub_client
+        # self.pubsub_client = self.middleware.pubsub_client
         logger.debug("VehicleApp instantiation successfully done")
 
     async def on_start(self):
@@ -93,7 +93,7 @@ class VehicleApp:
                 callback = method[1]
                 topic = method[1].subscribeTopic
 
-                await self.pubsub_client.subscribe_topic(topic, callback)
+                # await self.pubsub_client.subscribe_topic(topic, callback)
 
         await config.middleware.wait_until_ready()
 
@@ -108,7 +108,7 @@ class VehicleApp:
                 except Exception as ex:
                     logger.exception(ex)
         try:
-            asyncio.create_task(self.pubsub_client.run())
+            #asyncio.create_task(self.pubsub_client.run())
             await self.on_start()
             while True:
                 await asyncio.sleep(1)
@@ -125,4 +125,4 @@ class VehicleApp:
         await self.publish_event(topic, data)
 
     async def publish_event(self, topic: str, data: str):
-        await self.pubsub_client.publish_event(topic, data)
+        #await self.pubsub_client.publish_event(topic, data)

@@ -62,7 +62,7 @@ class Middleware(ABC):
     def __init__(self) -> None:
         self.type = MiddlewareType.NATIVE
         self.service_locator: ServiceLocator
-        self.pubsub_client: PubSubClient
+        # self.pubsub_client: PubSubClient
 
     @abstractmethod
     async def start(self):
