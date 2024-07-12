@@ -27,6 +27,9 @@ on:
   pull_request:
     branches:
       - main
+  # Scheduled build to fetch regressions, if any
+  schedule:
+    - cron: "0 4 * * *"
 
 jobs:
   check-project-creation:
@@ -89,6 +92,11 @@ jobs:
             CREATE_ARGS="-e ${{ matrix.example }}"
           fi
           velocitas create -c vapp-core-python $CREATE_ARGS
+          # Velocitas CLI fetches an older merged/released version of the example
+          # But we want to check the one in this repository so lets copy it
+          if [ "${{ matrix.example }}" != "no-example" ]; then
+            cp -r ../sdk/examples/${{ matrix.example }}/* ../app/app
+          fi
 
       - name: Install dependencies
         shell: bash

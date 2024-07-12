@@ -57,7 +57,7 @@ jobs:
           python3 -m pip install tox-gh-actions
 
       - name: Run Linters
-        uses: pre-commit/action@v3.0.0
+        uses: pre-commit/action@v3.0.1
 
       - name: Run the databroker binary
         run: |
