@@ -20,7 +20,7 @@ import json
 import logging
 import signal
 
-from sdv_model import Vehicle, vehicle  # type: ignore
+from vehicle import Vehicle, vehicle  # type: ignore
 
 from velocitas_sdk import config
 from velocitas_sdk.config import Config, MiddlewareType
