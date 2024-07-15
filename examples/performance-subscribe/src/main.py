@@ -18,7 +18,7 @@ import logging
 import signal
 from datetime import datetime
 
-from sdv_model import Vehicle, vehicle  # type: ignore
+from vehicle import Vehicle, vehicle  # type: ignore
 
 from velocitas_sdk.model import DataPoint
 from velocitas_sdk.util.log import (  # type: ignore

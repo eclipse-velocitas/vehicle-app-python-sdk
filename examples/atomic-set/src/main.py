@@ -17,7 +17,7 @@ import json
 import logging
 import signal
 
-from sdv_model import Vehicle, vehicle  # type: ignore
+from vehicle import Vehicle, vehicle  # type: ignore
 
 from velocitas_sdk.vdb.subscriptions import DataPointReply
 from velocitas_sdk.vehicle_app import VehicleApp, subscribe_topic
