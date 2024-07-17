@@ -28,7 +28,7 @@
                     "vehicleapp/setSensor/request"
                 ],
                 "writes": [
-                    "vehicleapp/setValue/response",
+                    "vehicleapp/setValue/response"
                 ]
             }
         }
