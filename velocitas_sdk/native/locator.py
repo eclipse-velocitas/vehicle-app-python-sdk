@@ -38,7 +38,7 @@ class NativeServiceLocator(ServiceLocator):
             except KeyError:
                 logger.warning(
                     """Can't find the service location for %s, make sure to set the
-                    necessary env variables for all depemdencies""",
+                    necessary env variables for all dependencies""",
                     service_name,
                 )
 
