@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Contributors to the Eclipse Foundation
+# Copyright (c) 2024 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -12,56 +12,92 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-name: Release workflow
+name: Github Release and PyPi Publish
 
 on:
-  release:
-    types: [published, edited]
+  workflow_dispatch:
+  push:
+   tags:
+     - "v*.*.*"
 
 jobs:
-  release-package:
-    name: Generate package binaries
-    runs-on: ubuntu-latest
+  build:
+    name: Build distribution 📦
+    runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.10"
+    - name: Install pypa/build
+      run: pip install build --user
+    - name: Build a binary wheel and a source tarball
+      run: python3 -m build
+    - name: Store the distribution packages
+      uses: actions/upload-artifact@v4
+      with:
+        name: python-package-distributions
+        path: |
+          dist/
+          LICENSE
+          NOTICE.md
 
-      - name: Initialize python
-        uses: actions/setup-python@v5
-        with:
-            python-version: "3.10"
+  publish-to-pypi:
+    name: Publish 🐍 to PyPI
+    needs:
+    - build
+    runs-on: ubuntu-22.04
+    environment:
+      name: pypi
+      url: https://pypi.org/p/velocitas-sdk
 
-      - name: Install Dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install -r requirements.txt
+    permissions:
+      id-token: write
 
-      - name: Set tags output
-        id: vars
-        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+    steps:
+    - name: Download dists folder
+      uses: actions/download-artifact@v4
+      with:
+        name: python-package-distributions
+        path: python-package/
+    - name: Publish distribution 📦 to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        packages-dir: python-package/dist
 
-      - name: Check output
-        env:
-          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
-        run: |
-          echo $RELEASE_VERSION
-          echo ${{ steps.vars.outputs.tag }}
+  github-release:
+    name: >-
+      Create GitHub Release
+    needs:
+    - build
+    runs-on: ubuntu-22.04
 
-      - name: Test setup.cfg execution
-        run: |
-          sed -i -e 's/@tag/${{ steps.vars.outputs.tag }}/g' ./setup.py
-          python3 setup.py sdist
+    permissions:
+      contents: write
+      id-token: write
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: release
-          path: ./dist
-
-      - name: Upload assets
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: |
-            ./dist/*
+    steps:
+    - name: Download dists folder
+      uses: actions/download-artifact@v4
+      with:
+        name: python-package-distributions
+        path: python-package/
+    - name: Sign the dists with Sigstore
+      # If running on your own fork/organization
+      # you must assure that sigstore has been added as authroized OAuth app in Github
+      # Can be triggered by a manual run on CLI like "sigstore sign <somefile>"
+      uses: sigstore/gh-action-sigstore-python@v3.0.0
+      with:
+        inputs: >-
+          ./python-package/dist/*.tar.gz
+          ./python-package/dist/*.whl
+    - name: Create release
+      id: create_release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          python-package/dist/**
+          python-package/LICENSE
+          python-package/NOTICE.md
