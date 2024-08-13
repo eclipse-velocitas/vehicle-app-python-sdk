@@ -40,7 +40,7 @@ class NativeMiddleware(Middleware):
         self.pubsub_client = MqttClient(hostname=_hostname, port=_port)
 
     async def start(self):
-        self.pubsub_client.init()
+        await self.pubsub_client.init()
 
     async def wait_until_ready(self):
         pass
