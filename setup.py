@@ -61,7 +61,6 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="velocitas_sdk",
-    version="0.15.2",
     description="A Python SDK for Vehicle app",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -87,4 +86,8 @@ setup(
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
+    setuptools_git_versioning={
+        "enabled": True,
+    },
+    setup_requires=["setuptools-git-versioning>=2.0,<3"],
 )
