@@ -44,13 +44,6 @@ class MqttClient(PubSubClient):
         self._sub_client.on_connect = self.on_connect
         self._sub_client.on_disconnect = self.on_disconnect
 
-        if self._port is None:
-            self._sub_client.connect(self._hostname)
-            self._pub_client.connect(self._hostname)
-        else:
-            self._sub_client.connect(self._hostname, self._port)
-            self._pub_client.connect(self._hostname, self._port)
-
     def on_connect(self, client, userdata, flags, rc):
         if rc == 0:
             logger.debug("Mqtt native connection OK!")
@@ -64,12 +57,17 @@ class MqttClient(PubSubClient):
     def on_disconnect(self, client, userdata, rc):
         logger.debug("Mqtt native is disconnected with reason:  %d", rc)
 
+    async def init(self):
+        if self._port is None:
+            self._sub_client.connect(self._hostname)
+            self._pub_client.connect(self._hostname)
+        else:
+            self._sub_client.connect(self._hostname, self._port)
+            self._pub_client.connect(self._hostname, self._port)
+
     async def run(self):
         self._sub_client.loop_start()
         self._pub_client.loop_start()
-
-    async def init(self):
-        """Do nothing"""
 
     async def subscribe_topic(self, topic, coro):
         self._topics_to_subscribe.append(MqttTopicSubscription(topic, coro))
