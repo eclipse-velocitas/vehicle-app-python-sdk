@@ -3,13 +3,14 @@
 ## Python
 | Dependency | Version | License |
 |:-----------|:-------:|--------:|
-|aiohttp|3.9.5|Apache 2.0|
+|aiohappyeyeballs|2.4.0|Other/Proprietary License<br/>Python Software Foundation License|
+|aiohttp|3.10.5|Apache 2.0|
 |aiosignal|1.3.1|Apache 2.0|
 |APScheduler|3.10.4|MIT|
 |async-timeout|4.0.3|Apache 2.0|
 |attrs|24.2.0|MIT|
 |build|1.2.1|MIT|
-|cachetools|5.4.0|MIT|
+|cachetools|5.5.0|MIT|
 |cfgv|3.4.0|MIT|
 |chardet|5.2.0|LGPL|
 |click|8.1.7|New BSD|
@@ -26,11 +27,11 @@
 |grpcio|1.64.1|Apache 2.0|
 |grpcio-tools|1.64.1|Apache 2.0|
 |identify|2.6.0|MIT|
-|idna|3.7|BSD|
+|idna|3.8|BSD|
 |importlib-metadata|7.1.0|Apache 2.0|
 |iniconfig|2.0.0|MIT|
 |multidict|6.0.5|Apache 2.0|
-|mypy|1.11.1|MIT|
+|mypy|1.11.2|MIT|
 |mypy-extensions|1.0.0|MIT|
 |mypy-protobuf|3.6.0|Apache 2.0|
 |nodeenv|1.9.1|BSD|
@@ -51,14 +52,14 @@
 |pyproject-api|1.7.1|MIT|
 |pyproject-hooks|1.1.0|MIT|
 |pytest|8.3.2|MIT|
-|pytest-asyncio|0.23.8|Apache 2.0|
+|pytest-asyncio|0.24.0|Apache 2.0|
 |pytest-cov|5.0.0|MIT|
 |pytz|2024.1|MIT|
 |PyYAML|6.0.2|MIT|
 |setuptools|65.5.1|MIT|
 |six|1.16.0|MIT|
 |tomli|2.0.1|MIT|
-|tox|4.17.1|MIT|
+|tox|4.18.0|MIT|
 |types-Deprecated|1.2.9.20240311|Apache 2.0|
 |types-mock|5.1.0.20240425|Apache 2.0|
 |types-protobuf|5.27.0.20240626|Apache 2.0|
@@ -67,8 +68,8 @@
 |virtualenv|20.26.3|MIT|
 |wheel|0.44.0|MIT|
 |wrapt|1.16.0|BSD|
-|yarl|1.9.4|Apache 2.0|
-|zipp|3.19.2|MIT|
+|yarl|1.9.7|Apache 2.0|
+|zipp|3.20.1|MIT|
 ## Workflows
 | Dependency | Version | License |
 |:-----------|:-------:|--------:|
