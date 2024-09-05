@@ -36,7 +36,7 @@ def test_files_in_place():
     is_file(".devcontainer/scripts/configure-proxies.sh")
     is_file(".devcontainer/scripts/container-set.sh")
     is_file(".devcontainer/scripts/onCreateCommand.sh")
-    is_file(".devcontainer/scripts/postStartCommand.sh")
+    is_file(".devcontainer/scripts/upgrade-cli.sh")
     is_file(".devcontainer/devcontainer.json")
     is_file(".devcontainer/Dockerfile")
 
