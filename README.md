@@ -63,3 +63,62 @@ By default the examples are started using the native middleware. Dapr middleware
 - [GitHub Issues](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/issues)
 - [Mailing List](https://accounts.eclipse.org/mailing-list/velocitas-dev)
 - [Contribution](./CONTRIBUTING.md/)
+
+### Creating a new release
+
+1. Tag the commit and upload to GitHub
+
+Create a tag of the form `vX.Y.X` and upload to the repository.
+That will trigger the [release](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/actions/workflows/release.yaml) workflow.
+If the action is successfully executed a new [GitHub release](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/releases) shall have been created as well as as
+a new version of `velocitas-lib` published in [PyPI](https://pypi.org/project/velocitas-sdk/).
+
+2. Update examples
+
+This repository contain some requirement files that reference itself.
+We cannot update the version numbers in those files until we have created a [PyPI](https://pypi.org/project/velocitas-sdk/) release, as Continuous Integration then will fail.
+But that also means that a released version like will contain references to an older version.
+
+For now the best approach is to update them on `main` branch after we have created the release.
+Update `velocitas-sdk` version number in the following files:
+
+* `.project-creation/.skeleton/requirements-velocitas.txt`
+* `examples/seat-adjuster/requirements-velocitas.txt`
+
+Use the version number used for the release.
+
+2. Create a Pull Request and merge the updated version numbers
+
+### Updating Dependencies
+
+This repository specify exact Python versions  in `setup.py` and other files.
+If a version needs to be updated, for example if a vulnerability is detected, the following approach needs to be followed
+
+1. Update version in `setup.py` if needed
+2. Update generated requirement files.
+
+```bash
+pip-compile -U --extra=dev
+```
+
+3. Update version in `examples/seat-adjuster/requirements.in` if needed
+4. Update generated file for Seat Adjuster
+
+```bash
+cd examples/seat-adjuster
+pip-compile -U
+```
+
+5. Update version in `.project-creation/.skeleton/requirements.in` if needed
+6. Update generated file for Skeleton
+
+```bash
+cd .project-creation/.skeleton/
+pip-compile -U
+```
+
+7. Update `NOTICE-3RD-PARTY-CONTENT.md`
+
+The easiest way to do it is to create a Pull Request.
+Then the [check license workflow](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/actions/workflows/check-licenses.yml) will fail as versions used no longer match versions stated in the file.
+Copy output from the workflow to the `NOTICE-3RD-PARTY-CONTENT.md` file and update the Pull Request.
