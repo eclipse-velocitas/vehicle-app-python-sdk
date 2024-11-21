@@ -66,28 +66,39 @@ By default the examples are started using the native middleware. Dapr middleware
 
 ### Creating a new release
 
-1. Tag the commit and upload to GitHub
+1. Update examples
+
+This repository contain some example requirement files that reference the `velocitas-sdk` package created when we release the repository.
+Update `velocitas-sdk` version number in the following files:
+
+* `.project-creation/.skeleton/requirements-velocitas.txt`
+* `examples/seat-adjuster/requirements-velocitas.txt`
+
+Use the version number intended to be used for the release.
+As the version has not yet been released an error in Continuous Integration for the
+[Project creation](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/actions/workflows/project-creation.yaml)
+workflow is expected.
+
+```
+Running post init hook for 'sdk-installer'
+Running 'run'...
+ExecExitError: Program returned exit code: 1
+```
+
+It is recommended to test locally that the not yet released SDK is compatible with the Seat Adjuster example and then merge the changes
+even if Continuos Integration fails.
+
+2. Tag the commit and upload to GitHub
 
 Create a tag of the form `vX.Y.X` and upload to the repository.
 That will trigger the [release](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/actions/workflows/release.yaml) workflow.
 If the action is successfully executed a new [GitHub release](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/releases) shall have been created as well as as
 a new version of `velocitas-lib` published in [PyPI](https://pypi.org/project/velocitas-sdk/).
 
-2. Update examples
+3. Re-run project creation tests
 
-This repository contain some requirement files that reference itself.
-We cannot update the version numbers in those files until we have created a [PyPI](https://pypi.org/project/velocitas-sdk/) release, as Continuous Integration then will fail.
-But that also means that a released version like will contain references to an older version.
-
-For now the best approach is to update them on `main` branch after we have created the release.
-Update `velocitas-sdk` version number in the following files:
-
-* `.project-creation/.skeleton/requirements-velocitas.txt`
-* `examples/seat-adjuster/requirements-velocitas.txt`
-
-Use the version number used for the release.
-
-2. Create a Pull Request and merge the updated version numbers
+Now when the updated [PyPI](https://pypi.org/project/velocitas-sdk/) package exists the [Project creation](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/actions/workflows/project-creation.yaml) workflow is expected to succeed if run manually for `main`.
+If not you need to troubleshoot why it doesn't.
 
 ### Updating Dependencies
 
@@ -122,3 +133,7 @@ pip-compile -U
 The easiest way to do it is to create a Pull Request.
 Then the [check license workflow](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/actions/workflows/check-licenses.yml) will fail as versions used no longer match versions stated in the file.
 Copy output from the workflow to the `NOTICE-3RD-PARTY-CONTENT.md` file and update the Pull Request.
+
+8. Update examples and create a new release
+
+As we explicitly use our "own" PyPI package we need to udpate references and create a new release, see release section above.
