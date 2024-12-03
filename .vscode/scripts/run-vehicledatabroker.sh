@@ -41,4 +41,5 @@ docker run \
   -e KUKSA_DATA_BROKER_PORT \
   -e RUST_LOG \
   --network host \
-  $DATABROKER_IMAGE:$DATABROKER_TAG
+  $DATABROKER_IMAGE:$DATABROKER_TAG \
+  --enable-databroker-v1
