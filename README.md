@@ -75,7 +75,7 @@ Update `velocitas-sdk` version number in the following files:
 * `examples/seat-adjuster/requirements-velocitas.txt`
 
 Use the version number intended to be used for the release.
-As the version has not yet been released an error in Continuous Integration for the
+As the version has not yet been released, an error in Continuous Integration for the
 [Project creation](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/actions/workflows/project-creation.yaml)
 workflow is expected.
 
@@ -85,7 +85,7 @@ Running 'run'...
 ExecExitError: Program returned exit code: 1
 ```
 
-It is recommended to test locally that the not yet released SDK is compatible with the Seat Adjuster example and then merge the changes
+It is recommended to test locally if the not yet released SDK is compatible with the Seat Adjuster example and then merge the changes
 even if Continuos Integration fails.
 
 2. Tag the commit and upload to GitHub
@@ -97,12 +97,12 @@ a new version of `velocitas-lib` published in [PyPI](https://pypi.org/project/ve
 
 3. Re-run project creation tests
 
-Now when the updated [PyPI](https://pypi.org/project/velocitas-sdk/) package exists the [Project creation](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/actions/workflows/project-creation.yaml) workflow is expected to succeed if run manually for `main`.
+Now, when the updated [PyPI](https://pypi.org/project/velocitas-sdk/) package exists, the [Project creation](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/actions/workflows/project-creation.yaml) workflow is expected to succeed if run manually for `main`.
 If not you need to troubleshoot why it doesn't.
 
 ### Updating Dependencies
 
-This repository specify exact Python versions  in `setup.py` and other files.
+This repository specifies exact Python versions  in `setup.py` and other files.
 If a version needs to be updated, for example if a vulnerability is detected, the following approach needs to be followed
 
 1. Update version in `setup.py` if needed
