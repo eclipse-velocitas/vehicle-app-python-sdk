@@ -1,1 +1,2 @@
+# Needed by some old examples that rely on a pre-generated signal model
 git+https://github.com/eclipse-velocitas/vehicle-model-python.git@v0.3.0

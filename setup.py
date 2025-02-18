@@ -18,7 +18,7 @@ requirements = [
     "grpcio==1.64.1",
     "protobuf==5.27.2",
     "cloudevents==1.11.0",
-    "aiohttp==3.10.5",
+    "aiohttp==3.10.11",
     "paho-mqtt==2.1.0",
     "opentelemetry-distro==0.46b0",
     "opentelemetry-instrumentation-logging==0.46b0",
