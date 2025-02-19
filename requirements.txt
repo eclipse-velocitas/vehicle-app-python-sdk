@@ -171,7 +171,7 @@ typing-extensions==4.12.2
     #   opentelemetry-sdk
 tzlocal==5.2
     # via apscheduler
-virtualenv==20.26.3
+virtualenv==20.26.6
     # via
     #   pre-commit
     #   tox

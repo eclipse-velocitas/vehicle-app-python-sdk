@@ -65,7 +65,7 @@
 |types-protobuf|5.27.0.20240626|Apache 2.0|
 |typing-extensions|4.12.2|Python Software Foundation License|
 |tzlocal|5.2|MIT|
-|virtualenv|20.26.3|MIT|
+|virtualenv|20.26.6|MIT|
 |wheel|0.44.0|MIT|
 |wrapt|1.16.0|BSD|
 |yarl|1.9.7|Apache 2.0|
