@@ -27,7 +27,7 @@
                     "vehicleapp/setValue/request"
                 ],
                 "writes": [
-                    "vehicleapp/setValue/response",
+                    "vehicleapp/setValue/response"
                 ]
             }
         }
