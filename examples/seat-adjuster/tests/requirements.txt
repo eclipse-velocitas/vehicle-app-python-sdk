@@ -4,33 +4,31 @@
 #
 #    pip-compile
 #
-coverage[toml]==7.6.0
-    # via
-    #   coverage
-    #   pytest-cov
+coverage[toml]==7.6.12
+    # via pytest-cov
 exceptiongroup==1.2.2
     # via pytest
 iniconfig==2.0.0
     # via pytest
-packaging==24.1
+packaging==24.2
     # via pytest
 pluggy==1.5.0
     # via pytest
-pytest==8.3.2
+pytest==8.3.5
     # via
     #   -r requirements.in
     #   pytest-asyncio
     #   pytest-cov
     #   pytest-ordering
-pytest-asyncio==0.23.8
+pytest-asyncio==0.25.3
     # via -r requirements.in
-pytest-cov==5.0.0
+pytest-cov==6.0.0
     # via -r requirements.in
 pytest-ordering==0.6
     # via -r requirements.in
-tomli==2.0.1
+tomli==2.2.1
     # via
     #   coverage
     #   pytest
-types-mock==5.1.0.20240425
+types-mock==5.2.0.20250306
     # via -r requirements.in
