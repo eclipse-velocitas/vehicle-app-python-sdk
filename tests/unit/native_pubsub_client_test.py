@@ -12,7 +12,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-""" Tests for methods in PubSubClient """
+"""Tests for methods in PubSubClient"""
+
 import os
 import sys
 import time

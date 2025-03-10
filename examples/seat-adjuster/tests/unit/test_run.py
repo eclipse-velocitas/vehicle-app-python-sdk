@@ -238,6 +238,6 @@ async def async_raise_exception(*args):
 async def async_raise_value_error(*args):
     data = json.loads(get_invalid_request_data_str())
     raise ValueError(
-        f"""Provided position {data['position']}  \
+        f"""Provided position {data["position"]}  \
         should not be Greater than 1000 (Max)"""
     )

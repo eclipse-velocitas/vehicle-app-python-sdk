@@ -12,7 +12,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-""" Tests for methods in VehicleCollectorClient """
+"""Tests for methods in VehicleCollectorClient"""
+
 import pytest
 
 from velocitas_sdk.proto.types_pb2 import DataType

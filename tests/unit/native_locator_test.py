@@ -12,8 +12,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-""" Tests for methods in locator """
-
+"""Tests for methods in locator"""
 
 import os
 from unittest import mock

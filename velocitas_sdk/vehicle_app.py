@@ -12,7 +12,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-""" This module contains the Vehicle App base class. """
+"""This module contains the Vehicle App base class."""
 
 import asyncio
 import inspect
