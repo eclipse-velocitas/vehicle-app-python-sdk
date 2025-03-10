@@ -3,35 +3,35 @@
 ## Python
 | Dependency | Version | License |
 |:-----------|:-------:|--------:|
-|aiohappyeyeballs|2.4.3|Python Software Foundation License|
+|aiohappyeyeballs|2.5.0|Python Software Foundation License|
 |aiohttp|3.10.11|Apache 2.0|
-|aiosignal|1.3.1|Apache 2.0|
-|APScheduler|3.10.4|MIT|
+|aiosignal|1.3.2|Apache 2.0|
+|APScheduler|3.11.0|MIT|
 |async-timeout|5.0.1|Apache 2.0|
-|attrs|24.2.0|MIT|
+|attrs|25.1.0|unknown|
 |build|1.2.2.post1|MIT|
-|cachetools|5.5.0|MIT|
+|cachetools|5.5.2|MIT|
 |cfgv|3.4.0|MIT|
 |chardet|5.2.0|LGPL|
-|click|8.1.7|New BSD|
+|click|8.1.8|BSD|
 |cloudevents|1.11.0|Apache 2.0|
 |colorama|0.4.6|BSD|
-|coverage|7.6.7|Apache 2.0|
-|Deprecated|1.2.15|MIT|
+|coverage|7.6.12|Apache 2.0|
+|Deprecated|1.2.18|MIT|
 |deprecation|2.1.0|Apache 2.0|
 |distlib|0.3.9|Python Software Foundation License|
 |exceptiongroup|1.2.2|MIT|
-|filelock|3.16.1|The Unlicense (Unlicense)|
+|filelock|3.17.0|The Unlicense (Unlicense)|
 |frozenlist|1.5.0|Apache 2.0|
 |grpc-stubs|1.53.0.5|MIT|
 |grpcio|1.64.1|Apache 2.0|
 |grpcio-tools|1.64.1|Apache 2.0|
-|identify|2.6.2|MIT|
+|identify|2.6.9|MIT|
 |idna|3.10|BSD|
 |importlib-metadata|7.1.0|Apache 2.0|
 |iniconfig|2.0.0|MIT|
 |multidict|6.1.0|Apache 2.0|
-|mypy|1.13.0|MIT|
+|mypy|1.15.0|MIT|
 |mypy-extensions|1.0.0|MIT|
 |mypy-protobuf|3.6.0|Apache 2.0|
 |nodeenv|1.9.1|BSD|
@@ -47,29 +47,27 @@
 |pip-tools|7.4.1|BSD|
 |platformdirs|4.3.6|MIT|
 |pluggy|1.5.0|MIT|
-|pre-commit|4.0.1|MIT|
-|propcache|0.2.0|Apache 2.0|
+|pre-commit|4.1.0|MIT|
+|propcache|0.3.0|Apache 2.0|
 |protobuf|5.27.2|Google License|
-|pyproject-api|1.8.0|MIT|
+|pyproject-api|1.9.0|MIT|
 |pyproject-hooks|1.2.0|MIT|
-|pytest|8.3.3|MIT|
-|pytest-asyncio|0.24.0|Apache 2.0|
+|pytest|8.3.5|MIT|
+|pytest-asyncio|0.25.3|Apache 2.0|
 |pytest-cov|6.0.0|MIT|
-|pytz|2024.2|MIT|
 |PyYAML|6.0.2|MIT|
 |setuptools|65.5.1|MIT|
-|six|1.16.0|MIT|
-|tomli|2.1.0|MIT|
-|tox|4.23.2|MIT|
-|types-Deprecated|1.2.15.20241117|Apache 2.0|
-|types-mock|5.1.0.20240425|Apache 2.0|
-|types-protobuf|5.28.3.20241030|Apache 2.0|
+|tomli|2.2.1|MIT|
+|tox|4.24.2|MIT|
+|types-deprecated|1.2.15.20250304|Apache 2.0|
+|types-mock|5.2.0.20250306|Apache 2.0|
+|types-protobuf|5.29.1.20250208|Apache 2.0|
 |typing-extensions|4.12.2|Python Software Foundation License|
-|tzlocal|5.2|MIT|
-|virtualenv|20.27.1|MIT|
-|wheel|0.45.0|MIT|
-|wrapt|1.16.0|BSD|
-|yarl|1.17.2|Apache 2.0|
+|tzlocal|5.3.1|MIT|
+|virtualenv|20.29.3|MIT|
+|wheel|0.45.1|MIT|
+|wrapt|1.17.2|BSD|
+|yarl|1.18.3|Apache 2.0|
 |zipp|3.21.0|MIT|
 ## Workflows
 | Dependency | Version | License |
