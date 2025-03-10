@@ -75,18 +75,6 @@ Update `velocitas-sdk` version number in the following files:
 * `examples/seat-adjuster/requirements-velocitas.txt`
 
 Use the version number intended to be used for the release.
-As the version has not yet been released, an error in Continuous Integration for the
-[Project creation](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/actions/workflows/project-creation.yaml)
-workflow is expected.
-
-```
-Running post init hook for 'sdk-installer'
-Running 'run'...
-ExecExitError: Program returned exit code: 1
-```
-
-It is recommended to test locally if the not yet released SDK is compatible with the Seat Adjuster example and then merge the changes
-even if Continuos Integration fails.
 
 2. Tag the commit and upload to GitHub
 
