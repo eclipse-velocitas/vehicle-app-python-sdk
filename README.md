@@ -76,16 +76,19 @@ Update `velocitas-sdk` version number in the following files:
 
 Use the version number intended to be used for the release.
 
-2. Tag the commit and upload to GitHub
+2. Create a PR with the required changes
 
-Create a tag of the form `vX.Y.X` and upload to the repository.
+> Note: The [project creation workflow](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/actions/workflows/project-creation.yaml) will fail, since the new tag is required by the workflow but not yet available. Since these checks are not mandatory to be able to merge the PR, you can still release your changes.
+
+3. Once the PR is merged: Tag the commit and upload to GitHub
+
+Create a release in the GitHub UI and use the new tag of the form `vX.Y.X`.
 That will trigger the [release](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/actions/workflows/release.yaml) workflow.
-If the action is successfully executed a new [GitHub release](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/releases) shall have been created as well as as
-a new version of `velocitas-lib` published in [PyPI](https://pypi.org/project/velocitas-sdk/).
+If the action is successfully executed a new version of `velocitas-lisdkb` is published in [PyPI](https://pypi.org/project/velocitas-sdk/).
 
-3. Re-run project creation tests
+4. Re-run project creation tests
 
-Now, when the updated [PyPI](https://pypi.org/project/velocitas-sdk/) package exists, the [Project creation](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/actions/workflows/project-creation.yaml) workflow is expected to succeed if run manually for `main`.
+Now, when the updated [PyPI](https://pypi.org/project/velocitas-sdk/) package exists, the [project creation workflow](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/actions/workflows/project-creation.yaml) is expected to succeed if run manually for `main`.
 If not you need to troubleshoot why it doesn't.
 
 ### Updating Dependencies

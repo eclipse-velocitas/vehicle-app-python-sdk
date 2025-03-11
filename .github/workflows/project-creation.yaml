@@ -92,10 +92,11 @@ jobs:
             CREATE_ARGS="-e ${{ matrix.example }}"
           fi
           velocitas create -c vapp-core-python $CREATE_ARGS
-          # Velocitas CLI fetches an older released version of the example
-          # This is caused by vehicle-app-template that downloads latest tagged version of pkg-velocitas-main
-          # and then the SDK version mentioned in components/cores/vapp-python/.project-creation/config.json
-          # will be used.
+
+          # Velocitas CLI does not fetch the latest released version of the example.
+          # This is caused by vehicle-app-template that downloads latest tagged version of pkg-velocitas-main,
+          # which then uses the latest tagged SDK or the version mentioned in
+          # components/cores/vapp-python/.project-creation/config.json if no tags are found.
           # But we want to check the one in this repository so lets copy it
           if [ "${{ matrix.example }}" != "no-example" ]; then
             cp -r ../sdk/examples/${{ matrix.example }}/* ../app/app
