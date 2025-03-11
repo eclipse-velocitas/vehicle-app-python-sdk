@@ -84,7 +84,7 @@ Use the version number intended to be used for the release.
 
 Create a release in the GitHub UI and use the new tag of the form `vX.Y.X`.
 That will trigger the [release](https://github.com/eclipse-velocitas/vehicle-app-python-sdk/actions/workflows/release.yaml) workflow.
-If the action is successfully executed a new version of `velocitas-lisdkb` is published in [PyPI](https://pypi.org/project/velocitas-sdk/).
+If the action is successfully executed a new version of `velocitas-sdk` is published in [PyPI](https://pypi.org/project/velocitas-sdk/).
 
 4. Re-run project creation tests
 
