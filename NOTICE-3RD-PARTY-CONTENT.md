@@ -49,7 +49,7 @@
 |pluggy|1.5.0|MIT|
 |pre-commit|4.1.0|MIT|
 |propcache|0.3.0|Apache 2.0|
-|protobuf|5.27.2|Google License|
+|protobuf|5.29.5|Google License|
 |pyproject-api|1.9.0|MIT|
 |pyproject-hooks|1.2.0|MIT|
 |pytest|8.3.5|MIT|
