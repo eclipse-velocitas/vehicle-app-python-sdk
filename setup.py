@@ -16,7 +16,7 @@ from setuptools import setup
 
 requirements = [
     "grpcio==1.64.1",
-    "protobuf==5.27.2",
+    "protobuf==5.29.5",
     "cloudevents==1.11.0",
     "aiohttp==3.10.11",
     "paho-mqtt==2.1.0",

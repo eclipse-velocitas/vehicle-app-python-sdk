@@ -124,7 +124,7 @@ pre-commit==4.1.0
     # via velocitas_sdk (setup.py)
 propcache==0.3.0
     # via yarl
-protobuf==5.27.2
+protobuf==5.29.5
     # via
     #   grpcio-tools
     #   mypy-protobuf
