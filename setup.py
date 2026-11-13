@@ -16,9 +16,9 @@ from setuptools import setup
 
 requirements = [
     "grpcio==1.64.1",
-    "protobuf==5.29.5",
+    "protobuf==5.29.6",
     "cloudevents==1.11.0",
-    "aiohttp==3.10.11",
+    "aiohttp==3.14.5",
     "paho-mqtt==2.1.0",
     "opentelemetry-distro==0.46b0",
     "opentelemetry-instrumentation-logging==0.46b0",
