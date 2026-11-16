@@ -14,19 +14,20 @@
 
 import asyncio
 import logging
-from typing import List, Optional
 from urllib.parse import urlparse
 
 import grpc
 
 from velocitas_sdk import config
-from velocitas_sdk.proto.broker_pb2 import (
-    GetDatapointsRequest,
-    GetMetadataRequest,
-    SetDatapointsRequest,
+from velocitas_sdk.proto.types_pb2 import Metadata, SignalID
+from velocitas_sdk.proto.val_pb2 import (
+    ActuateRequest,
+    BatchActuateRequest,
+    GetValuesRequest,
+    ListMetadataRequest,
     SubscribeRequest,
 )
-from velocitas_sdk.proto.broker_pb2_grpc import BrokerStub
+from velocitas_sdk.proto.val_pb2_grpc import VALStub
 
 logger = logging.getLogger(__name__)
 
@@ -36,10 +37,11 @@ class VehicleDataBrokerClient:
     and vehicle signals."""
 
     _instance = None
+    _channel = None
 
-    def __new__(cls, port: Optional[int] = None):
+    def __new__(cls, port: int | None = None):
         if cls._instance is None:
-            cls._instance = super(VehicleDataBrokerClient, cls).__new__(cls)
+            cls._instance = super().__new__(cls)
             service_locator = config.middleware.service_locator
             _location = service_locator.get_service_location("vehicledatabroker")
             _hostname = urlparse(_location).hostname
@@ -54,7 +56,7 @@ class VehicleDataBrokerClient:
             metadata = service_locator.get_metadata("vehicledatabroker")
             cls._metadata = metadata
 
-            cls._stub = BrokerStub(cls._channel)
+            cls._stub = VALStub(cls._channel)
         return cls._instance
 
     async def close(self):
@@ -68,12 +70,13 @@ class VehicleDataBrokerClient:
     def __exit__(self, exc_type, exc_value, traceback) -> None:
         asyncio.run_coroutine_threadsafe(self.close(), asyncio.get_event_loop())
 
-    async def GetDatapoints(self, datapoints: List[str]):
+    async def GetDatapoints(self, datapoints: list[str]):
+        signal_ids = [SignalID(path=signal) for signal in datapoints]
         try:
-            response = await self._stub.GetDatapoints(
-                GetDatapointsRequest(datapoints=datapoints), metadata=self._metadata
+            response = await self._stub.GetValues(
+                GetValuesRequest(signal_ids=signal_ids), metadata=self._metadata
             )
-            return response
+            return dict(zip(datapoints, response.data_points))
         except grpc.aio.AioRpcError:  # type: ignore
             logger.exception(
                 "Error occured in VehicleDataBrokerClient.GetDatapoints",
@@ -81,9 +84,13 @@ class VehicleDataBrokerClient:
             raise
 
     async def SetDatapoints(self, datapoints):
+        requests = [
+            ActuateRequest(signal_id=SignalID(path=path), value=dp.value)
+            for path, dp in datapoints.items()
+        ]
         try:
-            response = await self._stub.SetDatapoints(
-                SetDatapointsRequest(datapoints=datapoints), metadata=self._metadata
+            response = await self._stub.BatchActuate(
+                BatchActuateRequest(actuate_requests=requests), metadata=self._metadata
             )
             return response
         except grpc.aio.AioRpcError:  # type: ignore
@@ -93,9 +100,19 @@ class VehicleDataBrokerClient:
             raise
 
     def Subscribe(self, query: str):
+        if not query.startswith("SELECT "):
+            raise Exception('Mallformed query not starting with "SELECT "!')
+        if "WHERE " in query:
+            raise Exception("Queries with WHERE clauses are no longer supported!")
+
+        signal_list = query.removeprefix("SELECT ")
+        signal_paths = [raw_path.strip() for raw_path in signal_list.split(",")]
+        if len(signal_paths) == 0:
+            raise Exception("Mallformed query selecting no signals!")
+
         try:
             response = self._stub.Subscribe(
-                SubscribeRequest(query=query),
+                SubscribeRequest(signal_paths=signal_paths),
                 metadata=self._metadata,
             )
             return response
@@ -107,12 +124,15 @@ class VehicleDataBrokerClient:
 
     async def GetMetadata(self, names: list):
         try:
-            response = await self._stub.GetMetadata(
-                GetMetadataRequest(names=names), metadata=self._metadata
-            )
-            return response
+            metadata_list = list[Metadata]
+            for path in names:
+                response = await self._stub.ListMetadata(
+                    ListMetadataRequest(root=path), metadata=self._metadata
+                )
+                metadata_list += response.metadata
+            return metadata_list
         except grpc.aio.AioRpcError:  # type: ignore
             logger.exception(
-                "Error occured in VehicleDataBrokerClient.GetMetadata",
+                "Error occured in VehicleDataBrokerClient.ListMetadata",
             )
             raise

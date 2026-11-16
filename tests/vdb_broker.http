@@ -8,7 +8,7 @@ proto < ./../sdv/proto/sdv/databroker/v1/broker.proto
 GRPC /SetDatapoints
 {
     "datapoints": {
-        "Vehicle.Cabin.Seat.Row1.Pos1.Position": {
+        "Vehicle.Cabin.Seat.Row1.DriverSide.Position": {
                 "timestamp": {
                     "seconds": 1666270157,
                     "nanos": 226860106
@@ -22,7 +22,7 @@ GRPC /SetDatapoints
 GRPC /SetDatapoints
 {
     "datapoints": {
-        "Vehicle.Cabin.Seat.Row1.Pos1.IsBelted": {
+        "Vehicle.Cabin.Seat.Row1.DriverSide.IsBelted": {
                 "timestamp": {
                     "seconds": 1666270157,
                     "nanos": 226860106
@@ -35,7 +35,7 @@ GRPC /SetDatapoints
 # Test GetDatapoints Request.
 GRPC /GetDatapoints
 {
-    "datapoints": ["Vehicle.Speed", "Vehicle.Cabin.Seat.Row1.Pos1.Position"]
+    "datapoints": ["Vehicle.Speed", "Vehicle.Cabin.Seat.Row1.DriverSide.Position"]
 }
 
 # Test GetMetadata Request of a single datapoint.

@@ -17,7 +17,7 @@ import json
 import logging
 import signal
 
-from sdv_model import Vehicle, vehicle  # type: ignore
+from vehicle import Vehicle, vehicle  # type: ignore
 
 from velocitas_sdk.vdb.subscriptions import DataPointReply
 from velocitas_sdk.vehicle_app import VehicleApp, subscribe_topic
@@ -46,14 +46,14 @@ class SetDatapointApp(VehicleApp):
 
     async def on_start(self):
         """Run when the vehicle app starts"""
-        await self.Vehicle.Cabin.Seat.Row1.Pos1.Position.subscribe(
+        await self.Vehicle.Cabin.Seat.Row1.DriverSide.Position.subscribe(
             self.on_position_update
         )
 
     async def on_position_update(self, data: DataPointReply):
         logger.info(
-            "Vehicle.Cabin.Seat.Row1.Pos1.Position: %i",
-            data.get(self.Vehicle.Cabin.Seat.Row1.Pos1.Position).value,
+            "Vehicle.Cabin.Seat.Row1.DriverSide.Position: %i",
+            data.get(self.Vehicle.Cabin.Seat.Row1.DriverSide.Position).value,
         )
 
     @subscribe_topic(TOPIC_SET_VALUE_REQUEST)
@@ -63,7 +63,7 @@ class SetDatapointApp(VehicleApp):
         logger.info("Set Position request %i", position)
         try:
             # This is a valid set request, the Position is an actuator.
-            await self.Vehicle.Cabin.Seat.Row1.Pos1.Position.set(position)
+            await self.Vehicle.Cabin.Seat.Row1.DriverSide.Position.set(position)
             await self.publish_event(
                 TOPIC_SET_VALUE_RESPONSE, json.dumps(f".set({position}) request sent")
             )
@@ -77,7 +77,7 @@ class SetDatapointApp(VehicleApp):
         try:
             # This is an invalid set request, the IsBelted is not an actuator.
             # A TypeError will be raised
-            await self.Vehicle.Cabin.Seat.Row1.Pos1.IsBelted.set(value)
+            await self.Vehicle.Cabin.Seat.Row1.DriverSide.IsBelted.set(value)
         except TypeError as error:
             await self.publish_event(TOPIC_SET_VALUE_RESPONSE, json.dumps(str(error)))
 

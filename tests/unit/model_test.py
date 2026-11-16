@@ -18,6 +18,11 @@ from unittest import TestCase, mock
 
 import grpc
 import pytest
+from velocitas_sdk.proto.broker_pb2 import (
+    GetDatapointsReply,
+    SetDatapointsReply,
+    SubscribeReply,
+)
 
 from velocitas_sdk import config
 from velocitas_sdk.model import (
@@ -50,11 +55,6 @@ from velocitas_sdk.model import (
     Model,
     ModelCollection,
     NamedRange,
-)
-from velocitas_sdk.proto.broker_pb2 import (
-    GetDatapointsReply,
-    SetDatapointsReply,
-    SubscribeReply,
 )
 from velocitas_sdk.proto.types_pb2 import Datapoint as BrokerDatapoint
 from velocitas_sdk.proto.types_pb2 import DatapointError
@@ -89,14 +89,6 @@ async def test_thread_safe_query():
 
 
 async def run_query(i, k, vehicle, errors):
-    if k % 3 == 0:
-        query = await vehicle.Speed.where("X > 10").get_query()
-
-        if query != "SELECT Vehicle.Speed WHERE X > 10":
-            errors.append(
-                f"""Thread: {i}, Task: {k}, Actual: {query},
-                Expected: SELECT Vehicle.Speed WHERE X > 10"""
-            )
     if k % 3 == 1:
         query = await vehicle.Speed.get_query()
 
@@ -110,10 +102,10 @@ async def run_query(i, k, vehicle, errors):
             vehicle.Cabin.Seat.element_at(1, 1).Position
         ).get_query()
 
-        if query != "SELECT Vehicle.Speed, Vehicle.Cabin.Seat.Row1.Pos1.Position":
+        if query != "SELECT Vehicle.Speed, Vehicle.Cabin.Seat.Row1.DriverSide.Position":
             errors.append(
                 f"""Thread: {i}, Task: {k}, Actual: {query},
-                Expected: SELECT Vehicle.Speed, Vehicle.Cabin.Seat.Row1.Pos1.Position"""
+                Expected: SELECT Vehicle.Speed, Vehicle.Cabin.Seat.Row1.DriverSide.Position"""
             )
 
 
@@ -1303,48 +1295,7 @@ async def test_subscribe_with_join():
         except Exception as ex:
             assert ex.args[0].fields["Vehicle.Speed"] == get_sample_datapoint("Speed")
             assert ex.args[0].fields[
-                "Vehicle.Cabin.Seat.Row1.Pos1.Position"
-            ] == get_sample_datapoint("Position")
-
-
-@pytest.mark.asyncio
-async def test_subscribe_with_where():
-    vehicle = get_vehicle_instance()
-    with mock.patch.object(
-        vehicle.Speed.get_client(),
-        "Subscribe",
-        return_value=AsyncIter([SubscribeReply(fields=get_fields("WHERE > 0"))]),
-    ):
-        try:
-            (
-                await vehicle.Speed.where(
-                    "Vehicle.Cabin.Seat.Row1.Pos1.Position > 0"
-                ).subscribe(callback)
-            )
-            # await vehicle.start()
-        except Exception as ex:
-            assert ex.args[0].fields["Vehicle.Speed"] == get_sample_datapoint("Speed")
-
-
-@pytest.mark.asyncio
-async def test_subscribe_with_join_where():
-    vehicle = get_vehicle_instance()
-    with mock.patch.object(
-        vehicle.Speed.get_client(),
-        "Subscribe",
-        return_value=AsyncIter([SubscribeReply(fields=get_fields("JOIN > 0"))]),
-    ):
-        try:
-            (
-                await vehicle.Speed.join(vehicle.Cabin.Seat.element_at(1, 1).Position)
-                .where("Vehicle.Cabin.Seat.Row1.Pos1.Position > 0")
-                .subscribe(callback_join)
-            )
-            # await vehicle.start()
-        except Exception as ex:
-            assert ex.args[0].fields["Vehicle.Speed"] == get_sample_datapoint("Speed")
-            assert ex.args[0].fields[
-                "Vehicle.Cabin.Seat.Row1.Pos1.Position"
+                "Vehicle.Cabin.Seat.Row1.DriverSide.Position"
             ] == get_sample_datapoint("Position")
 
 
@@ -1370,54 +1321,10 @@ async def test_join():
         .get_query()
     )
     expected_path = (
-        "SELECT Vehicle.Cabin.Seat.Row1.Pos2.Position, Vehicle.Speed, "
+        "SELECT Vehicle.Cabin.Seat.Row1.PassengerSide.Position, Vehicle.Speed, "
         "Vehicle.Cabin.DriverPosition, Vehicle.Speed"
     )
     assert query == expected_path
-
-
-@pytest.mark.asyncio
-async def test_where():
-    vehicle = get_vehicle_instance()
-    query = (
-        vehicle.Cabin.Seat.element_at(1, 2)
-        .Position.where("Vehicle.Speed > 0")
-        .get_query()
-    )
-    assert (
-        query == "SELECT Vehicle.Cabin.Seat.Row1.Pos2.Position WHERE Vehicle.Speed > 0"
-    )
-
-
-@pytest.mark.asyncio
-async def test_join_with_where():
-    vehicle = get_vehicle_instance()
-    query = (
-        vehicle.Cabin.Seat.element_at(1, 2)
-        .Position.join(vehicle.Speed, vehicle.Cabin.DriverPosition)
-        .where("Vehicle.Speed > 0")
-        .get_query()
-    )
-    assert query == (
-        "SELECT Vehicle.Cabin.Seat.Row1.Pos2.Position, Vehicle.Speed,"
-        " Vehicle.Cabin.DriverPosition WHERE Vehicle.Speed > 0"
-    )
-
-
-@pytest.mark.asyncio
-async def test_multiple_join_with_where():
-    vehicle = get_vehicle_instance()
-    query = (
-        vehicle.Cabin.Seat.element_at(1, 2)
-        .Position.join(vehicle.Speed, vehicle.Cabin.DriverPosition)
-        .join(vehicle.Cabin)
-        .where("Vehicle.Speed > 0")
-        .get_query()
-    )
-    assert query == (
-        "SELECT Vehicle.Cabin.Seat.Row1.Pos2.Position, Vehicle.Speed, "
-        "Vehicle.Cabin.DriverPosition, Vehicle.Cabin WHERE Vehicle.Speed > 0"
-    )
 
 
 def test_path_depth2():
@@ -1435,7 +1342,7 @@ def test_path_depth3():
 def test_path_instances_range2():
     vehicle = get_vehicle_instance()
     path = vehicle.Cabin.Seat.element_at(1, 2).Position.get_path()
-    assert path == "Vehicle.Cabin.Seat.Row1.Pos2.Position"
+    assert path == "Vehicle.Cabin.Seat.Row1.PassengerSide.Position"
 
 
 def test_path_instances_range_list():
@@ -1499,21 +1406,23 @@ async def test_setting_multiple_data_points_atomically():
 async def test_fail_setting_multiple_data_points_atomically():
     vehicle = get_vehicle_instance()
 
-    with mock.patch.object(
-        vehicle.get_client(),
-        "SetDatapoints",
-        new_callable=mock.AsyncMock,
-        return_value=SetDatapointsReply(
-            errors={vehicle.Bool.get_path(): DatapointError.UNKNOWN_DATAPOINT}
+    with (
+        mock.patch.object(
+            vehicle.get_client(),
+            "SetDatapoints",
+            new_callable=mock.AsyncMock,
+            return_value=SetDatapointsReply(
+                errors={vehicle.Bool.get_path(): DatapointError.UNKNOWN_DATAPOINT}
+            ),
         ),
+        pytest.raises(TypeError),
     ):
-        with pytest.raises(TypeError):
-            (
-                await vehicle.set_many()
-                .add(vehicle.Bool, False)
-                .add(vehicle.String, "Huhu")
-                .apply()
-            )
+        (
+            await vehicle.set_many()
+            .add(vehicle.Bool, False)
+            .add(vehicle.String, "Huhu")
+            .apply()
+        )
 
 
 @pytest.mark.asyncio
@@ -1569,7 +1478,9 @@ def get_fields(condition=""):
         data["Vehicle.Speed"] = get_sample_datapoint("Speed")
     elif condition == "JOIN":
         data["Vehicle.Speed"] = get_sample_datapoint("Speed")
-        data["Vehicle.Cabin.Seat.Row1.Pos1.Position"] = get_sample_datapoint("Position")
+        data["Vehicle.Cabin.Seat.Row1.DriverSide.Position"] = get_sample_datapoint(
+            "Position"
+        )
     elif condition == "all":
         sample_data = {
             "Vehicle.String": "Example",
@@ -1600,17 +1511,10 @@ def get_fields(condition=""):
         for name in sample_data.items():
             data[name[0]] = get_sample_datapoint(name[0], name[1])
     else:
-        conditions = condition.split(" ")
         data["Vehicle.Speed"] = get_sample_datapoint("Speed")
-        data["Vehicle.Cabin.Seat.Row1.Pos1.Position"] = get_sample_datapoint("Position")
-
-        if conditions[1] == ">" and data[
-            "Vehicle.Cabin.Seat.Row1.Pos1.Position"
-        ].int32_value < int(conditions[2]):
-            return {}
-
-        if conditions[0] == "WHERE":
-            data.pop("Vehicle.Cabin.Seat.Row1.Pos1.Position")
+        data["Vehicle.Cabin.Seat.Row1.DriverSide.Position"] = get_sample_datapoint(
+            "Position"
+        )
 
     return data
 

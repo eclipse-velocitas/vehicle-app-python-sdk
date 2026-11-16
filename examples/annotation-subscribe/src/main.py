@@ -18,7 +18,7 @@ import asyncio
 import logging
 import signal
 
-from sdv_model import Vehicle, vehicle  # type: ignore
+from vehicle import Vehicle, vehicle  # type: ignore
 
 from velocitas_sdk.vdb.subscriptions import DataPointReply
 from velocitas_sdk.vehicle_app import VehicleApp, subscribe_data_points
@@ -34,11 +34,11 @@ class SpeedLimitWarner(VehicleApp):
         super().__init__()
         self.Vehicle = vehicle
 
-    @subscribe_data_points("Vehicle.Speed", "Vehicle.Speed > 130.0")
+    @subscribe_data_points("Vehicle.Speed")
     def on_vehicle_speed_above_limit(self, data: DataPointReply):
         """Handle vehicle speed limit exceeded event"""
         logger.info(
-            "Warning: Vehicle speed limit (130) exceeded: %f",
+            "Vehicle speed updated: %f",
             data.get(self.Vehicle.Speed).value,
         )
 

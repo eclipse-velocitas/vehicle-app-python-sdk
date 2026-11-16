@@ -30,18 +30,18 @@ DATABROKER_ASSET_FOLDER="$SCRIPT_DIR/assets/databroker/$DATABROKER_VERSION"
 if [[ `uname -m` == 'aarch64' || `uname -m` == 'arm64' ]]; then
     echo "Detected ARM architecture"
     PROCESSOR="aarch64"
-    DATABROKER_BINARY_NAME="databroker-cli-arm64.tar.gz"
+    DATABROKER_BINARY_NAME="databroker-cli-arm64-$DATABROKER_VERSION.tar.gz"
 else
     echo "Detected x86_64 architecture"
     PROCESSOR="x86_64"
-    DATABROKER_BINARY_NAME='databroker-cli-amd64.tar.gz'
+    DATABROKER_BINARY_NAME="databroker-cli-amd64-$DATABROKER_VERSION.tar.gz"
 fi
 
-DATABROKER_EXEC_PATH="$DATABROKER_ASSET_FOLDER/$PROCESSOR/databroker-cli"
+DATABROKER_EXEC_PATH="$DATABROKER_ASSET_FOLDER/$PROCESSOR"
 
 if [[ ! -f "$DATABROKER_EXEC_PATH/databroker-cli" ]]
 then
-    DOWNLOAD_URL=https://github.com/eclipse/kuksa.val/releases/download
+    DOWNLOAD_URL=https://github.com/eclipse-kuksa/kuksa-databroker/releases/download
     echo "Downloading databroker:$DATABROKER_VERSION"
     curl -o $DATABROKER_ASSET_FOLDER/$PROCESSOR/$DATABROKER_BINARY_NAME --create-dirs -L -H "Accept: application/octet-stream" "$DOWNLOAD_URL/$DATABROKER_VERSION/$DATABROKER_BINARY_NAME"
     tar -xf $DATABROKER_ASSET_FOLDER/$PROCESSOR/$DATABROKER_BINARY_NAME -C $DATABROKER_ASSET_FOLDER/$PROCESSOR

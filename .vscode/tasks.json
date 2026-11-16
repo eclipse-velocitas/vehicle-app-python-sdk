@@ -62,32 +62,6 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "run-seatservice",
-			"type": "shell",
-			"command": "./.vscode/scripts/run-seatservice.sh --task",
-			"group": "none",
-			"presentation": {
-				"reveal": "always",
-				"panel": "dedicated"
-			},
-			"isBackground": true,
-			"problemMatcher": {
-				"pattern": [
-					{
-						"regexp": ".",
-						"file": 1,
-						"location": 2,
-						"message": 3
-					}
-				],
-				"background": {
-					"activeOnStart": true,
-					"beginsPattern": "connected to data broker.",
-					"endsPattern": "."
-				}
-			}
-		},
-		{
 			"label": "run-hvacservice",
 			"type": "shell",
 			"command": "./.vscode/scripts/run-hvacservice.sh --task",
@@ -202,7 +176,6 @@
 			"dependsOn": [
 				"run-mosquitto",
 				"run-vehicledatabroker",
-				"run-seatservice",
 				"run-feedercan"
 			],
 			"dependsOrder": "sequence",
