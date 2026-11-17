@@ -24,8 +24,8 @@ The Vehicle App Python SDK starting from version 0.16.0 has been migrated to use
 of the KUKSA Databroker. You'll need a KUKSA Databroker version >= 0.5.0 supporting this API.
 
 The usage of the `sdv.databroker.v1` API is completely removed from this SDK now. Its support by the
-KUKSA Databroker was deprecated already for a long time and was recently removed. Be aware that the
-support for conditions within subscription queries is also removed with that migration.
+KUKSA Databroker was deprecated already for a long time and was recently removed there. Be aware that
+the support for conditions within subscription queries is also removed with that migration.
 
 ## Prerequisites
 

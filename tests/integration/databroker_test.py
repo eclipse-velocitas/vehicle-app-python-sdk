@@ -45,12 +45,12 @@ async def test_for_get_metadata():
 async def test_for_get_datapoint():
     client = get_vehicleapp_instance()
     datapoint = []
-    metadatas = await client._vdb_client.GetMetadata([])
-    for metadata in metadatas.list:
-        datapoint.append(metadata.name)
+    metadatas = await client._vdb_client.GetMetadata(["Vehicle"])
+    for metadata in metadatas:
+        datapoint.append(metadata.path)
     response = await client._vdb_client.GetDatapoints(datapoint)
     assert response is not None
-    assert len(response.datapoints) == len(datapoint)
+    assert len(response) == len(datapoint)
 
 
 @pytest.mark.asyncio
@@ -66,7 +66,7 @@ async def test_for_subscribe():
         if updated == 2:
             break
 
-    assert reply.fields[datapoint].float_value == 100.0
+    assert reply.entries[datapoint].value.float == 100.0
 
 
 @pytest.mark.asyncio
@@ -83,8 +83,8 @@ async def test_for_subscribe_join():
         if updated == 1:
             break
 
-    assert reply.fields[datapoint].float_value == 100.0
-    assert reply.fields["Vehicle.ThisIsAFloat"].float_value == 50.0
+    assert reply.entries[datapoint].value.float == 100.0
+    assert reply.entries["Vehicle.ThisIsAFloat"].value.float == 50.0
 
 
 @pytest.mark.asyncio
@@ -148,7 +148,7 @@ async def test_for_fluent_join():
 
 
 async def callback(reply, datapoint):
-    speed = reply.fields[datapoint].float_value
+    speed = reply.entries[datapoint].value.float
     await change_datapoint(datapoint, speed)
 
 

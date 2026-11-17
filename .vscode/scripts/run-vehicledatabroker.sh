@@ -30,14 +30,14 @@ then
     docker container stop $RUNNING_CONTAINER
 fi
 
-VSPEC_FILE_PATH=$ROOT_DIRECTORY/.vscode/scripts/assets/vss_data/vss.json
+VSS_FILE_PATH=${2:-$ROOT_DIRECTORY/.vscode/scripts/assets/vss_data/vss.json}
 KUKSA_DATABROKER_PORT='55555'
 #export RUST_LOG="info,databroker=debug,vehicle_data_broker=debug"
 
 echo "Run native ...!"
 docker run \
-  -v $VSPEC_FILE_PATH:$VSPEC_FILE_PATH \
-  -e KUKSA_DATABROKER_METADATA_FILE=$VSPEC_FILE_PATH \
+  -v $VSS_FILE_PATH:$VSS_FILE_PATH \
+  -e KUKSA_DATABROKER_METADATA_FILE=$VSS_FILE_PATH \
   -e KUKSA_DATABROKER_PORT \
   -e RUST_LOG \
   --network host \

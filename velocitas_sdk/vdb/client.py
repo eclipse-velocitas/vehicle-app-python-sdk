@@ -19,7 +19,7 @@ from urllib.parse import urlparse
 import grpc
 
 from velocitas_sdk import config
-from velocitas_sdk.proto.types_pb2 import Metadata, SignalID
+from velocitas_sdk.proto.types_pb2 import SignalID
 from velocitas_sdk.proto.val_pb2 import (
     ActuateRequest,
     BatchActuateRequest,
@@ -89,10 +89,9 @@ class VehicleDataBrokerClient:
             for path, dp in datapoints.items()
         ]
         try:
-            response = await self._stub.BatchActuate(
+            await self._stub.BatchActuate(
                 BatchActuateRequest(actuate_requests=requests), metadata=self._metadata
             )
-            return response
         except grpc.aio.AioRpcError:  # type: ignore
             logger.exception(
                 "Error occured in VehicleDataBrokerClient.SetDatapoints",
@@ -124,12 +123,12 @@ class VehicleDataBrokerClient:
 
     async def GetMetadata(self, names: list):
         try:
-            metadata_list = list[Metadata]
+            metadata_list = []
             for path in names:
                 response = await self._stub.ListMetadata(
                     ListMetadataRequest(root=path), metadata=self._metadata
                 )
-                metadata_list += response.metadata
+                metadata_list.extend(response.metadata)
             return metadata_list
         except grpc.aio.AioRpcError:  # type: ignore
             logger.exception(

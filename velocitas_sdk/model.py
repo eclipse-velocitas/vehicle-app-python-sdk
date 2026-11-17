@@ -128,14 +128,7 @@ class DataPoint(Node):
         try:
             datapoint = self.create_broker_data_point(value)
             path = self.get_path()
-            response = await self.get_client().SetDatapoints(
-                datapoints={path: datapoint}
-            )
-            if response.errors:
-                raise TypeError(
-                    f"set target value for non-actuator {path} is not allowed!"
-                )
-
+            await self.get_client().SetDatapoints(datapoints={path: datapoint})
         except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.error("Error occured in %s.set", subclass_name)
             logger.exception(ex)
@@ -812,12 +805,7 @@ class BatchSetBuilder:
             return
 
         try:
-            response = await self.__client.SetDatapoints(self.__nodes)
-            if response.errors:
-                raise TypeError(
-                    "Some data point values could not be set: ", response.errors
-                )
-
+            await self.__client.SetDatapoints(self.__nodes)
         except (grpc.aio.AioRpcError, Exception):  # type: ignore
             logger.error("Error occured on updating several data points")
             raise
