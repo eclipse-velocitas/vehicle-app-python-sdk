@@ -53,6 +53,7 @@ extra_requirements = {
         "pre-commit",
         "mypy",
         "pip-tools",
+        "velocitas-model-generator==0.9.0",
     ]
 }
 
