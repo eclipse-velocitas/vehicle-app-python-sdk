@@ -175,3 +175,6 @@ class DataPointReply:
         return TypedDataPointResult(
             datapoint.get_path(), datapoint_value, vdb_datapoint.timestamp
         )
+
+    def signals(self):
+        return self.response.entries.keys()
