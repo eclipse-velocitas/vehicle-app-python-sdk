@@ -27,13 +27,12 @@
             "id": "example",
             "type": "pickString",
             "options": [
+                "annotation-subscribe",
                 "array-datatype",
                 "atomic-set",
                 "datapoint-set",
-                "dog-mode",
-                "dynamic-rule",
-                "static-rule",
-                "vdb-queries"
+                "seat-adjuster",
+                "subscribe-multiple"
             ]
         }
     ]

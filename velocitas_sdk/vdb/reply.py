@@ -27,8 +27,11 @@ if TYPE_CHECKING:
 class DataPointReply:
     """Wrapper for dynamic datatype casting of VDB reply."""
 
-    def __init__(self, response: SubscribeResponse):
-        self.reply = response
+    def __init__(self):
+        self.response = SubscribeResponse()
+
+    def update(self, response: SubscribeResponse):
+        self.response.MergeFrom(response)
 
     @overload
     def get(self, datapoint: model.DataPointBoolean) -> TypedDataPointResult[bool]: ...
@@ -128,7 +131,13 @@ class DataPointReply:
 
     def get(self, datapoint: model.DataPoint):
         datapoint_type = datapoint.__class__.__name__
-        vdb_datapoint: BrokerDatapoint = self.reply.entries[datapoint.get_path()]
+        vdb_datapoint: BrokerDatapoint | None = self.response.entries.get(
+            datapoint.get_path()
+        )
+        if vdb_datapoint is None:
+            raise Exception(
+                f"Datapoint {datapoint.get_path()} not part of subscription"
+            )
         datapoint_values = {
             "DataPointBoolean": vdb_datapoint.value.bool,
             "DataPointBooleanArray": list(vdb_datapoint.value.bool_array.values),
