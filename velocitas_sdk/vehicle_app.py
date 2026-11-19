@@ -47,8 +47,6 @@ def subscribe_data_points(data_point_names: str):
     Args:
         data_point_names (str): comma-separate list of data point names to
                                 subscribe to.
-        condition (str, optional): condition to apply to the data points.
-                                   Defaults to None.
     """
     query = "SELECT " + data_point_names
 

@@ -53,8 +53,8 @@ class VehicleDataBrokerClient:
             _address = f"{_hostname}:{_port}"
             cls._channel = grpc.aio.insecure_channel(_address)  # type: ignore
 
-            metadata = service_locator.get_metadata("vehicledatabroker")
-            cls._metadata = metadata
+            grpc_metadata = service_locator.get_metadata("vehicledatabroker")
+            cls._grpc_metadata = grpc_metadata
 
             cls._stub = VALStub(cls._channel)
         return cls._instance
@@ -74,7 +74,7 @@ class VehicleDataBrokerClient:
         signal_ids = [SignalID(path=signal) for signal in datapoints]
         try:
             response = await self._stub.GetValues(
-                GetValuesRequest(signal_ids=signal_ids), metadata=self._metadata
+                GetValuesRequest(signal_ids=signal_ids), metadata=self._grpc_metadata
             )
             return dict(zip(datapoints, response.data_points))
         except grpc.aio.AioRpcError:  # type: ignore
@@ -90,7 +90,8 @@ class VehicleDataBrokerClient:
         ]
         try:
             await self._stub.BatchActuate(
-                BatchActuateRequest(actuate_requests=requests), metadata=self._metadata
+                BatchActuateRequest(actuate_requests=requests),
+                metadata=self._grpc_metadata,
             )
         except grpc.aio.AioRpcError:  # type: ignore
             logger.exception(
@@ -112,7 +113,7 @@ class VehicleDataBrokerClient:
         try:
             response = self._stub.Subscribe(
                 SubscribeRequest(signal_paths=signal_paths),
-                metadata=self._metadata,
+                metadata=self._grpc_metadata,
             )
             return response
         except grpc.aio.AioRpcError:  # type: ignore
@@ -126,7 +127,7 @@ class VehicleDataBrokerClient:
             metadata_list = []
             for path in names:
                 response = await self._stub.ListMetadata(
-                    ListMetadataRequest(root=path), metadata=self._metadata
+                    ListMetadataRequest(root=path), metadata=self._grpc_metadata
                 )
                 metadata_list.extend(response.metadata)
             return metadata_list
