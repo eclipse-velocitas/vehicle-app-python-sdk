@@ -50,7 +50,6 @@ extra_requirements = {
         ##########################################
         # Development Tools Packages
         ##########################################
-        "velocitas-model-generator==0.9.0",
         "pre-commit",
         "mypy",
         "pip-tools",
