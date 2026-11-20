@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2022-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -17,20 +17,21 @@
 
 import os
 import sys
-from typing import Mapping, Text
+from collections.abc import Mapping
 from unittest import mock
 
+import grpc
 import pytest
 
 from velocitas_sdk import config
 from velocitas_sdk.config import Config
-from velocitas_sdk.proto.broker_pb2 import (
-    GetDatapointsReply,
-    GetMetadataReply,
-    SetDatapointsReply,
-    SubscribeReply,
-)
 from velocitas_sdk.proto.types_pb2 import Datapoint, DataType, Metadata
+from velocitas_sdk.proto.val_pb2 import (
+    BatchActuateResponse,
+    GetValuesResponse,
+    ListMetadataResponse,
+    SubscribeResponse,
+)
 from velocitas_sdk.vdb.client import VehicleDataBrokerClient
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
@@ -48,12 +49,12 @@ async def test_for_get_metadata():
 
     with mock.patch.object(
         client._stub,
-        "GetMetadata",
+        "ListMetadata",
         new_callable=mock.AsyncMock,
-        return_value=GetMetadataReply(list=[get_sample_metadata()]),
+        return_value=ListMetadataResponse(metadata=[get_sample_metadata()]),
     ):
         response = await client.GetMetadata(["Vehicle.Speed"])
-        assert response.list[0] == get_sample_metadata()
+        assert response[0] == get_sample_metadata()
         await client.close()
 
 
@@ -63,14 +64,13 @@ async def test_for_get_data_points():
 
     with mock.patch.object(
         client._stub,
-        "GetDatapoints",
+        "GetValues",
         new_callable=mock.AsyncMock,
-        return_value=GetDatapointsReply(datapoints=get_fields()),
+        return_value=GetValuesResponse(data_points=[get_sample_datapoint()]),
     ):
         response = await client.GetDatapoints(["Vehicle.Speed"])
         assert (
-            response.datapoints["Vehicle.Speed"].int32_value
-            == get_sample_datapoint().int32_value
+            response["Vehicle.Speed"].value.int32 == get_sample_datapoint().value.int32
         )
         await client.close()
 
@@ -81,14 +81,13 @@ async def test_for_set_datapoints():
 
     with mock.patch.object(
         client._stub,
-        "SetDatapoints",
+        "BatchActuate",
         new_callable=mock.AsyncMock,
-        return_value=SetDatapointsReply(errors=datapoint_set_success()),
+        return_value=BatchActuateResponse(),
     ):
         datapoint = get_sample_datapoint()
-        response = await client.SetDatapoints(datapoints={"Vehicle.Speed": datapoint})
-        # The response has an empty error
-        assert response.errors == {}
+        await client.SetDatapoints(datapoints={"Vehicle.Speed": datapoint})
+        # The response is empty
         await client.close()
 
 
@@ -98,14 +97,13 @@ async def test_for_set_datapoints_error():
 
     with mock.patch.object(
         client._stub,
-        "SetDatapoints",
+        "BatchActuate",
         new_callable=mock.AsyncMock,
-        return_value=SetDatapointsReply(errors=datapoint_set_error()),
+        side_effect=grpc.aio.AioRpcError(grpc.StatusCode.NOT_FOUND, "", ""),
     ):
         datapoint = get_sample_datapoint()
-        response = await client.SetDatapoints(datapoints={"Vehicle.Speed": datapoint})
-        # The response.errors is not empty. I.e. has an error = datapoint_set_error()
-        assert bool(response.errors)
+        with pytest.raises(grpc.aio.AioRpcError):
+            await client.SetDatapoints(datapoints={"Unknown.Signal": datapoint})
         await client.close()
 
 
@@ -116,12 +114,12 @@ async def test_for_subscribe():
     with mock.patch.object(
         client._stub,
         "Subscribe",
-        return_value=SubscribeReply(fields=get_fields()),
+        return_value=SubscribeResponse(entries=get_fields()),
     ):
         response = client.Subscribe("SELECT Vehicle.Speed")
         assert (
-            response.fields["Vehicle.Speed"].int32_value
-            == get_sample_datapoint().int32_value
+            response.entries["Vehicle.Speed"].value.int32
+            == get_sample_datapoint().value.int32
         )
         await client.close()
 
@@ -129,27 +127,21 @@ async def test_for_subscribe():
 # Mock data
 
 
-def get_fields() -> Mapping[Text, Datapoint]:
+def get_fields() -> Mapping[str, Datapoint]:
     data = {}
     data["Vehicle.Speed"] = get_sample_datapoint()
     return data
 
 
-def datapoint_set_success() -> Mapping[Text, int]:
+def datapoint_set_success() -> Mapping[str, int]:
     return {}
 
 
 def get_sample_datapoint() -> Datapoint:
     datapoint = Datapoint()
-    datapoint.int32_value = 0
+    datapoint.value.int32 = 0
 
     return datapoint
-
-
-def datapoint_set_error() -> Mapping[Text, Datapoint]:
-    error = {}
-    error["Vehicle.Speed"] = 0
-    return error
 
 
 def get_vehicle_client_instance():
@@ -160,6 +152,6 @@ def get_vehicle_client_instance():
 def get_sample_metadata() -> Metadata:
     metadata = Metadata()
     metadata.id = 1
-    metadata.data_type = DataType.FLOAT
-    metadata.name = "Vehicle.Speed"
+    metadata.data_type = DataType.DATA_TYPE_FLOAT
+    metadata.path = "Vehicle.Speed"
     return metadata

@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2022-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -40,20 +40,15 @@ def subscribe_topic(topic: str):
     return wrap
 
 
-def subscribe_data_points(data_point_names: str, condition: str = ""):
+def subscribe_data_points(data_point_names: str):
     """Annotation to subscribe to one or more data points provided by
        the vehicle data broker.
 
     Args:
         data_point_names (str): comma-separate list of data point names to
                                 subscribe to.
-        condition (str, optional): condition to apply to the data points.
-                                   Defaults to None.
     """
     query = "SELECT " + data_point_names
-
-    if condition:
-        query += " WHERE " + condition
 
     def wrap(func):
         func.subscribeDataPoints = query

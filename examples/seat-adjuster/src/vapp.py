@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2022-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -37,8 +37,8 @@ class SeatAdjusterApp(VehicleApp):
     Sample Velocitas Vehicle App.
 
     The SeatAdjusterApp subscribes to a MQTT topic to listen for incoming
-    requests to change the seat position and calls the SeatService to move the seat
-    upon such a request, but only if Vehicle.Speed equals 0.
+    requests to change the seat position and set the VSS seat position to
+    move the seat upon such a request, but only if Vehicle.Speed equals 0.
 
     It also subcribes to the VehicleDataBroker for updates of the
     Vehicle.Cabin.Seat.Row1.DriverSide.Position signal and publishes this

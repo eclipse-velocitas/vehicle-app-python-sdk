@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2022-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -79,12 +79,13 @@ class SubscriptionManager:
     @staticmethod
     async def _subscribe_to_data_points(vdb_sub):
         try:
-            async for reply in vdb_sub.vdb_client.Subscribe(vdb_sub.query):
-                reply_wrapper = DataPointReply(reply)
+            reply = DataPointReply()
+            async for response in vdb_sub.vdb_client.Subscribe(vdb_sub.query):
+                reply.update(response)
                 if asyncio.iscoroutinefunction(vdb_sub.call_back):
-                    await vdb_sub.call_back(reply_wrapper)
+                    await vdb_sub.call_back(reply)
                 else:
-                    vdb_sub.call_back(reply_wrapper)
+                    vdb_sub.call_back(reply)
         except (grpc.aio.AioRpcError, Exception):  # type: ignore
             logger.exception(
                 "Error occured in SubscriptionManager.subscribe_to_data_points."

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2022-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2022-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -30,15 +30,15 @@ then
     docker container stop $RUNNING_CONTAINER
 fi
 
-VSPEC_FILE_PATH=$ROOT_DIRECTORY/.vscode/scripts/broker_config/vss_rel_3.0.json
-KUKSA_DATA_BROKER_PORT='55555'
+VSS_FILE_PATH=${2:-$ROOT_DIRECTORY/.vscode/scripts/assets/vss_data/vss.json}
+KUKSA_DATABROKER_PORT='55555'
 #export RUST_LOG="info,databroker=debug,vehicle_data_broker=debug"
 
 echo "Run native ...!"
 docker run \
-  -v $VSPEC_FILE_PATH:$VSPEC_FILE_PATH \
-  -e KUKSA_DATA_BROKER_METADATA_FILE=$VSPEC_FILE_PATH \
-  -e KUKSA_DATA_BROKER_PORT \
+  -v $VSS_FILE_PATH:$VSS_FILE_PATH \
+  -e KUKSA_DATABROKER_METADATA_FILE=$VSS_FILE_PATH \
+  -e KUKSA_DATABROKER_PORT \
   -e RUST_LOG \
   --network host \
   $DATABROKER_IMAGE:$DATABROKER_TAG

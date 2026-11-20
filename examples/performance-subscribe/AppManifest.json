@@ -5,7 +5,7 @@
         {
             "type": "vehicle-signal-interface",
             "config": {
-                "src": "https://github.com/COVESA/vehicle_signal_specification/releases/download/v4.1/vss_rel_4.1.json",
+                "src": "https://github.com/COVESA/vehicle_signal_specification/releases/download/v6.1/vss.json",
                 "datapoints": {
                     "required": [
                     ]

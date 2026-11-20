@@ -2,6 +2,32 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"label": "Build and install vehicle model",
+			"type": "shell",
+			"command": "./.vscode/scripts/build-and-install-model.sh --task",
+			"group": "none",
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated"
+			},
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": [
+					{
+						"regexp": ".",
+						"file": 1,
+						"location": 2,
+						"message": 4
+					}
+				],
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^\\d{10}: Get, build, and install vehicle model",
+					"endsPattern": "^Successfully installed vehicle-0.1.0$"
+				}
+			}
+		},
+		{
 			"label": "run-mosquitto",
 			"type": "shell",
 			"command": "./.vscode/scripts/run-mosquitto.sh --task",
@@ -60,32 +86,6 @@
 			"group": "none",
 			"isBackground": false,
 			"problemMatcher": []
-		},
-		{
-			"label": "run-seatservice",
-			"type": "shell",
-			"command": "./.vscode/scripts/run-seatservice.sh --task",
-			"group": "none",
-			"presentation": {
-				"reveal": "always",
-				"panel": "dedicated"
-			},
-			"isBackground": true,
-			"problemMatcher": {
-				"pattern": [
-					{
-						"regexp": ".",
-						"file": 1,
-						"location": 2,
-						"message": 3
-					}
-				],
-				"background": {
-					"activeOnStart": true,
-					"beginsPattern": "connected to data broker.",
-					"endsPattern": "."
-				}
-			}
 		},
 		{
 			"label": "run-hvacservice",
@@ -202,7 +202,6 @@
 			"dependsOn": [
 				"run-mosquitto",
 				"run-vehicledatabroker",
-				"run-seatservice",
 				"run-feedercan"
 			],
 			"dependsOrder": "sequence",

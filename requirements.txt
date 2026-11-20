@@ -4,53 +4,56 @@
 #
 #    pip-compile --extra=dev
 #
-aiohappyeyeballs==2.5.0
+aiohappyeyeballs==2.7.1
     # via aiohttp
-aiohttp==3.10.11
+aiohttp==3.14.5
     # via velocitas_sdk (setup.py)
-aiosignal==1.3.2
+aiosignal==1.4.0
     # via aiohttp
-apscheduler==3.11.0
+apscheduler==3.11.3
     # via velocitas_sdk (setup.py)
+ast-serialize==0.13.1
+    # via mypy
 async-timeout==5.0.1
     # via aiohttp
-attrs==25.1.0
+attrs==26.1.0
     # via aiohttp
-build==1.2.2.post1
+backports-asyncio-runner==1.2.0
+    # via pytest-asyncio
+build==1.6.1
     # via pip-tools
-cachetools==5.5.2
+cachetools==7.3.3
     # via tox
-cfgv==3.4.0
+cfgv==3.5.0
     # via pre-commit
-chardet==5.2.0
-    # via tox
-click==8.1.8
+click==8.5.1
     # via pip-tools
 cloudevents==1.11.0
     # via velocitas_sdk (setup.py)
 colorama==0.4.6
     # via tox
-coverage[toml]==7.6.12
+coverage[toml]==7.16.2
     # via pytest-cov
-deprecated==1.2.18
+deprecated==1.3.1
     # via
     #   opentelemetry-api
     #   velocitas_sdk (setup.py)
 deprecation==2.1.0
     # via cloudevents
-distlib==0.3.9
+distlib==0.4.4
     # via virtualenv
-exceptiongroup==1.2.2
+exceptiongroup==1.3.2
     # via pytest
-filelock==3.17.0
+filelock==4.1.0
     # via
+    #   python-discovery
     #   tox
     #   virtualenv
-frozenlist==1.5.0
+frozenlist==1.8.0
     # via
     #   aiohttp
     #   aiosignal
-grpc-stubs==1.53.0.5
+grpc-stubs==1.53.0.6
     # via velocitas_sdk (setup.py)
 grpcio==1.64.1
     # via
@@ -59,25 +62,29 @@ grpcio==1.64.1
     #   velocitas_sdk (setup.py)
 grpcio-tools==1.64.1
     # via velocitas_sdk (setup.py)
-identify==2.6.9
+identify==2.6.20
     # via pre-commit
-idna==3.10
+idna==3.20
     # via yarl
 importlib-metadata==7.1.0
     # via opentelemetry-api
-iniconfig==2.0.0
+iniconfig==2.3.1
     # via pytest
-multidict==6.1.0
+librt==0.17.0
+    # via mypy
+multidict==7.1.0
     # via
     #   aiohttp
     #   yarl
-mypy==1.15.0
+mypy==2.4.1
     # via velocitas_sdk (setup.py)
-mypy-extensions==1.0.0
-    # via mypy
-mypy-protobuf==3.6.0
+mypy-extensions==1.2.0
+    # via
+    #   librt
+    #   mypy
+mypy-protobuf==5.1.0
     # via velocitas_sdk (setup.py)
-nodeenv==1.9.1
+nodeenv==1.12.0
     # via pre-commit
 opentelemetry-api==1.25.0
     # via
@@ -101,52 +108,65 @@ opentelemetry-sdk==1.25.0
     #   velocitas_sdk (setup.py)
 opentelemetry-semantic-conventions==0.46b0
     # via opentelemetry-sdk
-packaging==24.2
+packaging==26.3
     # via
     #   build
     #   deprecation
     #   pyproject-api
     #   pytest
     #   tox
+    #   virtualenv
+    #   wheel
 paho-mqtt==2.1.0
     # via velocitas_sdk (setup.py)
-pip-tools==7.4.1
+pathspec==1.1.1
+    # via mypy
+pip-tools==7.7.0
     # via velocitas_sdk (setup.py)
-platformdirs==4.3.6
+platformdirs==4.12.4
     # via
     #   tox
     #   virtualenv
-pluggy==1.5.0
+pluggy==1.7.0
     # via
     #   pytest
+    #   pytest-cov
     #   tox
-pre-commit==4.1.0
+pre-commit==4.6.2
     # via velocitas_sdk (setup.py)
-propcache==0.3.0
-    # via yarl
-protobuf==5.29.5
+propcache==0.5.4
+    # via
+    #   aiohttp
+    #   yarl
+protobuf==5.29.6
     # via
     #   grpcio-tools
     #   mypy-protobuf
     #   velocitas_sdk (setup.py)
-pyproject-api==1.9.0
+pygments==2.21.0
+    # via pytest
+pyproject-api==1.11.4
     # via tox
-pyproject-hooks==1.2.0
+pyproject-hooks==1.3.3
     # via
     #   build
     #   pip-tools
-pytest==8.3.5
+pytest==9.2.0
     # via
     #   pytest-asyncio
     #   pytest-cov
     #   velocitas_sdk (setup.py)
-pytest-asyncio==0.25.3
+pytest-asyncio==1.5.0
     # via velocitas_sdk (setup.py)
-pytest-cov==6.0.0
+pytest-cov==7.1.0
     # via velocitas_sdk (setup.py)
-pyyaml==6.0.2
+python-discovery==1.9.6
+    # via
+    #   tox
+    #   virtualenv
+pyyaml==6.0.3
     # via pre-commit
-tomli==2.2.1
+tomli==2.5.0
     # via
     #   build
     #   coverage
@@ -155,35 +175,43 @@ tomli==2.2.1
     #   pyproject-api
     #   pytest
     #   tox
-tox==4.24.2
+tomli-w==1.2.0
+    # via tox
+tox==4.65.0
     # via velocitas_sdk (setup.py)
-types-deprecated==1.2.15.20250304
+types-deprecated==1.3.1.20260928
     # via velocitas_sdk (setup.py)
-types-mock==5.2.0.20250306
+types-mock==5.2.0.20260518
     # via velocitas_sdk (setup.py)
-types-protobuf==5.29.1.20250208
+types-protobuf==7.35.1.20260906
     # via mypy-protobuf
-typing-extensions==4.12.2
+typing-extensions==4.16.0
     # via
+    #   aiohttp
+    #   aiosignal
+    #   exceptiongroup
     #   multidict
     #   mypy
     #   opentelemetry-sdk
+    #   pip-tools
+    #   pytest-asyncio
     #   tox
-tzlocal==5.3.1
+    #   virtualenv
+tzlocal==5.4.5
     # via apscheduler
-virtualenv==20.29.3
+virtualenv==21.15.9
     # via
     #   pre-commit
     #   tox
-wheel==0.45.1
+wheel==0.48.0
     # via pip-tools
-wrapt==1.17.2
+wrapt==1.17.3
     # via
     #   deprecated
     #   opentelemetry-instrumentation
-yarl==1.18.3
+yarl==1.25.1
     # via aiohttp
-zipp==3.21.0
+zipp==4.1.2
     # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:

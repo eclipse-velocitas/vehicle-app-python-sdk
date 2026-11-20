@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2022-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -18,7 +18,7 @@ import logging
 import signal
 from datetime import datetime
 
-from sdv_model import Vehicle, vehicle  # type: ignore
+from vehicle import Vehicle, vehicle  # type: ignore
 
 from velocitas_sdk.model import DataPoint
 from velocitas_sdk.util.log import (  # type: ignore
@@ -35,7 +35,7 @@ logging.getLogger().setLevel("DEBUG")
 logger = logging.getLogger(__name__)
 
 # The file path may need to be updated based on the location of the file.
-SIGNALS_JSON = "subscription_signals.json"
+SIGNALS_JSON = "performance-subscribe/subscription_signals.json"
 
 
 class PerformanceTestApp(VehicleApp):
@@ -78,14 +78,10 @@ class PerformanceTestApp(VehicleApp):
     async def on_node_change(self, data: DataPointReply):
         current_timestamp = datetime.now()
 
-        datapoint_str = data.reply.fields.popitem()[
-            0
-        ]  # The key of the first field is the datapoint path
-        node = self.Vehicle.getNode(datapoint_str)
-        data_point = data.get(node)  # type: ignore
-        data_point_value = data_point.value
-
-        print(f"{current_timestamp.time()} - {node.name} - {data_point_value}")
+        for signal_path in data.signals():
+            node = self.Vehicle.getNode(signal_path)
+            data_point = data.get(node)  # type: ignore
+            print(f"{current_timestamp.time()} - {signal_path} - {data_point.value}")
 
 
 async def main():

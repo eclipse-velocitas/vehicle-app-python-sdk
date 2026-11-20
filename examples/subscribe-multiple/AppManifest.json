@@ -1,0 +1,28 @@
+{
+    "manifestVersion": "v3",
+    "name": "subscribe-multiple",
+    "interfaces": [
+        {
+            "type": "vehicle-signal-interface",
+            "config": {
+                "src": "https://github.com/COVESA/vehicle_signal_specification/releases/download/v6.1/vss.json",
+                "datapoints": {
+                    "required": [
+                        {
+                            "path": "Vehicle.CurrentLocation.Latitude",
+                            "access": "read"
+                        },
+                        {
+                            "path": "Vehicle.CurrentLocation.Longitude",
+                            "access": "read"
+                        },
+                        {
+                            "path": "Vehicle.Speed",
+                            "access": "read"
+                        }
+                    ]
+                }
+            }
+        },
+    ]
+}

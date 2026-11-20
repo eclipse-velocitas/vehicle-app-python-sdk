@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2022-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -15,13 +15,13 @@
 """Tests for methods in VehicleClient"""
 
 import inspect
-from typing import Mapping, Text
+from collections.abc import Mapping
 from unittest import mock
 
 import pytest
 
-from velocitas_sdk.proto.broker_pb2 import SubscribeReply
 from velocitas_sdk.proto.types_pb2 import Datapoint
+from velocitas_sdk.proto.val_pb2 import SubscribeResponse
 from velocitas_sdk.vehicle_app import VehicleApp, subscribe_data_points
 
 
@@ -47,13 +47,7 @@ def test_subscribe_to_data_points_decorator():
 
         query = []
 
-        @subscribe_data_points(
-            "Vehicle.ADAS.CruiseControl.SpeedSet", "Vehicle.Speed > 0"
-        )
-        def placeholder_where(self):
-            pass
-
-        @subscribe_data_points("Vehicle.ADAS.CruiseControl.SpeedSet")
+        @subscribe_data_points("Vehicle.ADAS.CruiseControl.SpeedSet, Vehicle.Speed")
         def placeholder(self):
             pass
 
@@ -67,8 +61,7 @@ def test_subscribe_to_data_points_decorator():
 
     decorator = DecoratorMock()
     query = decorator.getattr()
-    assert "SELECT Vehicle.ADAS.CruiseControl.SpeedSet" in query
-    assert "SELECT Vehicle.ADAS.CruiseControl.SpeedSet WHERE Vehicle.Speed > 0" in query
+    assert "SELECT Vehicle.ADAS.CruiseControl.SpeedSet, Vehicle.Speed" in query
 
 
 def get_vehicle_app_instance() -> VehicleApp:
@@ -82,10 +75,10 @@ def get_vehicle_app_instance() -> VehicleApp:
 def get_sample_subscription_reply():
     datapoint = Datapoint()
     datapoint.int32_value = 0
-    mapping: Mapping[Text, Datapoint] = {}
+    mapping: Mapping[str, Datapoint] = {}
     mapping["Vehicle.Speed"] = datapoint
 
-    reply = SubscribeReply(fields=mapping)
+    reply = SubscribeResponse(entries=mapping)
 
     return reply
 
