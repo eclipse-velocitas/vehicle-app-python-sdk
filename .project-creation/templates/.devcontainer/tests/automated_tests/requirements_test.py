@@ -1,4 +1,4 @@
-# Copyright (c) 2023-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2023-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -25,9 +25,10 @@ class TestRequirements(unittest.TestCase):
     @parameterized.expand(["./app/requirements.txt", "./app/tests/requirements.txt"])
     def test_requirements(self, requirement_file_path):
         """Test that each required package is available."""
-        requirements = pkg_resources.parse_requirements(
-            Path(requirement_file_path).open()
-        )
+
+        with open(Path(requirement_file_path)) as file:
+            requirements = pkg_resources.parse_requirements(file)
+
         for requirement in requirements:
             requirement = str(requirement)
             with self.subTest(requirement=requirement):

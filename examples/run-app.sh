@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright (c) 2022-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2022-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -53,7 +53,6 @@ if [ $SDV_MIDDLEWARE_TYPE == "native" ]; then
     echo "Run native ...!"
     export SDV_MQTT_ADDRESS="mqtt://localhost:1883"
     export SDV_VEHICLEDATABROKER_ADDRESS="grpc://localhost:55555"
-    export SDV_SEATSERVICE_ADDRESS="grpc://localhost:50051"
     export SDV_HVACSERVICE_ADDRESS="grpc://localhost:50052"
     python3 $APP_NAME/src/main.py
 else

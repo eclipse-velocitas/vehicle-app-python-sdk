@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2022-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -14,9 +14,9 @@
 
 """Tests for methods in PubSubClient"""
 
+import asyncio
 import os
 import sys
-import time
 from unittest import mock
 
 import pytest
@@ -69,10 +69,10 @@ async def test_for_subscribe_mqtt_event():
     await mqtt_client.run()
     await mqtt_client.subscribe_topic("test/test_subscribe", callback)
     # wait a moment to really subscribe
-    time.sleep(0.5)
+    await asyncio.sleep(0.5)
     await mqtt_client.publish_event("test/test_subscribe", "test")
 
-    time.sleep(1)
+    await asyncio.sleep(1)
     assert callback.executed
 
 
@@ -85,7 +85,7 @@ async def test_for_error_message():
     await mqtt_client.run()
     await mqtt_client.subscribe_topic("test/test_error", callback)
     # wait a moment to really subscribe
-    time.sleep(0.5)
+    await asyncio.sleep(0.5)
     await mqtt_client.publish_event("test/test_error", b"\xc3")
     assert not callback.executed
 

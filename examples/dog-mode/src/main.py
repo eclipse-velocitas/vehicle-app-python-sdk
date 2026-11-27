@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2022-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -59,8 +59,8 @@ class DogModeApp(VehicleApp):
                 self.display_values, "interval", seconds=TEMP_REPORT_TIMEOUT
             )
             self.scheduler.start()
-        except Exception as ex:
-            logger.error(ex)
+        except Exception:
+            logger.exception("Something went wrong")
 
     async def on_pt_battery_stateofcharge(self, stateOfCharge):
         logger.info("Current Battery: %s", stateOfCharge)
@@ -99,10 +99,8 @@ class DogModeApp(VehicleApp):
             await self.publish_event(
                 "dogmode/ambientAirTemperature", json.dumps(req_data)
             )
-        except Exception as ex:
-            logger.info(
-                "Unable to get Current ambientAirTemperature, Exception: %s", ex
-            )
+        except Exception:
+            logger.exception("Unable to get Current ambientAirTemperature")
 
     async def display_values(self):
         logger.info("Publish Current Temperature and StateOfCharge")
@@ -110,15 +108,15 @@ class DogModeApp(VehicleApp):
             logger.info(
                 "Temperature and StateOfCharge are %s, %s", self.temperature, self.soc
             )
-        except Exception as e:
-            logger.info("Error getting the temperature %s", e)
+        except Exception:
+            logger.exception("Error getting the temperature")
             return
 
         json_data = {"Temperature": self.temperature, "StateOfCharge": self.soc}
         try:
             await self.publish_event("dogmode/display", json.dumps(json_data))
-        except Exception as e:
-            logger.info("An error occurred while trying to publish temperature %s", e)
+        except Exception:
+            logger.exception("An error occurred while trying to publish temperature")
 
 
 async def main():

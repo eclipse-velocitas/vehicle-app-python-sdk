@@ -1,0 +1,134 @@
+{
+    "Vehicle": {
+        "children": {
+            "Speed": {
+                "datatype": "float",
+                "description": "Vehicle speed.",
+                "type": "sensor",
+                "unit": "km/h"
+            },
+            "ThisIsABool": {
+                "datatype": "boolean",
+                "description": "Test boolean",
+                "type": "actuator"
+            },
+            "ThisIsABoolArray": {
+                "datatype": "boolean[]",
+                "description": "Test array of boolean",
+                "type": "actuator"
+            },
+            "ThisIsADouble": {
+                "datatype": "double",
+                "description": "Test double",
+                "type": "actuator"
+            },
+            "ThisIsADoubleArray": {
+                "datatype": "double[]",
+                "description": "Test array of double",
+                "type": "actuator"
+            },
+            "ThisIsAFloat": {
+                "datatype": "float",
+                "description": "Test float",
+                "type": "actuator"
+            },
+            "ThisIsAFloatArray": {
+                "datatype": "float[]",
+                "description": "Test array of float",
+                "type": "actuator"
+            },
+            "ThisIsAnInteger8": {
+                "datatype": "int8",
+                "description": "Test int8",
+                "type": "actuator"
+            },
+            "ThisIsAInt8Array": {
+                "datatype": "int8[]",
+                "description": "Test array of int8",
+                "type": "actuator"
+            },
+            "ThisIsAnInteger16": {
+                "datatype": "int16",
+                "description": "Test int16",
+                "type": "actuator"
+            },
+            "ThisIsAInt16Array": {
+                "datatype": "int16[]",
+                "description": "Test array of int16",
+                "type": "actuator"
+            },
+            "ThisIsAnInteger32": {
+                "datatype": "int32",
+                "description": "Test int32",
+                "type": "actuator"
+            },
+            "ThisIsAInt32Array": {
+                "datatype": "int32[]",
+                "description": "Test array of int32",
+                "type": "actuator"
+            },
+            "ThisIsAnInteger64": {
+                "datatype": "int64",
+                "description": "Test int64",
+                "type": "actuator"
+            },
+            "ThisIsAInt64Array": {
+                "datatype": "int64[]",
+                "description": "Test array of int64",
+                "type": "actuator"
+            },
+            "ThisIsAUInteger8": {
+                "datatype": "uint8",
+                "description": "Test uint8",
+                "type": "actuator"
+            },
+            "ThisIsAUInt8Array": {
+                "datatype": "uint8[]",
+                "description": "Test array of uint8",
+                "type": "actuator"
+            },
+            "ThisIsAUInteger16": {
+                "datatype": "uint16",
+                "description": "Test uint16",
+                "type": "actuator"
+            },
+            "ThisIsAUInt16Array": {
+                "datatype": "uint16[]",
+                "description": "Test array of uint16",
+                "type": "actuator"
+            },
+            "ThisIsAUInteger32": {
+                "datatype": "uint32",
+                "description": "Test uint32",
+                "type": "actuator"
+            },
+            "ThisIsAUInt32Array": {
+                "datatype": "uint32[]",
+                "description": "Test array of uint32",
+                "type": "actuator"
+            },
+            "ThisIsAUInteger64": {
+                "datatype": "uint64",
+                "description": "Test uint64",
+                "type": "actuator"
+            },
+            "ThisIsAUInt64Array": {
+                "datatype": "uint64[]",
+                "description": "Test array of uint64",
+                "type": "actuator"
+            },
+            "ThisIsAString": {
+                "datatype": "string",
+                "description": "Test string",
+                "type": "actuator"
+            },
+            "ThisIsAStringArray": {
+                "datatype": "string[]",
+                "description": "Test array of string",
+                "type": "actuator"
+            }
+        },
+        "description": "Test vehicle model.",
+        "type": "branch"
+    }
+}

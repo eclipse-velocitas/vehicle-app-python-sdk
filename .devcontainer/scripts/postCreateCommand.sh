@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2022-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2022-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -31,3 +31,6 @@ pip3 install -e .
 # add repo to git safe.directory
 REPO=$(pwd)
 git config --global --add safe.directory $REPO
+
+# generate vehicle model
+./.vscode/scripts/build-and-install-model.sh

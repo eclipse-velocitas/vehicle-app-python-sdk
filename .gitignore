@@ -133,7 +133,6 @@ dmypy.json
 
 # tools
 .vdb
-.seatservice
 
 # Don't commit databroker releas
 .vscode/scripts/assets

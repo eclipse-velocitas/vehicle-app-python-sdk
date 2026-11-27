@@ -1,4 +1,4 @@
-# Copyright (c) 2023-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2023-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -23,7 +23,7 @@ src_dir = os.path.join(app_dir_path, "src")
 sys.path.insert(0, src_dir)
 
 # Import the AppName class from vapp.py
-from vapp import AppName  # type: ignore # noqa: E402
+from vapp import AppName  # type: ignore
 
 
 async def test_instantiation():

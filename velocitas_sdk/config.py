@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2022-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -30,7 +30,7 @@ class Config:
         elif isinstance(args[0], MiddlewareType):
             __middleware = args[0]
         else:
-            raise ValueError(f"Not supported middleware type {args[0]}")
+            raise ValueError(f"Not supported middleware type {args[0]}")  # noqa: TRY004
 
         self.middleware: Middleware = self.__create_middleware(__middleware)
 

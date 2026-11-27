@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2022-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -18,7 +18,6 @@ import asyncio
 import json
 import os
 import time
-from typing import Optional
 
 import paho.mqtt.client as mqtt  # type: ignore
 
@@ -58,7 +57,7 @@ class PropertyWatcherCallback:
 class MqttClient:
     """This class is a wrapper for the on_message callback of the MQTT broker."""
 
-    def __init__(self, port: Optional[int] = None):
+    def __init__(self, port: int | None = None):
         if port is None:
             value = os.getenv("MQTT_PORT")
 

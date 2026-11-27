@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2022-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -15,6 +15,7 @@
 import json
 
 import pytest
+
 from velocitas_sdk.test.inttesthelper import IntTestHelper
 from velocitas_sdk.test.mqtt_util import MqttClient
 

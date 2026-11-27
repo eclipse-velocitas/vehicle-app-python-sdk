@@ -1,5 +1,13 @@
 # Eclipse Velocitas Vehicle Dog Mode Sample App
 
+> Note: This example is not working any longer and currently just kept for
+"viewing". It depends on the outdated approach of manually maintained
+vehicle models which could contain services also. This approach isn't
+supported already for a long time and the remaining reference to the
+`vehicle-model-python` was now removed.<br>As a long term goal this example
+should either be removed or updated to the current Velocitas approach to
+include gRPC based services via the AppManifest.
+
 ## Use Case
 
 The *Dog Mode* app is a climate control app that allows drivers to leave their vehicles while keeping the air conditioning system of the vehicle active for their pets.
@@ -35,30 +43,30 @@ If you plan to use the *AsyncIOScheduler* in your application in order to execut
 In this sample app, the *AsyncIOScheduler* is used to periodically display the current ambient temperature and battery state of charge every 30 second via MQTT. The code snippet shows how this is implemented.
 
 ```python
-    # This is the on_start() method of the VehicleApp
-    async def on_start(self):
-        logger.info("VehicleApp Started ...")
-        try:
-            await self.display_values()
+# This is the on_start() method of the VehicleApp
+async def on_start(self):
+    logger.info("VehicleApp Started ...")
+    try:
+        await self.display_values()
 
-            # Create an instance of the AsyncIOScheduler
-            self.scheduler = AsyncIOScheduler()
+        # Create an instance of the AsyncIOScheduler
+        self.scheduler = AsyncIOScheduler()
 
-            # Add the Job that needs to be scheduled periodically with a reference to the target function.
-            self.scheduler.add_job(
-                self.display_values, "interval", seconds=TEMP_REPORT_TIMEOUT
-            )
+        # Add the Job that needs to be scheduled periodically with a reference to the target function.
+        self.scheduler.add_job(
+            self.display_values, "interval", seconds=TEMP_REPORT_TIMEOUT
+        )
 
-            # Start the AsyncIOScheduler
-            self.scheduler.start()
-        except Exception as ex:
-            logger.error(ex)
+        # Start the AsyncIOScheduler
+        self.scheduler.start()
+    except Exception as ex:
+        logger.error(ex)
 
-    # This is the target function of the AsyncIOScheduler
-    async def display_values(self):
-        logger.info("Publish Current Temperature and StateOfCharge")
-        # Add your code here ...
 
+# This is the target function of the AsyncIOScheduler
+async def display_values(self):
+    logger.info("Publish Current Temperature and StateOfCharge")
+    # Add your code here ...
 ```
 
 ## Display the Current Temperature and State Of Charge

@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2022-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -40,20 +40,15 @@ def subscribe_topic(topic: str):
     return wrap
 
 
-def subscribe_data_points(data_point_names: str, condition: str = ""):
+def subscribe_data_points(data_point_names: str):
     """Annotation to subscribe to one or more data points provided by
        the vehicle data broker.
 
     Args:
         data_point_names (str): comma-separate list of data point names to
                                 subscribe to.
-        condition (str, optional): condition to apply to the data points.
-                                   Defaults to None.
     """
     query = "SELECT " + data_point_names
-
-    if condition:
-        query += " WHERE " + condition
 
     def wrap(func):
         func.subscribeDataPoints = query
@@ -105,15 +100,15 @@ class VehicleApp:
                 )
                 try:
                     SubscriptionManager._add_subscription(sub)
-                except Exception as ex:
-                    logger.exception(ex)
+                except Exception:
+                    logger.exception("Adding subscription failed")
         try:
             asyncio.create_task(self.pubsub_client.run())
             await self.on_start()
             while True:
                 await asyncio.sleep(1)
-        except Exception as ex:
-            logger.error(ex)
+        except Exception:
+            logger.exception("Starting the vehicle app failed")
             await self.stop()
 
     async def publish_mqtt_event(self, topic: str, data: str):

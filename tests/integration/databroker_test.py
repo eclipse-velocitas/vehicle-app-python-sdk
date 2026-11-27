@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2022-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -12,7 +12,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# ruff: noqa: E402
 
 """Tests for methods in VehicleDataBrokerClient"""
 
@@ -20,7 +19,6 @@ import os
 
 os.environ["SDV_MIDDLEWARE_TYPE"] = "native"
 
-import grpc
 import pytest
 
 from velocitas_sdk import config
@@ -47,12 +45,12 @@ async def test_for_get_metadata():
 async def test_for_get_datapoint():
     client = get_vehicleapp_instance()
     datapoint = []
-    metadatas = await client._vdb_client.GetMetadata([])
-    for metadata in metadatas.list:
-        datapoint.append(metadata.name)
+    metadatas = await client._vdb_client.GetMetadata(["Vehicle"])
+    for metadata in metadatas:
+        datapoint.append(metadata.path)
     response = await client._vdb_client.GetDatapoints(datapoint)
     assert response is not None
-    assert len(response.datapoints) == len(datapoint)
+    assert len(response) == len(datapoint)
 
 
 @pytest.mark.asyncio
@@ -68,23 +66,7 @@ async def test_for_subscribe():
         if updated == 2:
             break
 
-    assert reply.fields[datapoint].float_value == 100.0
-
-
-@pytest.mark.asyncio
-async def test_for_subscribe_where_clause():
-    client = get_vehicleapp_instance()
-    datapoint = "Vehicle.Speed"
-    await change_datapoint(datapoint, 150.0)
-    query = "SELECT " + datapoint + " WHERE Vehicle.Speed > 100.0"
-    updated = 0
-    async for reply in client._vdb_client.Subscribe(query):
-        updated += 1
-        await callback(reply, datapoint)
-        if updated == 2:
-            break
-
-    assert reply.fields[datapoint].float_value == 250.0
+    assert reply.entries[datapoint].value.float == 100.0
 
 
 @pytest.mark.asyncio
@@ -101,30 +83,8 @@ async def test_for_subscribe_join():
         if updated == 1:
             break
 
-    assert reply.fields[datapoint].float_value == 100.0
-    assert reply.fields["Vehicle.ThisIsAFloat"].float_value == 50.0
-
-
-@pytest.mark.asyncio
-async def test_for_subscribe_join_where():
-    client = get_vehicleapp_instance()
-    datapoint = "Vehicle.Speed"
-    await change_datapoint(datapoint, 50.0)
-    await change_datapoint("Vehicle.ThisIsAFloat", 0.0)
-    query = (
-        "SELECT Vehicle.ThisIsAFloat, "
-        + datapoint
-        + " WHERE Vehicle.ThisIsAFloat > 10.0"
-    )
-    updated = 0
-    async for reply in client._vdb_client.Subscribe(query):
-        updated += 1
-        await callback(reply, datapoint)
-        if updated == 1:
-            break
-
-    assert reply.fields[datapoint].float_value == 100.0
-    assert reply.fields["Vehicle.ThisIsAFloat"].float_value == 50.0
+    assert reply.entries[datapoint].value.float == 100.0
+    assert reply.entries["Vehicle.ThisIsAFloat"].value.float == 50.0
 
 
 @pytest.mark.asyncio
@@ -187,47 +147,8 @@ async def test_for_fluent_join():
         assert e.datapoint.fields["Vehicle.ThisIsAFloat"].float_value == 100.0
 
 
-@pytest.mark.asyncio
-async def test_for_fluent_where():
-    vehicle = get_vehicle_instance()
-    await change_datapoint(vehicle.Speed.get_path(), 0.0)
-    try:
-        await vehicle.Speed.where("Vehicle.Speed < 60.0").subscribe(callback_fluent)
-        # await vehicle.start()
-    except SubscribeException as e:
-        assert e.datapoint.fields["Vehicle.Speed"].float_value == 50.0
-
-
-@pytest.mark.asyncio
-async def test_for_fluent_where_join():
-    vehicle = get_vehicle_instance()
-    await change_datapoint(vehicle.Speed.get_path(), 0.0)
-    await change_datapoint(vehicle.ThisIsAFloat.get_path(), 50.0)
-    try:
-        await (
-            vehicle.Speed.join(vehicle.ThisIsAFloat)
-            .where("Vehicle.Speed < 60.0")
-            .subscribe(callback_fluent)
-        )
-        # await vehicle.start()
-    except SubscribeException as e:
-        assert e.datapoint.fields["Vehicle.Speed"].float_value == 50.0
-        assert e.datapoint.fields["Vehicle.ThisIsAFloat"].float_value == 100.0
-
-
-@pytest.mark.asyncio
-async def test_for_subscribe_exception():
-    vehicle = get_vehicle_instance()
-    await change_datapoint(vehicle.Speed.get_path(), 0.0)
-    try:
-        await vehicle.Speed.where("GIVE ERROR").subscribe(callback_fluent)
-        # await vehicle.start()
-    except Exception as e:
-        assert isinstance(e, (grpc.aio.AioRpcError))
-
-
 async def callback(reply, datapoint):
-    speed = reply.fields[datapoint].float_value
+    speed = reply.entries[datapoint].value.float
     await change_datapoint(datapoint, speed)
 
 

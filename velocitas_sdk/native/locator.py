@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2022-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -14,7 +14,6 @@
 
 import logging
 import os
-from typing import Optional
 
 from velocitas_sdk.base import ServiceLocator
 
@@ -44,5 +43,5 @@ class NativeServiceLocator(ServiceLocator):
 
         return str(address)
 
-    def get_metadata(self, service_name: Optional[str] = None):
+    def get_metadata(self, service_name: str | None = None):
         pass

@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2022-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -14,6 +14,7 @@
 
 import asyncio
 import logging
+from typing import ClassVar
 
 import grpc
 
@@ -25,15 +26,15 @@ logger = logging.getLogger(__name__)
 class SubscriptionManager:
     """Helper for subscription handling."""
 
-    _subscription_tasks = {}  # type: ignore
+    _subscription_tasks: ClassVar[dict["VdbSubscription", asyncio.Task]] = {}
 
     @staticmethod
     async def remove_all_subscriptions():
         for task in SubscriptionManager._subscription_tasks.items():
             try:
                 await SubscriptionManager._remove_subscription(task[0])
-            except Exception as ex:
-                logger.exception(ex)
+            except Exception:
+                logger.exception("Removing subscription failed")
 
     @staticmethod
     def list_all_subscription():
@@ -56,9 +57,9 @@ class SubscriptionManager:
                 task.get_name(),
             )
             return task
-        except Exception as ex:
+        except Exception:
             logger.debug("Task status -> %s", task)
-            logger.exception(ex)
+            logger.exception("Removing subscription failed")
             raise
 
     @staticmethod
@@ -79,12 +80,13 @@ class SubscriptionManager:
     @staticmethod
     async def _subscribe_to_data_points(vdb_sub):
         try:
-            async for reply in vdb_sub.vdb_client.Subscribe(vdb_sub.query):
-                reply_wrapper = DataPointReply(reply)
+            reply = DataPointReply()
+            async for response in vdb_sub.vdb_client.Subscribe(vdb_sub.query):
+                reply.update(response)
                 if asyncio.iscoroutinefunction(vdb_sub.call_back):
-                    await vdb_sub.call_back(reply_wrapper)
+                    await vdb_sub.call_back(reply)
                 else:
-                    vdb_sub.call_back(reply_wrapper)
+                    vdb_sub.call_back(reply)
         except (grpc.aio.AioRpcError, Exception):  # type: ignore
             logger.exception(
                 "Error occured in SubscriptionManager.subscribe_to_data_points."
@@ -101,7 +103,7 @@ class SubscriptionManager:
                     "Error in subscription -> {Subscription: %s}",
                     SubscriptionManager._subscription_tasks[vdb_sub],
                 )
-                logger.exception(ex)
+                logger.exception("Subscribing to data points failed")
                 if isinstance(ex, (grpc.aio.AioRpcError)):  # type: ignore
                     if ex.code() is grpc.StatusCode.INVALID_ARGUMENT:
                         raise
@@ -123,8 +125,8 @@ class VdbSubscription:
         try:
             task = await SubscriptionManager._remove_subscription(self)
             return task
-        except Exception as ex:
-            logger.exception(ex)
+        except Exception:
+            logger.exception("unsubscribe failed")
 
     async def subscribe(self):
         try:
@@ -132,5 +134,5 @@ class VdbSubscription:
             if task.cancelled():
                 SubscriptionManager._add_subscription(self)
             return task
-        except Exception as ex:
-            logger.exception(ex)
+        except Exception:
+            logger.exception("subscribe failed")

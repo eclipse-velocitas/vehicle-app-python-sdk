@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2022-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -17,7 +17,7 @@ import json
 import logging
 import signal
 
-from sdv_model import Vehicle, vehicle  # type: ignore
+from vehicle import Vehicle, vehicle  # type: ignore
 
 from velocitas_sdk.vdb.subscriptions import DataPointReply
 from velocitas_sdk.vehicle_app import VehicleApp, subscribe_topic
@@ -43,14 +43,14 @@ class SetMultipleDatapointsAtomicallyApp(VehicleApp):
 
     async def on_start(self):
         """Run when the vehicle app starts"""
-        await self.Vehicle.Cabin.Seat.Row1.Pos1.Position.subscribe(
+        await self.Vehicle.Cabin.Seat.Row1.DriverSide.Position.subscribe(
             self.on_position_update
         )
 
     async def on_position_update(self, data: DataPointReply):
         logger.info(
-            "Vehicle.Cabin.Seat.Row1.Pos1.Position: %i",
-            data.get(self.Vehicle.Cabin.Seat.Row1.Pos1.Position).value,
+            "Vehicle.Cabin.Seat.Row1.DriverSide.Position: %i",
+            data.get(self.Vehicle.Cabin.Seat.Row1.DriverSide.Position).value,
         )
 
     @subscribe_topic(TOPIC_SET_VALUE_REQUEST)
@@ -62,8 +62,8 @@ class SetMultipleDatapointsAtomicallyApp(VehicleApp):
             # This is a valid set request, the Position is an actuator.
             (
                 await self.Vehicle.set_many()
-                .add(self.Vehicle.Cabin.Seat.Row1.Pos1.Position, position)
-                .add(self.Vehicle.Cabin.Seat.Row1.Pos2.Position, position)
+                .add(self.Vehicle.Cabin.Seat.Row1.DriverSide.Position, position)
+                .add(self.Vehicle.Cabin.Seat.Row1.PassengerSide.Position, position)
                 .apply()
             )
             await self.publish_event(

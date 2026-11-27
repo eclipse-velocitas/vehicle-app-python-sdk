@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2022-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -14,19 +14,21 @@
 
 import asyncio
 import logging
-from typing import List, Optional
 from urllib.parse import urlparse
 
 import grpc
+from typing_extensions import Self
 
 from velocitas_sdk import config
-from velocitas_sdk.proto.broker_pb2 import (
-    GetDatapointsRequest,
-    GetMetadataRequest,
-    SetDatapointsRequest,
+from velocitas_sdk.proto.types_pb2 import SignalID
+from velocitas_sdk.proto.val_pb2 import (
+    ActuateRequest,
+    BatchActuateRequest,
+    GetValuesRequest,
+    ListMetadataRequest,
     SubscribeRequest,
 )
-from velocitas_sdk.proto.broker_pb2_grpc import BrokerStub
+from velocitas_sdk.proto.val_pb2_grpc import VALStub
 
 logger = logging.getLogger(__name__)
 
@@ -36,10 +38,11 @@ class VehicleDataBrokerClient:
     and vehicle signals."""
 
     _instance = None
+    _channel = None
 
-    def __new__(cls, port: Optional[int] = None):
+    def __new__(cls, port: int | None = None):
         if cls._instance is None:
-            cls._instance = super(VehicleDataBrokerClient, cls).__new__(cls)
+            cls._instance = super().__new__(cls)
             service_locator = config.middleware.service_locator
             _location = service_locator.get_service_location("vehicledatabroker")
             _hostname = urlparse(_location).hostname
@@ -51,10 +54,10 @@ class VehicleDataBrokerClient:
             _address = f"{_hostname}:{_port}"
             cls._channel = grpc.aio.insecure_channel(_address)  # type: ignore
 
-            metadata = service_locator.get_metadata("vehicledatabroker")
-            cls._metadata = metadata
+            grpc_metadata = service_locator.get_metadata("vehicledatabroker")
+            cls._grpc_metadata = grpc_metadata
 
-            cls._stub = BrokerStub(cls._channel)
+            cls._stub = VALStub(cls._channel)
         return cls._instance
 
     async def close(self):
@@ -62,18 +65,19 @@ class VehicleDataBrokerClient:
         if self._channel:
             await self._channel.close()  # type: ignore
 
-    def __enter__(self) -> "VehicleDataBrokerClient":
+    def __enter__(self) -> Self:
         return self
 
     def __exit__(self, exc_type, exc_value, traceback) -> None:
         asyncio.run_coroutine_threadsafe(self.close(), asyncio.get_event_loop())
 
-    async def GetDatapoints(self, datapoints: List[str]):
+    async def GetDatapoints(self, datapoints: list[str]):
+        signal_ids = [SignalID(path=signal) for signal in datapoints]
         try:
-            response = await self._stub.GetDatapoints(
-                GetDatapointsRequest(datapoints=datapoints), metadata=self._metadata
+            response = await self._stub.GetValues(
+                GetValuesRequest(signal_ids=signal_ids), metadata=self._grpc_metadata
             )
-            return response
+            return dict(zip(datapoints, response.data_points))
         except grpc.aio.AioRpcError:  # type: ignore
             logger.exception(
                 "Error occured in VehicleDataBrokerClient.GetDatapoints",
@@ -81,11 +85,15 @@ class VehicleDataBrokerClient:
             raise
 
     async def SetDatapoints(self, datapoints):
+        requests = [
+            ActuateRequest(signal_id=SignalID(path=path), value=dp.value)
+            for path, dp in datapoints.items()
+        ]
         try:
-            response = await self._stub.SetDatapoints(
-                SetDatapointsRequest(datapoints=datapoints), metadata=self._metadata
+            await self._stub.BatchActuate(
+                BatchActuateRequest(actuate_requests=requests),
+                metadata=self._grpc_metadata,
             )
-            return response
         except grpc.aio.AioRpcError:  # type: ignore
             logger.exception(
                 "Error occured in VehicleDataBrokerClient.SetDatapoints",
@@ -93,10 +101,21 @@ class VehicleDataBrokerClient:
             raise
 
     def Subscribe(self, query: str):
+        if not query.startswith("SELECT "):
+            raise ValueError('Mallformed query not starting with "SELECT "!')
+        if "WHERE " in query:
+            raise ValueError("Queries with WHERE clauses are no longer supported!")
+
+        signal_list = query.removeprefix("SELECT ")
+        signal_paths = [raw_path.strip() for raw_path in signal_list.split(",")]
+        for path in signal_paths:
+            if not path:
+                raise ValueError("Mallformed query with no or empty signals!")
+
         try:
             response = self._stub.Subscribe(
-                SubscribeRequest(query=query),
-                metadata=self._metadata,
+                SubscribeRequest(signal_paths=signal_paths),
+                metadata=self._grpc_metadata,
             )
             return response
         except grpc.aio.AioRpcError:  # type: ignore
@@ -107,12 +126,15 @@ class VehicleDataBrokerClient:
 
     async def GetMetadata(self, names: list):
         try:
-            response = await self._stub.GetMetadata(
-                GetMetadataRequest(names=names), metadata=self._metadata
-            )
-            return response
+            metadata_list = []
+            for path in names:
+                response = await self._stub.ListMetadata(
+                    ListMetadataRequest(root=path), metadata=self._grpc_metadata
+                )
+                metadata_list.extend(response.metadata)
+            return metadata_list
         except grpc.aio.AioRpcError:  # type: ignore
             logger.exception(
-                "Error occured in VehicleDataBrokerClient.GetMetadata",
+                "Error occured in VehicleDataBrokerClient.ListMetadata",
             )
             raise

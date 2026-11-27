@@ -1,0 +1,20 @@
+{
+    "manifestVersion": "v3",
+    "name": "annotation-subscribe",
+    "interfaces": [
+        {
+            "type": "vehicle-signal-interface",
+            "config": {
+                "src": "https://github.com/COVESA/vehicle_signal_specification/releases/download/v6.1/vss.json",
+                "datapoints": {
+                    "required": [
+                        {
+                            "path": "Vehicle.Speed",
+                            "access": "read"
+                        }
+                    ]
+                }
+            }
+        },
+    ]
+}

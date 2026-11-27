@@ -1,1 +1,1 @@
-velocitas-sdk==0.15.7
+velocitas-sdk==0.16.0

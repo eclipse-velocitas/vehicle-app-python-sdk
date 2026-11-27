@@ -16,7 +16,6 @@
                 "SDV_MIDDLEWARE_TYPE": "native",
                 "SDV_MQTT_ADDRESS": "mqtt://localhost:1883",
                 "SDV_HVACSERVICE_ADDRESS": "grpc://localhost:50052",
-                "SDV_SEATSERVICE_ADDRESS": "grpc://localhost:50051",
                 "SDV_VEHICLEDATABROKER_ADDRESS": "grpc://localhost:55555",
                 "PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION": "python"
             }
@@ -28,13 +27,12 @@
             "id": "example",
             "type": "pickString",
             "options": [
+                "annotation-subscribe",
                 "array-datatype",
                 "atomic-set",
                 "datapoint-set",
-                "dog-mode",
-                "dynamic-rule",
-                "static-rule",
-                "vdb-queries"
+                "seat-adjuster",
+                "subscribe-multiple"
             ]
         }
     ]

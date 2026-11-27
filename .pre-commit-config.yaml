@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2022-2026 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -17,7 +17,7 @@
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: trailing-whitespace
         exclude: >
@@ -45,7 +45,7 @@ repos:
       - id: check-merge-conflict
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.9.10
+    rev: v0.17.6
     hooks:
       - id: ruff
         args: [--fix, --exclude, "*_pb2.py,*_pb2.pyi,*_pb2_grpc.py,*.log"]
@@ -53,7 +53,7 @@ repos:
         args: [--exclude, "*_pb2.py,*_pb2.pyi,*_pb2_grpc.py,*.log"]
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.15.0
+    rev: v2.4.1
     hooks:
       - id: mypy
         exclude: >
@@ -67,7 +67,7 @@ repos:
         pass_filenames: false
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.5.5
+    rev: v1.5.6
     hooks:
       - id: insert-license
         files: '.*\.(py|pyi|yaml|yml|sh|in)$'
@@ -85,17 +85,6 @@ repos:
           - --use-current-year
           - --allow-past-years
           - --skip-license-insertion-comment=This file is maintained by velocitas CLI, do not modify manually.
-      - id: insert-license
-        files: '.*\.(proto)$'
-        args:
-          - --license-filepath
-          - license_header.txt
-          - --comment-style
-          - //
-          - --use-current-year
-          - --allow-past-years
-          - --skip-license-insertion-comment=This file is maintained by velocitas CLI, do not modify manually.
-          - --skip-license-insertion-comment=!/bin/bash
       - id: insert-license
         files: "Dockerfile.*"
         args:
