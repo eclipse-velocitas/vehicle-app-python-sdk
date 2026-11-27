@@ -2,7 +2,7 @@
 
 1) Create a .json file named: "subscription_signals.json"
 2) Place it in the same folder as the binary
-3) Exeucute the binary e.g. "./sampleapp"
+3) Execute the binary e.g. "./sampleapp"
 4) Check the console output for the timestamps: "<Timestamp> - <Signal_Name> - <Value>"
 
 ## .json format

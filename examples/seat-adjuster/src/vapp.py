@@ -95,6 +95,7 @@ class SeatAdjusterApp(VehicleApp):
                     "status": 1,
                     "message": "Exception on set Seat position",
                 }
+                raise
 
         else:
             error_msg = f"""Not allowed to move seat because vehicle speed

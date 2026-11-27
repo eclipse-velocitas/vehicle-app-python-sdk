@@ -54,6 +54,32 @@
 			}
 		},
 		{
+			"label": "run-vehicledatabroker (for itests)",
+			"type": "shell",
+			"command": "./.vscode/scripts/run-vehicledatabroker.sh --task /workspaces/vehicle-app-python-sdk/tests/integration/test_vss.json",
+			"group": "none",
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated"
+			},
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": [
+					{
+						"regexp": ".",
+						"file": 1,
+						"location": 2,
+						"message": 3
+					}
+				],
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "Listening on",
+					"endsPattern": "."
+				}
+			}
+		},
+		{
 			"label": "run-vehicledatabroker-cli",
 			"type": "shell",
 			"command": "./.vscode/scripts/run-vehicledatabroker-cli.sh --task",

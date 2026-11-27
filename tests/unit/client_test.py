@@ -116,11 +116,39 @@ async def test_for_subscribe():
         "Subscribe",
         return_value=SubscribeResponse(entries=get_fields()),
     ):
-        response = client.Subscribe("SELECT Vehicle.Speed")
+        response = client.Subscribe("SELECT Vehicle.Speed, Vehicle.Acceleration")
         assert (
             response.entries["Vehicle.Speed"].value.int32
             == get_sample_datapoint().value.int32
         )
+        assert (
+            response.entries["Vehicle.Acceleration"].value.int32
+            == get_sample_datapoint().value.int32
+        )
+        await client.close()
+
+
+@pytest.mark.asyncio
+async def test_for_subscribing_empty_list():
+    client = get_vehicle_client_instance()
+
+    with (
+        mock.patch.object(client._stub, "Subscribe", sideeffect=ValueError),
+        pytest.raises(ValueError),
+    ):
+        client.Subscribe("SELECT ")
+        await client.close()
+
+
+@pytest.mark.asyncio
+async def test_for_subscribing_malformed_list():
+    client = get_vehicle_client_instance()
+
+    with (
+        mock.patch.object(client._stub, "Subscribe", sideeffect=ValueError),
+        pytest.raises(ValueError),
+    ):
+        client.Subscribe("SELECT Vehicle.Speed,,Whatever ")
         await client.close()
 
 
@@ -130,11 +158,8 @@ async def test_for_subscribe():
 def get_fields() -> Mapping[str, Datapoint]:
     data = {}
     data["Vehicle.Speed"] = get_sample_datapoint()
+    data["Vehicle.Acceleration"] = get_sample_datapoint()
     return data
-
-
-def datapoint_set_success() -> Mapping[str, int]:
-    return {}
 
 
 def get_sample_datapoint() -> Datapoint:

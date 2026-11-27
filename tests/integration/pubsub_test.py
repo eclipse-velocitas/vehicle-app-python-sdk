@@ -12,7 +12,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# ruff: noqa: E402
 
 """Tests for methods in VehicleDataBrokerClient"""
 

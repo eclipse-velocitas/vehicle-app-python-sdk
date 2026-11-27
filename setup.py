@@ -39,6 +39,7 @@ extra_requirements = {
         "apscheduler",
         "Deprecated",
         "types-Deprecated",
+        "typing-extensions",
         ##########################################
         # Testing Packages
         ##########################################

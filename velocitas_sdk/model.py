@@ -13,8 +13,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import asyncio
-import contextvars
 import logging
+from contextvars import ContextVar
 from typing import overload
 from urllib.parse import urlparse
 
@@ -39,7 +39,7 @@ from velocitas_sdk.vdb.types import TypedDataPointResult
 
 logger = logging.getLogger(__name__)
 
-context = contextvars.ContextVar("context", default=[])  # type: ignore
+context: ContextVar[list | None] = ContextVar("context", default=None)  # type: ignore
 
 
 class Node:
@@ -66,7 +66,8 @@ class Node:
         await asyncio.gather(*tasks)
 
     def get_context(self) -> list[str]:
-        return context.get()
+        result = context.get()
+        return result if result is not None else []
 
     def set_context(self, ctx: list[str]):
         context.set(ctx)
@@ -110,7 +111,7 @@ class DataPoint(Node):
             response = await self.get_client().GetDatapoints([path])
             return response[path]
         except (grpc.aio.AioRpcError, Exception):  # type: ignore
-            logger.error("Error occured in DataPoint.get")
+            logger.exception("Error occured in DataPoint.get")
             logger.debug(
                 "DataPoint.get: scope variable value at error -> {path: %s}",
                 path,
@@ -121,7 +122,7 @@ class DataPoint(Node):
         """Override the data point setter for the target datapoint type.
         - An error will be raised if the target value can NOT be set successfully.
         """
-        raise Exception(f"Unknown datpoint type for to set the value = {value}")
+        raise TypeError(f"Unknown datpoint type for to set the value = {value}")
 
     async def _set(self, value, subclass_name: str):
         """Wrapper setter for the public set(value) with specific Datapoint type."""
@@ -129,16 +130,15 @@ class DataPoint(Node):
             datapoint = self.create_broker_data_point(value)
             path = self.get_path()
             await self.get_client().SetDatapoints(datapoints={path: datapoint})
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in %s.set", subclass_name)
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in %s.set", subclass_name)
             raise
 
     def create_broker_data_point(self, value):
         """Override the data point creator for the target datapoint type.
         - An error will be raised if the target value can NOT be set successfully.
         """
-        raise Exception(f"Unsupported datpoint type for setting the value = {value}")
+        raise TypeError(f"Unsupported datpoint type for setting the value = {value}")
 
 
 class DataPointBoolean(DataPoint):
@@ -150,9 +150,8 @@ class DataPointBoolean(DataPoint):
             return TypedDataPointResult[bool](
                 self.get_path(), response.value.bool, response.timestamp
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointBoolean.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointBoolean.get")
             raise
 
     async def set(self, value: bool):
@@ -173,9 +172,8 @@ class DataPointBooleanArray(DataPoint):
                 list(response.value.bool_array.values),
                 response.timestamp,
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointBooleanArray.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointBooleanArray.get")
             raise
 
     async def set(self, value: list[bool]):
@@ -195,9 +193,8 @@ class DataPointInt8(DataPoint):
             return TypedDataPointResult[int](
                 self.get_path(), response.value.int32, response.timestamp
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointInt8.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointInt8.get")
             raise
 
     async def set(self, value: int):
@@ -218,9 +215,8 @@ class DataPointInt8Array(DataPoint):
                 list(response.value.int32_array.values),
                 response.timestamp,
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointInt8Array.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointInt8Array.get")
             raise
 
     async def set(self, value: list[int]):
@@ -240,9 +236,8 @@ class DataPointInt16(DataPoint):
             return TypedDataPointResult[int](
                 self.get_path(), response.value.int32, response.timestamp
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointInt16.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointInt16.get")
             raise
 
     async def set(self, value: int):
@@ -263,9 +258,8 @@ class DataPointInt16Array(DataPoint):
                 list(response.value.int32_array.values),
                 response.timestamp,
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointInt16Array.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointInt16Array.get")
             raise
 
     async def set(self, value: list[int]):
@@ -285,9 +279,8 @@ class DataPointInt32(DataPoint):
             return TypedDataPointResult[int](
                 self.get_path(), response.value.int32, response.timestamp
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointInt32.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointInt32.get")
             raise
 
     async def set(self, value: int):
@@ -308,9 +301,8 @@ class DataPointInt32Array(DataPoint):
                 list(response.value.int32_array.values),
                 response.timestamp,
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointInt32Array.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointInt32Array.get")
             raise
 
     async def set(self, value: list[int]):
@@ -330,9 +322,8 @@ class DataPointInt64(DataPoint):
             return TypedDataPointResult[int](
                 self.get_path(), response.value.int64, response.timestamp
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointInt64.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointInt64.get")
             raise
 
     async def set(self, value: int):
@@ -353,9 +344,8 @@ class DataPointInt64Array(DataPoint):
                 list(response.value.int64_array.values),
                 response.timestamp,
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointInt64Array.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointInt64Array.get")
             raise
 
     async def set(self, value: list[int]):
@@ -375,9 +365,8 @@ class DataPointUint8(DataPoint):
             return TypedDataPointResult[int](
                 self.get_path(), response.value.uint32, response.timestamp
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointUInt8.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointUInt8.get")
             raise
 
     async def set(self, value: int):
@@ -398,9 +387,8 @@ class DataPointUint8Array(DataPoint):
                 list(response.value.uint32_array.values),
                 response.timestamp,
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointUint8Array.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointUint8Array.get")
             raise
 
     async def set(self, value: list[int]):
@@ -420,9 +408,8 @@ class DataPointUint16(DataPoint):
             return TypedDataPointResult[int](
                 self.get_path(), response.value.uint32, response.timestamp
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointUInt16.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointUInt16.get")
             raise
 
     async def set(self, value: int):
@@ -443,9 +430,8 @@ class DataPointUint16Array(DataPoint):
                 list(response.value.uint32_array.values),
                 response.timestamp,
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointUint16Array.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointUint16Array.get")
             raise
 
     async def set(self, value: list[int]):
@@ -465,9 +451,8 @@ class DataPointUint32(DataPoint):
             return TypedDataPointResult[int](
                 self.get_path(), response.value.uint32, response.timestamp
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointUInt32.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointUInt32.get")
             raise
 
     async def set(self, value: int):
@@ -488,9 +473,8 @@ class DataPointUint32Array(DataPoint):
                 list(response.value.uint32_array.values),
                 response.timestamp,
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointUint32Array.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointUint32Array.get")
             raise
 
     async def set(self, value: list[int]):
@@ -510,9 +494,8 @@ class DataPointUint64(DataPoint):
             return TypedDataPointResult[int](
                 self.get_path(), response.value.uint64, response.timestamp
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointUInt64.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointUInt64.get")
             raise
 
     async def set(self, value: int):
@@ -533,9 +516,8 @@ class DataPointUint64Array(DataPoint):
                 list(response.value.uint64_array.values),
                 response.timestamp,
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointUint64Array.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointUint64Array.get")
             raise
 
     async def set(self, value: list[int]):
@@ -555,9 +537,8 @@ class DataPointFloat(DataPoint):
             return TypedDataPointResult[float](
                 self.get_path(), response.value.float, response.timestamp
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointFloat.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointFloat.get")
             raise
 
     async def set(self, value: float):
@@ -578,9 +559,8 @@ class DataPointFloatArray(DataPoint):
                 list(response.value.float_array.values),
                 response.timestamp,
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointFloatArray.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointFloatArray.get")
             raise
 
     async def set(self, value: list[float]):
@@ -600,9 +580,8 @@ class DataPointDouble(DataPoint):
             return TypedDataPointResult[float](
                 self.get_path(), response.value.double, response.timestamp
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointDouble.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointDouble.get")
             raise
 
     async def set(self, value: float):
@@ -623,9 +602,8 @@ class DataPointDoubleArray(DataPoint):
                 list(response.value.double_array.values),
                 response.timestamp,
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointDoubleArray.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointDoubleArray.get")
             raise
 
     async def set(self, value: list[float]):
@@ -645,9 +623,8 @@ class DataPointString(DataPoint):
             return TypedDataPointResult[str](
                 self.get_path(), response.value.string, response.timestamp
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointString.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointString.get")
             raise
 
     async def set(self, value: str):
@@ -668,9 +645,8 @@ class DataPointStringArray(DataPoint):
                 list(response.value.string_array.values),
                 response.timestamp,
             )
-        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
-            logger.error("Error occured in DataPointStringArray.get")
-            logger.exception(ex)
+        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+            logger.exception("Error occured in DataPointStringArray.get")
             raise
 
     async def set(self, value: list[str]):
@@ -807,7 +783,7 @@ class BatchSetBuilder:
         try:
             await self.__client.SetDatapoints(self.__nodes)
         except (grpc.aio.AioRpcError, Exception):  # type: ignore
-            logger.error("Error occured on updating several data points")
+            logger.exception("Error occured on updating several data points")
             raise
 
 

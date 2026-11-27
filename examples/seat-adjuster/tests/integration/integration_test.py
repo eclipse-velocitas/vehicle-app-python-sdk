@@ -15,6 +15,7 @@
 import json
 
 import pytest
+
 from velocitas_sdk.test.inttesthelper import IntTestHelper
 from velocitas_sdk.test.mqtt_util import MqttClient
 

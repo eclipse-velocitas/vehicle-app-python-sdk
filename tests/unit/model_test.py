@@ -53,6 +53,7 @@ from velocitas_sdk.proto.val_pb2 import (
     SubscribeResponse,
 )
 from velocitas_sdk.vdb.client import VehicleDataBrokerClient
+from velocitas_sdk.vdb.reply import DataPointReply
 
 
 @pytest.fixture(autouse=True)
@@ -118,21 +119,21 @@ async def asyncentrypoint(i, vehicle, errors):
 @pytest.mark.asyncio
 async def test_get_exception():
     vehicle = get_vehicle_instance()
-    with mock.patch.object(
-        vehicle.Speed,
-        "get_client",
-        return_value=VehicleDataBrokerClient(12345),
+    with (
+        mock.patch.object(
+            vehicle.Speed,
+            "get_client",
+            side_effect=grpc.aio.AioRpcError("Something went wrong", "", ""),
+        ),
+        pytest.raises(grpc.aio.AioRpcError),
     ):
-        try:
-            await vehicle.Speed.get()
-        except Exception as ex:
-            assert isinstance(ex, (grpc.aio.AioRpcError))
+        await vehicle.Speed.get()
 
 
 def test_try_create_unspecific():
     unspecific = DataPoint("unspecific", None)
 
-    with pytest.raises(Exception):
+    with pytest.raises(TypeError):
         unspecific.create_broker_data_point(42)
 
 
@@ -1227,8 +1228,11 @@ async def test_unsubscribe():
         "Subscribe",
         return_value=AsyncIter([SubscribeResponse(entries=get_fields())]),
     ):
-        rule = await vehicle.Speed.subscribe(callback)
-        task = await rule.unsubscribe()
+        mock_cb = mock.AsyncMock()
+        subscription = await vehicle.Speed.subscribe(mock_cb)
+        yield  # Give chance to asnyc tasks to be run
+
+        task = await subscription.unsubscribe()
         assert task.cancelled()
 
 
@@ -1240,11 +1244,21 @@ async def test_subscribe():
         "Subscribe",
         return_value=AsyncIter([SubscribeResponse(entries=get_fields())]),
     ):
-        try:
-            await vehicle.Speed.subscribe(callback)
-            # await vehicle.start()
-        except Exception as ex:
-            assert ex.args[0].fields["Vehicle.Speed"] == get_sample_datapoint("Speed")
+        mock_cb = mock.AsyncMock()
+        subscription = await vehicle.Speed.subscribe(mock_cb)
+        assert subscription is not None
+
+        yield  # Give chance to asnyc tasks to be run
+
+        reply = DataPointReply()
+        reply.update(
+            SubscribeResponse(
+                entries={
+                    "Vehicle.Speed": get_sample_datapoint("Speed"),
+                }
+            )
+        )
+        mock_cb.assert_called_once_with(reply)
 
 
 @pytest.mark.asyncio
@@ -1255,18 +1269,26 @@ async def test_subscribe_with_join():
         "Subscribe",
         return_value=AsyncIter([SubscribeResponse(entries=get_fields("JOIN"))]),
     ):
-        try:
-            (
-                await vehicle.Speed.join(
-                    vehicle.Cabin.Seat.Row1.DriverSide.Position
-                ).subscribe(callback_join)
+        mock_cb = mock.AsyncMock()
+        subscription = await vehicle.Speed.join(
+            vehicle.Cabin.Seat.Row1.DriverSide.Position
+        ).subscribe(mock_cb)
+        assert subscription is not None
+
+        yield  # Give chance to asnyc tasks to be run
+
+        reply = DataPointReply()
+        reply.update(
+            SubscribeResponse(
+                entries={
+                    "Vehicle.Speed": get_sample_datapoint("Speed"),
+                    "Vehicle.Cabin.Seat.Row1.DriverSide.Position": get_sample_datapoint(
+                        "Position"
+                    ),
+                }
             )
-            # await vehicle.start()
-        except Exception as ex:
-            assert ex.args[0].fields["Vehicle.Speed"] == get_sample_datapoint("Speed")
-            assert ex.args[0].fields[
-                "Vehicle.Cabin.Seat.Row1.DriverSide.Position"
-            ] == get_sample_datapoint("Position")
+        )
+        mock_cb.assert_called_once_with(reply)
 
 
 async def test_get():
@@ -1386,18 +1408,6 @@ class AsyncIter:
     async def __aiter__(self):
         for item in self.items:
             yield item
-
-
-async def callback(response):
-    raise Exception(response)
-
-
-async def callback_join(response):
-    raise Exception(response)
-
-
-def raise_exception(expection):
-    raise expection
 
 
 def get_fields(condition=""):

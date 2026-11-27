@@ -16,6 +16,7 @@ import asyncio
 import os
 
 import grpc
+from typing_extensions import Self
 
 from velocitas_sdk.proto.types_pb2 import Datapoint, SignalID
 from velocitas_sdk.proto.val_pb2 import PublishValueRequest
@@ -47,7 +48,7 @@ class IntTestHelper:
         if self._channel:
             await self._channel.close()
 
-    def __enter__(self) -> "IntTestHelper":
+    def __enter__(self) -> Self:
         return self
 
     def __exit__(self, exc_type, exc_value, traceback) -> None:
