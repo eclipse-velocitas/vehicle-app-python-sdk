@@ -21,7 +21,7 @@ echo "#######################################################"
 ROOT_DIRECTORY=$( realpath "$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/../.." )
 
 echo ""
-echo "Get vehicle model"
+echo "Build vehicle model"
 echo "-------------------"
 REMOTE_VSS_FILE=$(cat $ROOT_DIRECTORY/prerequisite_settings.json | jq .vss_model.vss_file | tr -d '"')
 REMOTE_UNITS_FILE=$(cat $ROOT_DIRECTORY/prerequisite_settings.json | jq .vss_model.units_file | tr -d '"')

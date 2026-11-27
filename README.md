@@ -61,21 +61,6 @@ These examples demonstrate how to use the Python Vehicle App SDK:
 | [Seat Adjuster](./examples/seat-adjuster/) | Seat-Adjuster App that demonstrates MQTT communication and seat control via actuator data points.<br>:point_right: This example can only be run from the [Vehicle App Template](https://github.com/eclipse-velocitas/vehicle-app-python-template). :point_left:
 | [Subscribe Multiple](./examples/static-rule/) | Subscribe to multiple signals with a single subscription.
 
-### Prerequisites
-
-Before the examples can be executed you need to install a generated vehicle model based on a VSS signal catalogue
-of version 4 or newer. To build and install that model, please do the following steps:
-
-1. Install the Velocitas model generator:
-```bash
-python3 -m pip install velocitas-model-generator
-```
-
-2. Run the vscode task "Build and install vehicle model". (E.g. press Ctrl+Shift+P, choose "Tasks: Run Task" ->
-   "Build and install vehicle model".)
-
-### Run an example
-
 All examples (except the Seat Adjuster) can be run via
 ```bash
 cd examples

@@ -1,13 +1,5 @@
 # Eclipse Velocitas Vehicle Dog Mode Sample App
 
-> Note: This example is not working any longer and currently just kept for
-"viewing". It depends on the outdated approach of manually maintained
-vehicle models which could contain services also. This approach isn't
-supported already for a long time and the remaining reference to the
-`vehicle-model-python` was now removed.<br>As a long term goal this example
-should either be removed or updated to the current Velocitas approach to
-include gRPC based services via the AppManifest.
-
 ## Use Case
 
 The *Dog Mode* app is a climate control app that allows drivers to leave their vehicles while keeping the air conditioning system of the vehicle active for their pets.

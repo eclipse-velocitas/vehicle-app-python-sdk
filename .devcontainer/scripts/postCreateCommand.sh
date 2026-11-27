@@ -31,3 +31,6 @@ pip3 install -e .
 # add repo to git safe.directory
 REPO=$(pwd)
 git config --global --add safe.directory $REPO
+
+# generate vehicle model
+./.vscode/scripts/build-and-install-model.sh
