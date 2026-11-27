@@ -25,11 +25,10 @@ class TestRequirements(unittest.TestCase):
     @parameterized.expand(["./app/requirements.txt", "./app/tests/requirements.txt"])
     def test_requirements(self, requirement_file_path):
         """Test that each required package is available."""
+
         with open(Path(requirement_file_path)) as file:
             requirements = pkg_resources.parse_requirements(file)
-        # requirements = pkg_resources.parse_requirements(
-        #     Path(requirement_file_path).open()
-        # )
+
         for requirement in requirements:
             requirement = str(requirement)
             with self.subTest(requirement=requirement):
