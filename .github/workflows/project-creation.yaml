@@ -46,14 +46,14 @@ jobs:
           node-version: 18
 
       - name: Checkout CLI
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: eclipse-velocitas/cli
           path: cli
           ref: v0.13.2
 
       - name: Checkout SDK repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           path: sdk
 
@@ -64,7 +64,7 @@ jobs:
           npm i && npm run build && npx oclif manifest && npm i -g .
 
       - name: Checkout vehicle-app-template
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: eclipse-velocitas/vehicle-app-template
           path: vehicle-app-template

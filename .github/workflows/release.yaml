@@ -26,9 +26,9 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v7
       with:
         python-version: "3.10"
     - name: Install pypa/build
@@ -36,7 +36,7 @@ jobs:
     - name: Build a binary wheel and a source tarball
       run: python3 -m build
     - name: Store the distribution packages
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: python-package-distributions
         path: |
@@ -58,7 +58,7 @@ jobs:
 
     steps:
     - name: Download dists folder
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v8
       with:
         name: python-package-distributions
         path: python-package/
@@ -80,7 +80,7 @@ jobs:
 
     steps:
     - name: Download dists folder
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v8
       with:
         name: python-package-distributions
         path: python-package/
@@ -88,14 +88,14 @@ jobs:
       # If running on your own fork/organization
       # you must assure that sigstore has been added as authroized OAuth app in Github
       # Can be triggered by a manual run on CLI like "sigstore sign <somefile>"
-      uses: sigstore/gh-action-sigstore-python@v3.0.0
+      uses: sigstore/gh-action-sigstore-python@v3.5.0
       with:
         inputs: >-
           ./python-package/dist/*.tar.gz
           ./python-package/dist/*.whl
     - name: Create release
       id: create_release
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@v3
       with:
         files: |
           python-package/dist/**
