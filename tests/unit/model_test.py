@@ -53,6 +53,7 @@ from velocitas_sdk.proto.val_pb2 import (
     SubscribeResponse,
 )
 from velocitas_sdk.vdb.client import VehicleDataBrokerClient
+from velocitas_sdk.vdb.reply import DataPointReply
 
 
 @pytest.fixture(autouse=True)
@@ -118,21 +119,21 @@ async def asyncentrypoint(i, vehicle, errors):
 @pytest.mark.asyncio
 async def test_get_exception():
     vehicle = get_vehicle_instance()
-    with mock.patch.object(
-        vehicle.Speed,
-        "get_client",
-        return_value=VehicleDataBrokerClient(12345),
+    with (
+        mock.patch.object(
+            vehicle.Speed,
+            "get_client",
+            side_effect=grpc.aio.AioRpcError("Something went wrong", "", ""),
+        ),
+        pytest.raises(grpc.aio.AioRpcError),
     ):
-        try:
-            await vehicle.Speed.get()
-        except Exception as ex:
-            assert isinstance(ex, (grpc.aio.AioRpcError))
+        await vehicle.Speed.get()
 
 
 def test_try_create_unspecific():
     unspecific = DataPoint("unspecific", None)
 
-    with pytest.raises(Exception):
+    with pytest.raises(TypeError):
         unspecific.create_broker_data_point(42)
 
 
@@ -1227,8 +1228,10 @@ async def test_unsubscribe():
         "Subscribe",
         return_value=AsyncIter([SubscribeResponse(entries=get_fields())]),
     ):
-        rule = await vehicle.Speed.subscribe(callback)
-        task = await rule.unsubscribe()
+        mock_cb = mock.AsyncMock()
+        subscription = await vehicle.Speed.subscribe(mock_cb)
+
+        task = await subscription.unsubscribe()
         assert task.cancelled()
 
 
@@ -1240,11 +1243,17 @@ async def test_subscribe():
         "Subscribe",
         return_value=AsyncIter([SubscribeResponse(entries=get_fields())]),
     ):
-        try:
-            await vehicle.Speed.subscribe(callback)
-            # await vehicle.start()
-        except Exception as ex:
-            assert ex.args[0].fields["Vehicle.Speed"] == get_sample_datapoint("Speed")
+        mock_cb = mock.Mock()
+        subscription = await vehicle.Speed.subscribe(mock_cb)
+        assert subscription is not None
+
+        await asyncio.sleep(0)  # Give chance to run subscription
+
+        mock_cb.assert_called_once()
+        reply: DataPointReply = mock_cb.call_args_list[0][0][0]
+        assert (
+            reply.get(vehicle.Speed).value == get_sample_datapoint("Speed").value.float
+        )
 
 
 @pytest.mark.asyncio
@@ -1255,18 +1264,23 @@ async def test_subscribe_with_join():
         "Subscribe",
         return_value=AsyncIter([SubscribeResponse(entries=get_fields("JOIN"))]),
     ):
-        try:
-            (
-                await vehicle.Speed.join(
-                    vehicle.Cabin.Seat.Row1.DriverSide.Position
-                ).subscribe(callback_join)
-            )
-            # await vehicle.start()
-        except Exception as ex:
-            assert ex.args[0].fields["Vehicle.Speed"] == get_sample_datapoint("Speed")
-            assert ex.args[0].fields[
-                "Vehicle.Cabin.Seat.Row1.DriverSide.Position"
-            ] == get_sample_datapoint("Position")
+        mock_cb = mock.Mock()
+        subscription = await vehicle.Speed.join(
+            vehicle.Cabin.Seat.Row1.DriverSide.Position
+        ).subscribe(mock_cb)
+        assert subscription is not None
+
+        await asyncio.sleep(0)  # Give chance to run subscription
+
+        mock_cb.assert_called_once()
+        reply: DataPointReply = mock_cb.call_args_list[0][0][0]
+        assert (
+            reply.get(vehicle.Speed).value == get_sample_datapoint("Speed").value.float
+        )
+        assert (
+            reply.get(vehicle.Cabin.Seat.Row1.DriverSide.Position).value
+            == get_sample_datapoint("Position").value.int32
+        )
 
 
 async def test_get():
@@ -1380,24 +1394,17 @@ async def test_get_node__root_not_in_string():
 class AsyncIter:
     """AsyncIter"""
 
-    def __init__(self, items):
+    def __init__(self, items: list):
         self.items = items
 
-    async def __aiter__(self):
-        for item in self.items:
-            yield item
+    def __aiter__(self):
+        return self
 
-
-async def callback(response):
-    raise Exception(response)
-
-
-async def callback_join(response):
-    raise Exception(response)
-
-
-def raise_exception(expection):
-    raise expection
+    async def __anext__(self):
+        if len(self.items) > 0:
+            return self.items.pop(0)
+        # Break endless subscription loop
+        raise grpc.aio.AioRpcError(code=grpc.StatusCode.INVALID_ARGUMENT)
 
 
 def get_fields(condition=""):
@@ -1492,14 +1499,14 @@ def get_vehicle_instance():
 
         def __init__(self, parent):
             super().__init__(parent)
-            self.Position = DataPointBoolean("Position", self)
+            self.Position = DataPointInt32("Position", self)
 
     class PassengerSide(Model):
         """Seat Instance Class"""
 
         def __init__(self, parent):
             super().__init__(parent)
-            self.Position = DataPointBoolean("Position", self)
+            self.Position = DataPointInt32("Position", self)
 
     class Row1(Model):
         def __init__(self, parent):

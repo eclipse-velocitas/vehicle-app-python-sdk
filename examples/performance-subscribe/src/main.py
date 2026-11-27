@@ -15,6 +15,7 @@
 import asyncio
 import json
 import logging
+import os
 import signal
 from datetime import datetime
 
@@ -35,7 +36,9 @@ logging.getLogger().setLevel("DEBUG")
 logger = logging.getLogger(__name__)
 
 # The file path may need to be updated based on the location of the file.
-SIGNALS_JSON = "performance-subscribe/subscription_signals.json"
+SIGNALS_JSON = os.path.join(
+    os.path.dirname(__file__), "..", "subscription_signals.json"
+)
 
 
 class PerformanceTestApp(VehicleApp):

@@ -50,7 +50,7 @@ These examples demonstrate how to use the Python Vehicle App SDK:
 
 | Example | Description |
 |---------|-------------|
-| [Annotation Subscribe](./examples/static-rule/) | Create a Vehicle Data Broker rule with the subscribe_to_data_point annotation.
+| [Annotation Subscribe](./examples/annotation-subscribe/) | Create a Vehicle Data Broker rule with the subscribe_to_data_point annotation.
 | [Array Datatype](./examples/array-datatype/) | Shows a Vehicle Data Broker query that returns an array data point.
 | [Atomic Set](./examples/atomic-set/) | Shows how to set the values of multiple datapoint actuators in one "atomic" step.
 | [DataPoint Set](./examples/datapoint-set/) | Shows how to set the value of the datapoint actuator value API.
@@ -59,7 +59,7 @@ These examples demonstrate how to use the Python Vehicle App SDK:
 | ~~[Static Rule](./examples/static-rule/)~~ | ~~Create a Vehicle Data Broker rule with the subscribe_to_data_point annotation.~~<br>Removed as queries with conditions aren't supported by `kuksa.val.v2`.
 | ~~[VDB Queries](./examples/vdb-queries/)~~ | ~~Demonstrates various aspects of creating Vehicle Data Broker queries.~~<br>Removed as queries with conditions aren't supported by `kuksa.val.v2`.
 | [Seat Adjuster](./examples/seat-adjuster/) | Seat-Adjuster App that demonstrates MQTT communication and seat control via actuator data points.<br>:point_right: This example can only be run from the [Vehicle App Template](https://github.com/eclipse-velocitas/vehicle-app-python-template). :point_left:
-| [Subscribe Multiple](./examples/static-rule/) | Subscribe to multiple signals with a single subscription.
+| [Subscribe Multiple](./examples/subscribe-multiple/) | Subscribe to multiple signals with a single subscription.
 
 All examples (except the Seat Adjuster) can be run via
 ```bash

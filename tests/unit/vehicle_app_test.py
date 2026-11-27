@@ -45,7 +45,8 @@ def test_subscribe_to_data_points_decorator():
     class DecoratorMock:
         """Mock to check decorator"""
 
-        query = []
+        def __init__(self):
+            self.query = []
 
         @subscribe_data_points("Vehicle.ADAS.CruiseControl.SpeedSet, Vehicle.Speed")
         def placeholder(self):

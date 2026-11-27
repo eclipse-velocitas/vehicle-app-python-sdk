@@ -14,7 +14,6 @@
 
 import asyncio
 import logging
-from typing import Optional
 
 import paho.mqtt.client as mqtt  # type: ignore
 
@@ -34,7 +33,7 @@ class MqttTopicSubscription:
 class MqttClient(PubSubClient):
     """This class is a wrapper for the on_message callback of the MQTT broker."""
 
-    def __init__(self, hostname: str, port: Optional[int] = None):
+    def __init__(self, hostname: str, port: int | None = None):
         self._port = port
         self._hostname = hostname
         self._topics_to_subscribe: list[MqttTopicSubscription] = []

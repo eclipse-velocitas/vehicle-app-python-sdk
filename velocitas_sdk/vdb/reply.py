@@ -135,7 +135,7 @@ class DataPointReply:
             datapoint.get_path()
         )
         if vdb_datapoint is None:
-            raise Exception(
+            raise ValueError(
                 f"Datapoint {datapoint.get_path()} not part of subscription"
             )
         datapoint_values = {

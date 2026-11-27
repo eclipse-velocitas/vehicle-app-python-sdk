@@ -33,7 +33,7 @@ src_dir = os.path.join(app_dir_path, "src")
 sys.path.insert(0, src_dir)
 
 # Import the SeatAdjusterApp class from vapp.py
-from vapp import SeatAdjusterApp  # type: ignore # noqa: E402
+from vapp import SeatAdjusterApp  # type: ignore
 
 
 @pytest.mark.asyncio
@@ -168,7 +168,7 @@ async def test_on_set_position_request_received_error_path():
         called_data_point = (
             seat_adjuster_app.Vehicle.Cabin.Seat.Row1.DriverSide.Position
         )
-        called_data_point.set = AsyncMock(side_effect=async_raise_exception)
+        called_data_point.set = AsyncMock(side_effect=Exception("Unknown error"))
         seat_adjuster_app.publish_event = AsyncMock()
 
         await seat_adjuster_app.on_set_position_request_received(request_data_str)
@@ -229,10 +229,6 @@ def get_valid_request_data_str():
 
 def get_invalid_request_data_str():
     return '{"requestId": 123, "position": 1001}'
-
-
-async def async_raise_exception(*args):
-    raise Exception("Unknown error")
 
 
 async def async_raise_value_error(*args):

@@ -17,6 +17,7 @@ import logging
 from urllib.parse import urlparse
 
 import grpc
+from typing_extensions import Self
 
 from velocitas_sdk import config
 from velocitas_sdk.proto.types_pb2 import SignalID
@@ -64,7 +65,7 @@ class VehicleDataBrokerClient:
         if self._channel:
             await self._channel.close()  # type: ignore
 
-    def __enter__(self) -> "VehicleDataBrokerClient":
+    def __enter__(self) -> Self:
         return self
 
     def __exit__(self, exc_type, exc_value, traceback) -> None:
@@ -101,14 +102,15 @@ class VehicleDataBrokerClient:
 
     def Subscribe(self, query: str):
         if not query.startswith("SELECT "):
-            raise Exception('Mallformed query not starting with "SELECT "!')
+            raise ValueError('Mallformed query not starting with "SELECT "!')
         if "WHERE " in query:
-            raise Exception("Queries with WHERE clauses are no longer supported!")
+            raise ValueError("Queries with WHERE clauses are no longer supported!")
 
         signal_list = query.removeprefix("SELECT ")
         signal_paths = [raw_path.strip() for raw_path in signal_list.split(",")]
-        if len(signal_paths) == 0:
-            raise Exception("Mallformed query selecting no signals!")
+        for path in signal_paths:
+            if not path:
+                raise ValueError("Mallformed query with no or empty signals!")
 
         try:
             response = self._stub.Subscribe(

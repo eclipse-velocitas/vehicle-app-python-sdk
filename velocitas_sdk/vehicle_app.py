@@ -100,15 +100,15 @@ class VehicleApp:
                 )
                 try:
                     SubscriptionManager._add_subscription(sub)
-                except Exception as ex:
-                    logger.exception(ex)
+                except Exception:
+                    logger.exception("Adding subscription failed")
         try:
             asyncio.create_task(self.pubsub_client.run())
             await self.on_start()
             while True:
                 await asyncio.sleep(1)
-        except Exception as ex:
-            logger.error(ex)
+        except Exception:
+            logger.exception("Starting the vehicle app failed")
             await self.stop()
 
     async def publish_mqtt_event(self, topic: str, data: str):

@@ -50,17 +50,14 @@ def get_default_date_format() -> str:
 
 
 def get_log_level() -> str:
-    try:
-        # loglevel set to ERROR default, in case env variable not found
-        loglevel = str(os.getenv("LOGLEVEL", "ERROR")).upper()
-        if loglevel not in ["ERROR", "DEBUG", "INFO", "WARNING", "CRITICAL"]:
-            raise LogLevelValueError(
-                f"Retrieved LOGLEVEL env variable current value is '{loglevel}', \
-                it should be among these 'ERROR, DEBUG, INFO, WARNING, CRITICAL'"
-            )
-        return loglevel
-    except Exception as error:
-        raise error
+    # loglevel set to ERROR default, in case env variable not found
+    loglevel = str(os.getenv("LOGLEVEL", "ERROR")).upper()
+    if loglevel not in ["ERROR", "DEBUG", "INFO", "WARNING", "CRITICAL"]:
+        raise LogLevelValueError(
+            f"Retrieved LOGLEVEL env variable current value is '{loglevel}', \
+            it should be among these 'ERROR, DEBUG, INFO, WARNING, CRITICAL'"
+        )
+    return loglevel
 
 
 def set_opentelemetry_factory_span(span):

@@ -15,7 +15,6 @@
 
 from abc import ABC, abstractmethod
 from enum import Enum
-from typing import Optional
 
 
 class MiddlewareType(str, Enum):
@@ -32,7 +31,7 @@ class ServiceLocator(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_metadata(self, service_name: Optional[str] = None):
+    def get_metadata(self, service_name: str | None = None):
         raise NotImplementedError
 
 

@@ -14,7 +14,6 @@
 
 import logging
 import os
-from typing import Optional
 
 from velocitas_sdk.base import ServiceLocator
 
@@ -44,5 +43,5 @@ class NativeServiceLocator(ServiceLocator):
 
         return str(address)
 
-    def get_metadata(self, service_name: Optional[str] = None):
+    def get_metadata(self, service_name: str | None = None):
         pass
