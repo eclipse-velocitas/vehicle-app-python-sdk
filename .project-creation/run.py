@@ -17,8 +17,8 @@ import json
 import os
 import shutil
 import subprocess  # nosec B404
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable, List
 
 
 def get_repo_root() -> Path:
@@ -47,7 +47,7 @@ def copy_files(root_destination: str) -> None:
             verbose_copy(source, destination)
 
 
-def _filter_hidden_files(_: str, dir_contents: List[str]) -> Iterable[str]:
+def _filter_hidden_files(_: str, dir_contents: list[str]) -> Iterable[str]:
     hidden_files = [".git"]
     return filter(lambda file: file in hidden_files, dir_contents)
 

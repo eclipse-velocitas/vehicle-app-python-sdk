@@ -23,7 +23,7 @@ src_dir = os.path.join(app_dir_path, "src")
 sys.path.insert(0, src_dir)
 
 # Import the AppName class from vapp.py
-from vapp import AppName  # type: ignore # noqa: E402
+from vapp import AppName  # type: ignore
 
 
 async def test_instantiation():
