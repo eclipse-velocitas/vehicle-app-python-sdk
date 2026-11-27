@@ -130,8 +130,14 @@ class DataPoint(Node):
             datapoint = self.create_broker_data_point(value)
             path = self.get_path()
             await self.get_client().SetDatapoints(datapoints={path: datapoint})
-        except (grpc.aio.AioRpcError, Exception):  # type: ignore
+        except (grpc.aio.AioRpcError, Exception) as ex:  # type: ignore
             logger.exception("Error occured in %s.set", subclass_name)
+            if isinstance(ex, (grpc.aio.AioRpcError)) and ex.code() in [
+                grpc.StatusCode.INVALID_ARGUMENT,
+                grpc.StatusCode.NOT_FOUND,
+                grpc.StatusCode.PERMISSION_DENIED,
+            ]:
+                raise TypeError from ex
             raise
 
     def create_broker_data_point(self, value):
